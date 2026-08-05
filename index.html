@@ -1,0 +1,770 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sankur Kundu — Founder &amp; Engineer, Gigzen</title>
+
+<style>
+  /* Single committed visual world: silver / black / acid-lime.
+     Colours are fixed regardless of the viewer's theme, like the reference. */
+  :root {
+    color-scheme: light;
+    --ink:    #000000;
+    --ink-2:  #1A1A1A;
+    --grey:   #6B6B6B;
+    --grey-2: #A8A8A8;
+    --line:   #C9C9C9;
+    --line-2: #DEDEDE;
+    --paper:  #EFEFEF;
+    --white:  #FFFFFF;
+    --lime:   #D3FF00;
+    --lime-d: #B8E000;
+
+    --grotesk: "Helvetica Now Display", "Inter Tight", -apple-system, BlinkMacSystemFont,
+               "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
+    --pad: clamp(1rem, 3.5vw, 3rem);
+  }
+
+  .page {
+    font-family: var(--grotesk);
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 16px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .page *, .page *::before, .page *::after { box-sizing: border-box; }
+  table, th, td, button, input { color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  p { margin: 0; }
+  .wrap { max-width: 1440px; margin: 0 auto; padding-inline: var(--pad); }
+
+  h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.04em; }
+  .mono { font-family: var(--mono); }
+  .num  { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* ---------------- NAV ---------------- */
+  .nav {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 0.85rem var(--pad);
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.72));
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .mark { font-size: 2.6rem; line-height: 0.6; font-weight: 800; letter-spacing: -0.05em; }
+  .nav-links { display: none; gap: 1.75rem; margin-inline: auto; }
+  @media (min-width: 920px) { .nav-links { display: flex; } }
+  .nav-links a { font-size: 1rem; font-weight: 500; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 0.55; }
+  .pill {
+    margin-left: auto; background: var(--lime); color: var(--ink);
+    font-weight: 700; font-size: 0.95rem; padding: 0.85rem 1.6rem; border-radius: 999px;
+    white-space: nowrap; transition: background 0.25s, transform 0.25s;
+  }
+  @media (min-width: 920px) { .pill { margin-left: 0; } }
+  .pill:hover { background: var(--lime-d); transform: translateY(-1px); }
+
+  /* ---------------- HERO ---------------- */
+  .hero {
+    position: relative; min-height: 100svh; display: flex; align-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 85% at 50% -12%, #FFFFFF 0%, #F2F2F2 34%, #C4C4C4 68%, #8E8E8E 100%);
+  }
+  .hero-type {
+    position: relative; z-index: 3; width: 100%; text-align: center;
+    padding-block: 8rem 4rem; pointer-events: none;
+  }
+  .hero-type .ln {
+    display: block;
+    line-height: 0.8;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+  /* sized so both lines land on roughly the same width:
+     12 characters vs 18, so the second line runs about two-thirds the size. */
+  .hero-type .ln-name { font-size: clamp(2.9rem, 13vw, 12rem); }
+  .hero-type .ln-role { font-size: clamp(1.95rem, 8.7vw, 8rem); }
+
+  /* iridescent object, centred inside the type */
+  .object {
+    position: absolute; z-index: 2; left: 50%; top: 50%;
+    width: clamp(150px, 21vw, 290px); height: clamp(150px, 21vw, 290px);
+    transform: translate(-50%, -50%);
+    perspective: 900px; pointer-events: none;
+  }
+  .cube { position: absolute; inset: 0; transform-style: preserve-3d; animation: tumble 17s linear infinite; }
+  .cube .f {
+    position: absolute; inset: 0; opacity: 0.94;
+    background: conic-gradient(from 210deg,
+      #FF5DA2, #FFD86B, #9BFF6B, #63F0FF, #7F8CFF, #FF5DA2);
+    border: 1px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 0 40px rgba(255,255,255,0.55);
+  }
+  .cube .f:nth-child(1) { transform: translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube .f:nth-child(2) { transform: rotateY(180deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube .f:nth-child(3) { transform: rotateY(90deg)  translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube .f:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube .f:nth-child(5) { transform: rotateX(90deg)  translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube .f:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
+  .cube.small { inset: 26% 26% 26% 26%; animation-duration: 12s; animation-direction: reverse; opacity: 0.9; }
+  @keyframes tumble {
+    from { transform: rotateX(-22deg) rotateY(0deg)   rotateZ(8deg); }
+    to   { transform: rotateX(-22deg) rotateY(360deg) rotateZ(8deg); }
+  }
+
+  .scrolldown {
+    position: absolute; left: var(--pad); bottom: 3.2rem; z-index: 4;
+    color: var(--lime-d); font-weight: 600; font-size: 0.95rem;
+  }
+  .globe { position: absolute; left: var(--pad); bottom: 1.1rem; z-index: 4; font-size: 1.35rem; }
+  .hero-tagline {
+    position: absolute; right: var(--pad); bottom: 3rem; z-index: 4;
+    max-width: 34ch; text-align: right; color: var(--ink-2);
+    font-size: clamp(0.9rem, 1.15vw, 1.05rem); line-height: 1.5;
+  }
+
+  /* ---------------- MARQUEE ---------------- */
+  .marquee {
+    background: var(--ink); color: var(--white);
+    overflow: hidden; display: flex; padding-block: 1.15rem; white-space: nowrap;
+  }
+  .mq { display: flex; gap: 3rem; padding-right: 3rem; flex: 0 0 auto; animation: slide 38s linear infinite; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  .mq span { font-size: clamp(0.95rem, 1.5vw, 1.15rem); font-weight: 600; letter-spacing: -0.01em;
+             display: inline-flex; align-items: center; gap: 3rem; }
+  .mq span::after { content: "✳"; color: var(--lime); }
+
+  /* ---------------- SECTIONS ---------------- */
+  .sec { padding-block: clamp(4.5rem, 10vw, 9rem); background: var(--paper); }
+  .sec.white { background: var(--white); }
+  .sec-title {
+    font-size: clamp(2.6rem, 8.5vw, 7.5rem); line-height: 0.85;
+    text-transform: lowercase; letter-spacing: -0.055em; font-weight: 800;
+  }
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem;
+              flex-wrap: wrap; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .sec-head p { color: var(--grey); max-width: 38ch; }
+  .eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+             text-transform: uppercase; color: var(--grey); }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
+  @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1rem, 2vw, 2rem);
+          border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stat:last-child { border-right: 0; }
+  .stat .v { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800;
+             letter-spacing: -0.06em; line-height: 0.88; }
+  .stat .k { display: block; margin-top: 0.85rem; color: var(--grey); font-size: 0.9rem; }
+
+  /* work blocks */
+  .work { border-top: 1px solid var(--line); padding-block: clamp(2.25rem, 4vw, 3.5rem);
+          display: grid; gap: 2rem; }
+  @media (min-width: 980px) { .work { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; } }
+  .work:last-of-type { border-bottom: 1px solid var(--line); }
+  .work-name { font-size: clamp(2.6rem, 6.5vw, 5rem); line-height: 0.86; text-transform: lowercase;
+               letter-spacing: -0.055em; }
+  .work-kind { margin-top: 0.9rem; }
+  .work p.lede { font-size: clamp(1rem, 1.3vw, 1.2rem); color: var(--ink-2); }
+  .note { margin-top: 1.5rem; padding: 1.15rem 1.4rem; background: var(--white);
+          border-left: 4px solid var(--lime); color: var(--ink-2); font-size: 0.95rem; }
+  .sec.white .note { background: var(--paper); }
+  .note b { font-weight: 700; }
+  .figs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 1.75rem; }
+  @media (min-width: 560px) { .figs { grid-template-columns: repeat(4, 1fr); } }
+  .fig .v { display: block; font-size: clamp(1.5rem, 2.4vw, 2.1rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  .fig .k { display: block; margin-top: 0.4rem; font-family: var(--mono); font-size: 0.65rem;
+            letter-spacing: 0.13em; text-transform: uppercase; color: var(--grey); }
+
+  .tablewrap { overflow-x: auto; margin-top: 1.75rem; border: 1px solid var(--line); background: var(--white); }
+  .sec.white .tablewrap { background: var(--paper); }
+  table { border-collapse: collapse; width: 100%; min-width: 430px; font-family: var(--mono); font-size: 0.78rem; }
+  caption { text-align: left; padding: 0.7rem 1rem; border-bottom: 1px solid var(--line);
+            font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
+  th, td { padding: 0.45rem 1rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { color: var(--grey); font-weight: 400; border-bottom: 1px solid var(--line); }
+  tbody tr + tr td { border-top: 1px solid var(--line-2); }
+  td.bad { font-weight: 700; }
+  .errline td { border-top: 0; padding-top: 0; text-align: left; color: var(--grey); font-size: 0.7rem; }
+
+  /* project tiles */
+  .tiles { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (min-width: 700px)  { .tiles { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  .tile { background: var(--white); padding: clamp(1.5rem, 2.4vw, 2rem); min-height: 245px;
+          display: flex; flex-direction: column; gap: 0.85rem; transition: background 0.3s; }
+  .tile:hover { background: var(--lime); }
+  .tile .big { font-size: clamp(1.7rem, 2.6vw, 2.15rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  .tile h3 { font-size: 1.05rem; font-weight: 700; }
+  .tile p { color: var(--grey); font-size: 0.9rem; line-height: 1.45; }
+  .tile:hover p { color: var(--ink-2); }
+  .tile .stack { margin-top: auto; font-family: var(--mono); font-size: 0.64rem;
+                 letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
+  .tile:hover .stack { color: var(--ink-2); }
+
+  /* experience rows */
+  .row { display: grid; gap: 0.8rem; padding-block: clamp(1.5rem, 2.8vw, 2.25rem);
+         border-top: 1px solid var(--line); }
+  @media (min-width: 880px) { .row { grid-template-columns: 1.1fr 0.75fr 1.7fr; gap: 2.5rem; align-items: start; } }
+  .row:last-child { border-bottom: 1px solid var(--line); }
+  .row-org  { font-size: clamp(1.3rem, 2.2vw, 1.85rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; }
+  .row-when { color: var(--grey); font-family: var(--mono); font-size: 0.76rem; margin-top: 0.4rem; }
+  .row-role { font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .row ul { margin: 0; padding-left: 1.05rem; color: var(--ink-2); font-size: 0.94rem; }
+  .row li { margin-top: 0.45rem; }
+
+  /* kit */
+  .kit { display: grid; gap: 0.55rem; padding-block: 1.4rem; border-top: 1px solid var(--line); }
+  @media (min-width: 800px) { .kit { grid-template-columns: 14rem 1fr; gap: 3rem; align-items: baseline; } }
+  .kit:last-of-type { border-bottom: 1px solid var(--line); }
+  .kit .lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.17em; text-transform: uppercase; color: var(--grey); }
+  .kit p { color: var(--ink-2); font-size: 0.94rem; }
+
+  /* contact */
+  .contact { background: var(--ink); color: var(--white); padding-block: clamp(4.5rem, 10vw, 9rem); }
+  .contact .sec-title { color: var(--white); }
+  .contact .mail {
+    display: inline-block; margin-top: 2.25rem; font-size: clamp(1.1rem, 3.4vw, 2.6rem);
+    font-weight: 800; letter-spacing: -0.04em; color: var(--lime); word-break: break-word;
+    border-bottom: 3px solid transparent; transition: border-color 0.25s;
+  }
+  .contact .mail:hover { border-color: var(--lime); }
+  .contact .links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.5rem; }
+  .contact .links a { border: 1px solid rgba(255,255,255,0.28); border-radius: 999px;
+                      padding: 0.7rem 1.4rem; font-weight: 600; font-size: 0.92rem; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+  .contact .links a:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+  .contact footer { margin-top: 4rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.18);
+                    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+                    color: rgba(255,255,255,0.6); font-family: var(--mono); font-size: 0.72rem;
+                    letter-spacing: 0.14em; text-transform: uppercase; }
+
+
+  /* feature grid */
+  .feats { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
+  @media (min-width: 640px)  { .feats { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--white); padding: 1.6rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .sec.white .feat { background: var(--paper); }
+  .feat h4 { margin: 0; font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; }
+  .feat p { color: var(--grey); font-size: 0.89rem; line-height: 1.45; }
+  .feat .ix { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--grey-2); }
+
+  /* problem stat strip */
+  .probs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem 1.25rem; margin-top: 2rem; }
+  @media (min-width: 860px) { .probs { grid-template-columns: repeat(4, 1fr); } }
+  .prob .v { display: block; font-size: clamp(2rem, 3.6vw, 3.1rem); font-weight: 800; letter-spacing: -0.055em; line-height: 0.95; }
+  .prob .k { display: block; margin-top: 0.5rem; color: var(--grey); font-size: 0.86rem; line-height: 1.4; }
+
+  /* three-column model */
+  .models { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
+  @media (min-width: 900px) { .models { grid-template-columns: repeat(3, 1fr); } }
+  .model { background: var(--white); padding: 1.75rem 1.5rem; display: flex; flex-direction: column; gap: 0.65rem; }
+  .sec.white .model { background: var(--paper); }
+  .model .who { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+  .model h4 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.035em; }
+  .model ul { margin: 0.35rem 0 0; padding-left: 1rem; color: var(--ink-2); font-size: 0.89rem; }
+  .model li { margin-top: 0.32rem; }
+  .model.free, .sec.white .model.free { background: var(--lime); }
+
+  /* lede + two column */
+  .lede-big { font-size: clamp(1.15rem, 2vw, 1.7rem); line-height: 1.35; letter-spacing: -0.025em;
+              max-width: 30ch; font-weight: 700; }
+  .two-col { display: grid; gap: 2rem; }
+  @media (min-width: 900px) { .two-col { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; } }
+  .two-col p.body { color: var(--ink-2); font-size: 1rem; }
+  .two-col p.body + p.body { margin-top: 1rem; }
+
+  /* bridge block */
+  .bridge { border: 1px solid var(--ink); padding: clamp(1.5rem, 3vw, 2.5rem); margin-top: 3rem; display: grid; gap: 1rem; }
+  @media (min-width: 860px) { .bridge { grid-template-columns: 0.8fr 1.2fr; gap: 3rem; align-items: center; } }
+  .bridge h4 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em;
+               line-height: 0.95; text-transform: lowercase; }
+  .bridge p { color: var(--ink-2); font-size: 0.96rem; }
+
+
+  /* what i'm doing now */
+  .nows { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
+  @media (min-width: 860px) { .nows { grid-template-columns: repeat(3, 1fr); } }
+  .now { background: var(--white); padding: 1.9rem 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .sec.white .now { background: var(--paper); }
+  .now .st { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
+             color: var(--ink); background: var(--lime); align-self: flex-start; padding: 0.28rem 0.6rem; }
+  .now h4 { margin: 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.035em; text-transform: lowercase; }
+  .now p { color: var(--grey); font-size: 0.9rem; line-height: 1.5; }
+  .now .next { margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--line);
+               font-size: 0.85rem; color: var(--ink-2); }
+  .now .next b { font-weight: 700; }
+
+
+  /* repo link */
+  .repo {
+    display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem;
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    font-weight: 600; border: 1px solid var(--ink); padding: 0.65rem 1.15rem;
+    transition: background 0.25s, color 0.25s;
+  }
+  .repo:hover { background: var(--ink); color: var(--white); }
+  .repo::after { content: "\2197"; font-size: 1em; }
+
+  /* reveal — visible by default */
+  .js-anim .rise { opacity: 0; transform: translateY(18px); }
+  .js-anim .rise.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js-anim .rise, .js-anim .rise.in { opacity: 1; transform: none; transition: none; }
+    .mq { animation: none; }
+    .cube { animation: none; }
+    .tile, .pill, .contact .links a { transition: none; }
+  }
+
+  /* ---- projects ---- */
+  .projs { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
+  @media (min-width: 760px) { .projs { grid-template-columns: 1fr 1fr; } }
+  .proj { background: var(--white); padding: 1.9rem 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .proj h4 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.035em; text-transform: lowercase; }
+  .proj p { color: var(--grey); font-size: 0.9rem; line-height: 1.5; }
+  .proj .stack { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+                 color: var(--grey-2); text-transform: uppercase; line-height: 1.6; }
+  .proj .found { border-left: 2px solid var(--lime); padding-left: 0.85rem; font-size: 0.87rem; color: var(--ink-2); }
+  .proj .found b { font-weight: 700; }
+  .proj .repo { margin-top: auto; align-self: flex-start; }
+</style>
+
+<div class="page">
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <span class="mark" aria-hidden="true">✳</span>
+    <div class="nav-links">
+      <a href="#gigzen">Company</a>
+      <a href="#now">Now</a>
+      <a href="#buzzbuzz">Buzz Buzz</a>
+      <a href="#populace">Populace</a>
+      <a href="#projects">Projects</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="pill" href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="object" aria-hidden="true">
+      <div class="cube"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+      <div class="cube small"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+    </div>
+
+    <h1 class="hero-type">
+      <span class="ln ln-name">sankur kundu</span>
+      <span class="ln ln-role">founder. engineer.</span>
+    </h1>
+
+    <p class="hero-tagline">
+      Founder of Gigzen. Two products, built end to end,
+      for the 1.57 billion people who work the gig economy.
+    </p>
+    <span class="scrolldown">Scroll down</span>
+    <span class="globe" aria-hidden="true">🌍</span>
+  </header>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq"><span>Python</span><span>PyTorch</span><span>Kubernetes</span><span>BigQuery</span><span>FastAPI</span><span>Supabase</span><span>TypeScript</span><span>Terraform</span><span>Vertex AI</span><span>TensorRT</span></div>
+    <div class="mq"><span>Python</span><span>PyTorch</span><span>Kubernetes</span><span>BigQuery</span><span>FastAPI</span><span>Supabase</span><span>TypeScript</span><span>Terraform</span><span>Vertex AI</span><span>TensorRT</span></div>
+  </div>
+
+  <!-- ============ STATS ============ -->
+  <section class="sec white" style="padding-block:0">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat rise"><span class="v">$582B</span><span class="k">Global gig economy, 2025</span></div>
+        <div class="stat rise"><span class="v">1.57B</span><span class="k">Gig workers worldwide</span></div>
+        <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end</span></div>
+        <div class="stat rise"><span class="v">100%</span><span class="k">Free for workers, always</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GIGZEN ============ -->
+  <section class="sec" id="gigzen">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 class="sec-title">gigzen</h2>
+        <p>Incorporated 2026. One company, two products, one thesis.</p>
+      </div>
+      <div class="two-col rise">
+        <p class="lede-big">The people who move the world&rsquo;s goods have no platform of their own.</p>
+        <div>
+          <p class="body">
+            Gigzen is my company. It exists to build for the 1.57 billion people who work the gig
+            economy &mdash; drivers, riders, couriers, freelancers &mdash; who between them power a
+            $582 billion market growing at nearly 16% a year, and who have no professional home the
+            way office workers have LinkedIn.
+          </p>
+          <p class="body">
+            Two products came out of it. <strong>Buzz Buzz</strong> is the platform itself: free for
+            workers, forever, funded by enterprises rather than by the people using it.
+            <strong>Populace</strong> is the testing platform I had to build first, because a social
+            product with one person in it cannot be tested at all. The second exists because of the
+            first, and now stands on its own.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUZZ BUZZ ============ -->
+  <section class="sec white" id="buzzbuzz">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 class="sec-title">buzz buzz</h2>
+        <p class="eyebrow">Product 01 &mdash; global gig worker platform</p>
+      </div>
+
+      <div class="two-col rise">
+        <p class="lede-big">1.57 billion workers. No platform built for them.</p>
+        <div>
+          <p class="body">
+            A Swiggy rider, an Uber driver and an Amazon Flex courier are often the same person
+            &mdash; but no platform connects those identities. More than half of gig workers operate
+            across multiple platforms simultaneously, and each platform sees only its own slice. The
+            worker carries the fragmentation.
+          </p>
+          <p class="body">
+            The consequences compound. Without a single verifiable work history, banks read gig
+            workers as unemployed and refuse them credit and insurance, despite daily earned income.
+          </p>
+        </div>
+      </div>
+
+      <div class="probs rise">
+        <div class="prob"><span class="v">54%</span><span class="k">Work across multiple platforms at once</span></div>
+        <div class="prob"><span class="v">78%</span><span class="k">Have no insurance of any kind</span></div>
+        <div class="prob"><span class="v">63%</span><span class="k">Report feeling financially vulnerable</span></div>
+        <div class="prob"><span class="v">0</span><span class="k">Platforms serving all gig types globally</span></div>
+      </div>
+
+      <div class="feats rise">
+        <div class="feat"><span class="ix">01</span><h4>Peer networking &amp; chat</h4><p>One-to-one and group conversation with read receipts, connecting workers across cities, industries and platforms.</p></div>
+        <div class="feat"><span class="ix">02</span><h4>Live GPS tracking</h4><p>Real-time trip logging with live distance and earnings, shared only inside verified networks.</p></div>
+        <div class="feat"><span class="ix">03</span><h4>Worker dashboard</h4><p>Earnings, daily goals, route history and vehicle maintenance in one place, resetting cleanly each day.</p></div>
+        <div class="feat"><span class="ix">04</span><h4>Cross-platform identity</h4><p>A single profile that holds work across every platform a person actually earns on.</p></div>
+        <div class="feat"><span class="ix">05</span><h4>Community feed</h4><p>Posts, photos, likes, comments and groups &mdash; the social layer gig work has never had.</p></div>
+        <div class="feat"><span class="ix">06</span><h4>Enterprise marketplace</h4><p>Companies post bulk workforce requirements; the platform matches them against real availability.</p></div>
+      </div>
+
+      <div class="models rise">
+        <div class="model free">
+          <span class="who">Gig workers</span>
+          <h4>Free. Always.</h4>
+          <ul><li>Networking and chat</li><li>Live GPS tracking</li><li>Worker dashboard</li><li>Cross-platform identity</li><li>Community access</li></ul>
+        </div>
+        <div class="model">
+          <span class="who">The platform</span>
+          <h4>Intelligence layer</h4>
+          <ul><li>Worker identity graph</li><li>Behavioural data engine</li><li>GPS and safety layer</li><li>Enterprise marketplace</li><li>Compliance infrastructure</li></ul>
+        </div>
+        <div class="model">
+          <span class="who">Enterprises</span>
+          <h4>Where revenue comes from</h4>
+          <ul><li>B2B workforce supply</li><li>GPS fleet management API</li><li>Compliance and insurance APIs</li><li>Recruitment intelligence</li><li>Workforce analytics</li></ul>
+        </div>
+      </div>
+
+      <p class="body rise" style="margin-top:2rem;color:var(--grey);max-width:64ch">
+        The same shape that made LinkedIn, Waze and WhatsApp valuable: free users, rich data,
+        enterprise revenue. Workers are never the product being sold &mdash; they are the reason the
+        product is worth anything.
+      </p>
+
+      <article class="work rise" style="margin-top:3.5rem">
+        <div>
+          <h3 class="work-name">what i built</h3>
+          <p class="work-kind eyebrow">Architecture, implementation, release engineering</p>
+          <div class="note">
+            <b>The bug worth the story.</b> Chat reads failed silently across the whole app. A
+            row-level-security policy on thread membership recursed into itself &mdash; the policy
+            had to read the table it was guarding. Fixed with a SECURITY DEFINER helper that breaks
+            the cycle, then verified end to end against a live project with two real accounts.
+          </div>
+        </div>
+        <div>
+          <p class="lede">
+            React and TypeScript on Capacitor over a Supabase backend. Realtime sync, WhatsApp-style
+            read receipts, presence, push notifications, photo posts, groups, and full localisation
+            into 16 languages including right-to-left Arabic. Signed for release and tested end to
+            end against a live backend.
+          </p>
+          <div class="figs">
+            <div class="fig"><span class="v">13,235</span><span class="k">Lines TS + SQL</span></div>
+            <div class="fig"><span class="v">48</span><span class="k">RLS policies</span></div>
+            <div class="fig"><span class="v">17</span><span class="k">Postgres tables</span></div>
+            <div class="fig"><span class="v">16</span><span class="k">Languages, incl. RTL</span></div>
+          </div>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/buzz-buzz" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ POPULACE ============ -->
+  <section class="sec" id="populace">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 class="sec-title">populace</h2>
+        <p class="eyebrow">Product 02 &mdash; simulated populations for testing</p>
+      </div>
+
+      <div class="two-col rise">
+        <p class="lede-big">A social app with nobody in it tells you nothing.</p>
+        <div>
+          <p class="body">
+            You cannot test presence, live sync, read receipts, notification fan-out, or &ldquo;does
+            deleting this remove it for everyone&rdquo; while being only one person. I hit that wall
+            building Buzz Buzz, so I built the thing that solves it.
+          </p>
+          <p class="body">
+            Populace gives you dozens of believable people who sign up, move around, post, comment,
+            message each other and join groups &mdash; as real authenticated users, through your own
+            API, with your own permission rules applying. Then it hands you a report on what broke.
+          </p>
+        </div>
+      </div>
+
+      <div class="two-col rise" style="margin-top:3rem">
+        <div>
+          <div class="note">
+            <b>The decision worth asking about.</b> A fresh adapter has all 13 methods &mdash; as
+            empty stubs. Naive coverage reports 13/13 and passes while testing nothing. So an empty
+            body deliberately doesn&rsquo;t count: a new scaffold honestly reports 2/13 and refuses
+            to run. A reporting tool that manufactures confidence is worse than no reporting tool.
+          </div>
+          <div class="figs">
+            <div class="fig"><span class="v">13</span><span class="k">Method contract</span></div>
+            <div class="fig"><span class="v">0</span><span class="k">Runtime deps</span></div>
+            <div class="fig"><span class="v">3</span><span class="k">Prod guards</span></div>
+            <div class="fig"><span class="v">20/20</span><span class="k">Self-tests</span></div>
+          </div>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/populace" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+        <div>
+          <div class="tablewrap" style="margin-top:0">
+            <table>
+              <caption>Sample run &middot; 6 concurrent users</caption>
+              <thead><tr><th scope="col">method</th><th scope="col">calls</th><th scope="col">fails</th><th scope="col">p95</th></tr></thead>
+              <tbody>
+                <tr><td>like</td><td>55</td><td class="bad">13</td><td>63ms</td></tr>
+                <tr class="errline"><td colspan="4">&#8627; 13&times; violates row-level security policy &quot;post_likes_insert&quot;</td></tr>
+                <tr><td>reportLocation</td><td>132</td><td>0</td><td>47ms</td></tr>
+                <tr><td>recentPostsByOthers</td><td>57</td><td>0</td><td>467ms</td></tr>
+                <tr><td>sendMessage</td><td>88</td><td>0</td><td>71ms</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="body" style="margin-top:1.25rem;color:var(--grey)">
+            Two things that report found without being told where to look: a permission rule
+            rejecting one in four writes, and a feed query running eight times slower than every
+            other endpoint.
+          </p>
+        </div>
+      </div>
+
+      <div class="feats rise">
+        <div class="feat"><span class="ix">01</span><h4>App-agnostic engine</h4><p>The core knows how to be a person and contains zero references to any real app. Everything specific lives behind a 13-method adapter.</p></div>
+        <div class="feat"><span class="ix">02</span><h4>Three production guards</h4><p>Environment must declare itself non-production, a denylist is matched against every nested string, and an empty denylist warns loudly.</p></div>
+        <div class="feat"><span class="ix">03</span><h4>Honest coverage</h4><p>Anything you skip is reported as untested rather than quietly passing. Empty method bodies never count as coverage.</p></div>
+        <div class="feat"><span class="ix">04</span><h4>Per-endpoint latency</h4><p>Every call through the adapter is timed and counted, with p50, p95 and p99 per method, and failures grouped by shape rather than by text.</p></div>
+        <div class="feat"><span class="ix">05</span><h4>Session refresh</h4><p>Runs outlive token expiry. Without it an expired run cannot even delete its own accounts, stranding simulated users in your environment.</p></div>
+        <div class="feat"><span class="ix">06</span><h4>Cleans up after itself</h4><p>Every account a run creates is removed, and the report states plainly whether cleanup succeeded.</p></div>
+      </div>
+
+      <div class="bridge rise">
+        <h4>how the two<br>fit together</h4>
+        <p>
+          Populace was built to test Buzz Buzz, and its engine was deliberately kept free of any
+          reference to it. That single constraint is what turned an internal script into a product:
+          Buzz Buzz became its first customer rather than its purpose. Anyone building something
+          multiplayer has the same problem, and can point Populace at their own API by writing one
+          adapter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOW ============ -->
+  <section class="sec" id="now">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 class="sec-title">what i&rsquo;m<br>doing now</h2>
+        <p>Where both products actually stand, stated plainly.</p>
+      </div>
+      <div class="nows rise">
+        <div class="now">
+          <span class="st">Release build ready</span>
+          <h4>buzz buzz</h4>
+          <p>
+            Feature-complete and signed for release. Auth, feed, chat with read receipts, presence,
+            groups, GPS tracking and 16-language localisation all verified end to end against a live
+            backend with real accounts.
+          </p>
+          <p class="next"><b>Next:</b> store submission and first market launch.</p>
+        </div>
+        <div class="now">
+          <span class="st">Engine complete</span>
+          <h4>populace</h4>
+          <p>
+            The engine, adapter contract, safety guards and reporting are done, with 20 of 20
+            self-tests passing against an in-memory adapter &mdash; which is what proves the engine
+            carries no app-specific coupling.
+          </p>
+          <p class="next"><b>Next:</b> first full run against a live external backend.</p>
+        </div>
+        <div class="now">
+          <span class="st">Open</span>
+          <h4>what&rsquo;s next</h4>
+          <p>
+            Building toward launch for both products, and open to conversations &mdash; engineering
+            roles where the systems are bigger than one person, pilot users for Populace, or anyone
+            working on the same problem.
+          </p>
+          <p class="next"><b>Based in</b> Bhubaneswar, working globally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ML PROJECTS ============ -->
+  <section class="sec white" id="projects">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 class="sec-title">machine<br>learning work</h2>
+        <p>
+          Four systems built before Gigzen, all public. Each README states the design target,
+          what the code actually measures against it, and where it falls short &mdash; because a
+          number you cannot reproduce is not a result.
+        </p>
+      </div>
+
+      <div class="projs rise">
+
+        <div class="proj">
+          <h4>edge model compression</h4>
+          <p>
+            A compression pipeline for battery-powered inference: distillation from a ResNet50
+            teacher, magnitude pruning, int8 quantization and ONNX export.
+          </p>
+          <p class="found">
+            <b>Target 8&times; smaller. Measured &minus;6.3%</b> &mdash; the export got bigger. The
+            repo publishes that, along with why: pruning zeros weights without removing them, and
+            the ONNX weights live in a sidecar file that the obvious size check misses.
+          </p>
+          <span class="stack">PyTorch · ONNX · ONNX Runtime</span>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/AI-Model-Compression-for-TSMC-3nm-Chips-Disaster-Classification" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+
+        <div class="proj">
+          <h4>detek &mdash; data-leak detection</h4>
+          <p>
+            Pairs a BERT content classifier with an LSTM behavioural model on AWS, because either
+            one alone produces an alert stream nobody can act on: content flags every document with
+            a customer name in it, behaviour flags everyone who works late.
+          </p>
+          <p class="found">
+            Collectors for CloudTrail and VPC Flow Logs, Terraform infrastructure, and automated
+            incident response.
+          </p>
+          <span class="stack">PyTorch · Transformers · Flask · boto3 · Terraform · DynamoDB</span>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/Detek" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+
+        <div class="proj">
+          <h4>ml serving platform</h4>
+          <p>
+            The operational layer that sits around a model rather than inside it: versioned rollout,
+            A/B routing, circuit breaking, per-feature drift detection, caching and metrics.
+          </p>
+          <p class="found">
+            Designed for 1,200 QPS. Rate limiting is a single pipelined Redis round trip so two
+            concurrent requests cannot both slip under the limit, and API keys compare in constant
+            time.
+          </p>
+          <span class="stack">Flask · Redis · Triton · Kubernetes · Prometheus · Docker</span>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/ML-Model-Serving-Platform" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+
+        <div class="proj">
+          <h4>iot predictive maintenance</h4>
+          <p>
+            LSTM failure prediction over industrial sensor streams on GCP, with Optuna tuning,
+            FastAPI serving and a Vertex AI deployment path.
+          </p>
+          <p class="found">
+            Predicts a <b>48-hour horizon</b> and splits chronologically. Both matter: a model
+            trained on shuffled time series scores beautifully by reading the future, and one that
+            predicts the current timestep tells you a machine is failing while it fails.
+          </p>
+          <span class="stack">TensorFlow · Optuna · FastAPI · Pub/Sub · BigQuery · Vertex AI</span>
+          <a class="repo" href="https://github.com/Shakhtar-Sankur/Predictive-Maintenance-for-IoT-GCP-Deployed-Real-Time-Optimized" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+
+      </div>
+
+      <div class="bridge rise">
+        <h4>ten repos,<br>one standard</h4>
+        <p>
+          Everything above is on <a href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">github.com/Shakhtar-Sankur</a>,
+          reviewed line by line before it was published. Where a README once claimed a number the
+          code never produced, the claim came out and the measurement went in. You can clone any of
+          them and check.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLKIT ============ -->
+  <section class="sec" id="toolkit">
+    <div class="wrap">
+      <div class="sec-head rise"><h2 class="sec-title">how i build</h2></div>
+      <div class="kit rise"><span class="lbl">Languages</span><p>Python · TypeScript · SQL · R · STATA</p></div>
+      <div class="kit rise"><span class="lbl">Machine learning</span><p>Production pipelines · model training and evaluation · predictive and statistical modeling · deep learning (LSTM, BERT, DDPM) · knowledge distillation · pruning and int8 quantization · ONNX export · anomaly detection · LLM agent orchestration</p></div>
+      <div class="kit rise"><span class="lbl">Systems &amp; cloud</span><p>System design · distributed systems · GCP (BigQuery, Vertex AI, Pub/Sub) · AWS (Lambda, S3, EventBridge, CloudTrail) · FastAPI · Flask · Node.js · React · Capacitor · Postgres and row-level security · Redis · Triton · MLflow · Optuna · Prometheus · Docker · Kubernetes · Terraform · CI/CD</p></div>
+      <div class="kit rise"><span class="lbl">Background</span><p><strong>B.Tech, Computer Science &amp; Engineering</strong> — Institute of Engineering and Management, Kolkata, 2022–2026. Certified across data analytics (Meta, Google), cloud (Google Cloud, AWS, Microsoft) and security (Google Cybersecurity, IBM).</p></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2 class="sec-title rise">let's build<br>something big</h2>
+      <a class="mail rise" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a>
+      <div class="links rise">
+        <a href="https://linkedin.com/in/sankur-kundu" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">GitHub</a>
+        <a href="tel:+919776194201">+91 97761 94201</a>
+      </div>
+      <footer>
+        <span>Sankur Kundu — Bhubaneswar, India</span>
+        <span>Available for ML &amp; software engineering roles</span>
+      </footer>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.rise');
+  if (!reduce && 'IntersectionObserver' in window && items.length) {
+    root.classList.add('js-anim');
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -5% 0px', threshold: 0.03 });
+    items.forEach(function (el) { io.observe(el); });
+    setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  }
+})();
+</script>
