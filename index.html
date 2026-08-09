@@ -497,14 +497,21 @@
             row-level-security policy on thread membership recursed into itself &mdash; the policy
             had to read the table it was guarding. Fixed with a SECURITY DEFINER helper that breaks
             the cycle, then verified end to end against a live project with two real accounts.
+            <br><br>
+            <b>The number worth measuring.</b> Photos were stored as base64 inside a Postgres
+            column. Measured: 479&nbsp;KB a picture, and up to 9.4&nbsp;MB to open a feed of twenty
+            &mdash; on a driver&rsquo;s metered data, and in every database backup. Moved to object
+            storage with a thumbnail; the feed now loads about 20&nbsp;KB an image and fetches the
+            full one only when someone taps it.
           </div>
         </div>
         <div>
           <p class="lede">
             React and TypeScript on Capacitor over a Supabase backend. Realtime sync, WhatsApp-style
             read receipts, presence, push notifications, photo posts, groups, and full localisation
-            into 16 languages including right-to-left Arabic. Signed for release and tested end to
-            end against a live backend.
+            into 16 languages including right-to-left Arabic. Writes survive a lost signal: a post or
+            message sent underground is queued on the device and sent when the connection returns.
+            Signed for release and tested end to end against a live backend.
           </p>
           <div class="figs">
             <div class="fig"><span class="v">13,235</span><span class="k">Lines of app source</span></div>
@@ -626,7 +633,9 @@
           <p>
             The engine, adapter contract, safety guards and reporting are done, with 20 of 20
             self-tests passing against an in-memory adapter &mdash; which is what proves the engine
-            carries no app-specific coupling.
+            carries no app-specific coupling. <code>populace demo</code> runs the whole product
+            against a bundled fake app with a real bug in it, so anyone can see it work without a
+            backend of their own. CI fails the build if that bug ever stops being found.
           </p>
           <p class="next"><b>Next:</b> first full run against a live external backend.</p>
         </div>
