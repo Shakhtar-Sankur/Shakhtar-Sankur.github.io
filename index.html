@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sankur Kundu — Co-founder &amp; Director, Technology, Gigzen</title>
 
@@ -22,6 +26,10 @@
     --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
     --pad: clamp(1rem, 3.5vw, 3rem);
   }
+
+  /* .page carries the visual world, but background only propagates to the
+     viewport from html/body — without this, overscroll shows white. */
+  html, body { margin: 0; background: var(--paper); }
 
   .page {
     font-family: var(--grotesk);
@@ -338,6 +346,8 @@
   .proj .found b { font-weight: 700; }
   .proj .repo { margin-top: auto; align-self: flex-start; }
 </style>
+</head>
+<body>
 
 <div class="page">
 
@@ -628,16 +638,21 @@
           <p class="next"><b>Next:</b> store submission and first market launch.</p>
         </div>
         <div class="now">
-          <span class="st">Engine complete</span>
+          <span class="st">Proven against a real app</span>
           <h4>populace</h4>
           <p>
-            The engine, adapter contract, safety guards and reporting are done, with 20 of 20
-            self-tests passing against an in-memory adapter &mdash; which is what proves the engine
-            carries no app-specific coupling. <code>populace demo</code> runs the whole product
-            against a bundled fake app with a real bug in it, so anyone can see it work without a
-            backend of their own. CI fails the build if that bug ever stops being found.
+            Pointed at Buzz Buzz&rsquo;s live backend on 9 August 2026 &mdash; an app that had
+            already passed a full manual test of every screen. Six simulated drivers across Manila
+            and Mumbai found <b>five bugs in three and a half minutes</b>, including one that
+            stopped account creation outright: a privacy change had made a column unreadable, and
+            the signup write silently needed to read it. After the fixes, <b>no failures across 400
+            API calls</b>, six accounts created and six removed.
+            <br><br>
+            Two of the five were in Populace&rsquo;s own reference adapter, and the worse one was an
+            unchecked error &mdash; the exact fault this tool exists to catch. It made the report
+            blame a later call for a failure that happened during signup.
           </p>
-          <p class="next"><b>Next:</b> first full run against a live external backend.</p>
+          <p class="next"><b>Next:</b> a run against someone else&rsquo;s app, not our own.</p>
         </div>
         <div class="now">
           <span class="st">Open</span>
@@ -787,3 +802,5 @@
   }
 })();
 </script>
+</body>
+</html>
