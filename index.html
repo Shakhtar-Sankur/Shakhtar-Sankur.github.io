@@ -740,8 +740,9 @@
             <div class="fig"><span class="v">13</span><span class="k">Method contract</span></div>
             <div class="fig"><span class="v">0</span><span class="k">Runtime deps</span></div>
             <div class="fig"><span class="v">3</span><span class="k">Prod guards</span></div>
-            <div class="fig"><span class="v">20/20</span><span class="k">Self-tests</span></div>
+            <div class="fig"><span class="v">59</span><span class="k">Self-tests</span></div>
           </div>
+          <a class="repo" href="https://shakhtar-sankur.github.io/populace/" target="_blank" rel="noopener">Populace website</a>
           <a class="repo" href="https://github.com/Shakhtar-Sankur/populace" target="_blank" rel="noopener">Source on GitHub</a>
         </div>
         <div>
@@ -817,6 +818,16 @@
             Two of the five were in Populace&rsquo;s own reference adapter, and the worse one was an
             unchecked error &mdash; the exact fault this tool exists to catch. It made the report
             blame a later call for a failure that happened during signup.
+          </p>
+          <p>
+            Hardened since, by running it on genuinely bad infrastructure rather than a clean
+            desk. Three defects surfaced that way: a single unresponsive call could freeze an
+            entire run and produce nothing; fixing that with retries made a <em>dead</em> target
+            grind for twenty minutes instead; and the circuit breaker that fixed <em>that</em> was
+            still open at teardown, so it left five simulated accounts live in a real project.
+            All three are fixed and covered &mdash; <b>59 self-tests, up from 20</b>. A report now
+            separates a failure in your code from a failure of the network in between, and says
+            <em>inconclusive</em> rather than <em>clean</em> when it could not prove anything.
           </p>
           <p class="next"><b>Next:</b> a run against someone else&rsquo;s app, not our own.</p>
         </div>
