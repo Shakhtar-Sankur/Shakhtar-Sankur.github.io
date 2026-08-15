@@ -701,6 +701,28 @@ a { color: inherit; }
    display face jams them together. */
 .sec-title .gword { text-transform: uppercase; letter-spacing: .01em; }
 
+
+/* ── the nav mark ──────────────────────────────────────────────────────────
+   This was a ✳ glyph, which is very close to Anthropic's Claude mark — not a
+   thing to carry as personal branding on your own portfolio. It is now the
+   GitHub profile photo, so the face here and the face on the repositories are
+   literally the same file.
+
+   Served from the repo rather than hotlinked from github.com: hotlinking makes
+   the page depend on their CDN and on a URL format that is not a public
+   contract, and it hands every visitor's IP to a third party for no reason.
+
+   width/height are on the element so the row cannot shift as it loads. */
+.nav .mark {
+  display: block; width: 34px; height: 34px; flex: none;
+  border-radius: 50%; overflow: hidden; padding: 0;
+  border: 1.5px solid rgba(255,255,255,.34);
+  transition: border-color .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+}
+.nav .mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nav .mark:hover { border-color: #A88FFF; transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) { .nav .mark:hover { transform: none; } }
+
 </style>
 </head>
 <body>
@@ -710,7 +732,7 @@ a { color: inherit; }
 
   <!-- ============ NAV ============ -->
   <nav class="nav">
-    <span class="mark" aria-hidden="true">✳</span>
+    <a class="mark" href="#top" aria-label="Sankur Kundu — top of page"><img src="avatar.jpg" width="400" height="400" alt="" decoding="async" fetchpriority="high"></a>
     <div class="nav-links">
       <a href="#gigzen">Company</a>
       <a href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">Gigzen site</a>
