@@ -694,6 +694,13 @@ a { color: inherit; }
 }
 .runnote a { color: #fff; text-decoration: underline; }
 
+
+/* Section titles are set lowercase by .sec-title — that is the page's voice —
+   but the company name is a proper noun and a wordmark, so it opts out.
+   Capitals also need positive tracking; the negative value inherited from the
+   display face jams them together. */
+.sec-title .gword { text-transform: uppercase; letter-spacing: .01em; }
+
 </style>
 </head>
 <body>
@@ -749,8 +756,8 @@ a { color: inherit; }
   <section class="sec white" style="padding-block:0">
     <div class="wrap">
       <div class="stats">
-        <div class="stat rise"><span class="v">5</span><span class="k">Real bugs found in a shipped app, in 3.5 minutes</span></div>
-        <div class="stat rise"><span class="v">400</span><span class="k">API calls, zero failures, on the re-run</span></div>
+        <div class="stat rise"><span class="v">6</span><span class="k">Real bugs found in a shipped app that had passed manual testing</span></div>
+        <div class="stat rise"><span class="v">672</span><span class="k">API calls, zero failures, on the sign-off run</span></div>
         <div class="stat rise"><span class="v">16</span><span class="k">Languages at full parity, RTL included</span></div>
         <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end, both shipping</span></div>
       </div>
@@ -760,15 +767,17 @@ a { color: inherit; }
         <div class="run rise run-a">
           <span class="runtag">Run one &middot; 9 Aug 2026</span>
           <h3>The tool proved itself</h3>
-          <p class="runlead">It found five real defects in a finished app.</p>
+          <p class="runlead">It found six real defects in a finished app.</p>
           <p>Buzz Buzz was built, signed, and had already passed a full manual test of every
           screen by the person who wrote it. Six simulated riders signed up and used it through
           the real API. Nobody told Populace where to look.</p>
           <ul class="runlist">
-            <li><b>3 min 30 s</b> to find all five</li>
+            <li><b>3 min 30 s</b> to find the first five</li>
             <li><b>1 defect</b> stopped account creation entirely</li>
-            <li><b>3 of 5</b> were the same root cause in different clothes</li>
-            <li><b>2 of 5</b> were in the testing tool itself, and were kept in the report</li>
+            <li><b>3 of 6</b> were the same root cause in different clothes</li>
+            <li><b>2 of 6</b> were in the testing tool itself, and were kept in the report</li>
+            <li><b>The sixth</b> appeared on the sign-off run — the one meant to confirm
+                there was nothing left to find</li>
           </ul>
           <p class="runwhy">A testing tool that finds nothing has proved nothing. This run is the
           evidence that <b>Populace works</b>.</p>
@@ -778,13 +787,14 @@ a { color: inherit; }
           <span class="runtag">Run two &middot; after the fixes</span>
           <h3>The app proved itself</h3>
           <p class="runlead">Then the same run passed with zero failures.</p>
-          <p>All five defects were fixed and the identical run was repeated against the same live
-          backend — same six riders, same cities, same methods, nothing relaxed.</p>
+          <p>Each defect was fixed and the identical run repeated — same six riders, same cities,
+          same methods, nothing relaxed. The final one returned the first <code>exit 0</code>
+          Populace had ever given this app.</p>
           <ul class="runlist">
-            <li><b>400</b> API calls</li>
-            <li><b>0</b> failures</li>
+            <li><b>672</b> API calls on the largest run</li>
+            <li><b>0</b> failures — and 0 across 627 and 400 before it</li>
             <li><b>13 / 13</b> adapter methods covered</li>
-            <li><b>6 created, 6 deleted</b> — nothing left behind</li>
+            <li><b>6 created, 6 deleted</b> — clean before, during and after</li>
           </ul>
           <p class="runwhy">Passing only counts because the same harness had already failed the
           app once. This run is the evidence that <b>Buzz Buzz is ready</b>.</p>
@@ -810,7 +820,7 @@ a { color: inherit; }
   <section class="sec" id="gigzen">
     <div class="wrap">
       <div class="sec-head rise">
-        <h2 class="sec-title"><svg class="gz-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M33.19 2 L60.1 14.82 L48.54 20.68 L33.66 13.4 L16.25 23.06 L15.14 23.85 L15.14 40.15 L33.19 47.91 L49.02 39.84 L49.34 38.73 L48.54 38.25 L30.34 33.66 L30.5 30.97 L44.43 24.01 L61.05 29.86 L61.05 46.64 L33.5 62 L2.95 46.64 L2.95 17.51 L33.03 2.16 Z" fill="currentColor"/></svg><span class="gword">gigzen</span></h2>
+        <h2 class="sec-title"><svg class="gz-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M33.19 2 L60.1 14.82 L48.54 20.68 L33.66 13.4 L16.25 23.06 L15.14 23.85 L15.14 40.15 L33.19 47.91 L49.02 39.84 L49.34 38.73 L48.54 38.25 L30.34 33.66 L30.5 30.97 L44.43 24.01 L61.05 29.86 L61.05 46.64 L33.5 62 L2.95 46.64 L2.95 17.51 L33.03 2.16 Z" fill="currentColor"/></svg><span class="gword">GIGZEN</span></h2>
         <p>Incorporated 2026. One company, two products, one thesis.</p>
       </div>
       <div class="two-col rise">
