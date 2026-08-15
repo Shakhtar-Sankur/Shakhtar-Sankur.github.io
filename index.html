@@ -719,7 +719,13 @@ a { color: inherit; }
   border: 1.5px solid rgba(255,255,255,.34);
   transition: border-color .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
 }
-.nav .mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The source is 652x757 portrait. A square crop takes the middle band, which
+   would centre on the chin rather than the face — the head sits at roughly 40%
+   of the height, so the crop is biased upward to match. */
+.nav .mark img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: 50% 38%;
+}
 .nav .mark:hover { border-color: #A88FFF; transform: scale(1.06); }
 @media (prefers-reduced-motion: reduce) { .nav .mark:hover { transform: none; } }
 
@@ -732,7 +738,7 @@ a { color: inherit; }
 
   <!-- ============ NAV ============ -->
   <nav class="nav">
-    <a class="mark" href="#top" aria-label="Sankur Kundu — top of page"><img src="avatar.jpg" width="400" height="400" alt="" decoding="async" fetchpriority="high"></a>
+    <a class="mark" href="#top" aria-label="Sankur Kundu — top of page"><img src="avatar.jpg" width="652" height="757" alt="" decoding="async" fetchpriority="high"></a>
     <div class="nav-links">
       <a href="#gigzen">Company</a>
       <a href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">Gigzen site</a>
