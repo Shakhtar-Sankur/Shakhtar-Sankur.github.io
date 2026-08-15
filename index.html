@@ -359,7 +359,7 @@
 
 /* Gigzen electric indigo. Flat, not a gradient: at the 20px this renders at,
    a gradient cannot be perceived, but it still costs one-colour printing and a
-   clean favicon. #5B2BE0 measures 7.3:1 on white; #9B7BFF is the lifted tone for
+   clean favicon. #5B2BE0 measures 7.3:1 on white; #A88FFF is the lifted tone for
    near-black grounds, where the darker indigo closes up. */
 .gword { color: #5B2BE0; -webkit-text-fill-color: #5B2BE0; background: none;
   font-weight: 700; letter-spacing: -.01em; }
@@ -452,8 +452,22 @@ code, .pill { background: rgba(255,255,255,.14); color: #fff; border-color: rgba
 .contact .links a.dl { background: var(--tint); color: #0B0D10; border-color: var(--tint); }
 .contact .links a.dl:hover { filter: brightness(1.1); }
 .contact .mail:hover { border-color: var(--tint); }
-.gz-mark { color: var(--tint) !important; }
-.gword { color: #fff !important; -webkit-text-fill-color: #fff !important; background: none !important; }
+/* ── the company mark keeps the company's colour ───────────────────────────
+   The redesign had the mark take each section's tint and the wordmark go
+   white, which meant the Gigzen identity changed colour four times down the
+   page and matched none of the other properties. An identity that follows the
+   local palette is decoration, not an identity.
+
+   So it uses the established pair: #5B2BE0 on light grounds, #A88FFF on dark.
+   Exactly what the Populace site already does, and the reason that lifted tone
+   exists — #5B2BE0 on these saturated blocks is dark-on-dark. Measured against
+   every block here, #A88FFF lands between 2.8:1 and 3.9:1, which reads clearly
+   as a mark. */
+.sec .gz-mark, .contact .gz-mark { color: #A88FFF !important; }
+.sec .gword, .contact .gword {
+  color: #A88FFF !important; -webkit-text-fill-color: #A88FFF !important;
+  background: none !important;
+}
 
 /* ── kinetic type ──────────────────────────────────────────────────────────
    The section title arrives one line at a time rather than as a block. */
@@ -639,6 +653,47 @@ a { color: inherit; }
 .sitecard .sitelink::after { content: " \2197"; }
 @media (prefers-reduced-motion: reduce) { .sitecard:hover { transform: none; } }
 
+
+/* ── two runs ──────────────────────────────────────────────────────────────
+   Deliberately two panels, not one. The pair is the argument: a tool that
+   catches nothing proves nothing, and a clean run from an untested harness
+   proves nothing either. Colour-coded so the distinction survives skimming —
+   amber for the run that found faults, green for the run that did not. */
+.tworuns {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1px; margin-top: 2.75rem;
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.16);
+}
+.run { background: rgba(0,0,0,.30); padding: 1.9rem 1.7rem; position: relative; }
+.run::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 3px; }
+.run-a::before { background: #F5A524; }
+.run-b::before { background: #4ADE80; }
+.runtag {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+  display: block; margin-bottom: .7rem;
+}
+.run-a .runtag { color: #F5A524; }
+.run-b .runtag { color: #4ADE80; }
+.run h3 { font-size: 1.55rem; letter-spacing: -.03em; color: #fff; margin: 0 0 .5rem; }
+.runlead { font-size: 1.05rem; font-weight: 650; color: #fff !important; margin-bottom: .8rem; }
+.run p { color: rgba(255,255,255,.86); font-size: .95rem; }
+.runlist { margin: 1.1rem 0 0; padding: 0; list-style: none; }
+.runlist li {
+  padding: .5rem 0; border-top: 1px solid rgba(255,255,255,.14);
+  font-size: .92rem; color: rgba(255,255,255,.86);
+}
+.runlist li b { color: #fff; font-variant-numeric: tabular-nums; }
+.runwhy {
+  margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid rgba(255,255,255,.18);
+  font-size: .93rem;
+}
+.runwhy b { color: #fff; }
+.runnote {
+  margin-top: 1.5rem; font-size: .95rem; max-width: 68ch;
+  color: rgba(255,255,255,.86) !important;
+}
+.runnote a { color: #fff; text-decoration: underline; }
+
 </style>
 </head>
 <body>
@@ -699,6 +754,49 @@ a { color: inherit; }
         <div class="stat rise"><span class="v">16</span><span class="k">Languages at full parity, RTL included</span></div>
         <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end, both shipping</span></div>
       </div>
+      <!-- Two runs, two different claims. Collapsing them into one number
+           ("400 calls, 0 failures") throws away the more interesting half. -->
+      <div class="tworuns">
+        <div class="run rise run-a">
+          <span class="runtag">Run one &middot; 9 Aug 2026</span>
+          <h3>The tool proved itself</h3>
+          <p class="runlead">It found five real defects in a finished app.</p>
+          <p>Buzz Buzz was built, signed, and had already passed a full manual test of every
+          screen by the person who wrote it. Six simulated riders signed up and used it through
+          the real API. Nobody told Populace where to look.</p>
+          <ul class="runlist">
+            <li><b>3 min 30 s</b> to find all five</li>
+            <li><b>1 defect</b> stopped account creation entirely</li>
+            <li><b>3 of 5</b> were the same root cause in different clothes</li>
+            <li><b>2 of 5</b> were in the testing tool itself, and were kept in the report</li>
+          </ul>
+          <p class="runwhy">A testing tool that finds nothing has proved nothing. This run is the
+          evidence that <b>Populace works</b>.</p>
+        </div>
+
+        <div class="run rise run-b">
+          <span class="runtag">Run two &middot; after the fixes</span>
+          <h3>The app proved itself</h3>
+          <p class="runlead">Then the same run passed with zero failures.</p>
+          <p>All five defects were fixed and the identical run was repeated against the same live
+          backend — same six riders, same cities, same methods, nothing relaxed.</p>
+          <ul class="runlist">
+            <li><b>400</b> API calls</li>
+            <li><b>0</b> failures</li>
+            <li><b>13 / 13</b> adapter methods covered</li>
+            <li><b>6 created, 6 deleted</b> — nothing left behind</li>
+          </ul>
+          <p class="runwhy">Passing only counts because the same harness had already failed the
+          app once. This run is the evidence that <b>Buzz Buzz is ready</b>.</p>
+        </div>
+      </div>
+
+      <p class="runnote rise">One run shows the instrument is sensitive. The other shows the
+      patient is healthy. They are separate claims, and only the pair means anything — a clean
+      result from a tool that has never caught a defect is not a result.
+      <a href="https://shakhtar-sankur.github.io/gigzen/test-report.html">Both runs in full &rarr;</a>
+      </p>
+
       <p class="rise" style="margin-top:1.75rem;font-size:.95rem">
         Every figure above is from the published
         <a href="https://shakhtar-sankur.github.io/gigzen/test-report.html"
