@@ -364,9 +364,285 @@
 .gword { color: #5B2BE0; -webkit-text-fill-color: #5B2BE0; background: none;
   font-weight: 700; letter-spacing: -.01em; }
 .gz-mark { color: #5B2BE0; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SPECTRUM — the portfolio's own system
+   ══════════════════════════════════════════════════════════════════════════
+   Four properties now, and none of them may look like a variation of another:
+
+     gigzen.com   white paper, soft tints at the corners, calm
+     populace     near-black, mono, dot field, coloured hairlines
+     buzz buzz    warm cream, honeycomb, orange
+     this page    FULL-BLEED SATURATED BLOCKS, one colour per section
+
+   Colour here is not an accent on paper — it is the ground. Scrolling moves
+   you through violet, teal, plum, indigo, rust, deep blue. A personal site can
+   be louder than a company's, and this is the loudest system of the four while
+   still being the most rigorous about legibility.
+
+   Every ground is chosen to carry white text at 4.5:1 or better. That is the
+   constraint that makes saturated blocks workable at all: pick the hue first
+   and you get a page nobody can read.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --c1:#4A1D96;  /* violet     11.0:1 with white */
+  --c2:#06544A;  /* teal        9.0:1 */
+  --c3:#7A1046;  /* plum       10.0:1 */
+  --c4:#1E2C7A;  /* indigo     12.3:1 */
+  --c5:#7C2D12;  /* rust        9.3:1 */
+  --c6:#0B4A6F;  /* deep blue   9.5:1 */
+  /* One bright tint per ground, for eyebrows and rules. Decorative or large
+     only — none of these is used for body copy. */
+  --t1:#C9B4FF; --t2:#6EE7D7; --t3:#FFA8CE; --t4:#A9BDFF; --t5:#FFB894; --t6:#7FD3F5;
+}
+
+/* ── the blocks ────────────────────────────────────────────────────────── */
+.sec, .sec.white { color: #fff; position: relative; isolation: isolate; }
+.sec:nth-of-type(1), .sec:nth-of-type(1).white { background: var(--c1); --tint: var(--t1); }
+.sec:nth-of-type(2), .sec:nth-of-type(2).white { background: var(--c2); --tint: var(--t2); }
+.sec:nth-of-type(3), .sec:nth-of-type(3).white { background: var(--c3); --tint: var(--t3); }
+.sec:nth-of-type(4), .sec:nth-of-type(4).white { background: var(--c4); --tint: var(--t4); }
+.sec:nth-of-type(5), .sec:nth-of-type(5).white { background: var(--c5); --tint: var(--t5); }
+.sec:nth-of-type(6), .sec:nth-of-type(6).white { background: var(--c6); --tint: var(--t6); }
+.sec:nth-of-type(7), .sec:nth-of-type(7).white { background: var(--c1); --tint: var(--t1); }
+.contact { --tint: var(--t2); }
+
+/* Grain. A flat saturated field looks like plastic; a little noise gives it
+   surface. Generated inline so the page fetches nothing. */
+.sec::before, .contact::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── type on colour ────────────────────────────────────────────────────── */
+.sec-title, .contact .sec-title { color: #fff; }
+.sec-head p, .work p.lede, .two-col p.body, .stat .k, p { color: rgba(255,255,255,.86); }
+.eyebrow { color: var(--tint); }
+.lede-big { color: #fff; }
+.stat .v { color: #fff; }
+.stat { border-right-color: rgba(255,255,255,.22); border-bottom-color: rgba(255,255,255,.22); }
+a { color: #fff; }
+
+/* ── panels ────────────────────────────────────────────────────────────────
+   Everything that used to be a light card is now a translucent pane over the
+   block, so the section colour reads through instead of being interrupted. */
+.sec .note, .sec.white .note,
+.sec .tablewrap, .sec.white .tablewrap,
+.sec .feat, .sec.white .feat,
+.sec .model, .sec.white .model,
+.sec .now, .sec.white .now,
+.tile, .card, .repo {
+  background: rgba(255,255,255,.09) !important;
+  border: 1px solid rgba(255,255,255,.20);
+  color: #fff;
+}
+.model.free, .sec.white .model.free {
+  background: var(--tint) !important; color: #0B0D10 !important; border-color: transparent;
+}
+.model.free * { color: #0B0D10 !important; }
+table, th, td { border-color: rgba(255,255,255,.22) !important; color: #fff; }
+th { color: var(--tint) !important; }
+tbody tr + tr td { border-top-color: rgba(255,255,255,.18) !important; }
+code, .pill { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.24); }
+
+/* Lime was the single accent of the old monochrome design. It survives only
+   where it sits on ink; on these grounds it is replaced by the section tint. */
+.contact .links a:hover { background: var(--tint); color: #0B0D10; border-color: var(--tint); }
+.contact .links a.dl { background: var(--tint); color: #0B0D10; border-color: var(--tint); }
+.contact .links a.dl:hover { filter: brightness(1.1); }
+.contact .mail:hover { border-color: var(--tint); }
+.gz-mark { color: var(--tint) !important; }
+.gword { color: #fff !important; -webkit-text-fill-color: #fff !important; background: none !important; }
+
+/* ── kinetic type ──────────────────────────────────────────────────────────
+   The section title arrives one line at a time rather than as a block. */
+.sec-title { position: relative; }
+.js-anim .rise .sec-title, .js-anim .sec-title.rise { will-change: transform, opacity; }
+
+/* ── the rail ──────────────────────────────────────────────────────────── */
+.spec-rail { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 90;
+             background: linear-gradient(90deg, var(--t1), var(--t2), var(--t3), var(--t4), var(--t5), var(--t6)); }
+
+/* ── the block edge ────────────────────────────────────────────────────────
+   A hairline of the NEXT section's tint at each boundary, so the transition
+   is a deliberate seam rather than two colours colliding. */
+.sec + .sec::after, .sec + .contact::after {
+  content: ""; position: absolute; inset-inline: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--tint), transparent); opacity: .8;
+}
+
+@media (prefers-reduced-motion: reduce) { .spec-rail { transition: none; } }
+
+
+/* ── carrying the system to the top ────────────────────────────────────────
+   The first pass coloured the sections and left the nav, hero and marquee on
+   the old #EFEFEF paper — with a global `a { color:#fff }` over them, which
+   put white links on a near-white ground at 1.15:1. Scoping the link rule
+   would have hidden that, not fixed it: a page of saturated blocks with a
+   paper header is two designs stapled together.
+
+   So the ground goes dark everywhere and the hero becomes the first block. */
+html, body, .page { background: #0B0A12; }
+
+.hero {
+  position: relative; isolation: isolate;
+  background: radial-gradient(120% 90% at 15% 0%, #5A24B8 0%, #2E1173 42%, #0B0A12 100%);
+  color: #fff;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n2)'/%3E%3C/svg%3E");
+}
+.hero-type, .hero .ln { color: #fff; }
+.hero .ln-role { color: var(--t1); }
+.hero-tagline { color: rgba(255,255,255,.88); }
+.scrolldown { color: rgba(255,255,255,.66); }
+
+/* The link colour is scoped rather than global, so a link on a pale panel
+   later cannot inherit white by accident. */
+a { color: inherit; }
+.sec a, .contact a, .nav a, .hero a, .marquee a { color: #fff; }
+
+.nav { background: transparent; }
+.nav a { color: rgba(255,255,255,.82); }
+.nav a:hover { color: #fff; }
+.nav .mark { color: var(--t1); }
+.nav .pill { border-color: rgba(255,255,255,.30); color: #fff; background: rgba(255,255,255,.08); }
+.nav .pill:hover { background: var(--t1); color: #0B0A12; border-color: var(--t1); }
+
+.marquee { background: #0B0A12; border-block: 1px solid rgba(255,255,255,.14); }
+.marquee span { color: rgba(255,255,255,.62); }
+
+/* The cubes were drawn for a light page. */
+.cube i.f { border-color: rgba(255,255,255,.34); background: rgba(255,255,255,.05); }
+
+
+/* ── the legacy palette, re-pointed for a dark ground ──────────────────────
+   --grey and --ink-2 are used ONLY as text colours (19 and 13 times, never as
+   a background or border — checked before changing them), so re-pointing them
+   fixes every legacy paragraph at once instead of chasing class names.
+
+   --ink is deliberately NOT re-pointed: it is also the contact section's
+   background, and flipping it would turn that block white.
+
+   Measured against the darkest ground the page uses, #7C2D12 rust:
+     --grey    6.5:1
+     --ink-2   8.4:1 */
+:root {
+  --grey:   rgba(255,255,255,.80);
+  --grey-2: rgba(255,255,255,.66);
+  --ink-2:  rgba(255,255,255,.90);
+  --line:   rgba(255,255,255,.22);
+  --line-2: rgba(255,255,255,.16);
+}
+
+/* --ink as TEXT inside a coloured block would be black on saturated colour.
+   Scoped so its background and border uses are untouched. */
+.sec [style*="var(--ink)"], .sec .st, .sec .found, .sec .next { color: #fff; }
+
+/* Anything still resolving to near-black text inside a block. Last resort,
+   deliberately narrow: it only catches descendants of a coloured section. */
+.sec li, .sec p, .sec b, .sec em, .sec .k, .sec .lbl, .sec .who, .sec .body, .sec .ix {
+  color: rgba(255,255,255,.86);
+}
+.sec .ix, .sec .lbl { color: var(--tint); }
+.sec h1, .sec h2, .sec h3, .sec h4, .sec strong { color: #fff; }
+
+/* The lime chip sat on white; on these grounds it keeps its own dark text. */
+.model.free, .model.free *, .pill.lime, .pill.lime * { color: #0B0D10 !important; }
+
+
+/* ── the last white panels ─────────────────────────────────────────────────
+   .proj was still #FFFFFF. With white text on it that is a ratio of exactly
+   1.00 — invisible — which is what a measured sweep catches and a glance at a
+   screenshot does not, because the card simply looks empty. */
+.proj, .sec .proj {
+  background: rgba(255,255,255,.09) !important;
+  border: 1px solid rgba(255,255,255,.20);
+}
+.proj *, .found *, .repo *, .st *, .stack * { color: inherit; }
+.proj, .found, .repo, .st { color: rgba(255,255,255,.90); }
+.proj h3, .proj h4, .found h3, .found h4, .repo h3 { color: #fff; }
+
+/* Tints are chosen against the section's own ground. Inside a translucent
+   panel the ground is lightened, so the same tint loses roughly 2 points of
+   contrast — the index numbers measured 2.85 there. On panels they go white
+   and the eyebrow keeps the colour. */
+.proj .ix, .found .ix, .repo .ix, .tile .ix, .card .ix { color: rgba(255,255,255,.82); }
+
+/* .stack sat at .66 white on a lightened panel. */
+.proj .stack, .found .stack, .repo .stack { color: rgba(255,255,255,.80); }
+
+
+/* ── panels darken, they do not lighten ────────────────────────────────────
+   The first pass made every panel a white wash. On a saturated ground that
+   works against you twice: it lightens the surface AND the panels nest, so
+   .feat inside .feats stacked two washes over plum and dropped the index
+   numbers to 2.85:1.
+
+   It also exposed a side effect of re-pointing --line: that token is a border
+   colour in most places but .feats uses it as a BACKGROUND to fake 1px grid
+   gaps, so a border value silently became a surface.
+
+   Darkening instead keeps the section's hue, deepens it, and makes every
+   nested layer better for white text rather than worse. */
+.sec .note, .sec.white .note,
+.sec .tablewrap, .sec.white .tablewrap,
+.sec .feat, .sec.white .feat,
+.sec .model, .sec.white .model,
+.sec .now, .sec.white .now,
+.sec .tile, .sec .card, .sec .repo, .sec .proj, .proj {
+  background: rgba(0,0,0,.26) !important;
+  border: 1px solid rgba(255,255,255,.18);
+}
+/* The gap-faking container gets a hairline value, not a surface value. */
+.feats, .sec .feats { background: rgba(255,255,255,.16) !important; gap: 1px; }
+
+/* Index numbers go white. They sit inside panels, where a pastel tint has
+   nothing to hold on to; the eyebrow on the open block still carries colour. */
+.sec .ix, .ix { color: rgba(255,255,255,.86) !important; }
+.sec .lbl { color: rgba(255,255,255,.80); }
+
+
+/* .st is a lime status pill and already had its own light background. My
+   blanket "white text inside a coloured section" rule caught it too, giving
+   white on #D3FF00 at 1.16:1. Anything carrying its own light fill has to
+   opt out of that rule explicitly. */
+.sec .st, .st { color: #0B0D10 !important; border-color: transparent; }
+
+
+/* ── live sites ────────────────────────────────────────────────────────────
+   Inserting a section shifts every nth-of-type below it, so the new block
+   needs its own colour AND the contact section moves from 8th to 9th. Without
+   an 8th rule this section would fall back to the original --paper, which is
+   #EFEFEF — a white block with white text on it. */
+.sec:nth-of-type(8), .sec:nth-of-type(8).white { background: var(--c2); --tint: var(--t2); }
+
+.sitegrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px; margin-top: 2.5rem; background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.16);
+}
+.sitecard {
+  display: flex; flex-direction: column; gap: .5rem; padding: 1.75rem 1.5rem;
+  background: rgba(0,0,0,.26); text-decoration: none; color: #fff;
+  transition: background .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+}
+.sitecard:hover { background: rgba(0,0,0,.10); transform: translateY(-2px); }
+.sitecard h3 { font-size: 1.5rem; letter-spacing: -.03em; color: #fff; margin: 0; }
+.sitecard p { color: rgba(255,255,255,.84); font-size: .95rem; margin: 0; }
+.sitecard .sitelink {
+  margin-top: auto; padding-top: .9rem; font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .04em; color: var(--tint); word-break: break-all;
+}
+.sitecard .sitelink::after { content: " \2197"; }
+@media (prefers-reduced-motion: reduce) { .sitecard:hover { transform: none; } }
+
 </style>
 </head>
 <body>
+<div class="spec-rail" id="specRail" aria-hidden="true"></div>
 
 <div class="page">
 
@@ -381,6 +657,7 @@
       <a href="#populace">Populace</a>
       <a href="#projects">Projects</a>
       <a href="#toolkit">Toolkit</a>
+<a href="#sites">Sites</a>
       <a href="#contact">Contact</a>
       <a href="Sankur-Kundu-Resume.pdf" download>Résumé</a>
     </div>
@@ -417,11 +694,17 @@
   <section class="sec white" style="padding-block:0">
     <div class="wrap">
       <div class="stats">
-        <div class="stat rise"><span class="v">$582B</span><span class="k">Global gig economy, 2025</span></div>
-        <div class="stat rise"><span class="v">1.57B</span><span class="k">Gig workers worldwide</span></div>
-        <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end</span></div>
-        <div class="stat rise"><span class="v">100%</span><span class="k">Free for workers, always</span></div>
+        <div class="stat rise"><span class="v">5</span><span class="k">Real bugs found in a shipped app, in 3.5 minutes</span></div>
+        <div class="stat rise"><span class="v">400</span><span class="k">API calls, zero failures, on the re-run</span></div>
+        <div class="stat rise"><span class="v">16</span><span class="k">Languages at full parity, RTL included</span></div>
+        <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end, both shipping</span></div>
       </div>
+      <p class="rise" style="margin-top:1.75rem;font-size:.95rem">
+        Every figure above is from the published
+        <a href="https://shakhtar-sankur.github.io/gigzen/test-report.html"
+           style="text-decoration:underline">Gigzen test report</a> — which also lists
+        what was <em>not</em> tested.
+      </p>
     </div>
   </section>
 
@@ -954,6 +1237,43 @@
   </section>
 
   <!-- ============ CONTACT ============ -->
+  <!-- ============ LIVE SITES ============ -->
+  <section class="sec" id="sites">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title rise">live<br>sites</h2>
+        <p class="rise">One company, two products, four properties. Each is a static page with no
+        build step and nothing fetched over the network.</p>
+      </div>
+      <div class="sitegrid">
+        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">
+          <span class="eyebrow">Company</span>
+          <h3>Gigzen</h3>
+          <p>The company, both products, and the commercial model.</p>
+          <span class="sitelink">shakhtar-sankur.github.io/gigzen</span>
+        </a>
+        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/buzz-buzz/" target="_blank" rel="noopener">
+          <span class="eyebrow">Product &middot; Android</span>
+          <h3>Buzz Buzz</h3>
+          <p>The rider app, with the APK available to download and install directly.</p>
+          <span class="sitelink">shakhtar-sankur.github.io/buzz-buzz</span>
+        </a>
+        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/populace/" target="_blank" rel="noopener">
+          <span class="eyebrow">Product &middot; Developer tool</span>
+          <h3>Populace</h3>
+          <p>A simulated population that tests an app through its real API.</p>
+          <span class="sitelink">shakhtar-sankur.github.io/populace</span>
+        </a>
+        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/gigzen/test-report.html" target="_blank" rel="noopener">
+          <span class="eyebrow">Engineering record</span>
+          <h3>Test report</h3>
+          <p>Every test run against both products — and everything that was not tested.</p>
+          <span class="sitelink">gigzen/test-report.html</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="contact" id="contact">
     <div class="wrap">
       <h2 class="sec-title rise">let's build<br>something big</h2>
@@ -986,6 +1306,22 @@
     items.forEach(function (el) { io.observe(el); });
     setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 2500);
   }
+})();
+</script>
+<script>
+(() => {
+  /* Scroll rail across the spectrum. Painted on a frame boundary only. */
+  const rail = document.getElementById("specRail");
+  if (!rail) return;
+  let ticking = false;
+  const paint = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    rail.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
+    ticking = false;
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
+  addEventListener("resize", paint, { passive: true });
+  paint();
 })();
 </script>
 </body>
