@@ -1,1485 +1,747 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sankur Kundu — Co-founder &amp; Director, Technology, Gigzen</title>
+<meta name="description" content="Sankur Kundu — co-founder and Director of Technology at Gigzen. Builds Buzz, a platform for gig workers, and Populace, a tool that fills your app with simulated people and tests it through your real API.">
+<meta name="author" content="Sankur Kundu">
+<meta name="theme-color" content="#0C0C0E">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Sankur Kundu — Co-founder &amp; Director, Technology, Gigzen">
+<meta property="og:description" content="Two products built end to end. Six real defects found in a shipped app. 7,485 API calls at 36 concurrent users, zero failures.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/avatar.jpg">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='12' fill='%230C0C0E'/><text x='24' y='33' font-family='monospace' font-size='22' font-weight='700' fill='%23D3FF00' text-anchor='middle'>sk</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  /* Single committed visual world: silver / black / acid-lime.
-     Colours are fixed regardless of the viewer's theme, like the reference. */
-  :root {
-    color-scheme: light;
-    --ink:    #000000;
-    --ink-2:  #1A1A1A;
-    --grey:   #6B6B6B;
-    --grey-2: #A8A8A8;
-    --line:   #C9C9C9;
-    --line-2: #DEDEDE;
-    --paper:  #EFEFEF;
-    --white:  #FFFFFF;
-    --lime:   #D3FF00;
-    --lime-d: #B8E000;
-
-    --grotesk: "Helvetica Now Display", "Inter Tight", -apple-system, BlinkMacSystemFont,
-               "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
-    --pad: clamp(1rem, 3.5vw, 3rem);
-  }
-
-  /* .page carries the visual world, but background only propagates to the
-     viewport from html/body — without this, overscroll shows white. */
-  html, body { margin: 0; background: var(--paper); }
-
-  .page {
-    font-family: var(--grotesk);
-    color: var(--ink);
-    background: var(--paper);
-    font-size: 16px; line-height: 1.45;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  .page *, .page *::before, .page *::after { box-sizing: border-box; }
-  table, th, td, button, input { color: inherit; }
-  a { color: inherit; text-decoration: none; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  p { margin: 0; }
-  .wrap { max-width: 1440px; margin: 0 auto; padding-inline: var(--pad); }
-
-  h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.04em; }
-  .mono { font-family: var(--mono); }
-  .num  { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-
-  /* ---------------- NAV ---------------- */
-  .nav {
-    position: fixed; inset: 0 0 auto; z-index: 60;
-    display: flex; align-items: center; gap: 1.5rem;
-    padding: 0.85rem var(--pad);
-    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.72));
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-  }
-  .mark { font-size: 2.6rem; line-height: 0.6; font-weight: 800; letter-spacing: -0.05em; }
-  .nav-links { display: none; gap: 1.75rem; margin-inline: auto; }
-  @media (min-width: 920px) { .nav-links { display: flex; } }
-  .nav-links a { font-size: 1rem; font-weight: 500; transition: opacity 0.2s; }
-  .nav-links a:hover { opacity: 0.55; }
-  .pill {
-    margin-left: auto; background: var(--lime); color: var(--ink);
-    font-weight: 700; font-size: 0.95rem; padding: 0.85rem 1.6rem; border-radius: 999px;
-    white-space: nowrap; transition: background 0.25s, transform 0.25s;
-  }
-  @media (min-width: 920px) { .pill { margin-left: 0; } }
-  .pill:hover { background: var(--lime-d); transform: translateY(-1px); }
-
-  /* ---------------- HERO ---------------- */
-  .hero {
-    position: relative; min-height: 100svh; display: flex; align-items: center;
-    overflow: hidden;
-    background:
-      radial-gradient(120% 85% at 50% -12%, #FFFFFF 0%, #F2F2F2 34%, #C4C4C4 68%, #8E8E8E 100%);
-  }
-  .hero-type {
-    position: relative; z-index: 3; width: 100%; text-align: center;
-    padding-block: 8rem 4rem; pointer-events: none;
-  }
-  .hero-type .ln {
-    display: block;
-    line-height: 0.8;
-    font-weight: 800;
-    letter-spacing: -0.055em;
-    text-transform: lowercase;
-    white-space: nowrap;
-  }
-  /* sized so both lines land on roughly the same width:
-     12 characters vs 21, so the second line runs a little under two-thirds the size. */
-  .hero-type .ln-name { font-size: clamp(2.9rem, 13vw, 12rem); }
-  .hero-type .ln-role { font-size: clamp(1.62rem, 7.3vw, 6.7rem); }
-
-  /* iridescent object, centred inside the type */
-  .object {
-    position: absolute; z-index: 2; left: 50%; top: 50%;
-    width: clamp(150px, 21vw, 290px); height: clamp(150px, 21vw, 290px);
-    transform: translate(-50%, -50%);
-    perspective: 900px; pointer-events: none;
-  }
-  .cube { position: absolute; inset: 0; transform-style: preserve-3d; animation: tumble 17s linear infinite; }
-  .cube .f {
-    position: absolute; inset: 0; opacity: 0.94;
-    background: conic-gradient(from 210deg,
-      #FF5DA2, #FFD86B, #9BFF6B, #63F0FF, #7F8CFF, #FF5DA2);
-    border: 1px solid rgba(255,255,255,0.65);
-    box-shadow: inset 0 0 40px rgba(255,255,255,0.55);
-  }
-  .cube .f:nth-child(1) { transform: translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube .f:nth-child(2) { transform: rotateY(180deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube .f:nth-child(3) { transform: rotateY(90deg)  translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube .f:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube .f:nth-child(5) { transform: rotateX(90deg)  translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube .f:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(clamp(150px,21vw,290px) / 2)); }
-  .cube.small { inset: 26% 26% 26% 26%; animation-duration: 12s; animation-direction: reverse; opacity: 0.9; }
-  @keyframes tumble {
-    from { transform: rotateX(-22deg) rotateY(0deg)   rotateZ(8deg); }
-    to   { transform: rotateX(-22deg) rotateY(360deg) rotateZ(8deg); }
-  }
-
-  .scrolldown {
-    position: absolute; left: var(--pad); bottom: 3.2rem; z-index: 4;
-    color: var(--lime-d); font-weight: 600; font-size: 0.95rem;
-  }
-  .globe { position: absolute; left: var(--pad); bottom: 1.1rem; z-index: 4; font-size: 1.35rem; }
-  .hero-tagline {
-    position: absolute; right: var(--pad); bottom: 3rem; z-index: 4;
-    max-width: 34ch; text-align: right; color: var(--ink-2);
-    font-size: clamp(0.9rem, 1.15vw, 1.05rem); line-height: 1.5;
-  }
-
-  /* ---------------- MARQUEE ---------------- */
-  .marquee {
-    background: var(--ink); color: var(--white);
-    overflow: hidden; display: flex; padding-block: 1.15rem; white-space: nowrap;
-  }
-  .mq { display: flex; gap: 3rem; padding-right: 3rem; flex: 0 0 auto; animation: slide 38s linear infinite; }
-  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-  .mq span { font-size: clamp(0.95rem, 1.5vw, 1.15rem); font-weight: 600; letter-spacing: -0.01em;
-             display: inline-flex; align-items: center; gap: 3rem; }
-  .mq span::after { content: "✳"; color: var(--lime); }
-
-  /* ---------------- SECTIONS ---------------- */
-  .sec { padding-block: clamp(4.5rem, 10vw, 9rem); background: var(--paper); }
-  .sec.white { background: var(--white); }
-  .sec-title {
-    font-size: clamp(2.6rem, 8.5vw, 7.5rem); line-height: 0.85;
-    text-transform: lowercase; letter-spacing: -0.055em; font-weight: 800;
-  }
-
-  /* ── section numerals ──
-     An index down the page, set in the mono face and in each section's own
-     tint, so the spectrum keeps doing the identifying. Generated from a
-     counter rather than typed, so reordering sections cannot leave the
-     numbering wrong. */
-  .page { counter-reset: sec; }
-  .sec[id] { counter-increment: sec; }
-  .sec[id] .sec-title::before {
-    content: counter(sec, decimal-leading-zero);
-    display: block; margin-bottom: .55em;
-    font-family: var(--mono); font-weight: 500;
-    font-size: clamp(.62rem, 1vw, .78rem); letter-spacing: .28em;
-    color: var(--tint, var(--grey)); text-transform: none;
-  }
-    .gz-mark { height: 0.68em; width: auto; display: inline-block;
-               vertical-align: -0.015em; margin-right: 0.14em; }
-
-  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem;
-              flex-wrap: wrap; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-  .sec-head p { color: var(--grey); max-width: 38ch; }
-  .eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
-             text-transform: uppercase; color: var(--grey); }
-
-  /* stats */
-  .stats { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
-  @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-  .stat { padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1rem, 2vw, 2rem);
-          border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .stat:last-child { border-right: 0; }
-  .stat .v { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800;
-             letter-spacing: -0.06em; line-height: 0.88; }
-  .stat .k { display: block; margin-top: 0.85rem; color: var(--grey); font-size: 0.9rem; }
-
-  /* work blocks */
-  .work { border-top: 1px solid var(--line); padding-block: clamp(2.25rem, 4vw, 3.5rem);
-          display: grid; gap: 2rem; }
-  @media (min-width: 980px) { .work { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; } }
-  .work:last-of-type { border-bottom: 1px solid var(--line); }
-  .work-name { font-size: clamp(2.6rem, 6.5vw, 5rem); line-height: 0.86; text-transform: lowercase;
-               letter-spacing: -0.055em; }
-  .work-kind { margin-top: 0.9rem; }
-  .work p.lede { font-size: clamp(1rem, 1.3vw, 1.2rem); color: var(--ink-2); }
-  .note { margin-top: 1.5rem; padding: 1.15rem 1.4rem; background: var(--white);
-          border-left: 4px solid var(--lime); color: var(--ink-2); font-size: 0.95rem; }
-  .sec.white .note { background: var(--paper); }
-  .note b { font-weight: 700; }
-/* The Populace run report: a wide, dark card on light paper. Below ~860px it
-     scrolls inside its own box rather than shrinking the type to nothing. */
-  .runcard { margin: 3rem 0 0; }
-  .runscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; }
-  .runcard svg { border-radius: 14px; }
-  .runcap { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; color: var(--grey);
-            max-width: 74ch; }
-  .runcap b { color: var(--ink); }
-  .note code { font-family: var(--mono); font-size: 0.85em;
-               background: rgba(0,0,0,0.07); padding: 1px 5px; border-radius: 4px; }
-  .figs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 1.75rem; }
-  @media (min-width: 560px) { .figs { grid-template-columns: repeat(4, 1fr); } }
-  .fig .v { display: block; font-size: clamp(1.5rem, 2.4vw, 2.1rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
-  .fig .k { display: block; margin-top: 0.4rem; font-family: var(--mono); font-size: 0.65rem;
-            letter-spacing: 0.13em; text-transform: uppercase; color: var(--grey); }
-
-  .tablewrap { overflow-x: auto; margin-top: 1.75rem; border: 1px solid var(--line); background: var(--white); }
-  .sec.white .tablewrap { background: var(--paper); }
-  table { border-collapse: collapse; width: 100%; min-width: 430px; font-family: var(--mono); font-size: 0.78rem; }
-  caption { text-align: left; padding: 0.7rem 1rem; border-bottom: 1px solid var(--line);
-            font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
-  th, td { padding: 0.45rem 1rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
-  th:first-child, td:first-child { text-align: left; }
-  thead th { color: var(--grey); font-weight: 400; border-bottom: 1px solid var(--line); }
-  tbody tr + tr td { border-top: 1px solid var(--line-2); }
-  td.bad { font-weight: 700; }
-  .errline td { border-top: 0; padding-top: 0; text-align: left; color: var(--grey); font-size: 0.7rem; }
-
-  /* project tiles */
-  .tiles { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  @media (min-width: 700px)  { .tiles { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1080px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
-  .tile { background: var(--white); padding: clamp(1.5rem, 2.4vw, 2rem); min-height: 245px;
-          display: flex; flex-direction: column; gap: 0.85rem; transition: background 0.3s; }
-  .tile:hover { background: var(--lime); }
-  .tile .big { font-size: clamp(1.7rem, 2.6vw, 2.15rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
-  .tile h3 { font-size: 1.05rem; font-weight: 700; }
-  .tile p { color: var(--grey); font-size: 0.9rem; line-height: 1.45; }
-  .tile:hover p { color: var(--ink-2); }
-  .tile .stack { margin-top: auto; font-family: var(--mono); font-size: 0.64rem;
-                 letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
-  .tile:hover .stack { color: var(--ink-2); }
-
-  /* experience rows */
-  .row { display: grid; gap: 0.8rem; padding-block: clamp(1.5rem, 2.8vw, 2.25rem);
-         border-top: 1px solid var(--line); }
-  @media (min-width: 880px) { .row { grid-template-columns: 1.1fr 0.75fr 1.7fr; gap: 2.5rem; align-items: start; } }
-  .row:last-child { border-bottom: 1px solid var(--line); }
-  .row-org  { font-size: clamp(1.3rem, 2.2vw, 1.85rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; }
-  .row-when { color: var(--grey); font-family: var(--mono); font-size: 0.76rem; margin-top: 0.4rem; }
-  .row-role { font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
-  .row ul { margin: 0; padding-left: 1.05rem; color: var(--ink-2); font-size: 0.94rem; }
-  .row li { margin-top: 0.45rem; }
-
-  /* kit */
-  .kit { display: grid; gap: 0.55rem; padding-block: 1.4rem; border-top: 1px solid var(--line); }
-  @media (min-width: 800px) { .kit { grid-template-columns: 14rem 1fr; gap: 3rem; align-items: baseline; } }
-  .kit:last-of-type { border-bottom: 1px solid var(--line); }
-  .kit .lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.17em; text-transform: uppercase; color: var(--grey); }
-  .kit p { color: var(--ink-2); font-size: 0.94rem; }
-
-  /* contact */
-  .contact { background: var(--ink); color: var(--white); padding-block: clamp(4.5rem, 10vw, 9rem); }
-  .contact .sec-title { color: var(--white); }
-  .contact .mail {
-    display: inline-block; margin-top: 2.25rem; font-size: clamp(1.1rem, 3.4vw, 2.6rem);
-    font-weight: 800; letter-spacing: -0.04em; color: var(--lime); word-break: break-word;
-    border-bottom: 3px solid transparent; transition: border-color 0.25s;
-  }
-  .contact .mail:hover { border-color: var(--lime); }
-  .contact .links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.5rem; }
-  .contact .links a { border: 1px solid rgba(255,255,255,0.28); border-radius: 999px;
-                      padding: 0.7rem 1.4rem; font-weight: 600; font-size: 0.92rem; transition: background 0.25s, color 0.25s, border-color 0.25s; }
-  .contact .links a:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
-  .contact footer { margin-top: 4rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.18);
-                    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-                    color: rgba(255,255,255,0.6); font-family: var(--mono); font-size: 0.72rem;
-                    letter-spacing: 0.14em; text-transform: uppercase; }
-
-
-  .contact .links a.dl { background: var(--lime); color: var(--ink); border-color: var(--lime); font-weight: 700; }
-  .contact .links a.dl:hover { background: var(--lime-d); border-color: var(--lime-d); }
-
-  /* feature grid */
-  .feats { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
-  @media (min-width: 640px)  { .feats { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1040px) { .feats { grid-template-columns: repeat(3, 1fr); } }
-  .feat { background: var(--white); padding: 1.6rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .sec.white .feat { background: var(--paper); }
-  .feat h4 { margin: 0; font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; }
-  .feat p { color: var(--grey); font-size: 0.89rem; line-height: 1.45; }
-  .feat .ix { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--grey-2); }
-
-  /* problem stat strip */
-  .probs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem 1.25rem; margin-top: 2rem; }
-  @media (min-width: 860px) { .probs { grid-template-columns: repeat(4, 1fr); } }
-  .prob .v { display: block; font-size: clamp(2rem, 3.6vw, 3.1rem); font-weight: 800; letter-spacing: -0.055em; line-height: 0.95; }
-  .prob .k { display: block; margin-top: 0.5rem; color: var(--grey); font-size: 0.86rem; line-height: 1.4; }
-
-  /* three-column model */
-  .models { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
-  @media (min-width: 900px) { .models { grid-template-columns: repeat(3, 1fr); } }
-  .model { background: var(--white); padding: 1.75rem 1.5rem; display: flex; flex-direction: column; gap: 0.65rem; }
-  .sec.white .model { background: var(--paper); }
-  .model .who { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-  .model h4 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.035em; }
-  .model ul { margin: 0.35rem 0 0; padding-left: 1rem; color: var(--ink-2); font-size: 0.89rem; }
-  .model li { margin-top: 0.32rem; }
-  .model.free, .sec.white .model.free { background: var(--lime); }
-
-  /* lede + two column */
-  .lede-big { font-size: clamp(1.15rem, 2vw, 1.7rem); line-height: 1.35; letter-spacing: -0.025em;
-              max-width: 30ch; font-weight: 700; }
-  .two-col { display: grid; gap: 2rem; }
-  @media (min-width: 900px) { .two-col { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; } }
-  .two-col p.body { color: var(--ink-2); font-size: 1rem; }
-  .two-col p.body + p.body { margin-top: 1rem; }
-
-  /* bridge block */
-  .bridge { border: 1px solid var(--ink); padding: clamp(1.5rem, 3vw, 2.5rem); margin-top: 3rem; display: grid; gap: 1rem; }
-  @media (min-width: 860px) { .bridge { grid-template-columns: 0.8fr 1.2fr; gap: 3rem; align-items: center; } }
-  .bridge h4 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em;
-               line-height: 0.95; text-transform: lowercase; }
-  .bridge p { color: var(--ink-2); font-size: 0.96rem; }
-
-
-  /* what i'm doing now */
-  .nows { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
-  @media (min-width: 860px) { .nows { grid-template-columns: repeat(3, 1fr); } }
-  .now { background: var(--white); padding: 1.9rem 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
-  .sec.white .now { background: var(--paper); }
-  .now .st { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
-             color: var(--ink); background: var(--lime); align-self: flex-start; padding: 0.28rem 0.6rem; }
-  .now h4 { margin: 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.035em; text-transform: lowercase; }
-  .now p { color: var(--grey); font-size: 0.9rem; line-height: 1.5; }
-  .now .next { margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--line);
-               font-size: 0.85rem; color: var(--ink-2); }
-  .now .next b { font-weight: 700; }
-
-
-  /* repo link */
-  .repo {
-    display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem;
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-    font-weight: 600; border: 1px solid var(--ink); padding: 0.65rem 1.15rem;
-    transition: background 0.25s, color 0.25s;
-  }
-  .repo:hover { background: var(--ink); color: var(--white); }
-  .repo::after { content: "\2197"; font-size: 1em; }
-
-  /* reveal — visible by default */
-  .js-anim .rise { opacity: 0; transform: translateY(18px); }
-  .js-anim .rise.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
-  @media (prefers-reduced-motion: reduce) {
-    .js-anim .rise, .js-anim .rise.in { opacity: 1; transform: none; transition: none; }
-    .mq { animation: none; }
-    .cube { animation: none; }
-    .tile, .pill, .contact .links a { transition: none; }
-  }
-
-  /* ---- projects ---- */
-  .projs { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.5rem; }
-  @media (min-width: 760px) { .projs { grid-template-columns: 1fr 1fr; } }
-  .proj { background: var(--white); padding: 1.9rem 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
-  .proj h4 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.035em; text-transform: lowercase; }
-  .proj p { color: var(--grey); font-size: 0.9rem; line-height: 1.5; }
-  .proj .stack { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
-                 color: var(--grey-2); text-transform: uppercase; line-height: 1.6; }
-  .proj .found { border-left: 2px solid var(--lime); padding-left: 0.85rem; font-size: 0.87rem; color: var(--ink-2); }
-  .proj .found b { font-weight: 700; }
-  .proj .repo { margin-top: auto; align-self: flex-start; }
-
-
-/* Gigzen electric indigo. Flat, not a gradient: at the 20px this renders at,
-   a gradient cannot be perceived, but it still costs one-colour printing and a
-   clean favicon. #F5F7F9 measures 7.3:1 on white; #F5F7F9 is the lifted tone for
-   near-black grounds, where the darker indigo closes up. */
-.gword { color: #F5F7F9; -webkit-text-fill-color: #F5F7F9; background: none;
-  font-weight: 700; letter-spacing: -.01em; }
-.gz-mark { color: #F5F7F9; }
-
 /* ══════════════════════════════════════════════════════════════════════════
-   SPECTRUM — the portfolio's own system
+   SANKUR KUNDU — portfolio / CV
    ══════════════════════════════════════════════════════════════════════════
-   Four properties now, and none of them may look like a variation of another:
+   Built to the Nairobi template's shape: a profile hero, skills, an experience
+   timeline, a filterable work grid, contact. Two typefaces, as that template
+   specifies — Fascinate and Jost.
 
-     gigzen.com   white paper, soft tints at the corners, calm
-     populace     near-black, mono, dot field, coloured hairlines
-     buzz    warm cream, honeycomb, orange
-     this page    FULL-BLEED SATURATED BLOCKS, one colour per section
+   Fascinate is a display face with a lot of personality and no restraint. It
+   is used in exactly two places, the name and the section numerals, and never
+   for anything anyone has to read at length. Jost carries the rest.
 
-   Colour here is not an accent on paper — it is the ground. Scrolling moves
-   you through violet, teal, plum, indigo, rust, deep blue. A personal site can
-   be louder than a company's, and this is the loudest system of the four while
-   still being the most rigorous about legibility.
-
-   Every ground is chosen to carry white text at 4.5:1 or better. That is the
-   constraint that makes saturated blocks workable at all: pick the hue first
-   and you get a page nobody can read.
+   Dark is the default and light is a real, reachable choice — the toggle
+   writes to localStorage and the preference survives a reload. Both themes
+   are held to 4.5:1 for body text; the lime is a brand colour, not a text
+   colour, so on the light theme text uses --accent-ink instead.
    ══════════════════════════════════════════════════════════════════════════ */
 
+*,*::before,*::after { box-sizing: border-box; }
+
 :root {
-  --c1:#4A1D96;  /* violet     11.0:1 with white */
-  --c2:#06544A;  /* teal        9.0:1 */
-  --c3:#7A1046;  /* plum       10.0:1 */
-  --c4:#1E2C7A;  /* indigo     12.3:1 */
-  --c5:#7C2D12;  /* rust        9.3:1 */
-  --c6:#0B4A6F;  /* deep blue   9.5:1 */
-  /* One bright tint per ground, for eyebrows and rules. Decorative or large
-     only — none of these is used for body copy. */
-  --t1:#C9B4FF; --t2:#6EE7D7; --t3:#FFA8CE; --t4:#A9BDFF; --t5:#FFB894; --t6:#7FD3F5;
+  --bg:        #0C0C0E;
+  --surface:   #141417;
+  --surface-2: #1B1B20;
+  --text:      #F2F2F3;
+  --muted:     #A3A3AC;
+  --line:      rgba(255,255,255,.13);
+  --line-2:    rgba(255,255,255,.07);
+  /* Lime reads as itself on near-black and needs no darkened variant here. */
+  --accent:     #D3FF00;
+  --accent-ink: #D3FF00;
+  --accent-soft: rgba(211,255,0,.13);
+  --shadow: 0 24px 60px -30px rgba(0,0,0,.85);
+
+  --display: "Fascinate", ui-serif, Georgia, serif;
+  --sans: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
+  --wrap: 1140px;
+  --r: 18px;
 }
 
-/* ── the blocks ────────────────────────────────────────────────────────── */
-.sec, .sec.white { color: #fff; position: relative; isolation: isolate; }
-.sec:nth-of-type(1), .sec:nth-of-type(1).white { background: var(--c1); --tint: var(--t1); }
-.sec:nth-of-type(2), .sec:nth-of-type(2).white { background: var(--c2); --tint: var(--t2); }
-.sec:nth-of-type(3), .sec:nth-of-type(3).white { background: var(--c3); --tint: var(--t3); }
-.sec:nth-of-type(4), .sec:nth-of-type(4).white { background: var(--c4); --tint: var(--t4); }
-.sec:nth-of-type(5), .sec:nth-of-type(5).white { background: var(--c5); --tint: var(--t5); }
-.sec:nth-of-type(6), .sec:nth-of-type(6).white { background: var(--c6); --tint: var(--t6); }
-.sec:nth-of-type(7), .sec:nth-of-type(7).white { background: var(--c1); --tint: var(--t1); }
-.contact { --tint: var(--t2); }
-
-/* Grain. A flat saturated field looks like plastic; a little noise gives it
-   surface. Generated inline so the page fetches nothing. */
-.sec::before, .contact::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+:root[data-theme="light"] {
+  --bg:        #F4F4F2;
+  --surface:   #FFFFFF;
+  --surface-2: #EFEFEC;
+  --text:      #101012;
+  --muted:     #55555F;
+  --line:      rgba(0,0,0,.14);
+  --line-2:    rgba(0,0,0,.07);
+  /* #D3FF00 on white is 1.16:1. Fine as a fill behind something, useless as
+     text — so text takes the darkened tone and the fill keeps the brand. */
+  --accent:     #D3FF00;
+  --accent-ink: #55660A;
+  --accent-soft: rgba(211,255,0,.34);
+  --shadow: 0 22px 50px -32px rgba(0,0,0,.35);
 }
 
-/* ── type on colour ────────────────────────────────────────────────────── */
-.sec-title, .contact .sec-title { color: #fff; }
-.sec-head p, .work p.lede, .two-col p.body, .stat .k, p { color: rgba(255,255,255,.86); }
-.eyebrow { color: var(--tint); }
-.lede-big { color: #fff; }
-.stat .v { color: #fff; }
-.stat { border-right-color: rgba(255,255,255,.22); border-bottom-color: rgba(255,255,255,.22); }
-a { color: #fff; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-/* ── panels ────────────────────────────────────────────────────────────────
-   Everything that used to be a light card is now a translucent pane over the
-   block, so the section colour reads through instead of being interrupted. */
-.sec .note, .sec.white .note,
-.sec .tablewrap, .sec.white .tablewrap,
-.sec .feat, .sec.white .feat,
-.sec .model, .sec.white .model,
-.sec .now, .sec.white .now,
-.tile, .card, .repo {
-  background: rgba(255,255,255,.09) !important;
-  border: 1px solid rgba(255,255,255,.20);
-  color: #fff;
-}
-.model.free, .sec.white .model.free {
-  background: var(--tint) !important; color: #0B0D10 !important; border-color: transparent;
-}
-.model.free * { color: #0B0D10 !important; }
-table, th, td { border-color: rgba(255,255,255,.22) !important; color: #fff; }
-th { color: var(--tint) !important; }
-tbody tr + tr td { border-top-color: rgba(255,255,255,.18) !important; }
-code, .pill { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.24); }
-
-/* Lime was the single accent of the old monochrome design. It survives only
-   where it sits on ink; on these grounds it is replaced by the section tint. */
-.contact .links a:hover { background: var(--tint); color: #0B0D10; border-color: var(--tint); }
-.contact .links a.dl { background: var(--tint); color: #0B0D10; border-color: var(--tint); }
-.contact .links a.dl:hover { filter: brightness(1.1); }
-.contact .mail:hover { border-color: var(--tint); }
-/* ── the company mark keeps the company's colour ───────────────────────────
-   The redesign had the mark take each section's tint and the wordmark go
-   white, which meant the Gigzen identity changed colour four times down the
-   page and matched none of the other properties. An identity that follows the
-   local palette is decoration, not an identity.
-
-   So it uses the established pair: #F5F7F9 on light grounds, #F5F7F9 on dark.
-   Exactly what the Populace site already does, and the reason that lifted tone
-   exists — #F5F7F9 on these saturated blocks is dark-on-dark. Measured against
-   every block here, #F5F7F9 lands between 2.8:1 and 3.9:1, which reads clearly
-   as a mark. */
-.sec .gz-mark, .contact .gz-mark { color: #F5F7F9 !important; }
-.sec .gword, .contact .gword {
-  color: #F5F7F9 !important; -webkit-text-fill-color: #F5F7F9 !important;
-  background: none !important;
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--sans); font-size: 17px; line-height: 1.62;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color .3s ease, color .3s ease;
 }
 
-/* ── kinetic type ──────────────────────────────────────────────────────────
-   The section title arrives one line at a time rather than as a block. */
-.sec-title { position: relative; }
-.js-anim .rise .sec-title, .js-anim .sec-title.rise { will-change: transform, opacity; }
-
-/* ── the rail ──────────────────────────────────────────────────────────── */
-.spec-rail { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 90;
-             background: linear-gradient(90deg, var(--t1), var(--t2), var(--t3), var(--t4), var(--t5), var(--t6)); }
-
-/* ── the block edge ────────────────────────────────────────────────────────
-   A hairline of the NEXT section's tint at each boundary, so the transition
-   is a deliberate seam rather than two colours colliding. */
-.sec + .sec::after, .sec + .contact::after {
-  content: ""; position: absolute; inset-inline: 0; top: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--tint), transparent); opacity: .8;
-}
-
-@media (prefers-reduced-motion: reduce) { .spec-rail { transition: none; } }
-
-
-/* ── carrying the system to the top ────────────────────────────────────────
-   The first pass coloured the sections and left the nav, hero and marquee on
-   the old #EFEFEF paper — with a global `a { color:#fff }` over them, which
-   put white links on a near-white ground at 1.15:1. Scoping the link rule
-   would have hidden that, not fixed it: a page of saturated blocks with a
-   paper header is two designs stapled together.
-
-   So the ground goes dark everywhere and the hero becomes the first block. */
-html, body, .page { background: #0B0A12; }
-
-.hero {
-  position: relative; isolation: isolate;
-  background: radial-gradient(120% 90% at 15% 0%, #5A24B8 0%, #2E1173 42%, #0B0A12 100%);
-  color: #fff;
-}
-.hero::after {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n2)'/%3E%3C/svg%3E");
-}
-.hero-type, .hero .ln { color: #fff; }
-.hero .ln-role { color: var(--t1); }
-.hero-tagline { color: rgba(255,255,255,.88); }
-.scrolldown { color: rgba(255,255,255,.66); }
-
-/* The link colour is scoped rather than global, so a link on a pale panel
-   later cannot inherit white by accident. */
+h1,h2,h3,h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: -.03em; }
+p { margin: 0; }
 a { color: inherit; }
-.sec a, .contact a, .nav a, .hero a, .marquee a { color: #fff; }
+img { display: block; max-width: 100%; }
+ul { margin: 0; padding: 0; list-style: none; }
 
-.nav { background: transparent; }
-.nav a { color: rgba(255,255,255,.82); }
-.nav a:hover { color: #fff; }
-.nav .mark { color: var(--t1); }
-.nav .pill { border-color: rgba(255,255,255,.30); color: #fff; background: rgba(255,255,255,.08); }
-.nav .pill:hover { background: var(--t1); color: #0B0A12; border-color: var(--t1); }
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 22px; }
+section { padding-block: clamp(64px, 9vw, 118px); position: relative; }
 
-.marquee { background: #0B0A12; border-block: 1px solid rgba(255,255,255,.14); }
-.marquee span { color: rgba(255,255,255,.62); }
+/* ── section heads, with the numeral index ───────────────────────────────── */
+body { counter-reset: sec; }
+section[id] { counter-increment: sec; }
+.sec-head { margin-bottom: clamp(30px, 4.4vw, 54px); }
+.sec-head .eyebrow {
+  display: inline-flex; align-items: baseline; gap: 12px;
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+}
+section[id] .sec-head .eyebrow::before {
+  content: counter(sec, decimal-leading-zero);
+  font-family: var(--display); font-size: 17px; letter-spacing: 0;
+  color: var(--accent-ink); position: relative; top: 2px;
+}
+.sec-head h2 { margin-top: 14px; font-size: clamp(31px, 5vw, 54px); }
+.sec-head p { margin-top: 14px; color: var(--muted); max-width: 60ch; }
 
-/* The cubes were drawn for a light page. */
-.cube i.f { border-color: rgba(255,255,255,.34); background: rgba(255,255,255,.05); }
+/* ── nav ─────────────────────────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 80;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid transparent; transition: border-color .3s;
+}
+nav.stuck { border-bottom-color: var(--line); }
+nav .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+.brand {
+  font-family: var(--display); font-size: 21px; letter-spacing: .01em;
+  text-decoration: none; color: var(--text); margin-right: auto;
+}
+.brand span { color: var(--accent-ink); }
+.navlinks { display: flex; gap: 26px; }
+.navlinks a {
+  font-size: 14.5px; color: var(--muted); text-decoration: none;
+  padding: 4px 0; position: relative; transition: color .2s;
+}
+.navlinks a::after {
+  content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+  background: var(--accent); transition: right .25s cubic-bezier(.22,.61,.36,1);
+}
+.navlinks a:hover, .navlinks a:focus-visible { color: var(--text); }
+.navlinks a:hover::after, .navlinks a:focus-visible::after { right: 0; }
+@media (max-width: 820px) { .navlinks { display: none; } }
 
+.themetoggle {
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); color: var(--text);
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.themetoggle:hover { border-color: var(--accent); transform: rotate(-18deg); }
+.themetoggle svg { width: 18px; height: 18px; }
+:root[data-theme="light"] .themetoggle .moon { display: none; }
+:root:not([data-theme="light"]) .themetoggle .sun { display: none; }
 
-/* ── the legacy palette, re-pointed for a dark ground ──────────────────────
-   --grey and --ink-2 are used ONLY as text colours (19 and 13 times, never as
-   a background or border — checked before changing them), so re-pointing them
-   fixes every legacy paragraph at once instead of chasing class names.
+/* ── buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; justify-content: center;
+  padding: 13px 24px; border-radius: 999px; font-size: 15px; font-weight: 500;
+  text-decoration: none; cursor: pointer; border: 1px solid transparent;
+  transition: transform .2s cubic-bezier(.22,.61,.36,1), background .2s, border-color .2s, color .2s;
+}
+.btn svg { width: 17px; height: 17px; }
+.btn-primary { background: var(--accent); color: #11130A; font-weight: 600; }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { border-color: var(--line); color: var(--text); background: transparent; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
 
-   --ink is deliberately NOT re-pointed: it is also the contact section's
-   background, and flipping it would turn that block white.
+/* ── hero ────────────────────────────────────────────────────────────────── */
+.hero { padding-block: clamp(46px, 7vw, 88px) clamp(48px, 7vw, 92px); }
+.hero-grid {
+  display: grid; gap: clamp(30px, 5vw, 64px);
+  grid-template-columns: minmax(0,1fr) minmax(0,.78fr); align-items: center;
+}
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
 
-   Measured against the darkest ground the page uses, #7C2D12 rust:
-     --grey    6.5:1
-     --ink-2   8.4:1 */
-:root {
-  --grey:   rgba(255,255,255,.80);
-  --grey-2: rgba(255,255,255,.66);
-  --ink-2:  rgba(255,255,255,.90);
-  --line:   rgba(255,255,255,.22);
-  --line-2: rgba(255,255,255,.16);
+.hello {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px;
+}
+.hello s { width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+           text-decoration: none; flex: none; }
+
+.hero h1 {
+  margin-top: 22px; font-family: var(--display); font-weight: 400;
+  font-size: clamp(44px, 8.4vw, 92px); line-height: 1.02; letter-spacing: -.01em;
+}
+.hero h1 em { font-style: normal; color: var(--accent-ink); }
+.hero .role {
+  margin-top: 16px; font-size: clamp(18px, 2.2vw, 23px); font-weight: 500;
+  color: var(--text); letter-spacing: -.01em;
+}
+.hero .blurb { margin-top: 16px; color: var(--muted); max-width: 52ch; }
+.hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+.portrait { position: relative; justify-self: center; }
+.portrait img {
+  width: clamp(210px, 30vw, 320px); aspect-ratio: 1; object-fit: cover;
+  border-radius: 50%; border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+/* A ring that traces the portrait, cut so it reads as a mark rather than a
+   border. Decorative only. */
+.portrait::before {
+  content: ""; position: absolute; inset: -14px; border-radius: 50%;
+  border: 1px dashed var(--line); animation: spin 34s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .portrait::before { animation: none; } }
+
+/* ── stats ───────────────────────────────────────────────────────────────── */
+.stats {
+  margin-top: clamp(44px, 6vw, 74px);
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+  background: var(--surface);
+}
+@media (min-width: 860px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { padding: clamp(20px, 3vw, 30px); border-right: 1px solid var(--line-2);
+        border-bottom: 1px solid var(--line-2); }
+.stat b { display: block; font-size: clamp(30px, 4.4vw, 46px); font-weight: 600;
+          letter-spacing: -.045em; line-height: 1; color: var(--accent-ink); }
+.stat span { display: block; margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+
+/* ── cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); padding: clamp(20px, 2.6vw, 28px);
+  transition: border-color .25s, transform .25s cubic-bezier(.22,.61,.36,1);
+}
+.card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); transform: translateY(-3px); }
+@media (prefers-reduced-motion: reduce) { .card:hover { transform: none; } }
+.card h3 { font-size: 19px; }
+.card p { margin-top: 10px; color: var(--muted); font-size: 15.5px; }
+
+.grid-3 { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* ── skills ──────────────────────────────────────────────────────────────── */
+.skill-head { display: flex; align-items: center; gap: 11px; }
+.skill-head svg { width: 19px; height: 19px; color: var(--accent-ink); flex: none; }
+.chips { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-size: 13px; font-family: var(--mono); letter-spacing: .01em;
+  padding: 6px 11px; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid var(--line-2); color: var(--text);
 }
 
-/* --ink as TEXT inside a coloured block would be black on saturated colour.
-   Scoped so its background and border uses are untouched. */
-.sec [style*="var(--ink)"], .sec .st, .sec .found, .sec .next { color: #fff; }
-
-/* Anything still resolving to near-black text inside a block. Last resort,
-   deliberately narrow: it only catches descendants of a coloured section. */
-.sec li, .sec p, .sec b, .sec em, .sec .k, .sec .lbl, .sec .who, .sec .body, .sec .ix {
-  color: rgba(255,255,255,.86);
+/* ── experience timeline ─────────────────────────────────────────────────── */
+.tl { position: relative; padding-left: 30px; }
+.tl::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px;
+              width: 1px; background: var(--line); }
+.tl-item { position: relative; padding-bottom: 34px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: ""; position: absolute; left: -30px; top: 7px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--accent);
 }
-.sec .ix, .sec .lbl { color: var(--tint); }
-.sec h1, .sec h2, .sec h3, .sec h4, .sec strong { color: #fff; }
+.tl-when { font-family: var(--mono); font-size: 12px; letter-spacing: .12em;
+           text-transform: uppercase; color: var(--accent-ink); }
+.tl-item h3 { margin-top: 8px; font-size: 21px; }
+.tl-where { margin-top: 3px; color: var(--muted); font-size: 15px; }
+.tl-item p { margin-top: 11px; color: var(--muted); }
+.tl-item ul { margin-top: 12px; display: grid; gap: 7px; }
+.tl-item li { position: relative; padding-left: 17px; color: var(--muted); font-size: 15.5px; }
+.tl-item li::before { content: ""; position: absolute; left: 0; top: .62em;
+                      width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
-/* The lime chip sat on white; on these grounds it keeps its own dark text. */
-.model.free, .model.free *, .pill.lime, .pill.lime * { color: #0B0D10 !important; }
-
-
-/* ── the last white panels ─────────────────────────────────────────────────
-   .proj was still #FFFFFF. With white text on it that is a ratio of exactly
-   1.00 — invisible — which is what a measured sweep catches and a glance at a
-   screenshot does not, because the card simply looks empty. */
-.proj, .sec .proj {
-  background: rgba(255,255,255,.09) !important;
-  border: 1px solid rgba(255,255,255,.20);
+/* ── work grid + filters ─────────────────────────────────────────────────── */
+.filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 26px; }
+.filter {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); color: var(--muted);
+  transition: color .2s, border-color .2s, background .2s;
 }
-.proj *, .found *, .repo *, .st *, .stack * { color: inherit; }
-.proj, .found, .repo, .st { color: rgba(255,255,255,.90); }
-.proj h3, .proj h4, .found h3, .found h4, .repo h3 { color: #fff; }
+.filter:hover { color: var(--text); border-color: var(--accent); }
+.filter[aria-pressed="true"] { background: var(--accent); border-color: var(--accent);
+                               color: #11130A; font-weight: 600; }
+.work-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+.work { display: flex; flex-direction: column; text-decoration: none; }
+.work-tag { font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+            text-transform: uppercase; color: var(--accent-ink); }
+.work h3 { margin-top: 11px; font-size: clamp(21px, 2.5vw, 26px); }
+.work p { margin-top: 11px; color: var(--muted); font-size: 15.5px; flex: 1; }
+.work .go { margin-top: 17px; display: inline-flex; align-items: center; gap: 8px;
+            font-size: 14.5px; font-weight: 500; color: var(--text); }
+.work .go svg { width: 15px; height: 15px; transition: transform .22s; }
+.work:hover .go svg { transform: translateX(4px); }
+.work[hidden] { display: none; }
 
-/* Tints are chosen against the section's own ground. Inside a translucent
-   panel the ground is lightened, so the same tint loses roughly 2 points of
-   contrast — the index numbers measured 2.85 there. On panels they go white
-   and the eyebrow keeps the colour. */
-.proj .ix, .found .ix, .repo .ix, .tile .ix, .card .ix { color: rgba(255,255,255,.82); }
-
-/* .stack sat at .66 white on a lightened panel. */
-.proj .stack, .found .stack, .repo .stack { color: rgba(255,255,255,.80); }
-
-
-/* ── panels darken, they do not lighten ────────────────────────────────────
-   The first pass made every panel a white wash. On a saturated ground that
-   works against you twice: it lightens the surface AND the panels nest, so
-   .feat inside .feats stacked two washes over plum and dropped the index
-   numbers to 2.85:1.
-
-   It also exposed a side effect of re-pointing --line: that token is a border
-   colour in most places but .feats uses it as a BACKGROUND to fake 1px grid
-   gaps, so a border value silently became a surface.
-
-   Darkening instead keeps the section's hue, deepens it, and makes every
-   nested layer better for white text rather than worse. */
-.sec .note, .sec.white .note,
-.sec .tablewrap, .sec.white .tablewrap,
-.sec .feat, .sec.white .feat,
-.sec .model, .sec.white .model,
-.sec .now, .sec.white .now,
-.sec .tile, .sec .card, .sec .repo, .sec .proj, .proj {
-  background: rgba(0,0,0,.26) !important;
-  border: 1px solid rgba(255,255,255,.18);
+/* ── contact ─────────────────────────────────────────────────────────────── */
+.contact-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: clamp(28px, 5vw, 56px); text-align: center;
 }
-/* The gap-faking container gets a hairline value, not a surface value. */
-.feats, .sec .feats { background: rgba(255,255,255,.16) !important; gap: 1px; }
+.contact-card h2 { font-size: clamp(29px, 5vw, 50px); }
+.contact-card p { margin: 15px auto 0; color: var(--muted); max-width: 46ch; }
+.contact-cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.contact-mail { margin-top: 22px; font-family: var(--mono); font-size: 15px; }
+.contact-mail a { color: var(--accent-ink); text-underline-offset: 4px; }
 
-/* Index numbers go white. They sit inside panels, where a pastel tint has
-   nothing to hold on to; the eyebrow on the open block still carries colour. */
-.sec .ix, .ix { color: rgba(255,255,255,.86) !important; }
-.sec .lbl { color: rgba(255,255,255,.80); }
+footer { border-top: 1px solid var(--line); padding-block: 30px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+               justify-content: space-between; font-size: 14px; color: var(--muted); }
 
+/* ── reveal ──────────────────────────────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(18px);
+      transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
 
-/* .st is a lime status pill and already had its own light background. My
-   blanket "white text inside a coloured section" rule caught it too, giving
-   white on #D3FF00 at 1.16:1. Anything carrying its own light fill has to
-   opt out of that rule explicitly. */
-.sec .st, .st { color: #0B0D10 !important; border-color: transparent; }
-
-
-/* ── live sites ────────────────────────────────────────────────────────────
-   Inserting a section shifts every nth-of-type below it, so the new block
-   needs its own colour AND the contact section moves from 8th to 9th. Without
-   an 8th rule this section would fall back to the original --paper, which is
-   #EFEFEF — a white block with white text on it. */
-.sec:nth-of-type(8), .sec:nth-of-type(8).white { background: var(--c2); --tint: var(--t2); }
-
-.sitegrid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1px; margin-top: 2.5rem; background: rgba(255,255,255,.16);
-  border: 1px solid rgba(255,255,255,.16);
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px;
 }
-.sitecard {
-  display: flex; flex-direction: column; gap: .5rem; padding: 1.75rem 1.5rem;
-  background: rgba(0,0,0,.26); text-decoration: none; color: #fff;
-  transition: background .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+.skip {
+  position: absolute; left: -9999px; top: 8px; z-index: 200;
+  background: var(--accent); color: #11130A; padding: 10px 16px; border-radius: 8px;
 }
-.sitecard:hover { background: rgba(0,0,0,.10); transform: translateY(-2px); }
-.sitecard h3 { font-size: 1.5rem; letter-spacing: -.03em; color: #fff; margin: 0; }
-.sitecard p { color: rgba(255,255,255,.84); font-size: .95rem; margin: 0; }
-.sitecard .sitelink {
-  margin-top: auto; padding-top: .9rem; font-family: var(--mono); font-size: .74rem;
-  letter-spacing: .04em; color: var(--tint); word-break: break-all;
-}
-.sitecard .sitelink::after { content: " \2197"; }
-@media (prefers-reduced-motion: reduce) { .sitecard:hover { transform: none; } }
-
-
-/* ── two runs ──────────────────────────────────────────────────────────────
-   Deliberately two panels, not one. The pair is the argument: a tool that
-   catches nothing proves nothing, and a clean run from an untested harness
-   proves nothing either. Colour-coded so the distinction survives skimming —
-   amber for the run that found faults, green for the run that did not. */
-.tworuns {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1px; margin-top: 2.75rem;
-  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.16);
-}
-.run { background: rgba(0,0,0,.30); padding: 1.9rem 1.7rem; position: relative; }
-.run::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 3px; }
-.run-a::before { background: #F5A524; }
-.run-b::before { background: #4ADE80; }
-.runtag {
-  font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
-  display: block; margin-bottom: .7rem;
-}
-.run-a .runtag { color: #F5A524; }
-.run-b .runtag { color: #4ADE80; }
-.run h3 { font-size: 1.55rem; letter-spacing: -.03em; color: #fff; margin: 0 0 .5rem; }
-.runlead { font-size: 1.05rem; font-weight: 650; color: #fff !important; margin-bottom: .8rem; }
-.run p { color: rgba(255,255,255,.86); font-size: .95rem; }
-.runlist { margin: 1.1rem 0 0; padding: 0; list-style: none; }
-.runlist li {
-  padding: .5rem 0; border-top: 1px solid rgba(255,255,255,.14);
-  font-size: .92rem; color: rgba(255,255,255,.86);
-}
-.runlist li b { color: #fff; font-variant-numeric: tabular-nums; }
-.runwhy {
-  margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid rgba(255,255,255,.18);
-  font-size: .93rem;
-}
-.runwhy b { color: #fff; }
-.runnote {
-  margin-top: 1.5rem; font-size: .95rem; max-width: 68ch;
-  color: rgba(255,255,255,.86) !important;
-}
-.runnote a { color: #fff; text-decoration: underline; }
-
-
-/* Section titles are set lowercase by .sec-title — that is the page's voice —
-   but the company name is a proper noun and a wordmark, so it opts out.
-   Capitals also need positive tracking; the negative value inherited from the
-   display face jams them together. */
-.sec-title .gword { text-transform: uppercase; letter-spacing: .01em; }
-
-
-/* ── the nav mark ──────────────────────────────────────────────────────────
-   This was a ✳ glyph, which is very close to Anthropic's Claude mark — not a
-   thing to carry as personal branding on your own portfolio. It is now the
-   GitHub profile photo, so the face here and the face on the repositories are
-   literally the same file.
-
-   Served from the repo rather than hotlinked from github.com: hotlinking makes
-   the page depend on their CDN and on a URL format that is not a public
-   contract, and it hands every visitor's IP to a third party for no reason.
-
-   width/height are on the element so the row cannot shift as it loads. */
-.nav .mark {
-  /* 48px, not 34. The row's content box is already 50px tall because the
-     GitHub pill is 49 — so the avatar can grow by 40% and sit level with it
-     without the nav getting any taller. Below 920px the row is tighter, so it
-     steps down rather than pushing the header open. */
-  display: block; width: 48px; height: 48px; flex: none;
-  border-radius: 50%; overflow: hidden; padding: 0;
-  border: 1.5px solid rgba(255,255,255,.34);
-  transition: border-color .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
-}
-/* The source is 652x757 portrait. A square crop takes the middle band, which
-   would centre on the chin rather than the face — the head sits at roughly 40%
-   of the height, so the crop is biased upward to match. */
-.nav .mark img {
-  width: 100%; height: 100%; display: block;
-  object-fit: cover; object-position: 50% 38%;
-}
-.nav .mark:hover { border-color: #F5F7F9; transform: scale(1.06); }
-@media (max-width: 919px) { .nav .mark { width: 40px; height: 40px; } }
-@media (prefers-reduced-motion: reduce) { .nav .mark:hover { transform: none; } }
-
+.skip:focus { left: 16px; }
 </style>
 </head>
 <body>
-<div class="spec-rail" id="specRail" aria-hidden="true"></div>
 
-<div class="page">
+<a class="skip" href="#main">Skip to content</a>
 
-  <!-- ============ NAV ============ -->
-  <nav class="nav">
-    <a class="mark" href="#top" aria-label="Sankur Kundu — top of page"><img src="avatar.jpg" width="652" height="757" alt="" decoding="async" fetchpriority="high"></a>
-    <div class="nav-links">
-      <a href="#gigzen">Company</a>
-      <a href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">Gigzen site</a>
-      <a href="#now">Now</a>
-      <a href="#buzzbuzz">Buzz</a>
-      <a href="#populace">Populace</a>
-      <a href="#projects">Projects</a>
-      <a href="#toolkit">Toolkit</a>
-<a href="#sites">Sites</a>
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">sk<span>.</span></a>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
       <a href="#contact">Contact</a>
-      <a href="Sankur-Kundu-Resume.pdf" download>Résumé</a>
     </div>
-    <a class="pill" href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">GitHub</a>
-  </nav>
+    <button class="themetoggle" id="themetoggle" type="button"
+            aria-label="Switch to light theme" title="Switch theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/>
+      </svg>
+    </button>
+  </div>
+</nav>
 
-  <!-- ============ HERO ============ -->
-  <header class="hero">
-    <div class="object" aria-hidden="true">
-      <div class="cube"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
-      <div class="cube small"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+<main id="main">
+
+  <!-- ══════════ hero ══════════ -->
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="hello rv"><s></s>Bhubaneswar, Odisha &middot; India</span>
+          <h1 class="rv">Sankur<br>Kundu<em>.</em></h1>
+          <p class="role rv">Co-founder &amp; Director, Technology &mdash; Gigzen</p>
+          <p class="blurb rv">I build for the 1.57&nbsp;billion people who work the gig economy.
+            Two products, end to end: <strong>Buzz</strong>, a platform for drivers and riders,
+            and <strong>Populace</strong>, the testing tool I wrote because a social app with
+            nobody in it tells you nothing.</p>
+          <div class="hero-cta rv">
+            <a class="btn btn-primary" href="mailto:sankur.kundu.tw@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+                <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6 9 6.5L21 6"/>
+              </svg>Get in touch</a>
+            <a class="btn btn-ghost" href="Sankur-Kundu-Resume.pdf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3v12"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 20h16"/>
+              </svg>Résumé</a>
+            <a class="btn btn-ghost" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8"/>
+              </svg>GitHub</a>
+          </div>
+        </div>
+        <div class="portrait rv">
+          <img src="avatar.jpg" width="320" height="320"
+               alt="Sankur Kundu" loading="eager" decoding="async">
+        </div>
+      </div>
+
+      <div class="stats rv">
+        <div class="stat"><b>6</b><span>Real defects found in a shipped app that had already passed manual testing</span></div>
+        <div class="stat"><b>7,485</b><span>API calls at 36 concurrent users, zero failures</span></div>
+        <div class="stat"><b>16</b><span>Languages at full parity, right-to-left included</span></div>
+        <div class="stat"><b>2</b><span>Products built end to end, both shipping</span></div>
+      </div>
     </div>
-
-    <h1 class="hero-type">
-      <span class="ln ln-name">sankur kundu</span>
-      <span class="ln ln-role">co-founder. engineer.</span>
-    </h1>
-
-    <p class="hero-tagline">
-      Co-founder and Director of Technology at Gigzen. Two products, built end to end,
-      for the 1.57 billion people who work the gig economy.
-    </p>
-    <span class="scrolldown">Scroll down</span>
-    <span class="globe" aria-hidden="true">🌍</span>
   </header>
 
-  <!-- ============ MARQUEE ============ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="mq"><span>Python</span><span>PyTorch</span><span>Kubernetes</span><span>BigQuery</span><span>FastAPI</span><span>Supabase</span><span>TypeScript</span><span>Terraform</span><span>Vertex AI</span><span>TensorRT</span></div>
-    <div class="mq"><span>Python</span><span>PyTorch</span><span>Kubernetes</span><span>BigQuery</span><span>FastAPI</span><span>Supabase</span><span>TypeScript</span><span>Terraform</span><span>Vertex AI</span><span>TensorRT</span></div>
-  </div>
-
-  <!-- ============ STATS ============ -->
-  <section class="sec white" style="padding-block:0">
+  <!-- ══════════ about ══════════ -->
+  <section id="about">
     <div class="wrap">
-      <div class="stats">
-        <div class="stat rise"><span class="v">6</span><span class="k">Real bugs found in a shipped app that had passed manual testing</span></div>
-        <div class="stat rise"><span class="v">7,485</span><span class="k">API calls, zero failures, 36 concurrent users</span></div>
-        <div class="stat rise"><span class="v">16</span><span class="k">Languages at full parity, RTL included</span></div>
-        <div class="stat rise"><span class="v">2</span><span class="k">Products built end to end, both shipping</span></div>
+      <div class="sec-head rv">
+        <span class="eyebrow">About</span>
+        <h2>One company, two products, one thesis.</h2>
+        <p>The people who move the world's goods have no platform of their own.</p>
       </div>
-      <!-- Two runs, two different claims. Collapsing them into one number
-           ("400 calls, 0 failures") throws away the more interesting half. -->
-      <div class="tworuns">
-        <div class="run rise run-a">
-          <span class="runtag">Run one &middot; 9 Aug 2026</span>
-          <h3>The tool proved itself</h3>
-          <p class="runlead">It found six real defects in a finished app.</p>
-          <p>Buzz was built, signed, and had already passed a full manual test of every
-          screen by the person who wrote it. Six simulated riders signed up and used it through
-          the real API. Nobody told Populace where to look.</p>
-          <ul class="runlist">
-            <li><b>3 min 30 s</b> to find the first five</li>
-            <li><b>1 defect</b> stopped account creation entirely</li>
-            <li><b>3 of 6</b> were the same root cause in different clothes</li>
-            <li><b>2 of 6</b> were in the testing tool itself, and were kept in the report</li>
-            <li><b>The sixth</b> appeared on the sign-off run — the one meant to confirm
-                there was nothing left to find</li>
+      <div class="grid-3">
+        <div class="card rv">
+          <h3>The problem</h3>
+          <p>A Swiggy rider, an Uber driver and an Amazon Flex courier are often the same person —
+             but no platform connects those identities. More than half of gig workers operate
+             across several platforms at once, and each one sees only its own slice.</p>
+        </div>
+        <div class="card rv">
+          <h3>Why it compounds</h3>
+          <p>Without a single verifiable work history, banks read gig workers as unemployed and
+             refuse them credit. The fragmentation is not an inconvenience; it is the thing
+             keeping people out of the financial system.</p>
+        </div>
+        <div class="card rv">
+          <h3>What I do about it</h3>
+          <p>I co-founded Gigzen in 2026 and build its software: the rider platform, the backend
+             it runs on, the testing tool that proves it works, and the record of every test that
+             was run — including the ones that failed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ skills ══════════ -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Skills</span>
+        <h2>How I build.</h2>
+        <p>Chosen for what the problem needs, not for what is fashionable.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card rv">
+          <div class="skill-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/>
+            </svg>
+            <h3>Languages</h3>
+          </div>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">TypeScript</span>
+            <span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span>
+          </div>
+        </div>
+        <div class="card rv">
+          <div class="skill-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+            </svg>
+            <h3>Machine learning</h3>
+          </div>
+          <div class="chips">
+            <span class="chip">Production pipelines</span><span class="chip">LSTM</span>
+            <span class="chip">BERT</span><span class="chip">DDPM</span>
+            <span class="chip">Knowledge distillation</span><span class="chip">Pruning</span>
+            <span class="chip">int8 quantization</span><span class="chip">ONNX</span>
+            <span class="chip">Anomaly detection</span><span class="chip">LLM agents</span>
+          </div>
+        </div>
+        <div class="card rv">
+          <div class="skill-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2.5" y="3.5" width="19" height="6" rx="2"/>
+              <rect x="2.5" y="14.5" width="19" height="6" rx="2"/>
+              <path d="M6.5 6.5h.01M6.5 17.5h.01"/>
+            </svg>
+            <h3>Systems &amp; cloud</h3>
+          </div>
+          <div class="chips">
+            <span class="chip">System design</span><span class="chip">GCP</span>
+            <span class="chip">AWS</span><span class="chip">FastAPI</span>
+            <span class="chip">React</span><span class="chip">Capacitor</span>
+            <span class="chip">Postgres + RLS</span><span class="chip">Redis</span>
+            <span class="chip">Docker</span><span class="chip">Kubernetes</span>
+            <span class="chip">Terraform</span><span class="chip">CI/CD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ experience ══════════ -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Experience</span>
+        <h2>Where I have been.</h2>
+      </div>
+      <div class="tl">
+        <div class="tl-item rv">
+          <div class="tl-when">2026 &mdash; present</div>
+          <h3>Co-founder &amp; Director, Technology</h3>
+          <div class="tl-where">Gigzen Private Limited &middot; Bhubaneswar, Odisha</div>
+          <p>Own the engineering for both products, from the Postgres schema to the signed
+             Android artefact and the public record of what was tested.</p>
+          <ul>
+            <li>Built <strong>Buzz</strong> end to end: React and TypeScript on Capacitor over a
+                Supabase backend, with realtime sync, presence, read receipts, offline-queued
+                writes and 16-language localisation including right-to-left Arabic.</li>
+            <li>Wrote <strong>Populace</strong> and published it to npm: a simulated population
+                that drives an app through its own public API as real authenticated users.</li>
+            <li>Found and fixed <strong>six defects in an app that had already passed a careful
+                manual test</strong> — five of them in the first three and a half minutes.</li>
+            <li>Sustained <strong>36 concurrent users across 7,485 API calls with zero
+                failures</strong>, and published the runs that failed alongside the ones that
+                did not.</li>
           </ul>
-          <p class="runwhy">A testing tool that finds nothing has proved nothing. This run is the
-          evidence that <b>Populace works</b>.</p>
         </div>
-
-        <div class="run rise run-b">
-          <span class="runtag">Run two &middot; after the fixes</span>
-          <h3>The app proved itself</h3>
-          <p class="runlead">Then the same run passed with zero failures.</p>
-          <p>Each defect was fixed and the identical run repeated — same six riders, same cities,
-          same methods, nothing relaxed. The final one returned the first <code>exit 0</code>
-          Populace had ever given this app.</p>
-          <ul class="runlist">
-            <li><b>7,485</b> API calls, 36 users, 10 minutes</li>
-            <li><b>0</b> failures — and 0 across 6,539, 6,450, 2,116, 1,626, 672 and 400 before it</li>
-            <li><b>13 / 13</b> adapter methods covered</li>
-            <li><b>6 created, 6 deleted</b> — clean before, during and after</li>
-          </ul>
-          <p class="runwhy">Passing only counts because the same harness had already failed the
-          app once. This run is the evidence that <b>Buzz is ready</b>.</p>
-        </div>
-      </div>
-
-      <p class="runnote rise">One run shows the instrument is sensitive. The other shows the
-      patient is healthy. They are separate claims, and only the pair means anything — a clean
-      result from a tool that has never caught a defect is not a result.
-      <a href="https://shakhtar-sankur.github.io/gigzen/test-report.html">Both runs in full &rarr;</a>
-      </p>
-
-      <p class="rise" style="margin-top:1.75rem;font-size:.95rem">
-        Every figure above is from the published
-        <a href="https://shakhtar-sankur.github.io/gigzen/test-report.html"
-           style="text-decoration:underline">Gigzen test report</a> — which also lists
-        what was <em>not</em> tested.
-      </p>
-    </div>
-  </section>
-
-  <!-- ============ GIGZEN ============ -->
-  <section class="sec" id="gigzen">
-    <div class="wrap">
-      <div class="sec-head rise">
-        <h2 class="sec-title"><svg class="gz-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M33.19 2 L60.1 14.82 L48.54 20.68 L33.66 13.4 L16.25 23.06 L15.14 23.85 L15.14 40.15 L33.19 47.91 L49.02 39.84 L49.34 38.73 L48.54 38.25 L30.34 33.66 L30.5 30.97 L44.43 24.01 L61.05 29.86 L61.05 46.64 L33.5 62 L2.95 46.64 L2.95 17.51 L33.03 2.16 Z" fill="currentColor"/></svg><span class="gword">GIGZEN</span></h2>
-        <p>Incorporated 2026. One company, two products, one thesis.</p>
-      </div>
-      <div class="two-col rise">
-        <p class="lede-big">The people who move the world&rsquo;s goods have no platform of their own.</p>
-        <div>
-          <p class="body">
-            Gigzen is the company I co-founded. It exists to build for the 1.57 billion people who work the gig
-            economy &mdash; drivers, riders, couriers, freelancers &mdash; who between them power a
-            $582 billion market growing at nearly 16% a year, and who have no professional home the
-            way office workers have LinkedIn.
-          </p>
-          <p class="body">
-            Two products came out of it. <strong>Buzz</strong> is the platform itself: free for
-            workers, forever, funded by enterprises rather than by the people using it.
-            <strong>Populace</strong> is the testing platform I had to build first, because a social
-            product with one person in it cannot be tested at all. The second exists because of the
-            first, and now stands on its own.
-          </p>
+        <div class="tl-item rv">
+          <div class="tl-when">Education</div>
+          <h3>B.Tech, Computer Science &amp; Engineering</h3>
+          <div class="tl-where">Institute of Engineering and Management</div>
+          <p>Machine learning, distributed systems and statistical modelling — the four public
+             projects below came out of this period and each one states where it falls short.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ BUZZ ============ -->
-  <section class="sec white" id="buzzbuzz">
+  <!-- ══════════ work ══════════ -->
+  <section id="work">
     <div class="wrap">
-      <div class="sec-head rise">
-        <h2 class="sec-title">buzz</h2>
-        <p class="eyebrow">Product 01 &mdash; global gig worker platform</p>
+      <div class="sec-head rv">
+        <span class="eyebrow">Work</span>
+        <h2>Things I have shipped.</h2>
+        <p>Every one of these is public. Each README states the design target, what the code
+           actually measures against it, and where it falls short — a number you cannot
+           reproduce is not a result.</p>
       </div>
 
-      <div class="two-col rise">
-        <p class="lede-big">1.57 billion workers. No platform built for them.</p>
-        <div>
-          <p class="body">
-            A Swiggy rider, an Uber driver and an Amazon Flex courier are often the same person
-            &mdash; but no platform connects those identities. More than half of gig workers operate
-            across multiple platforms simultaneously, and each platform sees only its own slice. The
-            worker carries the fragmentation.
-          </p>
-          <p class="body">
-            The consequences compound. Without a single verifiable work history, banks read gig
-            workers as unemployed and refuse them credit and insurance, despite daily earned income.
-          </p>
-        </div>
+      <div class="filters rv" role="group" aria-label="Filter work by kind">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" type="button" data-filter="product" aria-pressed="false">Products</button>
+        <button class="filter" type="button" data-filter="ml" aria-pressed="false">Machine learning</button>
+        <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
 
-      <div class="probs rise">
-        <div class="prob"><span class="v">54%</span><span class="k">Work across multiple platforms at once</span></div>
-        <div class="prob"><span class="v">78%</span><span class="k">Have no insurance of any kind</span></div>
-        <div class="prob"><span class="v">63%</span><span class="k">Report feeling financially vulnerable</span></div>
-        <div class="prob"><span class="v">0</span><span class="k">Platforms serving all gig types globally</span></div>
-      </div>
-
-      <div class="feats rise">
-        <div class="feat"><span class="ix">01</span><h4>Peer networking &amp; chat</h4><p>One-to-one and group conversation with read receipts, connecting workers across cities, industries and platforms.</p></div>
-        <div class="feat"><span class="ix">02</span><h4>Live GPS tracking</h4><p>Real-time trip logging with live distance and earnings, shared only inside verified networks.</p></div>
-        <div class="feat"><span class="ix">03</span><h4>Worker dashboard</h4><p>Earnings, daily goals, route history and vehicle maintenance in one place, resetting cleanly each day.</p></div>
-        <div class="feat"><span class="ix">04</span><h4>Cross-platform identity</h4><p>A single profile that holds work across every platform a person actually earns on.</p></div>
-        <div class="feat"><span class="ix">05</span><h4>Community feed</h4><p>Posts, photos, likes, comments and groups &mdash; the social layer gig work has never had.</p></div>
-        <div class="feat"><span class="ix">06</span><h4>Enterprise marketplace</h4><p>Companies post bulk workforce requirements; the platform matches them against real availability.</p></div>
-      </div>
-
-      <div class="models rise">
-        <div class="model free">
-          <span class="who">Gig workers</span>
-          <h4>Free. Always.</h4>
-          <ul><li>Networking and chat</li><li>Live GPS tracking</li><li>Worker dashboard</li><li>Cross-platform identity</li><li>Community access</li></ul>
-        </div>
-        <div class="model">
-          <span class="who">The platform</span>
-          <h4>Intelligence layer</h4>
-          <ul><li>Worker identity graph</li><li>Behavioural data engine</li><li>GPS and safety layer</li><li>Enterprise marketplace</li><li>Compliance infrastructure</li></ul>
-        </div>
-        <div class="model">
-          <span class="who">Enterprises</span>
-          <h4>Where revenue comes from</h4>
-          <ul><li>B2B workforce supply</li><li>GPS fleet management API</li><li>Compliance and insurance APIs</li><li>Recruitment intelligence</li><li>Workforce analytics</li></ul>
-        </div>
-      </div>
-
-      <p class="body rise" style="margin-top:2rem;color:var(--grey);max-width:64ch">
-        The same shape that made LinkedIn, Waze and WhatsApp valuable: free users, rich data,
-        enterprise revenue. Workers are never the product being sold &mdash; they are the reason the
-        product is worth anything.
-      </p>
-
-      <article class="work rise" style="margin-top:3.5rem">
-        <div>
-          <h3 class="work-name">what i built</h3>
-          <p class="work-kind eyebrow">Architecture, implementation, release engineering</p>
-          <div class="note">
-            <b>The bug worth the story.</b> Chat reads failed silently across the whole app. A
-            row-level-security policy on thread membership recursed into itself &mdash; the policy
-            had to read the table it was guarding. Fixed with a SECURITY DEFINER helper that breaks
-            the cycle, then verified end to end against a live project with two real accounts.
-            <br><br>
-            <b>The number worth measuring.</b> Photos were stored as base64 inside a Postgres
-            column. Measured: 479&nbsp;KB a picture, and up to 9.4&nbsp;MB to open a feed of twenty
-            &mdash; on a driver&rsquo;s metered data, and in every database backup. Moved to object
-            storage with a thumbnail; the feed now loads about 20&nbsp;KB an image and fetches the
-            full one only when someone taps it.
-          </div>
-        </div>
-        <div>
-          <p class="lede">
-            React and TypeScript on Capacitor over a Supabase backend. Realtime sync, WhatsApp-style
-            read receipts, presence, push notifications, photo posts, groups, and full localisation
-            into 16 languages including right-to-left Arabic. Writes survive a lost signal: a post or
-            message sent underground is queued on the device and sent when the connection returns.
-            Signed for release, with its backend driven through 7,485 calls by thirty-six
-            simulated riders at once, without a failure.
-          </p>
-          <div class="figs">
-            <div class="fig"><span class="v">13,235</span><span class="k">Lines of app source</span></div>
-            <div class="fig"><span class="v">48</span><span class="k">RLS policies</span></div>
-            <div class="fig"><span class="v">17</span><span class="k">Postgres tables</span></div>
-            <div class="fig"><span class="v">16</span><span class="k">Languages, incl. RTL</span></div>
-          </div>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/buzz-buzz" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ POPULACE ============ -->
-  <section class="sec" id="populace">
-    <div class="wrap">
-      <div class="sec-head rise">
-        <h2 class="sec-title">populace</h2>
-        <p class="eyebrow">Product 02 &mdash; simulated populations for testing</p>
-      </div>
-
-      <div class="two-col rise">
-        <p class="lede-big">A social app with nobody in it tells you nothing.</p>
-        <div>
-          <p class="body">
-            You cannot test presence, live sync, read receipts, notification fan-out, or &ldquo;does
-            deleting this remove it for everyone&rdquo; while being only one person. I hit that wall
-            building Buzz, so I built the thing that solves it.
-          </p>
-          <p class="body">
-            Populace gives you dozens of believable people who sign up, move around, post, comment,
-            message each other and join groups &mdash; as real authenticated users, through your own
-            API, with your own permission rules applying. Then it hands you a report on what broke.
-          </p>
-        </div>
-      </div>
-
-      <figure class="runcard rise">
-        <figcaption class="runcap"><b>First run against a real, finished app.</b> Buzz had already
-        passed a full manual test of every screen. Six simulated drivers found five bugs in three and a
-        half minutes. This is the run after the fixes.</figcaption>
-        <div class="runscroll"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 986" style="width:100%;min-width:860px;height:auto;display:block" role="img"
-  aria-label="Populace report for Buzz, 9 August 2026: no failures across 400 API calls from 6 simulated users across Manila and Mumbai.">
-  <rect width="1200" height="986" rx="16" fill="#0B1014"/>
-  <rect x="1" y="1" width="1198" height="984" rx="15" fill="none" stroke="#233039"/>
-
-  <g transform="translate(48,40.5) scale(0.46875)" fill="#D3FF00"><path d="M33.19 2 L60.1 14.82 L48.54 20.68 L33.66 13.4 L16.25 23.06 L15.14 23.85 L15.14 40.15 L33.19 47.91 L49.02 39.84 L49.34 38.73 L48.54 38.25 L30.34 33.66 L30.5 30.97 L44.43 24.01 L61.05 29.86 L61.05 46.64 L33.5 62 L2.95 46.64 L2.95 17.51 L33.03 2.16 Z"/ fill="currentColor"></g>
-  <text x="90" y="63" fill="#EAF1F6" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="21" font-weight="800" letter-spacing="0.14em">GIGZEN</text>
-  <text x="1152" y="63" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="15" letter-spacing="0.18em" text-anchor="end">POPULACE REPORT · 9 AUGUST 2026</text>
-  <line x1="48" y1="92" x2="1152" y2="92" stroke="#233039"/>
-
-  <text x="48" y="150" fill="#EAF1F6" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="-0.02em">Buzz</text>
-  <text x="48" y="182" fill="#9FB0BC" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="18">6 simulated drivers · Manila + Mumbai · live backend, real accounts</text>
-
-  <rect x="48" y="212" width="1104" height="60" rx="10" fill="#D3FF00"/>
-  <text x="74" y="251" fill="#0B1014" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="26" font-weight="800">✔  No failures across 400 API calls</text>
-
-  
-  <text x="48" y="316" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="40" font-weight="700">400</text>
-  <text x="48" y="342" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14" letter-spacing="0.06em">API CALLS</text>
-  
-  <text x="268" y="316" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="40" font-weight="700">0</text>
-  <text x="268" y="342" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14" letter-spacing="0.06em">FAILURES</text>
-  
-  <text x="488" y="316" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="40" font-weight="700">13 / 13</text>
-  <text x="488" y="342" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14" letter-spacing="0.06em">METHODS COVERED</text>
-  
-  <text x="708" y="316" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="40" font-weight="700">6</text>
-  <text x="708" y="342" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14" letter-spacing="0.06em">ACCOUNTS CREATED</text>
-  
-  <text x="928" y="316" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="40" font-weight="700">6</text>
-  <text x="928" y="342" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14" letter-spacing="0.06em">ACCOUNTS REMOVED</text>
-
-  <line x1="48" y1="372" x2="1152" y2="372" stroke="#233039"/>
-  <text x="48" y="396" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="14" letter-spacing="0.14em">METHOD</text>
-  <text x="430" y="396" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="14" letter-spacing="0.14em" text-anchor="end">CALLS</text>
-  <text x="510" y="396" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="14" letter-spacing="0.14em" text-anchor="end">FAILS</text>
-  <text x="630" y="396" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="14" letter-spacing="0.14em" text-anchor="end">P50</text>
-  <text x="740" y="396" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="14" letter-spacing="0.14em" text-anchor="end">P95</text>
-  
-  <g>
-    
-    <text x="48" y="430" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">reportLocation</text>
-    <text x="430" y="430" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">172</text>
-    <text x="510" y="430" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="430" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">414ms</text>
-    <text x="740" y="430" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">571ms</text>
-    <rect x="790" y="418" width="129.2" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    <rect x="34" y="442" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="464" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">recentPostsByOthers</text>
-    <text x="430" y="464" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">61</text>
-    <text x="510" y="464" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="464" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">112ms</text>
-    <text x="740" y="464" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">129ms</text>
-    <rect x="790" y="452" width="29.2" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    
-    <text x="48" y="498" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">like</text>
-    <text x="430" y="498" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">59</text>
-    <text x="510" y="498" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="498" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">108ms</text>
-    <text x="740" y="498" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">133ms</text>
-    <rect x="790" y="486" width="30.1" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    <rect x="34" y="510" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="532" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">post</text>
-    <text x="430" y="532" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">22</text>
-    <text x="510" y="532" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="532" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">109ms</text>
-    <text x="740" y="532" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">128ms</text>
-    <rect x="790" y="520" width="29.0" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    
-    <text x="48" y="566" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">comment</text>
-    <text x="430" y="566" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">22</text>
-    <text x="510" y="566" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="566" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">114ms</text>
-    <text x="740" y="566" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">141ms</text>
-    <rect x="790" y="554" width="31.9" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    <rect x="34" y="578" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="600" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">openConversation</text>
-    <text x="430" y="600" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">21</text>
-    <text x="510" y="600" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="600" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">115ms</text>
-    <text x="740" y="600" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">142ms</text>
-    <rect x="790" y="588" width="32.1" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    
-    <text x="48" y="634" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">sendMessage</text>
-    <text x="430" y="634" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">21</text>
-    <text x="510" y="634" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="634" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">113ms</text>
-    <text x="740" y="634" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">142ms</text>
-    <rect x="790" y="622" width="32.1" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    <rect x="34" y="646" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="668" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">createUser</text>
-    <text x="430" y="668" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">6</text>
-    <text x="510" y="668" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="668" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">436ms</text>
-    <text x="740" y="668" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">1.6s</text>
-    <rect x="790" y="656" width="362.0" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    
-    <text x="48" y="702" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">setProfile</text>
-    <text x="430" y="702" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">6</text>
-    <text x="510" y="702" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="702" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">121ms</text>
-    <text x="740" y="702" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">305ms</text>
-    <rect x="790" y="690" width="69.0" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    <rect x="34" y="714" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="736" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">deleteUser</text>
-    <text x="430" y="736" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">6</text>
-    <text x="510" y="736" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="736" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">130ms</text>
-    <text x="740" y="736" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">293ms</text>
-    <rect x="790" y="724" width="66.3" height="12" rx="3" fill="#2C3B45"/>
-  </g>
-  <g>
-    
-    <text x="48" y="770" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">listGroups</text>
-    <text x="430" y="770" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">2</text>
-    <text x="510" y="770" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="770" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">—</text>
-    <text x="740" y="770" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">—</text>
-    
-  </g>
-  <g>
-    <rect x="34" y="782" width="1132" height="34" rx="5" fill="#FFFFFF" opacity="0.022"/>
-    <text x="48" y="804" fill="#EAF1F6" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17">joinGroup</text>
-    <text x="430" y="804" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">2</text>
-    <text x="510" y="804" fill="#63C48D" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">0</text>
-    <text x="630" y="804" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">—</text>
-    <text x="740" y="804" fill="#9FB0BC" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="17" text-anchor="end">—</text>
-    
-  </g>
-
-  <line x1="48" y1="878" x2="1152" y2="878" stroke="#233039"/>
-  <text x="48" y="912" fill="#9FB0BC" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17">6.2 km driven · 22 posts · 59 likes · 22 comments · 21 messages · 2 group joins</text>
-  <text x="1152" y="912" fill="#6B7C89" font-family="ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Mono',Menlo,Consolas,monospace" font-size="13" text-anchor="end">Gigzen Private Limited · Bhubaneswar, India</text>
-  <text x="48" y="944" fill="#6B7C89" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="15">Six users for three minutes is a correctness run, not a load test. These are latencies under six concurrent users and nothing more.</text>
-</svg></div>
-      </figure>
-
-      <div class="two-col rise" style="margin-top:3rem">
-        <div>
-          <div class="note">
-            <b>The decision worth asking about.</b> A fresh adapter has all 13 methods &mdash; as
-            empty stubs. Naive coverage reports 13/13 and passes while testing nothing. So an empty
-            body deliberately doesn&rsquo;t count: a new scaffold honestly reports 2/13 and refuses
-            to run. A reporting tool that manufactures confidence is worse than no reporting tool.
-          </div>
-          <div class="figs">
-            <div class="fig"><span class="v">13</span><span class="k">Method contract</span></div>
-            <div class="fig"><span class="v">0</span><span class="k">Runtime deps</span></div>
-            <div class="fig"><span class="v">3</span><span class="k">Prod guards</span></div>
-            <div class="fig"><span class="v">78</span><span class="k">Self-tests</span></div>
-          </div>
-          <a class="repo" href="https://shakhtar-sankur.github.io/populace/" target="_blank" rel="noopener">Populace website</a>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/populace" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-        <div>
-          <div class="note">
-            <b>What it found on its first real run.</b> Three of the five bugs were the same
-            mistake in different clothes: the app used <em>upsert</em>, and
-            <code>INSERT&hellip;ON CONFLICT DO UPDATE</code> needs <code>SELECT</code> on every
-            column it touches &mdash; one of which had deliberately been made unreadable that
-            morning to protect phone numbers. Signup, profile edits and repeat likes all failed
-            silently.
-          </div>
-          <p class="body" style="margin-top:1.25rem;color:var(--grey)">
-            The other two were in Populace&rsquo;s own reference adapter, and the worse one was an
-            <b>unchecked error</b> &mdash; the exact fault this tool exists to catch. It reported a
-            signup failure against a later call, turning one cause into three symptoms. Fixing one
-            line changed the report from &ldquo;post failed 14 times&rdquo; to &ldquo;profile row
-            not created: permission denied&rdquo;.
-          </p>
-        </div>
-      </div>
-
-      <div class="feats rise">
-        <div class="feat"><span class="ix">01</span><h4>App-agnostic engine</h4><p>The core knows how to be a person and contains zero references to any real app. Everything specific lives behind a 13-method adapter.</p></div>
-        <div class="feat"><span class="ix">02</span><h4>Three production guards</h4><p>Environment must declare itself non-production, a denylist is matched against every nested string, and an empty denylist warns loudly.</p></div>
-        <div class="feat"><span class="ix">03</span><h4>Honest coverage</h4><p>Anything you skip is reported as untested rather than quietly passing. Empty method bodies never count as coverage.</p></div>
-        <div class="feat"><span class="ix">04</span><h4>Per-endpoint latency</h4><p>Every call through the adapter is timed and counted, with p50, p95 and p99 per method, and failures grouped by shape rather than by text.</p></div>
-        <div class="feat"><span class="ix">05</span><h4>Session refresh</h4><p>Runs outlive token expiry. Without it an expired run cannot even delete its own accounts, stranding simulated users in your environment.</p></div>
-        <div class="feat"><span class="ix">06</span><h4>Cleans up after itself</h4><p>Every account a run creates is removed, and the report states plainly whether cleanup succeeded.</p></div>
-      </div>
-
-      <div class="bridge rise">
-        <h4>how the two<br>fit together</h4>
-        <p>
-          Populace was built to test Buzz, and its engine was deliberately kept free of any
-          reference to it. That single constraint is what turned an internal script into a product:
-          Buzz became its first customer rather than its purpose. Anyone building something
-          multiplayer has the same problem, and can point Populace at their own API by writing one
-          adapter.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ NOW ============ -->
-  <section class="sec" id="now">
-    <div class="wrap">
-      <div class="sec-head rise">
-        <h2 class="sec-title">what i&rsquo;m<br>doing now</h2>
-        <p>Where both products actually stand, stated plainly.</p>
-      </div>
-      <div class="nows rise">
-        <div class="now">
-          <span class="st">Release build ready</span>
-          <h4>buzz</h4>
-          <p>
-            Feature-complete and signed for release. Auth, feed, chat with read receipts, presence,
-            groups, GPS tracking and 16-language localisation all verified end to end against a live
-            backend with real accounts.
-          </p>
-          <p class="next"><b>Next:</b> store submission and first market launch.</p>
-        </div>
-        <div class="now">
-          <span class="st">Proven against a real app</span>
-          <h4>populace</h4>
-          <p>
-            Pointed at Buzz&rsquo;s live backend on 9 August 2026 &mdash; an app that had
-            already passed a full manual test of every screen. Six simulated drivers across Manila
-            and Mumbai found <b>five bugs in three and a half minutes</b>, including one that
-            stopped account creation outright: a privacy change had made a column unreadable, and
-            the signup write silently needed to read it. After the fixes, <b>no failures across 400
-            API calls</b>, six accounts created and six removed.
-            <br><br>
-            Two of the five were in Populace&rsquo;s own reference adapter, and the worse one was an
-            unchecked error &mdash; the exact fault this tool exists to catch. It made the report
-            blame a later call for a failure that happened during signup.
-          </p>
-          <p>
-            Hardened since, by running it on genuinely bad infrastructure rather than a clean
-            desk. Three defects surfaced that way: a single unresponsive call could freeze an
-            entire run and produce nothing; fixing that with retries made a <em>dead</em> target
-            grind for twenty minutes instead; and the circuit breaker that fixed <em>that</em> was
-            still open at teardown, so it left five simulated accounts live in a real project.
-            All three are fixed and covered &mdash; <b>59 self-tests, up from 20</b>. A report now
-            separates a failure in your code from a failure of the network in between, and says
-            <em>inconclusive</em> rather than <em>clean</em> when it could not prove anything.
-          </p>
-          <p class="next"><b>Next:</b> a run against someone else&rsquo;s app, not our own.</p>
-        </div>
-        <div class="now">
-          <span class="st">Open</span>
-          <h4>what&rsquo;s next</h4>
-          <p>
-            Building toward launch for both products, and open to conversations &mdash; engineering
-            roles where the systems are bigger than one person, pilot users for Populace, or anyone
-            working on the same problem.
-          </p>
-          <p class="next"><b>Based in</b> Bhubaneswar, working globally.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ML PROJECTS ============ -->
-  <section class="sec white" id="projects">
-    <div class="wrap">
-      <div class="sec-head rise">
-        <h2 class="sec-title">machine<br>learning work</h2>
-        <p>
-          Four systems built before Gigzen, all public. Each README states the design target,
-          what the code actually measures against it, and where it falls short &mdash; because a
-          number you cannot reproduce is not a result.
-        </p>
-      </div>
-
-      <div class="projs rise">
-
-        <div class="proj">
-          <h4>edge model compression</h4>
-          <p>
-            A compression pipeline for battery-powered inference: distillation from a ResNet50
-            teacher, magnitude pruning, int8 quantization and ONNX export.
-          </p>
-          <p class="found">
-            <b>Target 8&times; smaller. Measured &minus;6.3%</b> &mdash; the export got bigger. The
-            repo publishes that, along with why: pruning zeros weights without removing them, and
-            the ONNX weights live in a sidecar file that the obvious size check misses.
-          </p>
-          <span class="stack">PyTorch · ONNX · ONNX Runtime</span>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/AI-Model-Compression-for-TSMC-3nm-Chips-Disaster-Classification" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-
-        <div class="proj">
-          <h4>detek &mdash; data-leak detection</h4>
-          <p>
-            Pairs a BERT content classifier with an LSTM behavioural model on AWS, because either
-            one alone produces an alert stream nobody can act on: content flags every document with
-            a customer name in it, behaviour flags everyone who works late.
-          </p>
-          <p class="found">
-            Collectors for CloudTrail and VPC Flow Logs, Terraform infrastructure, and automated
-            incident response.
-          </p>
-          <span class="stack">PyTorch · Transformers · Flask · boto3 · Terraform · DynamoDB</span>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/Detek" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-
-        <div class="proj">
-          <h4>ml serving platform</h4>
-          <p>
-            The operational layer that sits around a model rather than inside it: versioned rollout,
-            A/B routing, circuit breaking, per-feature drift detection, caching and metrics.
-          </p>
-          <p class="found">
-            Designed for 1,200 QPS. Rate limiting is a single pipelined Redis round trip so two
-            concurrent requests cannot both slip under the limit, and API keys compare in constant
-            time.
-          </p>
-          <span class="stack">Flask · Redis · Triton · Kubernetes · Prometheus · Docker</span>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/ML-Model-Serving-Platform" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-
-        <div class="proj">
-          <h4>iot predictive maintenance</h4>
-          <p>
-            LSTM failure prediction over industrial sensor streams on GCP, with Optuna tuning,
-            FastAPI serving and a Vertex AI deployment path.
-          </p>
-          <p class="found">
-            Predicts a <b>48-hour horizon</b> and splits chronologically. Both matter: a model
-            trained on shuffled time series scores beautifully by reading the future, and one that
-            predicts the current timestep tells you a machine is failing while it fails.
-          </p>
-          <span class="stack">TensorFlow · Optuna · FastAPI · Pub/Sub · BigQuery · Vertex AI</span>
-          <a class="repo" href="https://github.com/Shakhtar-Sankur/Predictive-Maintenance-for-IoT-GCP-Deployed-Real-Time-Optimized" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-
-      </div>
-
-      <div class="bridge rise">
-        <h4>ten repos,<br>one standard</h4>
-        <p>
-          Everything above is on <a href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">github.com/Shakhtar-Sankur</a>,
-          reviewed line by line before it was published. Where a README once claimed a number the
-          code never produced, the claim came out and the measurement went in. You can clone any of
-          them and check.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ TOOLKIT ============ -->
-  <section class="sec" id="toolkit">
-    <div class="wrap">
-      <div class="sec-head rise"><h2 class="sec-title">how i build</h2></div>
-      <div class="kit rise"><span class="lbl">Languages</span><p>Python · TypeScript · SQL · R · STATA</p></div>
-      <div class="kit rise"><span class="lbl">Machine learning</span><p>Production pipelines · model training and evaluation · predictive and statistical modeling · deep learning (LSTM, BERT, DDPM) · knowledge distillation · pruning and int8 quantization · ONNX export · anomaly detection · LLM agent orchestration</p></div>
-      <div class="kit rise"><span class="lbl">Systems &amp; cloud</span><p>System design · distributed systems · GCP (BigQuery, Vertex AI, Pub/Sub) · AWS (Lambda, S3, EventBridge, CloudTrail) · FastAPI · Flask · Node.js · React · Capacitor · Postgres and row-level security · Redis · Triton · MLflow · Optuna · Prometheus · Docker · Kubernetes · Terraform · CI/CD</p></div>
-      <div class="kit rise"><span class="lbl">Background</span><p><strong>B.Tech, Computer Science &amp; Engineering</strong> — Institute of Engineering and Management, Kolkata, 2022–2026. Certified across data analytics (Meta, Google), cloud (Google Cloud, AWS, Microsoft) and security (Google Cybersecurity, IBM).</p></div>
-    </div>
-  </section>
-
-  <!-- ============ CONTACT ============ -->
-  <!-- ============ LIVE SITES ============ -->
-  <section class="sec" id="sites">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 class="sec-title rise">live<br>sites</h2>
-        <p class="rise">One company, two products, four properties. Each is a static page with no
-        build step and nothing fetched over the network.</p>
-      </div>
-      <div class="sitegrid">
-        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">
-          <span class="eyebrow">Company</span>
-          <h3>Gigzen</h3>
-          <p>The company, both products, and the commercial model.</p>
-          <span class="sitelink">shakhtar-sankur.github.io/gigzen</span>
-        </a>
-        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/buzz-buzz/" target="_blank" rel="noopener">
-          <span class="eyebrow">Product &middot; Android</span>
+      <div class="work-grid" id="workgrid">
+        <a class="card work rv" data-kind="product" href="https://shakhtar-sankur.github.io/buzz-buzz/" rel="noreferrer">
+          <span class="work-tag">Product &middot; Android</span>
           <h3>Buzz</h3>
-          <p>The rider app, with the APK available to download and install directly.</p>
-          <span class="sitelink">shakhtar-sankur.github.io/buzz-buzz</span>
+          <p>A platform for gig drivers and riders. Earnings that follow the road, a live map of
+             the people working your streets, group chat, and a feed — in sixteen languages, with
+             the currency set from where you are.</p>
+          <span class="go">Visit site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
-        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/populace/" target="_blank" rel="noopener">
-          <span class="eyebrow">Product &middot; Developer tool</span>
+
+        <a class="card work rv" data-kind="product" href="https://shakhtar-sankur.github.io/populace/" rel="noreferrer">
+          <span class="work-tag">Product &middot; Developer tool</span>
           <h3>Populace</h3>
-          <p>A simulated population that tests an app through its real API.</p>
-          <span class="sitelink">shakhtar-sankur.github.io/populace</span>
+          <p>Brings a population of simulated people to life inside your app and drives it through
+             your real API — signing up, moving, posting, messaging. Published on npm. It found six
+             real bugs in a finished application, the last on the run meant to sign the work off.</p>
+          <span class="go">Visit site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
-        <a class="sitecard rise" href="https://shakhtar-sankur.github.io/gigzen/test-report.html" target="_blank" rel="noopener">
-          <span class="eyebrow">Engineering record</span>
+
+        <a class="card work rv" data-kind="ml" href="https://github.com/Shakhtar-Sankur/AI-Model-Compression-for-TSMC-3nm-Chips-Disaster-Classification" rel="noreferrer">
+          <span class="work-tag">Machine learning</span>
+          <h3>Model compression for 3nm silicon</h3>
+          <p>Knowledge distillation, pruning and int8 quantization applied to a disaster
+             classification model, targeted at the constraints of TSMC 3nm hardware and exported
+             through ONNX.</p>
+          <span class="go">Source on GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card work rv" data-kind="ml" href="https://github.com/Shakhtar-Sankur/Detek" rel="noreferrer">
+          <span class="work-tag">Machine learning</span>
+          <h3>Detek</h3>
+          <p>Anomaly detection built to be reproducible: the design target, the measurement, and
+             the gap between them all stated in the open.</p>
+          <span class="go">Source on GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card work rv" data-kind="ml" href="https://github.com/Shakhtar-Sankur/ML-Model-Serving-Platform" rel="noreferrer">
+          <span class="work-tag">Machine learning &middot; Infra</span>
+          <h3>ML model serving platform</h3>
+          <p>Serving infrastructure with Triton, MLflow and Optuna behind it, instrumented with
+             Prometheus so the latency claims can be checked rather than believed.</p>
+          <span class="go">Source on GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card work rv" data-kind="ml" href="https://github.com/Shakhtar-Sankur/Predictive-Maintenance-for-IoT-GCP-Deployed-Real-Time-Optimized" rel="noreferrer">
+          <span class="work-tag">Machine learning &middot; Cloud</span>
+          <h3>Predictive maintenance for IoT</h3>
+          <p>Real-time predictive maintenance deployed on GCP — BigQuery, Vertex AI and Pub/Sub —
+             optimised for the latency a factory floor actually tolerates.</p>
+          <span class="go">Source on GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card work rv" data-kind="web" href="https://shakhtar-sankur.github.io/gigzen/" rel="noreferrer">
+          <span class="work-tag">Web &middot; Company</span>
+          <h3>Gigzen</h3>
+          <p>The company site: what Gigzen is building and why. A static page with no build step
+             and nothing fetched over the network.</p>
+          <span class="go">Visit site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card work rv" data-kind="web" href="https://shakhtar-sankur.github.io/gigzen/test-report.html" rel="noreferrer">
+          <span class="work-tag">Web &middot; Engineering record</span>
           <h3>Test report</h3>
-          <p>Every test run against both products — and everything that was not tested.</p>
-          <span class="sitelink">gigzen/test-report.html</span>
+          <p>Every run against both products: what was verified, what it found, and — set out just
+             as plainly — what was never tested. It records the claims that had to be withdrawn.</p>
+          <span class="go">Read the report
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
       </div>
     </div>
   </section>
 
-  <section class="contact" id="contact">
+  <!-- ══════════ contact ══════════ -->
+  <section id="contact">
     <div class="wrap">
-      <h2 class="sec-title rise">let's build<br>something big</h2>
-      <a class="mail rise" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a>
-      <div class="links rise">
-        <a class="dl" href="Sankur-Kundu-Resume.pdf" download>Download résumé (PDF)</a>
-        <a href="https://linkedin.com/in/sankur-kundu" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://shakhtar-sankur.github.io/gigzen/" target="_blank" rel="noopener">Gigzen</a>
-        <a href="https://github.com/Shakhtar-Sankur" target="_blank" rel="noopener">GitHub</a>
-        <a href="tel:+919776194201">+91 97761 94201</a>
+      <div class="contact-card rv">
+        <h2>Let's build something.</h2>
+        <p>Open to conversations about engineering roles, the gig economy, and testing systems
+           that have more than one person in them.</p>
+        <p class="contact-mail"><a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+        <div class="contact-cta">
+          <a class="btn btn-primary" href="mailto:sankur.kundu.tw@gmail.com">Email me</a>
+          <a class="btn btn-ghost" href="https://linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a>
+        </div>
       </div>
-      <footer>
-        <span>Sankur Kundu — Bhubaneswar, India</span>
-        <span>Available for ML &amp; software engineering roles</span>
-      </footer>
     </div>
   </section>
-</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Sankur Kundu</span>
+    <span>Bhubaneswar, Odisha &middot; India</span>
+  </div>
+</footer>
 
 <script>
 (function () {
+  "use strict";
+
+  /* ── theme ──
+     Applied before paint by the inline script in <head>? No — this site has no
+     flash to prevent because dark is the document default in the markup, so the
+     only work here is remembering a visitor's choice. */
   var root = document.documentElement;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var items = document.querySelectorAll('.rise');
-  if (!reduce && 'IntersectionObserver' in window && items.length) {
-    root.classList.add('js-anim');
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -5% 0px', threshold: 0.03 });
-    items.forEach(function (el) { io.observe(el); });
-    setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  var toggle = document.getElementById("themetoggle");
+  try {
+    var saved = localStorage.getItem("sk-theme");
+    if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+  } catch (e) { /* private mode: fall back to the default theme */ }
+
+  function syncLabel() {
+    var light = root.getAttribute("data-theme") === "light";
+    toggle.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
   }
+  syncLabel();
+
+  toggle.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("sk-theme", next); } catch (e) {}
+    syncLabel();
+  });
+
+  /* ── nav hairline on scroll ── */
+  var nav = document.getElementById("nav");
+  function onScroll() { nav.classList.toggle("stuck", window.scrollY > 6); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ── reveal ──
+     Anything still hidden when the observer cannot run must end up visible, so
+     the fallback shows everything rather than hiding it. */
+  var items = document.querySelectorAll(".rv");
+  if (!("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    items.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    items.forEach(function (el, i) {
+      el.style.transitionDelay = Math.min(i % 6, 5) * 55 + "ms";
+      io.observe(el);
+    });
+  }
+
+  /* ── work filters ──
+     `hidden` rather than a class, so a filtered-out card is removed from the
+     accessibility tree and from tab order too, not just from view. */
+  var filters = document.querySelectorAll(".filter");
+  var works = document.querySelectorAll("#workgrid .work");
+  filters.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var kind = btn.getAttribute("data-filter");
+      filters.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      works.forEach(function (card) {
+        var show = kind === "all" || card.getAttribute("data-kind") === kind;
+        card.hidden = !show;
+        if (show) card.classList.add("in");
+      });
+    });
+  });
 })();
 </script>
-<script>
-(() => {
-  /* Scroll rail across the spectrum. Painted on a frame boundary only. */
-  const rail = document.getElementById("specRail");
-  if (!rail) return;
-  let ticking = false;
-  const paint = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    rail.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
-    ticking = false;
-  };
-  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
-  addEventListener("resize", paint, { passive: true });
-  paint();
-})();
-</script>
+
 </body>
 </html>
