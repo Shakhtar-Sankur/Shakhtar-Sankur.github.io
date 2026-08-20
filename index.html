@@ -152,6 +152,21 @@
     font-size: clamp(2.6rem, 8.5vw, 7.5rem); line-height: 0.85;
     text-transform: lowercase; letter-spacing: -0.055em; font-weight: 800;
   }
+
+  /* ── section numerals ──
+     An index down the page, set in the mono face and in each section's own
+     tint, so the spectrum keeps doing the identifying. Generated from a
+     counter rather than typed, so reordering sections cannot leave the
+     numbering wrong. */
+  .page { counter-reset: sec; }
+  .sec[id] { counter-increment: sec; }
+  .sec[id] .sec-title::before {
+    content: counter(sec, decimal-leading-zero);
+    display: block; margin-bottom: .55em;
+    font-family: var(--mono); font-weight: 500;
+    font-size: clamp(.62rem, 1vw, .78rem); letter-spacing: .28em;
+    color: var(--tint, var(--grey)); text-transform: none;
+  }
     .gz-mark { height: 0.68em; width: auto; display: inline-block;
                vertical-align: -0.015em; margin-right: 0.14em; }
 
