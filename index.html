@@ -508,13 +508,17 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
             <li>Built <strong>Buzz</strong> end to end: React and TypeScript on Capacitor over a
                 Supabase backend, with realtime sync, presence, read receipts, offline-queued
                 writes and 16-language localisation including right-to-left Arabic.</li>
-            <li>Wrote <strong>Populace</strong> and published it to npm: a simulated population
-                that drives an app through its own public API as real authenticated users.</li>
+            <li>Wrote <strong>Populace</strong> and published it to npm with no runtime
+                  dependencies, then shipped it as a desktop application: a simulated population
+                  that drives an app through its own public API as real authenticated users.</li>
             <li>Found and fixed <strong>six defects in an app that had already passed a careful
                 manual test</strong> — five of them in the first three and a half minutes.</li>
             <li>Sustained <strong>200 concurrent users across 932,455 API calls with zero
                 failures</strong>, and published the runs that failed alongside the ones that
                 did not.</li>
+              <li>Proved it on software I did not write: pointed it at a <strong>Gitea</strong>
+                  instance and it ran clean across 797 calls, reporting 8 of 13 methods as
+                  untested rather than claiming coverage it did not have.</li>
           </ul>
         </div>
         <div class="tl-item rv">
@@ -563,8 +567,9 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
           <span class="work-tag">Product &middot; Developer tool</span>
           <h3>Populace</h3>
           <p>Brings a population of simulated people to life inside your app and drives it through
-             your real API — signing up, moving, posting, messaging. Published on npm. It found six
-             real bugs in a finished application, the last on the run meant to sign the work off.</p>
+               your real API &mdash; signing up, moving, posting, messaging. A command line and a
+               Windows application, published on npm. It found six real bugs in a finished
+               application, the last on the run meant to sign the work off.</p>
           <span class="go">Visit site
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
