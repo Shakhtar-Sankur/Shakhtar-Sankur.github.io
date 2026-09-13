@@ -38,6 +38,9 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 *,*::before,*::after { box-sizing: border-box; }
+/* Components below set display: flex/grid, which would otherwise beat the
+   browser default for [hidden] and leave filtered cards and the closed menu on screen. */
+[hidden] { display: none !important; }
 
 :root {
   --bg: #07111F;
