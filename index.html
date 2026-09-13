@@ -10,7 +10,7 @@
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Sankur Kundu — Co-founder &amp; Head of Engineering, Gigzen">
-<meta property="og:description" content="Two products built end to end. Nine real defects found in shipped apps. 932,455 API calls at 200 concurrent users, zero failures.">
+<meta property="og:description" content="Two products built end to end. Nine real defects found across both. 3.17 million API calls at up to 300 concurrent users, zero API failures.">
 <meta property="og:image" content="https://shakhtar-sankur.github.io/avatar.jpg">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='12' fill='%230C0C0E'/><text x='24' y='33' font-family='monospace' font-size='22' font-weight='700' fill='%23D3FF00' text-anchor='middle'>sk</text></svg>">
@@ -390,8 +390,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
       </div>
 
       <div class="stats rv">
-        <div class="stat"><b>6</b><span>Real defects found in a shipped app that had already passed manual testing</span></div>
-        <div class="stat"><b>932,455</b><span>API calls at 200 concurrent users, zero failures</span></div>
+        <div class="stat"><b>4</b><span>Defects found in Waggle after it had passed a full manual test</span></div>
+        <div class="stat"><b>3.17M</b><span>API calls at up to 300 concurrent users, zero API failures</span></div>
         <!-- 43 offered; 8 at 93% or better and 27 covering the core screens at
              110 of 391 keys. "16 at full parity" claimed completeness for eight
              that are not quite there and said nothing about the other 27.
@@ -403,7 +403,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
              into an overstatement, so re-derive it from the dictionaries rather
              than carrying it forward. -->
         <div class="stat"><b>43</b><span>Languages, 8 of them at 93% or better, right-to-left included</span></div>
-        <div class="stat"><b>2</b><span>Products built end to end, both shipping</span></div>
+        <div class="stat"><b>2</b><span>Products built end to end: one on npm, one in closed testing</span></div>
       </div>
     </div>
   </header>
@@ -524,14 +524,15 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
                   minute</strong>: <code>npx @gigzen/populace demo</code> runs the whole product
                   against a bundled app with a real bug planted in it, finds the bug, names the
                   policy, and exits non-zero.</li>
-            <li>Found and fixed <strong>six defects in an app that had already passed a careful
-                manual test</strong> — five of them in the first three and a half minutes.</li>
-            <li>Sustained <strong>200 concurrent users across 932,455 API calls with zero
-                failures</strong>, and published the runs that failed alongside the ones that
+            <li>Found and fixed <strong>four defects in Waggle after it had passed a careful
+                manual test</strong> — three of them in the first three and a half minutes,
+                along with two in Populace itself.</li>
+            <li>Made <strong>3.17 million API calls in one day with zero API failures</strong>,
+                up to 300 concurrent users, and published the runs that failed alongside the ones that
                 did not.</li>
               <li>Proved it on software I did not write: pointed it at a <strong>Gitea</strong>
-                  instance and it ran clean across 797 calls, reporting 8 of 13 methods as
-                  untested rather than claiming coverage it did not have.</li>
+                  instance and it ran clean across 1,106 calls, reporting the 5 of 13 methods Gitea
+                  has no equivalent for as untested rather than claiming coverage it did not have.</li>
           </ul>
         </div>
         <div class="tl-item rv">
@@ -581,8 +582,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
           <h3>Populace</h3>
           <p>Brings a population of simulated people to life inside your app and drives it through
                your real API &mdash; signing up, moving, posting, messaging. A command line and a
-               Windows application, published on npm. It found six real bugs in a finished
-               application, the last on the run meant to sign the work off.</p>
+               Windows application, published on npm. It found four real bugs in Waggle
+               after a full manual test had passed, the last on the run meant to sign the work off.</p>
           <span class="go">Visit site
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
