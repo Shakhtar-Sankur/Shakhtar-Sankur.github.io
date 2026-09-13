@@ -19,7 +19,7 @@ domain root rather than a subpath.
 | Product | Site | Repository |
 |---|---|---|
 | Gigzen | https://shakhtar-sankur.github.io/gigzen/ | [gigzen](https://github.com/Shakhtar-Sankur/gigzen) |
-| Waggle | https://shakhtar-sankur.github.io/waggle/ | [waggle](https://github.com/Shakhtar-Sankur/waggle) |
+| Waggle | https://shakhtar-sankur.github.io/gigzen/waggle.html | [waggle](https://github.com/Shakhtar-Sankur/waggle) |
 | Populace | https://shakhtar-sankur.github.io/populace/ | [populace](https://github.com/Shakhtar-Sankur/populace) |
 
 ## Editing
@@ -27,4 +27,4 @@ domain root rather than a subpath.
 Product figures on this page (language counts, defect counts, call volumes) are
 copied from the products themselves. When one of those moves, it has to be
 changed here by hand — nothing generates this file. The numbers as they stand
-were checked against source on 5 September 2026.
+were checked against source on 13 September 2026.
