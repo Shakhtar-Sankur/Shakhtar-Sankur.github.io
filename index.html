@@ -6,14 +6,14 @@
 <title>Sankur Kundu — Co-founder &amp; Head of Engineering, Gigzen</title>
 <meta name="description" content="Sankur Kundu — co-founder and Head of Engineering at Gigzen. Builds Waggle, a platform for gig workers, and Populace, a tool that fills your app with simulated people and tests it through your real API.">
 <meta name="author" content="Sankur Kundu">
-<meta name="theme-color" content="#07070A">
+<meta name="theme-color" content="#07111F">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Sankur Kundu — Co-founder &amp; Head of Engineering, Gigzen">
 <meta property="og:description" content="Two products built end to end. Nine real defects found across both. 3.17 million API calls at up to 300 concurrent users, zero API failures.">
 <meta property="og:image" content="https://shakhtar-sankur.github.io/avatar.jpg">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='12' fill='%2307070A'/><text x='24' y='32' font-family='Arial,sans-serif' font-size='21' font-weight='700' fill='%23D3FF00' text-anchor='middle'>sk</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='12' fill='%2307111F'/><text x='24' y='32' font-family='Arial,sans-serif' font-size='21' font-weight='700' fill='%2338BDF8' text-anchor='middle'>sk</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,28 +32,27 @@
    · editorial type for the two products — oversized numerals and names, big
      screenshots that drift as you scroll.
 
-   Dark is the default; light is a real choice kept in localStorage. Lime is a
-   brand colour and a background, never body text on the light theme — that is
-   what --accent-ink is for. Everything moving respects prefers-reduced-motion.
+   Palette: deep navy and sky blue, one family throughout. Dark is the default;
+   light is a real choice kept in localStorage. Sky blue is too pale for text on
+   the light theme, so text there uses --accent-ink (#0369A1) instead. Everything moving respects prefers-reduced-motion.
    ══════════════════════════════════════════════════════════════════════════ */
 
 *,*::before,*::after { box-sizing: border-box; }
 
 :root {
-  --bg: #07070A;
-  --bg-2: #0D0D12;
+  --bg: #07111F;
+  --bg-2: #0A1628;
   --surface: rgba(255,255,255,.035);
-  --surface-solid: #111117;
-  --text: #F4F4F6;
-  --muted: #A1A1AD;
+  --surface-solid: #0D1B2E;
+  --text: #EAF2FB;
+  --muted: #8FA3BA;
   --line: rgba(255,255,255,.1);
   --line-2: rgba(255,255,255,.06);
-  --accent: #D3FF00;
-  --accent-ink: #D3FF00;
-  --on-accent: #0A0A0A;
-  --violet: #8B5CF6;
-  --glow: rgba(211,255,0,.16);
-  --dot: 244,244,246;
+  --accent: #38BDF8;
+  --accent-ink: #38BDF8;
+  --on-accent: #07111F;
+  --glow: rgba(56,189,248,.14);
+  --dot: 234,242,251;
   --shadow: 0 30px 80px -40px rgba(0,0,0,.9);
 
   --display: "Space Grotesk", "Inter", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -63,17 +62,18 @@
   --r: 22px;
 }
 :root[data-theme="light"] {
-  --bg: #F5F5F0;
-  --bg-2: #ECECE5;
+  --bg: #F3F6FA;
+  --bg-2: #E8EEF5;
   --surface: rgba(255,255,255,.75);
   --surface-solid: #FFFFFF;
-  --text: #0B0B10;
-  --muted: #555561;
+  --text: #0B1626;
+  --muted: #4E5D70;
   --line: rgba(10,10,20,.12);
   --line-2: rgba(10,10,20,.07);
-  --accent-ink: #4A5C00;
-  --glow: rgba(120,150,0,.14);
-  --dot: 20,20,30;
+  --accent-ink: #0369A1;
+  --on-accent: #07111F;
+  --glow: rgba(3,105,161,.12);
+  --dot: 11,22,38;
   --shadow: 0 30px 70px -45px rgba(20,20,40,.45);
 }
 
@@ -92,12 +92,12 @@ a { color: inherit; text-decoration: none; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--accent); color: var(--on-accent); padding: 8px 14px; border-radius: 10px; font-weight: 600; }
 .skip:focus { left: 12px; }
 
-/* grain + ambient light behind everything */
+/* ambient light behind everything */
 body::before {
   content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(40% 35% at 85% 10%, rgba(139,92,246,.16), transparent 70%),
-    radial-gradient(35% 30% at 10% 90%, rgba(211,255,0,.07), transparent 70%);
+    radial-gradient(40% 35% at 85% 10%, rgba(56,189,248,.12), transparent 70%),
+    radial-gradient(35% 30% at 10% 90%, rgba(14,116,144,.14), transparent 70%);
 }
 
 /* ── progress + nav ── */
@@ -141,7 +141,7 @@ body::before {
 .hero::after { content: ""; position: absolute; inset: auto 0 0 0; height: 30%; z-index: -1; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
 .status { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 13px; color: var(--muted); backdrop-filter: blur(8px); }
 .pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: pulse 2.2s infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(211,255,0,.55); } 70% { box-shadow: 0 0 0 10px rgba(211,255,0,0); } 100% { box-shadow: 0 0 0 0 rgba(211,255,0,0); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56,189,248,.55); } 70% { box-shadow: 0 0 0 10px rgba(56,189,248,0); } 100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); } }
 .hero h1 {
   font: 700 clamp(64px, 13.5vw, 212px)/.84 var(--display); letter-spacing: -.065em;
   margin: 26px 0 0; text-transform: uppercase;
@@ -205,8 +205,8 @@ section { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 .tile:hover::before { opacity: 1; }
 .tile:hover { border-color: color-mix(in srgb, var(--accent-ink) 40%, var(--line)); }
 .tile-label { font: 500 11.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.t-term { grid-area: term; padding: 0; display: flex; flex-direction: column; background: #0A0A0E; color: #E8E8EE; }
-:root[data-theme="light"] .t-term { background: #0E0E14; border-color: transparent; }
+.t-term { grid-area: term; padding: 0; display: flex; flex-direction: column; background: #050D18; color: #E2EAF4; }
+:root[data-theme="light"] .t-term { background: #0B1626; border-color: transparent; }
 .t-phone { grid-area: phone; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 16px; }
 .t-calls { grid-area: calls; } .t-bugs { grid-area: bugs; } .t-me { grid-area: me; } .t-lang { grid-area: lang; } .t-tests { grid-area: tests; }
 
@@ -217,8 +217,8 @@ section { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 .term-bar button { margin-left: auto; font: 500 12px/1 var(--mono); color: #C9C9D2; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 6px 11px; cursor: pointer; }
 .term-bar button:hover { color: #fff; border-color: rgba(255,255,255,.3); }
 .term-body { margin: 0; padding: 18px 20px 22px; font: 400 12.5px/1.62 var(--mono); white-space: pre; overflow: auto; flex: 1; min-height: 360px; }
-.term-body .p { color: #D3FF00; } .term-body .g { color: #6EE7A0; } .term-body .r { color: #FF7A85; } .term-body .d { color: #8A8A96; } .term-body .c { color: #7DD3FC; } .term-body .w { color: #fff; font-weight: 500; }
-.caret { display: inline-block; width: 8px; height: 1.1em; vertical-align: -2px; background: #D3FF00; animation: blink 1s steps(1) infinite; }
+.term-body .p { color: #38BDF8; } .term-body .g { color: #6EE7A0; } .term-body .r { color: #FF7A85; } .term-body .d { color: #8A8A96; } .term-body .c { color: #E0F2FE; font-weight: 500; } .term-body .w { color: #fff; font-weight: 500; }
+.caret { display: inline-block; width: 8px; height: 1.1em; vertical-align: -2px; background: #38BDF8; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
 .phone { position: relative; width: min(168px, 100%); aspect-ratio: 720/1520; border-radius: 26px; padding: 6px; background: linear-gradient(145deg, #2A2A33, #0B0B0F); box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.12); }
@@ -1065,11 +1065,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
      them. Orthographic projection on a 2D canvas — no WebGL context to lose, no
      library to download — and it only draws while it is on screen. */
   var cv = $("#globe"), ctx = cv.getContext("2d");
-  var DOT = "244,244,246", ACC = "211,255,0";
+  var DOT = "234,242,251", ACC = "56,189,248";
   function readColors() {
     var cs = getComputedStyle(root);
     DOT = cs.getPropertyValue("--dot").trim() || DOT;
-    ACC = root.getAttribute("data-theme") === "light" ? "74,92,0" : "211,255,0";
+    ACC = root.getAttribute("data-theme") === "light" ? "3,105,161" : "56,189,248";
   }
   readColors();
   var cities = [
@@ -1115,7 +1115,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     ctx.clearRect(0, 0, W, H);
     // halo
     var g = ctx.createRadialGradient(W/2, H/2, R * 0.6, W/2, H/2, R * 1.35);
-    g.addColorStop(0, "rgba(139,92,246,0.10)"); g.addColorStop(1, "rgba(139,92,246,0)");
+    g.addColorStop(0, "rgba(56,189,248,0.09)"); g.addColorStop(1, "rgba(56,189,248,0)");
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(W/2, H/2, R * 1.35, 0, 6.283); ctx.fill();
     ctx.strokeStyle = "rgba(" + DOT + ",0.10)"; ctx.lineWidth = dpr; ctx.beginPath(); ctx.arc(W/2, H/2, R, 0, 6.283); ctx.stroke();
     // sphere dots, front half only, fading toward the limb
@@ -1136,7 +1136,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         var s2 = proj(q2, lift);
         if (!started) { ctx.moveTo(s2[0], s2[1]); started = true; } else ctx.lineTo(s2[0], s2[1]);
       }
-      ctx.strokeStyle = "rgba(139,92,246,0.35)"; ctx.stroke();
+      ctx.strokeStyle = "rgba(" + ACC + ",0.26)"; ctx.stroke();
     }
     // riders with short trails
     for (var k = 0; k < riders.length; k++) {
