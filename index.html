@@ -695,9 +695,17 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <p>Own the engineering for both products, from the Postgres schema to the signed
              Android artefact and the public record of what was tested.</p>
           <ul>
-            <li>Built <strong>Waggle</strong> end to end as three apps on one Supabase backend, for riders,
-                shops and customers: orders, dispatch, live tracking on roads, GST invoicing and UPI rider
-                pay, with the database rules checked by a <strong>134-case attack suite, all blocked</strong>.</li>
+            <li>Built three Android apps end to end on one Supabase backend, with the database rules
+                checked by a <strong>134-case attack suite, all blocked</strong>:</li>
+            <li><strong>Waggle Gig</strong> (riders): real-time job offers with a 45-second window,
+                dispatch decided first-accept-wins inside the database, voice turn-by-turn with
+                rerouting and a snap-to-road algorithm, and earnings per hour.</li>
+            <li><strong>Waggle Business</strong> (shops): orders turned into rider jobs with 4-digit
+                handover codes, a live map of its riders, numbered GST invoices, UPI rider settlement
+                by UTR, and month-end billing on pg_cron.</li>
+            <li><strong>Waggle</strong> (customers): nearby shops, menus with item choices, coupons,
+                scheduled and group orders, and live tracking with the rider snapped to the road and
+                an ETA counted down from the distance left.</li>
             <li>Found and fixed a render loop that made the shop app fire <strong>about 450 API requests
                 a second</strong> while open, traced to a translation helper rebuilt on every render.</li>
             <li>Wrote <strong>Populace</strong> and published it to npm with no runtime
