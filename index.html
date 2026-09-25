@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sankur Kundu — Co-founder &amp; Head of Engineering, Gigzen</title>
-<meta name="description" content="Sankur Kundu — co-founder and Head of Engineering at Gigzen. Builds Waggle, a platform for gig workers, and Populace, a tool that fills your app with simulated people and tests it through your real API.">
+<meta name="description" content="Sankur Kundu — co-founder and Head of Engineering at Gigzen. Builds Waggle, three apps for riders, shops and customers on one backend, and Populace, a tool that fills your app with simulated people and tests it through your real API.">
 <meta name="author" content="Sankur Kundu">
 <meta name="theme-color" content="#07111F">
 
@@ -413,6 +413,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .marquee-track { animation: none; }
 }
+  .case-note { margin-top: 12px; font-size: 13px; color: var(--muted, #6b7280); }
 </style>
 <script>
   /* Before paint: mark JS on (so reveal styles apply only when they can finish)
@@ -469,7 +470,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div>
           <p class="role">Co-founder &amp; Head of Engineering — Gigzen</p>
           <p class="blurb">I build for the 1.57&nbsp;billion people who work the gig economy.
-            Two products, end to end: <strong>Waggle</strong>, a platform for drivers and riders,
+            Two products, end to end: <strong>Waggle</strong>, three apps for riders, shops and customers,
             and <strong>Populace</strong>, the testing tool I wrote because a social app with
             nobody in it tells you nothing.</p>
         </div>
@@ -508,16 +509,16 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         </div>
 
         <div class="tile t-phone rv">
-          <span class="tile-label">Waggle · Android</span>
+          <span class="tile-label">Waggle · three Android apps</span>
           <div class="phone" id="phone">
             <div class="screen">
-              <img class="on" src="shots/map.jpg" alt="Waggle: trips drawn on the map" loading="lazy" decoding="async">
-              <img src="shots/friends.jpg" alt="Waggle: friends on the map" loading="lazy" decoding="async">
-              <img src="shots/community.jpg" alt="Waggle: community feed" loading="lazy" decoding="async">
-              <img src="shots/messages.jpg" alt="Waggle: messages" loading="lazy" decoding="async">
+              <img class="on" src="shots/wg3-gig-home.jpg" alt="Waggle Gig: online, with a job offer and its countdown" loading="lazy" decoding="async">
+              <img src="shots/wg3-gig-nav.jpg" alt="Waggle Gig: turn-by-turn to the shop" loading="lazy" decoding="async">
+              <img src="shots/wg3-biz-live.jpg" alt="Waggle Business: the shop's live map of its riders" loading="lazy" decoding="async">
+              <img src="shots/wg3-customer-track.jpg" alt="Waggle: the customer following the rider, with the ETA" loading="lazy" decoding="async">
             </div>
           </div>
-          <div class="phone-cap"><b id="phonecap">Your roads, drawn</b><span>In closed testing</span></div>
+          <div class="phone-cap"><b id="phonecap">Rider: a job, live</b><span>In closed testing</span></div>
         </div>
 
         <div class="tile t-calls rv">
@@ -582,30 +583,33 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="case-head rv">
           <div class="case-num" aria-hidden="true">01</div>
           <div>
-            <div class="case-tag"><span class="pill">Android</span><span class="pill">React · TypeScript · Capacitor</span><span class="pill">Supabase</span></div>
+            <div class="case-tag"><span class="pill">3 Android apps</span><span class="pill">React · TypeScript · Capacitor</span><span class="pill">Supabase · Postgres</span></div>
             <h3 class="case-name" id="waggle-h">Waggle<em>.</em></h3>
           </div>
         </div>
         <div class="case-body">
           <div class="case-text rv">
-            <p class="case-lede">A home for gig drivers and riders — the roads you drove, the people you ride with, in their language.</p>
-            <p>Earnings that follow the road, a live map of the people working your streets, group chat, and a feed.
-               The currency comes from where you are, not the language your phone is set to.</p>
+            <p class="case-lede">Three apps on one backend: <b>Waggle Gig</b> for riders, <b>Waggle Business</b> for shops, <b>Waggle</b> for customers.</p>
+            <p>A shop's order becomes a rider's job, with turn-by-turn directions, pickup and delivery codes, and a live map the
+               customer and the shop both follow. Behind it: GST invoicing, riders paid by UPI, month-end billing on a schedule,
+               and the rider's real earnings by the hour.</p>
             <ul class="facts">
-              <li><b>43</b><span>Languages, right-to-left included</span></li>
-              <li><b>70</b><span>Currencies across 92 countries, picked from where the rider is</span></li>
-              <li><b>49</b><span>Row-level-security policies over 20 Postgres tables</span></li>
+              <li><b>3</b><span>Apps sharing one Supabase backend, live between them</span></li>
+              <li><b>134/134</b><span>Attack cases on the database rules, all blocked</span></li>
+              <li><b>82/82</b><span>Feature checks passing on every schema change</span></li>
             </ul>
             <div class="case-links">
               <a class="btn btn-primary mag" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">Visit Waggle</a>
-              <a class="btn btn-ghost mag" href="https://github.com/Shakhtar-Sankur/waggle" rel="noreferrer">Source</a>
+              <a class="btn btn-ghost mag" href="https://github.com/Shakhtar-Sankur/waggle" rel="noreferrer">Rider app source</a>
             </div>
+            <p class="case-note">The full three-app code is private to Gigzen; available on request.</p>
           </div>
           <div class="strip" data-drift>
-            <div class="phone"><div class="screen"><img src="shots/home.jpg" alt="Waggle home screen" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/map.jpg" alt="Waggle trip map" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/community.jpg" alt="Waggle community feed" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/messages.jpg" alt="Waggle messages" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-gig-home.jpg" alt="Waggle Gig: online, today's earnings, a zone alert and a job offer" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-gig-nav.jpg" alt="Waggle Gig: the job in hand with turn-by-turn to the shop" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-gig-earnings.jpg" alt="Waggle Gig: earnings per hour and per delivery" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-biz-live.jpg" alt="Waggle Business: riders to pay and the live map" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-customer-track.jpg" alt="Waggle: the customer's delivery code, ETA and rider on the road" loading="lazy" decoding="async"></div></div>
           </div>
         </div>
       </article>
@@ -687,13 +691,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="job rv">
           <div class="job-when">2026 — present</div>
           <h3>Co-founder &amp; Head of Engineering</h3>
-          <div class="job-where">Gigzen Private Limited · Bhubaneswar, Odisha</div>
+          <div class="job-where">Gigzen (incorporation in progress) · Bhubaneswar, Odisha</div>
           <p>Own the engineering for both products, from the Postgres schema to the signed
              Android artefact and the public record of what was tested.</p>
           <ul>
-            <li>Built <strong>Waggle</strong> end to end: React and TypeScript on Capacitor over a
-                Supabase backend, with realtime sync, presence, read receipts, offline-queued
-                writes and 43-language localisation including right-to-left Arabic, Urdu and Hebrew.</li>
+            <li>Built <strong>Waggle</strong> end to end as three apps on one Supabase backend, for riders,
+                shops and customers: orders, dispatch, live tracking on roads, GST invoicing and UPI rider
+                pay, with the database rules checked by a <strong>134-case attack suite, all blocked</strong>.</li>
+            <li>Found and fixed a render loop that made the shop app fire <strong>about 450 API requests
+                a second</strong> while open, traced to a translation helper rebuilt on every render.</li>
             <li>Wrote <strong>Populace</strong> and published it to npm with no runtime
                 dependencies, then shipped it as a desktop application. <strong>Try it in half a
                 minute</strong>: <code>npx @gigzen/populace demo</code> runs the whole product
@@ -771,10 +777,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       </div>
       <div class="work-grid" id="workgrid">
         <a class="tile work rv" data-kind="product" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">
-          <span class="tag">Product · Android</span><h3>Waggle</h3>
-          <p>A platform for gig drivers and riders. Earnings that follow the road, a live map of
-             the people working your streets, group chat, and a feed — in forty-three languages, with
-             the currency set from where you are.</p>
+          <span class="tag">Product · 3 Android apps</span><h3>Waggle</h3>
+          <p>Waggle Gig for riders, Waggle Business for shops and Waggle for customers, live on one
+             backend: a shop's order becomes a rider's job, followed on a live map by the shop and the
+             customer, with invoices and rider pay behind it.</p>
           <span class="go">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="product" href="https://shakhtar-sankur.github.io/populace/" rel="noreferrer">
@@ -1107,7 +1113,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   $("#replay").addEventListener("click", runTerm);
 
   /* ── phone: cycle screens ── */
-  var shots = $$("#phone img"), caps = ["Your roads, drawn", "Friends on the map", "A feed for your streets", "Chat with read receipts"], si = 0;
+  var shots = $$("#phone img"), caps = ["Rider: a job, live", "Rider: turn by turn", "Shop: riders on the map", "Customer: rider on the way"], si = 0;
   var phonecap = $("#phonecap");
   if (!reduce) setInterval(function () {
     if (document.hidden) return;
