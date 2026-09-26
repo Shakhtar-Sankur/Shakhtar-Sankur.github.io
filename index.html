@@ -291,7 +291,7 @@ section { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 .facts span { color: var(--muted); align-self: center; }
 .case-links { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.strip { position: relative; display: flex; gap: 18px; justify-content: center; padding: 20px 0; }
+.strip { position: relative; display: flex; gap: 18px; justify-content: center; align-items: flex-start; padding: 20px 0; }
 .strip .phone { width: calc((100% - 54px) / 4); max-width: 200px; flex: none; }
 .strip .phone:nth-child(odd) { margin-top: 60px; }
 .strip .phone img { opacity: 1; transform: none; }
@@ -516,6 +516,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
               <img src="shots/wg3-gig-nav.jpg" alt="Waggle Gig: turn-by-turn to the shop" loading="lazy" decoding="async">
               <img src="shots/wg3-biz-live.jpg" alt="Waggle Business: the shop's live map of its riders" loading="lazy" decoding="async">
               <img src="shots/wg3-customer-track.jpg" alt="Waggle: the customer following the rider, with the ETA" loading="lazy" decoding="async">
+              <img src="shots/wg3-send.jpg" alt="Waggle Send: the sender's pickup and delivery codes, and paying the rider by UPI" loading="lazy" decoding="async">
+              <img src="shots/wg3-rate.jpg" alt="Waggle: rating the rider after delivery" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="phone-cap"><b id="phonecap">Rider: a job, live</b><span>In closed testing</span></div>
@@ -591,12 +593,14 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <div class="case-text rv">
             <p class="case-lede">Three apps on one backend: <b>Waggle Gig</b> for riders, <b>Waggle Business</b> for shops, <b>Waggle</b> for customers.</p>
             <p>A shop's order becomes a rider's job, with turn-by-turn directions, pickup and delivery codes, and a live map the
-               customer and the shop both follow. Behind it: GST invoicing, riders paid by UPI, month-end billing on a schedule,
-               and the rider's real earnings by the hour.</p>
+               customer and the shop both follow. Customers can also send a parcel across town with Waggle Send, and every
+               delivery ends with a rating of the rider. Behind it: GST invoicing, riders paid by UPI, month-end billing on a
+               schedule, and the rider's real earnings by the hour.</p>
             <ul class="facts">
               <li><b>3</b><span>Apps sharing one Supabase backend, live between them</span></li>
-              <li><b>134/134</b><span>Attack cases on the database rules, all blocked</span></li>
-              <li><b>82/82</b><span>Feature checks passing on every schema change</span></li>
+              <li><b>150/150</b><span>Attack cases on the database rules, all blocked</span></li>
+              <li><b>93/93</b><span>Feature checks passing on every schema change</span></li>
+              <li><b>42</b><span>Steps clicked through all three apps, live: sign-up and verification, an order, a parcel, ratings</span></li>
             </ul>
             <div class="case-links">
               <a class="btn btn-primary mag" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">Visit Waggle</a>
@@ -605,11 +609,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             <p class="case-note">The full three-app code is private to Gigzen; available on request.</p>
           </div>
           <div class="strip" data-drift>
-            <div class="phone"><div class="screen"><img src="shots/wg3-gig-home.jpg" alt="Waggle Gig: online, today's earnings, a zone alert and a job offer" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/wg3-gig-nav.jpg" alt="Waggle Gig: the job in hand with turn-by-turn to the shop" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/wg3-gig-earnings.jpg" alt="Waggle Gig: earnings per hour and per delivery" loading="lazy" decoding="async"></div></div>
-            <div class="phone"><div class="screen"><img src="shots/wg3-biz-live.jpg" alt="Waggle Business: riders to pay and the live map" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-gig-nav.jpg" alt="Waggle Gig: the job in hand, with turn-by-turn to the shop" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-biz-live.jpg" alt="Waggle Business: today's deliveries, riders to pay and the live map" loading="lazy" decoding="async"></div></div>
             <div class="phone"><div class="screen"><img src="shots/wg3-customer-track.jpg" alt="Waggle: the customer's delivery code, ETA and rider on the road" loading="lazy" decoding="async"></div></div>
+            <div class="phone"><div class="screen"><img src="shots/wg3-send.jpg" alt="Waggle Send: pickup and delivery codes, and paying the rider by UPI" loading="lazy" decoding="async"></div></div>
           </div>
         </div>
       </article>
@@ -696,7 +699,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
              Android artefact and the public record of what was tested.</p>
           <ul>
             <li>Built three Android apps end to end on one Supabase backend, with the database rules
-                checked by a <strong>134-case attack suite, all blocked</strong>:</li>
+                checked by a <strong>150-case attack suite, all blocked</strong>:</li>
             <li><strong>Waggle Gig</strong> (riders): real-time job offers with a 45-second window,
                 dispatch decided first-accept-wins inside the database, voice turn-by-turn with
                 rerouting and a snap-to-road algorithm, and earnings per hour.</li>
@@ -1121,7 +1124,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   $("#replay").addEventListener("click", runTerm);
 
   /* ── phone: cycle screens ── */
-  var shots = $$("#phone img"), caps = ["Rider: a job, live", "Rider: turn by turn", "Shop: riders on the map", "Customer: rider on the way"], si = 0;
+  var shots = $$("#phone img"), caps = ["Rider: a job, live", "Rider: turn by turn", "Shop: riders on the map", "Customer: rider on the way", "Send: a parcel across town", "Customer: rating the rider"], si = 0;
   var phonecap = $("#phonecap");
   if (!reduce) setInterval(function () {
     if (document.hidden) return;
