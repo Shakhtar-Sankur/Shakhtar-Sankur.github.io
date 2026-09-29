@@ -578,7 +578,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <div class="sec-head rv">
         <span class="kicker">Products</span>
-        <h2 class="sec-title">Two products. <span class="dim">Built end to end.</span></h2>
+        <h2 class="sec-title">Two products and a database. <span class="dim">Built end to end.</span></h2>
       </div>
 
       <article class="case" aria-labelledby="waggle-h">
@@ -644,6 +644,49 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <div class="stack" data-drift>
             <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>Populace Studio — live run</span></div><img src="shots/populace-live.jpg" width="1440" height="744" alt="Populace Studio during a live run: simulated people on a world map and a box per method with its latency" loading="lazy" decoding="async"></div>
             <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>Report</span></div><img src="shots/populace-report.jpg" width="1440" height="744" alt="Populace Studio report after a run" loading="lazy" decoding="async"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" aria-labelledby="quorumdb-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">03</div>
+          <div>
+            <div class="case-tag"><span class="pill">Distributed database</span><span class="pill">Rust · zero dependencies</span><span class="pill">Deterministic simulation</span></div>
+            <h3 class="case-name" id="quorumdb-h">quorumdb<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">A Spanner-class distributed database, built one proven layer at a time.</p>
+            <p>A crash-safe LSM storage engine, Raft consensus, a sharded multi-Raft store that splits and
+               rebalances itself, and ACID transactions across machines at snapshot and serializable
+               isolation. Every layer is tested the way FoundationDB is: one seed replays a whole run of
+               random work, crashes, partitions and clock skew, exactly, and a checker proves every
+               history linearizable or serializable. The SQL layer is in progress.</p>
+            <ul class="facts">
+              <li><b>10,000</b><span>Simulated Raft clusters through 610K crashes, zero safety violations</span></li>
+              <li><b>44K</b><span>Distributed transactions, every history machine-checked for serializability</span></li>
+              <li><b>6</b><span>Real bugs the simulator found before release, each written up in the README</span></li>
+              <li><b>15/15</b><span>Planted bugs caught, from torn log tails to the Raft paper's Figure 8</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/quorumdb" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>quorumdb raft-sim --seeds 10000</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">ok: 10000 clusters x 10s simulated
+  198745186 messages (22893424 lost)
+  610064 crashes, 144354 partitions
+  118136 leaders elected, 53962 membership changes
+  14289650 writes acknowledged
+  5844923 linearizable reads
+  0 safety violations</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>quorumdb txn-sim --seeds 300</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">ok: 300 clusters (155 serializable, 145 snapshot)
+  44258 transactions committed, 10765 aborted
+  2262 crashes, 1796 partitions
+  193205 dependency edges checked
+  serializable runs: every history serializable</pre></div>
           </div>
         </div>
       </article>
@@ -755,7 +798,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg>
           <h3>Languages</h3>
-          <div class="chips"><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
+          <div class="chips"><span class="chip">Rust</span><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
         </div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
@@ -765,7 +808,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="6" rx="2"/><rect x="2.5" y="14.5" width="19" height="6" rx="2"/><path d="M6.5 6.5h.01M6.5 17.5h.01"/></svg>
           <h3>Systems &amp; cloud</h3>
-          <div class="chips"><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
+          <div class="chips"><span class="chip">Distributed systems</span><span class="chip">Raft</span><span class="chip">MVCC &amp; 2PC</span><span class="chip">LSM storage</span><span class="chip">Deterministic simulation</span><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
         </div>
       </div>
     </div>
@@ -783,10 +826,18 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <div class="filters rv" role="group" aria-label="Filter work by kind">
         <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
         <button class="filter" type="button" data-filter="product" aria-pressed="false">Products</button>
+        <button class="filter" type="button" data-filter="systems" aria-pressed="false">Systems</button>
         <button class="filter" type="button" data-filter="ml" aria-pressed="false">Machine learning</button>
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems" href="https://github.com/Shakhtar-Sankur/quorumdb" rel="noreferrer">
+          <span class="tag">Systems · Distributed database</span><h3>quorumdb</h3>
+          <p>A distributed database in Rust with zero dependencies: LSM storage, Raft, a self-balancing
+             sharded store and serializable transactions, proven by deterministic simulation across
+             10,000 clusters and 610K crashes.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="product" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">
           <span class="tag">Product · 3 Android apps</span><h3>Waggle</h3>
           <p>Waggle Gig for riders, Waggle Business for shops and Waggle for customers, live on one
