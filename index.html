@@ -652,7 +652,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="case-head rv">
           <div class="case-num" aria-hidden="true">03</div>
           <div>
-            <div class="case-tag"><span class="pill">Distributed database</span><span class="pill">Rust · zero dependencies</span><span class="pill">Deterministic simulation</span></div>
+            <div class="case-tag"><span class="pill">Distributed database</span><span class="pill">Rust · zero dependencies</span><span class="pill">Deterministic simulation</span><span class="pill">TLA+</span></div>
             <h3 class="case-name" id="quorumdb-h">quorumdb<em>.</em></h3>
           </div>
         </div>
@@ -664,12 +664,14 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
                isolation. Every layer is tested the way FoundationDB is: one seed replays a whole run of
                random work, crashes, partitions and clock skew, exactly, and a checker proves every
                history linearizable or serializable. It speaks the PostgreSQL wire protocol, with joins,
-               aggregates, EXPLAIN and serializable transactions.</p>
+               aggregates, EXPLAIN and serializable transactions. The transaction protocol is model-checked
+               in TLA+, a TPC-C-derived benchmark drives the whole stack, and a time-travel debugger steps
+               any simulated Raft cluster event by event, and backward by replay.</p>
             <ul class="facts">
               <li><b>10,000</b><span>Simulated Raft clusters through 610K crashes, zero safety violations</span></li>
-              <li><b>44K</b><span>Distributed transactions, every history machine-checked for serializability</span></li>
-              <li><b>6</b><span>Real bugs the simulator found before release, each written up in the README</span></li>
-              <li><b>15/15</b><span>Planted bugs caught, from torn log tails to the Raft paper's Figure 8</span></li>
+              <li><b>1,503</b><span>tpmC on a TPC-C-derived benchmark, serializable, consistency checks passing</span></li>
+              <li><b>337K</b><span>States TLC checked in the TLA+ model of the transaction protocol, zero violations</span></li>
+              <li><b>15/15</b><span>Planted bugs caught, from torn log tails to the Raft paper's Figure 8; 6 real bugs found</span></li>
             </ul>
             <div class="case-links">
               <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/quorumdb" rel="noreferrer">Source &amp; results</a>
@@ -683,11 +685,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   14289650 writes acknowledged
   5844923 linearizable reads
   0 safety violations</pre></div>
-            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>quorumdb txn-sim --seeds 300</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">ok: 300 clusters (155 serializable, 145 snapshot)
-  44258 transactions committed, 10765 aborted
-  2262 crashes, 1796 partitions
-  193205 dependency edges checked
-  serializable runs: every history serializable</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>quorumdb tpcc ./tpcc --terminals 1</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">tpmC 1503   (1503 New-Orders in 60.0s)
+  transaction   commits  p50 ms  p99 ms
+  NewOrder         1503      18     284
+  Payment          1414       9      55
+  Delivery          142      12      51
+  consistency conditions 1 and 2: hold</pre></div>
           </div>
         </div>
       </article>
@@ -836,7 +839,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <span class="tag">Systems · Distributed database</span><h3>quorumdb</h3>
           <p>A distributed SQL database in Rust with zero dependencies that psql connects to: LSM
              storage, Raft, a self-balancing sharded store and serializable transactions, proven by deterministic simulation across
-             10,000 clusters and 610K crashes.</p>
+             10,000 clusters and 610K crashes, model-checked in TLA+, and benchmarked at 1,503 tpmC (TPC-C-derived).</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="product" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">
