@@ -842,6 +842,13 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
              10,000 clusters and 610K crashes, model-checked in TLA+, and benchmarked at 1,503 tpmC (TPC-C-derived).</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
+        <a class="tile work rv" data-kind="systems" href="https://github.com/Shakhtar-Sankur/faultline" rel="noreferrer">
+          <span class="tag">Systems · Fault injection</span><h3>faultline</h3>
+          <p>Jepsen-style testing of real etcd clusters in Rust: network partitions, kill -9 crashes and process
+             pauses across four etcd release lines and 1.26M operations. Linearizability and watch guarantees held;
+             it traced lost updates under etcd's locks to a paused leader applying a timed-out write 6 s late.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="product" href="https://shakhtar-sankur.github.io/gigzen/waggle.html" rel="noreferrer">
           <span class="tag">Product · 3 Android apps</span><h3>Waggle</h3>
           <p>Waggle Gig for riders, Waggle Business for shops and Waggle for customers, live on one
