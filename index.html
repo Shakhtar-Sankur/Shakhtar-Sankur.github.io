@@ -835,6 +835,14 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer">
+          <span class="tag">ML systems · LLM inference</span><h3>ferrolm</h3>
+          <p>An OpenAI-compatible LLM server in Rust with zero dependencies, running Hugging Face models on
+             hand-written AVX-512 kernels: paged KV cache, continuous batching, prefix caching and speculative decoding.
+             3.4&times; the throughput of one-at-a-time serving, first token 46&times; sooner with prefix caching,
+             and output that matches Hugging Face transformers.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems" href="https://github.com/Shakhtar-Sankur/quorumdb" rel="noreferrer">
           <span class="tag">Systems · Distributed database</span><h3>quorumdb</h3>
           <p>A distributed SQL database in Rust with zero dependencies that psql connects to: LSM
@@ -1232,7 +1240,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       var kind = btn.getAttribute("data-filter");
       filters.forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
       works.forEach(function (card) {
-        var show = kind === "all" || card.getAttribute("data-kind") === kind;
+        var show = kind === "all" || (" " + card.getAttribute("data-kind") + " ").indexOf(" " + kind + " ") >= 0;
         card.hidden = !show; if (show) card.classList.add("in");
       });
     });
