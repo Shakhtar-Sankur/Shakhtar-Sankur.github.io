@@ -836,11 +836,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       </div>
       <div class="work-grid" id="workgrid">
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer">
-          <span class="tag">ML systems · LLM inference</span><h3>ferrolm</h3>
-          <p>An OpenAI-compatible LLM server in Rust with zero dependencies, running Hugging Face models on
-             hand-written AVX-512 kernels: paged KV cache, continuous batching, prefix caching and speculative decoding.
-             3.4&times; the throughput of one-at-a-time serving, first token 46&times; sooner with prefix caching,
-             and output that matches Hugging Face transformers.</p>
+          <span class="tag">ML systems · LLM inference · RAG</span><h3>ferrolm</h3>
+          <p>An OpenAI-compatible LLM server and retrieval stack in Rust with zero dependencies: paged KV cache,
+             continuous batching, prefix caching and speculative decoding on hand-written AVX-512 kernels, plus
+             int8/int4 quantization (AWQ), BERT embeddings and HNSW / IVF-PQ vector search at FAISS-level recall.
+             3.4&times; the throughput of one-at-a-time serving; retrieval lifts SQuAD answer F1 from 15 to 48.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems" href="https://github.com/Shakhtar-Sankur/quorumdb" rel="noreferrer">
