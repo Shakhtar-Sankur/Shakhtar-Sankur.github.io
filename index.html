@@ -698,24 +698,26 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="case-head rv">
           <div class="case-num" aria-hidden="true">04</div>
           <div>
-            <div class="case-tag"><span class="pill">ML compiler</span><span class="pill">Rust · zero dependencies</span><span class="pill">SIMD code generation</span><span class="pill">Auto-tuning</span></div>
+            <div class="case-tag"><span class="pill">ML compiler</span><span class="pill">Rust · zero dependencies</span><span class="pill">SIMD &amp; CUDA code generation</span><span class="pill">Tensor cores</span><span class="pill">Auto-tuning</span></div>
             <h3 class="case-name" id="kiln-h">kiln<em>.</em></h3>
           </div>
         </div>
         <div class="case-body">
           <div class="case-text rv">
-            <p class="case-lede">An ML compiler that turns a PyTorch model into fused, auto-tuned machine code, and beats torch.compile on CPU.</p>
+            <p class="case-lede">An ML compiler that turns a PyTorch model into fused, auto-tuned code for CPUs and NVIDIA GPUs, and beats torch.compile on CPU.</p>
             <p>The pipeline of XLA, TVM and torch.compile, end to end and from scratch: it decodes ONNX, folds
                constants and canonicalizes the graph, fuses it into a few kernels over an affine loop IR, generates
                SIMD C, compiles and loads it at run time, and auto-tunes every matrix multiply on the machine it
-               runs on. A memory planner packs every intermediate into one arena. On BERT and SmolLM2 its output
-               matches PyTorch's, and on 4 CPU cores it is faster than torch.compile, ONNX Runtime and JAX/XLA.
-               CI checks the generated code against PyTorch with each optimisation switched off and under
-               randomly sampled schedules.</p>
+               runs on. A memory planner packs every intermediate into one arena. Its GPU backend generates CUDA
+               (fp16 tensor-core matmuls, split-K, CUDA graphs), compiles it with NVRTC at run time and tunes it on
+               the device. On BERT and SmolLM2 its output matches PyTorch's. On 4 CPU cores it is fastest of five
+               engines. On an NVIDIA T4 in fp16 it beats torch.compile on SmolLM2 and an MLP, and trails it on BERT.
+               In fp32 the cuBLAS-based engines stay ahead. CI checks the generated C and CUDA against PyTorch with
+               each optimisation off and under every tuned schedule, on an emulator of the CUDA execution model.</p>
             <ul class="facts">
-              <li><b>126 ms</b><span>BERT, 8 &times; 128 tokens: torch.compile 133, ONNX Runtime 146, JAX/XLA 170, PyTorch 180</span></li>
-              <li><b>102 ms</b><span>SmolLM2-135M, 128-token prefill: torch.compile 109, ONNX Runtime 111, JAX/XLA 126</span></li>
-              <li><b>1.31&times;</b><span>Speed-up from auto-tuning on BERT; fusion is worth up to 1.20&times;</span></li>
+              <li><b>117 ms</b><span>BERT on 4 CPU cores, 8 &times; 128 tokens: torch.compile 149, ONNX Runtime 153, JAX/XLA 189, PyTorch 198</span></li>
+              <li><b>7.9 ms</b><span>SmolLM2-135M on an NVIDIA T4, fp16 tensor cores: 1.65&times; faster than torch.compile (13.1 ms)</span></li>
+              <li><b>3.7&times;</b><span>Faster than torch.compile on the MLP on the T4 (0.30 vs 1.10 ms); auto-tuning is worth up to 1.70&times;</span></li>
               <li><b>16 MB</b><span>Arena holding BERT's 381 MB of intermediates, planned at compile time</span></li>
             </ul>
             <div class="case-links">
@@ -723,12 +725,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             </div>
           </div>
           <div class="stack" data-drift>
-            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/run.sh: medians of every timing</span></div><img src="shots/kiln-latency.svg" width="720" height="704" alt="Inference latency of kiln, torch.compile, ONNX Runtime, JAX/XLA and PyTorch on BERT, SmolLM2 and an MLP; kiln is fastest on all three" loading="lazy" decoding="async"></div>
-            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>kiln run models/bert.onnx</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">compiled: 134 kernels (11 distinct,
-          1632 lines of C), 10 host steps
-memory plan: 16.3 MB arena
-          for 381.2 MB of intermediates
-max |diff| vs PyTorch: 2.682e-7</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/run.sh: medians of every timing</span></div><img src="shots/kiln-latency.svg" width="720" height="704" alt="CPU inference latency of kiln, torch.compile, ONNX Runtime, JAX/XLA and PyTorch on BERT, SmolLM2 and an MLP; kiln has the lowest median on all three" loading="lazy" decoding="async"></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/run_gpu.sh: Tesla T4, fp16</span></div><img src="shots/kiln-gpu-fp16.svg" width="720" height="524" alt="GPU latency on a Tesla T4 in fp16: kiln is fastest on SmolLM2 and the MLP; torch.compile is fastest on BERT" loading="lazy" decoding="async"></div>
           </div>
         </div>
       </article>
@@ -876,9 +874,9 @@ max |diff| vs PyTorch: 2.682e-7</pre></div>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/kiln" rel="noreferrer">
           <span class="tag">ML systems · Compiler · Code generation</span><h3>kiln</h3>
           <p>An ML compiler in Rust with zero dependencies: ONNX import, constant folding, operator fusion over an
-             affine loop IR, SIMD C code generation compiled at run time, an auto-tuner and a memory planner. Output
-             matches PyTorch; on 4 CPU cores it runs BERT in 126 ms and SmolLM2 in 102 ms, faster than
-             torch.compile (133, 109), ONNX Runtime and JAX/XLA.</p>
+             affine loop IR, SIMD C and CUDA code generation (tensor cores), auto-tuners and a memory planner. Output
+             matches PyTorch. On 4 CPU cores it runs BERT in 117 ms, faster than torch.compile (149), ONNX Runtime
+             and JAX/XLA. On an NVIDIA T4 in fp16 it runs SmolLM2 1.65&times; faster than torch.compile.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer">
