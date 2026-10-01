@@ -694,6 +694,44 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="kiln-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">04</div>
+          <div>
+            <div class="case-tag"><span class="pill">ML compiler</span><span class="pill">Rust · zero dependencies</span><span class="pill">SIMD code generation</span><span class="pill">Auto-tuning</span></div>
+            <h3 class="case-name" id="kiln-h">kiln<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">An ML compiler that turns a PyTorch model into fused, auto-tuned machine code, and beats torch.compile on CPU.</p>
+            <p>The pipeline of XLA, TVM and torch.compile, end to end and from scratch: it decodes ONNX, folds
+               constants and canonicalizes the graph, fuses it into a few kernels over an affine loop IR, generates
+               SIMD C, compiles and loads it at run time, and auto-tunes every matrix multiply on the machine it
+               runs on. A memory planner packs every intermediate into one arena. On BERT and SmolLM2 its output
+               matches PyTorch's, and on 4 CPU cores it is faster than torch.compile, ONNX Runtime and JAX/XLA.
+               CI checks the generated code against PyTorch with each optimisation switched off and under
+               randomly sampled schedules.</p>
+            <ul class="facts">
+              <li><b>126 ms</b><span>BERT, 8 &times; 128 tokens: torch.compile 133, ONNX Runtime 146, JAX/XLA 170, PyTorch 180</span></li>
+              <li><b>102 ms</b><span>SmolLM2-135M, 128-token prefill: torch.compile 109, ONNX Runtime 111, JAX/XLA 126</span></li>
+              <li><b>1.31&times;</b><span>Speed-up from auto-tuning on BERT; fusion is worth up to 1.20&times;</span></li>
+              <li><b>16 MB</b><span>Arena holding BERT's 381 MB of intermediates, planned at compile time</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/kiln" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/run.sh: medians of every timing</span></div><img src="shots/kiln-latency.svg" width="720" height="704" alt="Inference latency of kiln, torch.compile, ONNX Runtime, JAX/XLA and PyTorch on BERT, SmolLM2 and an MLP; kiln is fastest on all three" loading="lazy" decoding="async"></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>kiln run models/bert.onnx</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">compiled: 134 kernels (11 distinct,
+          1632 lines of C), 10 host steps
+memory plan: 16.3 MB arena
+          for 381.2 MB of intermediates
+max |diff| vs PyTorch: 2.682e-7</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -835,6 +873,14 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/kiln" rel="noreferrer">
+          <span class="tag">ML systems · Compiler · Code generation</span><h3>kiln</h3>
+          <p>An ML compiler in Rust with zero dependencies: ONNX import, constant folding, operator fusion over an
+             affine loop IR, SIMD C code generation compiled at run time, an auto-tuner and a memory planner. Output
+             matches PyTorch; on 4 CPU cores it runs BERT in 126 ms and SmolLM2 in 102 ms, faster than
+             torch.compile (133, 109), ONNX Runtime and JAX/XLA.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer">
           <span class="tag">ML systems · LLM inference · RAG</span><h3>ferrolm</h3>
           <p>An OpenAI-compatible LLM server and retrieval stack in Rust with zero dependencies: paged KV cache,
