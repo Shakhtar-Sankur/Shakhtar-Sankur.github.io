@@ -578,7 +578,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <div class="sec-head rv">
         <span class="kicker">Products</span>
-        <h2 class="sec-title">Two products, a database and two compilers. <span class="dim">Built end to end.</span></h2>
+        <h2 class="sec-title">Two products, a database, two compilers and a training system. <span class="dim">Built end to end.</span></h2>
       </div>
 
       <article class="case" aria-labelledby="waggle-h">
@@ -778,6 +778,55 @@ every output checked against float64</pre></div>
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="tandem-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">06</div>
+          <div>
+            <div class="case-tag"><span class="pill">Distributed training</span><span class="pill">Python · C++ · CUDA</span><span class="pill">DDP · ZeRO/FSDP · pipelines</span><span class="pill">Own all-reduce, no NCCL</span></div>
+            <h3 class="case-name" id="tandem-h">tandem<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">Distributed training from scratch, on its own collectives: no torch.distributed, no NCCL, and the same losses and weights as PyTorch, to the last bit.</p>
+            <p>tandem implements the parallelisms behind large-model training on PyTorch tensors and autograd:
+               DDP with gradient buckets reduced as backward fills them, ZeRO-1, 2 and 3 (sharded optimizer state,
+               gradients and, FSDP-style, parameters gathered just before use and prefetched), and GPipe and 1F1B
+               pipeline schedules in Megatron-LM's order, all over its own ring all-reduce, reduce-scatter and
+               all-gather. On two T4 GPUs, DDP and every ZeRO stage end 20 training steps with exactly the losses
+               and weights of PyTorch's DDP and FSDP. Its collectives then moved into a C++ engine, a PyTorch C++
+               extension: lock-free single-producer, single-consumer rings in shared memory and a progress thread
+               on the CPU, and on GPUs buffers shared through CUDA IPC, ordered by interprocess events and reduced
+               by a fused CUDA kernel, so the host never waits for a piece. Where it still falls short: its DDP
+               reaches 86% of PyTorch DDP's throughput, and the C++ engine has not yet been timed against NCCL
+               across two GPUs.</p>
+            <ul class="facts">
+              <li><b>0.0</b><span>Largest weight difference from PyTorch DDP and FSDP after 20 steps on two T4s, for DDP and ZeRO-1, 2 and 3</span></li>
+              <li><b>1.6&ndash;2.8&times;</b><span>Faster all-reduce with the C++/CUDA engine than the Python one on a T4, 64 KB to 64 MB</span></li>
+              <li><b>within 2%</b><span>Of NCCL's all-reduce bandwidth at 64 to 256 MB, with the Python engine across two T4s</span></li>
+              <li><b>17% / 32&ndash;52%</b><span>Less memory per GPU with ZeRO-3 than DDP, and with 1F1B than GPipe, on an 86M-parameter GPT</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/tandem" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/run.py verify: 2x Tesla T4, 20 steps</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">tandem      against            weights
+ddp         torch DDP (NCCL)   equal
+zero1       torch DDP (NCCL)   equal
+zero2       torch DDP (NCCL)   equal
+zero3       torch DDP (NCCL)   equal
+pp-1f1b     one process        equal
+torch FSDP matches torch DDP too</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>all-reduce on a Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">ms      Python    C++
+64 KB     1.79   0.64  2.8x
+1 MB      1.53   0.83  1.9x
+4 MB      1.65   0.75  2.2x
+64 MB    10.00   6.24  1.6x
+bit-identical results</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -886,7 +935,7 @@ every output checked against float64</pre></div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg>
           <h3>Languages</h3>
-          <div class="chips"><span class="chip">Rust</span><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
+          <div class="chips"><span class="chip">Rust</span><span class="chip">C++</span><span class="chip">CUDA</span><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
         </div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
@@ -896,7 +945,7 @@ every output checked against float64</pre></div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="6" rx="2"/><rect x="2.5" y="14.5" width="19" height="6" rx="2"/><path d="M6.5 6.5h.01M6.5 17.5h.01"/></svg>
           <h3>Systems &amp; cloud</h3>
-          <div class="chips"><span class="chip">Distributed systems</span><span class="chip">Raft</span><span class="chip">MVCC &amp; 2PC</span><span class="chip">LSM storage</span><span class="chip">Deterministic simulation</span><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
+          <div class="chips"><span class="chip">Distributed systems</span><span class="chip">DDP · ZeRO/FSDP</span><span class="chip">Collectives</span><span class="chip">Raft</span><span class="chip">MVCC &amp; 2PC</span><span class="chip">LSM storage</span><span class="chip">Deterministic simulation</span><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
         </div>
       </div>
     </div>
@@ -919,6 +968,22 @@ every output checked against float64</pre></div>
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/tandem" rel="noreferrer">
+          <span class="tag">ML systems · Distributed training · C++/CUDA</span><h3>tandem</h3>
+          <p>Distributed training from scratch on its own collectives, with no torch.distributed or NCCL: DDP,
+             ZeRO-1/2/3 (FSDP-style sharding) and GPipe/1F1B pipelines. On two T4s it trains bit-identically to
+             PyTorch DDP and FSDP; its all-reduce is within 2% of NCCL's bandwidth at 64&ndash;256 MB; its C++/CUDA
+             engine (lock-free shared-memory rings, CUDA IPC, a fused reduce kernel) is 1.6&ndash;2.8&times; faster
+             than its Python engine on a T4.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a class="tile work rv" data-kind="ml" href="https://github.com/pytorch/pytorch/pull/199441" rel="noreferrer">
+          <span class="tag">Open source · PyTorch · under review</span><h3>PyTorch PR</h3>
+          <p>A pull request to PyTorch, under review: it removes 13 stale torch.compile (Inductor) test skips from
+             test_torch.py, most of which cited a bug fixed in 2024, after checking that each test now passes on
+             CPU and on two T4 GPUs.</p>
+          <span class="go">View pull request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/tessel" rel="noreferrer">
           <span class="tag">ML systems · GPU kernels · Compiler</span><h3>tessel</h3>
           <p>A Triton-style tile language and compiler in Rust with zero dependencies: linear layouts, CUDA for
