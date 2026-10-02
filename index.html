@@ -578,7 +578,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <div class="sec-head rv">
         <span class="kicker">Products</span>
-        <h2 class="sec-title">Two products and a database. <span class="dim">Built end to end.</span></h2>
+        <h2 class="sec-title">Two products, a database and two compilers. <span class="dim">Built end to end.</span></h2>
       </div>
 
       <article class="case" aria-labelledby="waggle-h">
@@ -730,6 +730,54 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="tessel-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">05</div>
+          <div>
+            <div class="case-tag"><span class="pill">GPU &amp; TPU kernel compiler</span><span class="pill">Rust · zero dependencies</span><span class="pill">CUDA · Metal · Pallas</span><span class="pill">Tensor cores</span><span class="pill">LLM engine</span></div>
+            <h3 class="case-name" id="tessel-h">tessel<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">A Triton-style tile language and its compiler: a kernel written once, compiled for NVIDIA GPUs, Apple GPUs and Google TPUs, fast enough to run an LLM at vLLM's speed.</p>
+            <p>Kernels are written against tiles, small blocks of values, and the compiler decides which thread holds
+               which element: it gives every tile a linear layout, as Triton does, and generates CUDA for tensor cores
+               with ldmatrix, mma.sync, XOR-swizzled shared memory and software-pipelined loads, tuned on the GPU it
+               runs on. The same kernels compile to the Metal Shading Language for Apple GPUs and to Pallas for TPUs,
+               where range analysis must prove every block access in bounds or the kernel is refused. On top of it
+               sits an LLM engine whose every GPU operation is a tessel kernel: fused QKV projection, rotary
+               embeddings, a paged KV cache, grouped-query attention, SwiGLU, continuous batching, packed prefill and
+               CUDA graphs. On TinyLlama-1.1B its generations are identical to vLLM's, token for token. CI checks
+               every kernel against a reference interpreter on an emulator of the CUDA execution model, compiles it
+               with NVRTC, runs it in Pallas's TPU interpret mode and compiles it with Apple's Metal compiler. It has
+               not yet been timed on a TPU or an Apple GPU.</p>
+            <ul class="facts">
+              <li><b>1.05&times;</b><span>vLLM 0.30's throughput serving TinyLlama-1.1B, 32 requests at once on a T4, in two sessions (1858 vs 1764, 1884 vs 1798 tokens/s); with 8, 0.94&ndash;0.99&times;</span></li>
+              <li><b>1.00&times;</b><span>cuBLAS on fp16 GEMM at 1024&sup3; and 2048&sup3;, 1.04&times; at 4096&sup3;; 0.71&times; before shared memory was swizzled</span></li>
+              <li><b>1.3&ndash;1.9&times;</b><span>Faster than PyTorch's scaled_dot_product_attention on causal attention, sequence 512 to 4096</span></li>
+              <li><b>3</b><span>Targets from one kernel: CUDA (tested on a T4), Metal and Pallas (compiled and checked in CI)</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/tessel" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/llm_colab.sh: TinyLlama-1.1B, Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">generated tokens/s, the same 32 prompts
+  requests   tessel   vLLM 0.30
+         1    100.0        82.0
+         8      635         643
+        32     1884        1798
+  vLLM's generations: identical to tessel's</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/colab.sh: Tesla T4, medians of 4 rounds</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">case                    tessel ms   fastest other
+GEMM 2048^3 fp16            0.985   cuBLAS 0.941  1.00x
+GEMM 4096^3 fp16            7.381   cuBLAS 7.357  1.04x
+causal attention S 512      0.146   SDPA   0.276  1.90x
+causal attention S 4096     4.416   SDPA   6.362  1.44x
+every output checked against float64</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -871,6 +919,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/tessel" rel="noreferrer">
+          <span class="tag">ML systems · GPU kernels · Compiler</span><h3>tessel</h3>
+          <p>A Triton-style tile language and compiler in Rust with zero dependencies: linear layouts, CUDA for
+             tensor cores (ldmatrix, mma.sync, swizzled shared memory, pipelining, auto-tuning), plus Metal and
+             Pallas (TPU) backends. On an NVIDIA T4, GEMM at parity with cuBLAS and attention 1.3&ndash;1.9&times;
+             faster than PyTorch; an LLM engine on its kernels matches vLLM's output token for token at 1.05&times;
+             its throughput with 32 requests.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/kiln" rel="noreferrer">
           <span class="tag">ML systems · Compiler · Code generation</span><h3>kiln</h3>
           <p>An ML compiler in Rust with zero dependencies: ONNX import, constant folding, operator fusion over an
