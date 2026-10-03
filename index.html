@@ -488,8 +488,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>React</span><span>TypeScript</span><span>Capacitor</span><span>Supabase</span><span>Postgres + RLS</span><span>Node</span><span>Electron</span><span>Python</span><span>PyTorch</span><span>ONNX</span><span>GCP</span><span>AWS</span><span>Terraform</span><span>Kubernetes</span>
-      <span>React</span><span>TypeScript</span><span>Capacitor</span><span>Supabase</span><span>Postgres + RLS</span><span>Node</span><span>Electron</span><span>Python</span><span>PyTorch</span><span>ONNX</span><span>GCP</span><span>AWS</span><span>Terraform</span><span>Kubernetes</span>
+      <span>React</span><span>TypeScript</span><span>Capacitor</span><span>Supabase</span><span>Postgres + RLS</span><span>Node</span><span>Electron</span><span>Python</span><span>PyTorch</span><span>C++</span><span>CUDA</span><span>Swift</span><span>ONNX</span><span>GCP</span><span>AWS</span><span>Terraform</span><span>Kubernetes</span>
+      <span>React</span><span>TypeScript</span><span>Capacitor</span><span>Supabase</span><span>Postgres + RLS</span><span>Node</span><span>Electron</span><span>Python</span><span>PyTorch</span><span>C++</span><span>CUDA</span><span>Swift</span><span>ONNX</span><span>GCP</span><span>AWS</span><span>Terraform</span><span>Kubernetes</span>
     </div>
   </div>
 
@@ -578,7 +578,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <div class="sec-head rv">
         <span class="kicker">Products</span>
-        <h2 class="sec-title">Two products, a database, two compilers and a training system. <span class="dim">Built end to end.</span></h2>
+        <h2 class="sec-title">Two products, a database, two compilers, a training system and an inference cluster. <span class="dim">Built end to end.</span></h2>
       </div>
 
       <article class="case" aria-labelledby="waggle-h">
@@ -827,6 +827,52 @@ bit-identical results</pre></div>
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="relay-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">07</div>
+          <div>
+            <div class="case-tag"><span class="pill">LLM inference</span><span class="pill">C++20 · CUDA · Swift</span><span class="pill">Prefill/decode disaggregation</span><span class="pill">KV-cache streaming</span></div>
+            <h3 class="case-name" id="relay-h">relay<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">LLM serving split in two: prompts on prefill workers, tokens on decode workers, and the KV cache streamed between them while the prompt is still being processed.</p>
+            <p>relay's C++20 and CUDA engine has a paged KV cache, continuous batching with chunked prefill,
+               preemption and prefix caching. Its transfer engine sends each layer's cache as soon as that layer
+               finishes, over TCP or a shared-memory ring; on a GPU a gather kernel packs the layer into pinned
+               memory on its own copy stream, so the copy overlaps the next layer's compute. A decode worker with no
+               room says so and recomputes instead of stalling the stream. In front of the worker processes sits a
+               control plane in Swift, calling the engine through Swift's C++ interoperability: a tokenizer and chat
+               templates, an OpenAI-compatible streaming API, a router that sends prompts with the same beginning to
+               the worker whose cache already holds it, and admission control. Where it still falls short: its
+               attention kernels are simple, so a 2,048-token prefill takes about 4 s on a T4, and it has not yet
+               been benchmarked against colocated serving or vLLM on several GPUs; fault tolerance is next.</p>
+            <ul class="facts">
+              <li><b>99&ndash;100%</b><span>Of the KV transfer hidden by streaming on a T4: 46 MB after a 2,048-token prompt, 21.6 ms exposed when sent after prefill, 0.08 ms when streamed</span></li>
+              <li><b>bit-identical</b><span>Output whether a request is batched, served from the prefix cache, preempted, or split across prefill and decode workers</span></li>
+              <li><b>3 models</b><span>SmolLM2, Qwen2.5 and TinyLlama: logits match Hugging Face, and the Swift tokenizer and chat templates match it exactly</span></li>
+              <li><b>47%</b><span>Fewer tokens computed with the prefix cache on a shared-prompt test (339 to 179), with the same output</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>relay-transfer-bench: Tesla T4, TinyLlama-1.1B, TCP</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">2,048-token prompt, 46.14 MB of KV cache
+                     exposed after prefill
+send after prefill        21.64 ms
+stream layer by layer      0.08 ms
+512 tokens, 11.53 MB:  6.38 ms -> 0.08 ms</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>swift test: real worker processes</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">disaggregated cluster   = transformers
+colocated cluster       = transformers
+16 concurrent requests  = transformers
+shared system prompt    one prefill worker
+client disconnects      all blocks freed
+over capacity           503</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -935,7 +981,7 @@ bit-identical results</pre></div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg>
           <h3>Languages</h3>
-          <div class="chips"><span class="chip">Rust</span><span class="chip">C++</span><span class="chip">CUDA</span><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
+          <div class="chips"><span class="chip">Rust</span><span class="chip">C++</span><span class="chip">CUDA</span><span class="chip">Swift</span><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">STATA</span></div>
         </div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
@@ -945,7 +991,7 @@ bit-identical results</pre></div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="6" rx="2"/><rect x="2.5" y="14.5" width="19" height="6" rx="2"/><path d="M6.5 6.5h.01M6.5 17.5h.01"/></svg>
           <h3>Systems &amp; cloud</h3>
-          <div class="chips"><span class="chip">Distributed systems</span><span class="chip">DDP · ZeRO/FSDP</span><span class="chip">Collectives</span><span class="chip">Raft</span><span class="chip">MVCC &amp; 2PC</span><span class="chip">LSM storage</span><span class="chip">Deterministic simulation</span><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
+          <div class="chips"><span class="chip">Distributed systems</span><span class="chip">LLM serving · KV-cache transfer</span><span class="chip">DDP · ZeRO/FSDP</span><span class="chip">Collectives</span><span class="chip">Raft</span><span class="chip">MVCC &amp; 2PC</span><span class="chip">LSM storage</span><span class="chip">Deterministic simulation</span><span class="chip">System design</span><span class="chip">GCP</span><span class="chip">AWS</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Capacitor</span><span class="chip">Electron</span><span class="chip">Postgres + RLS</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">CI/CD</span></div>
         </div>
       </div>
     </div>
@@ -968,6 +1014,14 @@ bit-identical results</pre></div>
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
+          <span class="tag">LLM inference · C++/CUDA · Swift</span><h3>relay</h3>
+          <p>A disaggregated LLM inference cluster: prefill and decode workers in C++20/CUDA with a paged KV cache,
+             continuous batching and prefix caching; a KV-cache transfer engine that streams each layer while the
+             next computes, hiding 99&ndash;100% of the transfer on a T4; and a Swift control plane (Swift&ndash;C++
+             interop, OpenAI-compatible streaming API, prefix-aware routing). Output matches Hugging Face.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/tandem" rel="noreferrer">
           <span class="tag">ML systems · Distributed training · C++/CUDA</span><h3>tandem</h3>
           <p>Distributed training from scratch on its own collectives, with no torch.distributed or NCCL: DDP,
