@@ -831,7 +831,7 @@ bit-identical results</pre></div>
         <div class="case-head rv">
           <div class="case-num" aria-hidden="true">07</div>
           <div>
-            <div class="case-tag"><span class="pill">LLM inference</span><span class="pill">C++20 · CUDA · Swift</span><span class="pill">Prefill/decode disaggregation</span><span class="pill">KV-cache streaming</span></div>
+            <div class="case-tag"><span class="pill">LLM inference</span><span class="pill">C++20 · CUDA · Swift</span><span class="pill">Prefill/decode disaggregation</span><span class="pill">KV-cache streaming</span><span class="pill">Fault-tolerant</span></div>
             <h3 class="case-name" id="relay-h">relay<em>.</em></h3>
           </div>
         </div>
@@ -845,13 +845,17 @@ bit-identical results</pre></div>
                room says so and recomputes instead of stalling the stream. In front of the worker processes sits a
                control plane in Swift, calling the engine through Swift's C++ interoperability: a tokenizer and chat
                templates, an OpenAI-compatible streaming API, a router that sends prompts with the same beginning to
-               the worker whose cache already holds it, and admission control. Where it still falls short: its
+               the worker whose cache already holds it, and admission control. It is fault-tolerant: a worker that
+               dies, freezes or stalls is caught by connection, heartbeat and progress watchdogs, and each of its
+               requests resumes on another worker from where it stopped, with exactly the tokens it would have had.
+               The chaos tests that prove it found three real bugs on the way. Where it still falls short: its
                attention kernels are simple, so a 2,048-token prefill takes about 4 s on a T4, and it has not yet
-               been benchmarked against colocated serving or vLLM on several GPUs; fault tolerance is next.</p>
+               been benchmarked against colocated serving or vLLM on several GPUs.</p>
             <ul class="facts">
               <li><b>99&ndash;100%</b><span>Of the KV transfer hidden by streaming on a T4: 46 MB after a 2,048-token prompt, 21.6 ms exposed when sent after prefill, 0.08 ms when streamed</span></li>
               <li><b>bit-identical</b><span>Output whether a request is batched, served from the prefix cache, preempted, or split across prefill and decode workers</span></li>
               <li><b>3 models</b><span>SmolLM2, Qwen2.5 and TinyLlama: logits match Hugging Face, and the Swift tokenizer and chat templates match it exactly</span></li>
+              <li><b>384 / 384</b><span>Requests identical to a fault-free run while workers were SIGKILLed 60 times at random (SmolLM2, 3 seeds, two cluster shapes), none failed</span></li>
               <li><b>47%</b><span>Fewer tokens computed with the prefix cache on a shared-prompt test (339 to 179), with the same output</span></li>
             </ul>
             <div class="case-links">
@@ -864,6 +868,12 @@ bit-identical results</pre></div>
 send after prefill        21.64 ms
 stream layer by layer      0.08 ms
 512 tokens, 11.53 MB:  6.38 ms -> 0.08 ms</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/chaos.py: SmolLM2, 2 prefill + 2 decode</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">64 requests streaming, workers SIGKILLed
+fault-free run:  47.7 s
+chaos run:       58.0 s, 10 workers killed
+                 and restarted
+identical outputs: 64 of 64
+failed requests:   0</pre></div>
             <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>swift test: real worker processes</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">disaggregated cluster   = transformers
 colocated cluster       = transformers
 16 concurrent requests  = transformers
@@ -1016,10 +1026,11 @@ over capacity           503</pre></div>
       <div class="work-grid" id="workgrid">
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
           <span class="tag">LLM inference · C++/CUDA · Swift</span><h3>relay</h3>
-          <p>A disaggregated LLM inference cluster: prefill and decode workers in C++20/CUDA with a paged KV cache,
+          <p>A disaggregated, fault-tolerant LLM inference cluster: prefill and decode workers in C++20/CUDA with a paged KV cache,
              continuous batching and prefix caching; a KV-cache transfer engine that streams each layer while the
              next computes, hiding 99&ndash;100% of the transfer on a T4; and a Swift control plane (Swift&ndash;C++
-             interop, OpenAI-compatible streaming API, prefix-aware routing). Output matches Hugging Face.</p>
+             interop, OpenAI-compatible streaming API, prefix-aware routing). Output matches Hugging Face, and
+             survives worker crashes: 384 of 384 requests identical through 60 random kills.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/tandem" rel="noreferrer">
