@@ -831,7 +831,7 @@ bit-identical results</pre></div>
         <div class="case-head rv">
           <div class="case-num" aria-hidden="true">07</div>
           <div>
-            <div class="case-tag"><span class="pill">LLM inference</span><span class="pill">C++20 · CUDA · Swift</span><span class="pill">Prefill/decode disaggregation</span><span class="pill">KV-cache streaming</span><span class="pill">Fault-tolerant</span></div>
+            <div class="case-tag"><span class="pill">LLM inference</span><span class="pill">C++20 · CUDA · Swift</span><span class="pill">Prefill/decode disaggregation</span><span class="pill">Flash-attention kernels</span><span class="pill">KV-cache streaming</span><span class="pill">Fault-tolerant</span></div>
             <h3 class="case-name" id="relay-h">relay<em>.</em></h3>
           </div>
         </div>
@@ -839,7 +839,9 @@ bit-identical results</pre></div>
           <div class="case-text rv">
             <p class="case-lede">LLM serving split in two: prompts on prefill workers, tokens on decode workers, and the KV cache streamed between them while the prompt is still being processed.</p>
             <p>relay's C++20 and CUDA engine has a paged KV cache, continuous batching with chunked prefill,
-               preemption and prefix caching. Its transfer engine sends each layer's cache as soon as that layer
+               preemption and prefix caching, and attention kernels I wrote for it: flash attention on tensor cores
+               (WMMA, online softmax) for prompts, and flash-decoding over the paged cache for generation, which
+               splits long contexts into slices and reads each K/V row once for all the query heads that share it. Its transfer engine sends each layer's cache as soon as that layer
                finishes, over TCP or a shared-memory ring; on a GPU a gather kernel packs the layer into pinned
                memory on its own copy stream, so the copy overlaps the next layer's compute. A decode worker with no
                room says so and recomputes instead of stalling the stream. In front of the worker processes sits a
@@ -848,10 +850,11 @@ bit-identical results</pre></div>
                the worker whose cache already holds it, and admission control. It is fault-tolerant: a worker that
                dies, freezes or stalls is caught by connection, heartbeat and progress watchdogs, and each of its
                requests resumes on another worker from where it stopped, with exactly the tokens it would have had.
-               The chaos tests that prove it found three real bugs on the way. Where it still falls short: its
-               attention kernels are simple, so a 2,048-token prefill takes about 4 s on a T4, and it has not yet
-               been benchmarked against colocated serving or vLLM on several GPUs.</p>
+               The chaos tests that prove it found three real bugs on the way. Where it still falls short: int8
+               weights help only a single sequence (from batch 8 up, fp16 on tensor cores is faster), and it has not
+               yet been benchmarked against colocated serving or vLLM on several GPUs.</p>
             <ul class="facts">
+              <li><b>8.7&times;</b><span>Faster 2,048-token prefill on a T4 with the new attention kernels (TinyLlama, 3.7 s to 0.43 s; 10.4&times; on SmolLM2), and 5.4&times; faster decode steps for 32 sequences at 2,048 tokens, logits within 0.1%</span></li>
               <li><b>99&ndash;100%</b><span>Of the KV transfer hidden by streaming on a T4: 46 MB after a 2,048-token prompt, 21.6 ms exposed when sent after prefill, 0.08 ms when streamed</span></li>
               <li><b>bit-identical</b><span>Output whether a request is batched, served from the prefix cache, preempted, or split across prefill and decode workers</span></li>
               <li><b>3 models</b><span>SmolLM2, Qwen2.5 and TinyLlama: logits match Hugging Face, and the Swift tokenizer and chat templates match it exactly</span></li>
@@ -863,6 +866,10 @@ bit-identical results</pre></div>
             </div>
           </div>
           <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>relay-attention-bench: Tesla T4, TinyLlama-1.1B</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">                      old      M1
+prefill 2,048 (ms)  3733.9   430.7  8.7x
+decode b=32 (ms)     176.8    33.0  5.4x
+batch-32 tok/s        1217    1785  1.5x</pre></div>
             <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>relay-transfer-bench: Tesla T4, TinyLlama-1.1B, TCP</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">2,048-token prompt, 46.14 MB of KV cache
                      exposed after prefill
 send after prefill        21.64 ms
@@ -1026,8 +1033,8 @@ over capacity           503</pre></div>
       <div class="work-grid" id="workgrid">
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
           <span class="tag">LLM inference · C++/CUDA · Swift</span><h3>relay</h3>
-          <p>A disaggregated, fault-tolerant LLM inference cluster: prefill and decode workers in C++20/CUDA with a paged KV cache,
-             continuous batching and prefix caching; a KV-cache transfer engine that streams each layer while the
+          <p>A disaggregated, fault-tolerant LLM inference cluster: prefill and decode workers in C++20/CUDA with my own flash-attention
+             and flash-decoding kernels (2,048-token prefill 8.7&times; faster on a T4), a paged KV cache and prefix caching; a KV-cache transfer engine that streams each layer while the
              next computes, hiding 99&ndash;100% of the transfer on a T4; and a Swift control plane (Swift&ndash;C++
              interop, OpenAI-compatible streaming API, prefix-aware routing). Output matches Hugging Face, and
              survives worker crashes: 384 of 384 requests identical through 60 random kills.</p>
