@@ -890,6 +890,58 @@ over capacity           503</pre></div>
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="ratchet-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">08</div>
+          <div>
+            <div class="case-tag"><span class="pill">RL post-training</span><span class="pill">Python · PyTorch · C++/CUDA</span><span class="pill">GRPO</span><span class="pill">In-place weight sync</span><span class="pill">Mixed precision</span><span class="pill">2&times; T4</span></div>
+            <h3 class="case-name" id="ratchet-h">ratchet<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">The training loop behind reasoning models, built end to end: an engine generates answers, a reward scores them, a trainer learns from them, and the new weights go straight back into the engine.</p>
+            <p>ratchet runs GRPO, the algorithm used to train DeepSeek-R1, on two GPUs. relay, my C++/CUDA engine,
+               generates eight answers per maths problem through a C API I added, with the log-probability of every
+               token; a PyTorch trainer, built in relay's exact weight layout so that a sync is a copy, scores them
+               against the reference answer, normalises rewards within each group and takes a PPO-clipped step with
+               AdamW. The new weights then go into relay in place on the GPU: fp32 to fp16 on the device, a peer copy
+               when trainer and engine sit on different GPUs. Two GPUs can be used two ways: colocated, where both
+               generate and then both train, with gradients averaged by tandem, my own data-parallel library; or split,
+               where one GPU generates the next batch while the other trains on this one, with partial rollouts so a
+               few long answers do not hold up a step. The hardest part was a bug no CPU test could show: relay
+               stores its weights in fp16, and an update of about 10<sup>-6</sup> is smaller than half an fp16 step for most
+               weights, so relay rounded the updates away and sampled from a policy the trainer never had. The
+               trainer now computes with the same fp16-rounded weights and keeps fp32 master weights. Where it still
+               falls short: one training run per mode on a 0.5B model, so the gain is a few points, not a benchmark result.</p>
+            <ul class="facts">
+              <li><b>48.1% &rarr; 52.5%</b><span>Qwen2.5-0.5B on all 1,319 GSM8K test problems after 100 GRPO steps on two T4s (colocated); 47.8% &rarr; 50.2% split</span></li>
+              <li><b>369&times;</b><span>Faster weight sync in place on the GPU than a full reload: 0.017 s instead of 6.3 s for 494M parameters, identical rollouts</span></li>
+              <li><b>5.2 &rarr; 0.04</b><span>Largest gap between the engine's and the trainer's log-probabilities after an update, before and after the fp16 fix</span></li>
+              <li><b>1.9&times;</b><span>Faster steps when one GPU generates the next batch while the other trains: 49.1 s to 25.6 s</span></li>
+              <li><b>27&times;</b><span>Faster rollouts, 34 to 931 tokens/s, after sampling stopped sorting the 151,936-token vocabulary for every token</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>gsm8k colocated: Qwen2.5-0.5B, 2x Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">greedy accuracy, 1,319 test problems
+before training        48.1%
+after 100 GRPO steps   52.5%
+cut off at 512 tokens  6% -> 2%
+reward, first/last 10  0.44 -> 0.58</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>gsm8k check: relay fp16 vs trainer fp32</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">after 2 GRPO steps  max gap
+fp32 weights          4.88
+fp16-rounded          0.041
+before any update     0.041</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>weight sync and step time, Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">reload (host, rebuild)    6.365 s
+push (in place on GPU)    0.017 s  369x
+split, synchronous step   49.1 s
+split, one step ahead     25.6 s   1.9x</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1031,6 +1083,14 @@ over capacity           503</pre></div>
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">
+          <span class="tag">RL post-training · PyTorch · C++/CUDA</span><h3>ratchet</h3>
+          <p>Reinforcement-learning post-training (GRPO) from scratch on two GPUs: rollouts with per-token
+             log-probabilities on my own C++/CUDA engine, a PyTorch trainer data-parallel on tandem, and weights synced
+             back in place on the GPU, 369&times; faster than a reload. 100 steps raised Qwen2.5-0.5B on GSM8K from
+             48.1% to 52.5%, after I found and fixed fp16 rounding that silently discarded the training updates.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
           <span class="tag">LLM inference · C++/CUDA · Swift</span><h3>relay</h3>
           <p>A disaggregated, fault-tolerant LLM inference cluster: prefill and decode workers in C++20/CUDA with my own flash-attention
