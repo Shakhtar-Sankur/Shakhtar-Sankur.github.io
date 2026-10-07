@@ -942,6 +942,58 @@ split, one step ahead     25.6 s   1.9x</pre></div>
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="switchyard-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">09</div>
+          <div>
+            <div class="case-tag"><span class="pill">Mixture-of-experts serving</span><span class="pill">CUDA · C++ · Python</span><span class="pill">Expert parallelism</span><span class="pill">Peer-to-peer dispatch</span><span class="pill">Tensor cores</span><span class="pill">2&times; T4</span></div>
+            <h3 class="case-name" id="switchyard-h">switchyard<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">A mixture-of-experts model served across two GPUs, with everything below the model written from scratch: the kernels, the dispatch between GPUs, and the measurements of what load balancing is worth.</p>
+            <p>OLMoE-1B-7B sends every token to 8 of the 64 experts in each layer. switchyard gives each GPU half of
+               every layer's experts and its own share of the requests. My CUDA kernels route each token in one warp,
+               sort the rows by expert with a block-wide prefix scan and no atomics, and run every expert in a single
+               launch: a tensor-core grouped GEMM with SwiGLU fused into its epilogue, and for decode a grouped GEMV
+               that streams expert weights at 73% of the T4's memory bandwidth. Instead of NCCL, a kernel writes the
+               rows bound for the other GPU straight into its memory over peer-to-peer, ordered by CUDA events, and the
+               results come back to exactly where the sender's sort expects them, so the output matches one GPU bit for
+               bit. Each GPU is driven by its own thread; getting that right meant finding two cross-stream races that
+               only appeared without CUDA_LAUNCH_BLOCKING. Where it falls short: over PCIe, splitting the experts is never
+               faster than keeping all 64 on one GPU; here it buys memory, 7.6 GiB per GPU for a 13.8 GB model.</p>
+            <ul class="facts">
+              <li><b>2.2&times;</b><span>Faster decoding than Hugging Face transformers on the same two T4s: 112 vs 52 tokens/s at batch 8; 823 tokens/s at batch 64</span></li>
+              <li><b>Bit-identical</b><span>Expert-parallel output equals the single-GPU layer exactly; greedy output identical to transformers on 7 of 8 prompts over 32 tokens</span></li>
+              <li><b>5.4&ndash;7&times;</b><span>Faster decode MoE layer than a per-expert PyTorch loop (1&ndash;8 tokens), 1.9&ndash;2.3&times; faster than a cuBLAS loop over sorted rows</span></li>
+              <li><b>1.25&times;</b><span>Faster than NCCL's all-to-all at 256 tokens per GPU with my peer-to-peer dispatch; level at 16&ndash;64, slower at 1 and 1,024</span></li>
+              <li><b>12.9 &rarr; 20.2</b><span>WikiText-2 perplexity when experts drop the tokens they have no room for, even at capacity factor 2; so switchyard never drops one</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/switchyard" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/serve.py: OLMoE-1B-7B, 2x Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">decode tokens/s       batch 8   batch 64
+transformers (auto)        52
+switchyard, 1 thread       88        580
+switchyard, 2 threads     112        823
+peak memory per GPU    7.6 GiB</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/ep.py: one MoE layer over 2 GPUs</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">tokens/GPU   switchyard   NCCL a2a
+1              1.69 ms    1.59 ms
+16             4.07 ms    4.12 ms
+256            8.79 ms   11.03 ms
+1024          20.83 ms   19.01 ms</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/balance.py: WikiText-2, 2,048 tokens/GPU</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">busiest expert / mean     4.0x
+GPU imbalance             1.059
+capacity  dropped  perplexity
+dropless      0%       12.85
+2.0         9.6%       20.19
+1.0        28.6%       92.14</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1083,6 +1135,14 @@ split, one step ahead     25.6 s   1.9x</pre></div>
         <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
       </div>
       <div class="work-grid" id="workgrid">
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/switchyard" rel="noreferrer">
+          <span class="tag">Mixture-of-experts · CUDA · Multi-GPU</span><h3>switchyard</h3>
+          <p>Mixture-of-experts serving with expert parallelism, from scratch: OLMoE-1B-7B across two GPUs on my own
+             CUDA kernels (routing, sorting, tensor-core grouped GEMM and GEMV) and a peer-to-peer dispatch in place of
+             NCCL. Bit-identical to one GPU and 2.2&times; faster decoding than Hugging Face; measured on real text,
+             dropping overflow tokens raised perplexity from 12.9 to 20.2, so it never drops one.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">
           <span class="tag">RL post-training · PyTorch · C++/CUDA</span><h3>ratchet</h3>
           <p>Reinforcement-learning post-training (GRPO) from scratch on two GPUs: rollouts with per-token
