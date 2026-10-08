@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@600&display=swap&text=%E0%A6%95%E0%A6%A4%E0%A6%B2%E0%A6%BE" rel="stylesheet">
 
 <style>
 /* ══════════════════════════════════════════════════════════════════════════
@@ -364,6 +365,18 @@ section { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 .contact p { color: var(--muted); max-width: 560px; margin: 28px auto 0; font-size: 17px; }
 .mail { display: inline-block; margin-top: 34px; font: 600 clamp(20px, 3vw, 38px)/1.2 var(--display); letter-spacing: -.03em; border-bottom: 2px solid var(--accent-ink); padding-bottom: 4px; word-break: break-all; }
 .contact-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 34px; }
+
+/* ── Kolkata: an illustrated night scene of the city, drawn on a canvas (script at the end). ── */
+.kol { overflow: hidden; isolation: isolate; }
+.kol-scene { position: relative; height: clamp(400px, 52vw, 780px); margin: 0; background: #07111F;
+  -webkit-mask-image: linear-gradient(transparent, #000 8%, #000 90%, transparent); mask-image: linear-gradient(transparent, #000 8%, #000 90%, transparent); }
+.kol-scene canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.kol-note { position: absolute; right: max(24px, calc((100vw - var(--wrap)) / 2)); bottom: 11%; margin: 0; font: 500 11px/1.4 var(--mono);
+  letter-spacing: .06em; text-transform: uppercase; color: rgba(234,242,251,.55); }
+.kol-note b { color: #FFC56E; font-weight: 500; }
+.kicker .kol-bn { font: 600 14px/1 "Noto Serif Bengali", serif; letter-spacing: 0; text-transform: none; color: var(--accent-ink); }
+@media (max-width: 700px) { .kol-note { display: none; } }
+}
 
 footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -1313,6 +1326,22 @@ dropless      0%       12.85
     </div>
   </section>
 
+  <!-- ══════════ kolkata ══════════ -->
+  <section id="kolkata" class="kol" aria-labelledby="kol-h">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="kicker">Home · <span lang="bn" class="kol-bn">কলকাতা</span></span>
+        <h2 class="sec-title" id="kol-h">Kolkata. <span class="dim">City of Joy.</span></h2>
+        <p class="sec-sub">Where I live and build: the Howrah Bridge at night, yellow Ambassadors and trams,
+          and Durga Puja every autumn.</p>
+      </div>
+    </div>
+    <div class="kol-scene" id="kol-scene" role="img" aria-label="Animated illustration of Kolkata at night: the golden-lit Howrah Bridge over the Hooghly with traffic crossing, a boat drifting, a tram and yellow taxis on the street, Victoria Memorial, Vidyasagar Setu and The 42 behind, Puja lights, sky lanterns and fireworks">
+      <canvas></canvas>
+      <p class="kol-note" aria-hidden="true">Illustration · <b>Howrah Bridge</b> by night</p>
+    </div>
+  </section>
+
   <!-- ══════════ contact ══════════ -->
   <section id="contact" class="contact">
     <div class="wrap">
@@ -1420,6 +1449,341 @@ dropless      0%       12.85
       io.observe(el);
     });
   }
+
+  /* ══ Kolkata at night ══
+     An illustrated scene drawn on a canvas: the golden Howrah Bridge over the Hooghly, its
+     reflection rippling, taxis crossing, a boat drifting, a tram and Ambassadors on the
+     Strand, Victoria Memorial, Vidyasagar Setu and The 42 behind, Puja lights, sky lanterns
+     and fireworks. Static parts are rendered once per resize; it only animates on screen. */
+  var ksc = $("#kol-scene");
+  if (ksc) (function () {
+    var cv = ksc.querySelector("canvas"), g = cv.getContext("2d");
+    var VW = 1600, VH = 800, WL = 520, ST = 690;             // virtual size, water line, street edge
+    var W = 0, H = 0, s = 1, k = 1, ox = 0, oy = 0, dpr = 1;
+    var mx = 0, tmx = 0, sy = 0, raf = 0, on = false, last = 0, T = 0;
+    var seed = 7; function R() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    function sprite(rgb) {
+      var c = document.createElement("canvas"); c.width = c.height = 64;
+      var x = c.getContext("2d"), gr = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gr.addColorStop(0, "rgba(" + rgb + ",1)"); gr.addColorStop(.22, "rgba(" + rgb + ",.6)"); gr.addColorStop(1, "rgba(" + rgb + ",0)");
+      x.fillStyle = gr; x.fillRect(0, 0, 64, 64); return c;
+    }
+    var GL = { gold: sprite("255,186,84"), warm: sprite("255,228,176"), sky: sprite("56,189,248"), pink: sprite("244,114,182"),
+               white: sprite("236,243,255"), red: sprite("255,72,56"), orange: sprite("255,140,50") };
+    var PUJA = [GL.gold, GL.pink, GL.sky, GL.warm];
+    function glow(sp, x, y, r, a) { if (a <= 0) return; g.globalAlpha = Math.min(1, a); g.drawImage(sp, x - r, y - r, r * 2, r * 2); g.globalAlpha = 1; }
+    function vt(dx, dy) { g.setTransform(k, 0, 0, k, (ox + dx * s) * dpr, (oy + (dy || 0) * s) * dpr); }
+
+    // ── the bridge: Howrah's cantilever truss, towers at 540 and 1060 ──
+    var CH = [[300, 470], [540, 175], [650, 300], [800, 328], [950, 300], [1060, 175], [1300, 470]];
+    function topY(x) {
+      for (var i = 0; i < CH.length - 1; i++) if (x >= CH[i][0] && x <= CH[i + 1][0])
+        return CH[i][1] + (CH[i + 1][1] - CH[i][1]) * (x - CH[i][0]) / (CH[i + 1][0] - CH[i][0]);
+      return 470;
+    }
+    // ── fixed scenery, generated once ──
+    var blds = [], wins = [], stars = [], lamps = [], cars = [], lanterns = [], sparks = [], nextBurst = 2.5;
+    (function gen() {
+      for (var x = -30; x < 1640;) {
+        var w = 26 + R() * 52, h = 34 + Math.pow(R(), 1.6) * 150;
+        if (x > 1190 && x < 1260) h = Math.min(h, 90);
+        blds.push([x, w, h]);
+        for (var wy = WL - h + 8; wy < WL - 8; wy += 9) for (var wx = x + 5; wx < x + w - 5; wx += 8)
+          if (R() < .2) wins.push([wx, wy, R() < .75 ? 0 : 1, R() * 6.28, R() < .12]);
+        x += w + 2 + R() * 6;
+      }
+      for (var i = 0; i < 170; i++) stars.push([R() * VW, R() * 400, .4 + R() * 1.2, R() * 6.28, .6 + R() * 2]);
+      for (var lx = 312; lx < 1300; lx += 26) lamps.push([lx, topY(lx) - 2, R() * 6.28]);
+      for (var dx = 310; dx < 1300; dx += 34) lamps.push([dx, 469, R() * 6.28]);
+      for (var c = 0; c < 16; c++) cars.push({ x: 300 + R() * 1000, d: c % 2 ? 1 : -1, v: 40 + R() * 40, taxi: R() < .65 });
+      for (var l = 0; l < 7; l++) lanterns.push({ x: R() * VW, y: 120 + R() * 600, v: 9 + R() * 9, ph: R() * 6.28 });
+    })();
+
+    // ── caches: each covers only its own band of the scene ──
+    function cache(y0, y1, draw) {
+      var c = document.createElement("canvas"); c.width = Math.ceil(VW * k); c.height = Math.ceil((y1 - y0) * k);
+      var x = c.getContext("2d"); x.setTransform(k, 0, 0, k, 0, -y0 * k); draw(x); return { c: c, y0: y0 };
+    }
+    function blit(cc, dx, dy) {
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.drawImage(cc.c, Math.round((ox + dx * s) * dpr), Math.round((oy + (cc.y0 + (dy || 0)) * s) * dpr));
+    }
+    var skyC, bridgeC, streetC, skyGrad, riverGrad;
+    function drawSkyline(x) {
+      var haze = x.createLinearGradient(0, 330, 0, WL);
+      haze.addColorStop(0, "rgba(255,160,80,0)"); haze.addColorStop(1, "rgba(255,160,80,.16)");
+      x.fillStyle = haze; x.fillRect(0, 330, VW, WL - 330);
+      // Vidyasagar Setu, far left: two blue-lit pylons and fanned cables
+      x.strokeStyle = "rgba(56,189,248,.75)"; x.lineWidth = 2.2;
+      [[70, 372], [200, 372]].forEach(function (p) {
+        x.beginPath(); x.moveTo(p[0] - 10, 482); x.lineTo(p[0], p[1]); x.lineTo(p[0] + 10, 482); x.stroke();
+        x.lineWidth = .6; x.strokeStyle = "rgba(56,189,248,.45)";
+        for (var i = 1; i <= 7; i++) { x.beginPath(); x.moveTo(p[0], p[1] + 6); x.lineTo(p[0] - i * 9, 478); x.moveTo(p[0], p[1] + 6); x.lineTo(p[0] + i * 9, 478); x.stroke(); }
+        x.lineWidth = 2.2; x.strokeStyle = "rgba(56,189,248,.75)";
+      });
+      x.strokeStyle = "rgba(255,190,110,.7)"; x.lineWidth = 2; x.beginPath(); x.moveTo(-10, 479); x.lineTo(285, 479); x.stroke();
+      // the city
+      blds.forEach(function (b) { x.fillStyle = b[2] > 120 ? "#0d1f36" : "#0b1a2e"; x.fillRect(b[0], WL - b[2], b[1], b[2]); });
+      wins.forEach(function (w) { x.fillStyle = w[2] ? "rgba(190,222,255,.55)" : "rgba(255,212,150,.7)"; x.fillRect(w[0], w[1], 3, 4); });
+      // The 42
+      var tx = 1212; x.fillStyle = "#10243d"; x.fillRect(tx, 168, 34, WL - 168);
+      x.fillStyle = "rgba(190,222,255,.35)";
+      for (var yy = 176; yy < WL - 6; yy += 7) for (var xx = tx + 4; xx < tx + 31; xx += 6) if ((xx * 7 + yy * 3) % 5 < 2) x.fillRect(xx, yy, 2.5, 3);
+      // Victoria Memorial, floodlit
+      var vg = x.createLinearGradient(0, 380, 0, WL);
+      vg.addColorStop(0, "#f4ead2"); vg.addColorStop(1, "#b89c6c");
+      x.fillStyle = vg;
+      x.fillRect(1346, 500, 248, 20); x.fillRect(1362, 452, 216, 48); x.fillRect(1442, 424, 56, 30);
+      x.beginPath(); x.ellipse(1470, 426, 34, 40, 0, Math.PI, 0); x.fill();
+      x.fillRect(1465, 378, 10, 12); x.fillRect(1469, 362, 2, 16);
+      [[1378, 452], [1562, 452]].forEach(function (p) { x.fillRect(p[0] - 9, p[1] - 18, 18, 18); x.beginPath(); x.ellipse(p[0], p[1] - 18, 10, 11, 0, Math.PI, 0); x.fill(); });
+      x.fillStyle = "rgba(120,86,40,.55)";
+      for (var a = 1376; a < 1570; a += 16) if (a < 1446 || a > 1494) { x.beginPath(); x.ellipse(a + 5, 476, 4, 8, 0, Math.PI, 0); x.fill(); x.fillRect(a + 1, 476, 8, 14); }
+      x.beginPath(); x.ellipse(1470, 474, 11, 15, 0, Math.PI, 0); x.fill(); x.fillRect(1459, 474, 22, 26);
+    }
+    function drawBridge(x) {
+      function chordPath() { x.beginPath(); CH.forEach(function (p, i) { if (i) x.lineTo(p[0], p[1]); else x.moveTo(p[0], p[1]); }); }
+      function truss(lw, col) {
+        x.strokeStyle = col; x.lineWidth = lw;
+        x.beginPath();
+        var i = 0;
+        for (var px = 300; px < 1300; px += 30, i++) {
+          var t0 = topY(px), t1 = topY(px + 30);
+          x.moveTo(px, 470); x.lineTo(px, t0);
+          if (i % 2) { x.moveTo(px, t0); x.lineTo(px + 30, 470); } else { x.moveTo(px, 470); x.lineTo(px + 30, t1); }
+        }
+        x.stroke();
+      }
+      // piers in the water
+      x.fillStyle = "#1a2337";
+      [540, 1060].forEach(function (p) { x.fillRect(p - 22, 478, 44, 58); });
+      x.fillStyle = "rgba(255,190,110,.35)"; [540, 1060].forEach(function (p) { x.fillRect(p - 22, 478, 44, 3); });
+      x.save(); x.shadowColor = "rgba(255,160,50,.9)"; x.shadowBlur = 16 * k;
+      truss(1.6, "rgba(255,176,82,.55)");
+      chordPath(); x.strokeStyle = "rgba(255,196,110,.95)"; x.lineWidth = 3.4; x.stroke();
+      x.beginPath(); x.moveTo(296, 470); x.lineTo(1304, 470); x.moveTo(296, 481); x.lineTo(1304, 481); x.stroke();
+      // towers: two legs with X-bracing
+      [540, 1060].forEach(function (p) {
+        x.lineWidth = 3; x.beginPath(); x.moveTo(p - 8, 478); x.lineTo(p - 5, 172); x.moveTo(p + 8, 478); x.lineTo(p + 5, 172); x.stroke();
+        x.lineWidth = 1.2; x.beginPath();
+        for (var y = 180; y < 470; y += 24) { x.moveTo(p - 7, y); x.lineTo(p + 7, y + 24); x.moveTo(p + 7, y); x.lineTo(p - 7, y + 24); }
+        x.stroke();
+        x.lineWidth = 3; x.beginPath(); x.moveTo(p - 12, 172); x.lineTo(p + 12, 172); x.stroke();
+      });
+      x.restore();
+      truss(.9, "rgba(255,226,170,.75)");
+      chordPath(); x.strokeStyle = "rgba(255,236,196,.95)"; x.lineWidth = 1.4; x.stroke();
+    }
+    function drawStreet(x) {
+      var sg = x.createLinearGradient(0, ST, 0, VH);
+      sg.addColorStop(0, "#0b1424"); sg.addColorStop(1, "#050a14");
+      x.fillStyle = sg; x.fillRect(0, ST, VW, VH - ST);
+      x.fillStyle = "#121c2e"; x.fillRect(0, ST, VW, 8);
+      x.strokeStyle = "rgba(255,200,130,.35)"; x.lineWidth = 1.2;
+      x.beginPath(); x.moveTo(0, ST - 10); x.lineTo(VW, ST - 10);
+      for (var px = 0; px <= VW; px += 24) { x.moveTo(px, ST - 10); x.lineTo(px, ST); }
+      x.stroke();
+      x.strokeStyle = "rgba(160,190,220,.18)"; x.lineWidth = 1.5;
+      x.beginPath(); x.moveTo(0, 784); x.lineTo(VW, 784); x.moveTo(0, 789); x.lineTo(VW, 789); x.stroke();
+      x.strokeStyle = "rgba(160,190,220,.28)"; x.lineWidth = .8; x.beginPath(); x.moveTo(0, 668); x.lineTo(VW, 668); x.stroke();
+      for (var lx = 90; lx < VW; lx += 310) {
+        x.fillStyle = "#1b2538"; x.fillRect(lx - 2, 650, 4, 150); x.fillRect(lx - 2, 650, 18, 3);
+        var cone = x.createLinearGradient(0, 655, 0, 800);
+        cone.addColorStop(0, "rgba(255,200,120,.22)"); cone.addColorStop(1, "rgba(255,200,120,0)");
+        x.fillStyle = cone; x.beginPath(); x.moveTo(lx + 12, 655); x.lineTo(lx - 40, 800); x.lineTo(lx + 66, 800); x.closePath(); x.fill();
+        x.drawImage(GL.warm, lx + 12 - 26, 654 - 26, 52, 52);
+      }
+    }
+    function size() {
+      var b = ksc.getBoundingClientRect(); dpr = Math.min(devicePixelRatio || 1, 1.5);
+      W = b.width; H = b.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      s = Math.max(W / (VW - 90), H / (VH - 30)); k = s * dpr;
+      var focus = W < 700 ? 800 : 820;
+      ox = W / 2 - focus * s; oy = H - VH * s;
+      ox = Math.min(ox, -40 * s); ox = Math.max(ox, W - (VW - 40) * s);
+      skyGrad = g.createLinearGradient(0, 0, 0, cv.height);
+      skyGrad.addColorStop(0, "#050c19"); skyGrad.addColorStop(.45, "#0a1a31"); skyGrad.addColorStop(.66, "#132841"); skyGrad.addColorStop(1, "#07111f");
+      skyC = cache(160, WL + 2, drawSkyline); bridgeC = cache(160, 540, drawBridge); streetC = cache(640, VH, drawStreet);
+      riverGrad = null;
+    }
+
+    function tram(x0) {
+      var y = 784, cars2 = [[x0, 128], [x0 + 132, 128]];
+      cars2.forEach(function (c, ci) {
+        var x = c[0], w = c[1];
+        g.fillStyle = "#2a63b8"; g.fillRect(x, y - 30, w, 26);
+        g.fillStyle = "#e8e1cf"; g.fillRect(x, y - 56, w, 26);
+        g.fillStyle = "#9aa3ad"; g.fillRect(x + 4, y - 60, w - 8, 5);
+        g.fillStyle = "rgba(255,214,140,.95)";
+        for (var wx = x + 8; wx < x + w - 14; wx += 17) g.fillRect(wx, y - 51, 12, 14);
+        g.fillStyle = "#14243f"; g.fillRect(x + w - 16, y - 30, 10, 24);
+        g.fillStyle = "#111"; g.fillRect(x + 10, y - 4, 16, 4); g.fillRect(x + w - 26, y - 4, 16, 4);
+        g.strokeStyle = "rgba(200,210,225,.8)"; g.lineWidth = 1.2;
+        if (ci === 0) { g.beginPath(); g.moveTo(x + 40, y - 60); g.lineTo(x + 70, 668); g.stroke(); }
+      });
+      glow(GL.warm, x0 + 262, y - 18, 22, .9);
+      glow(GL.warm, x0 + 132, y - 44, 70, .14);
+    }
+    function taxi(x, y, d) {
+      g.save(); g.translate(x, y); g.scale(d, 1);
+      g.fillStyle = "#f2b90f";
+      g.beginPath(); g.moveTo(-40, 0); g.lineTo(-40, -12); g.quadraticCurveTo(-38, -16, -30, -17); g.lineTo(30, -17); g.quadraticCurveTo(40, -16, 40, -10); g.lineTo(40, 0); g.fill();
+      g.beginPath(); g.moveTo(-22, -17); g.lineTo(-16, -29); g.lineTo(14, -29); g.lineTo(22, -17); g.fill();
+      g.fillStyle = "#1d2a3c"; g.fillRect(-15, -27, 13, 9); g.fillRect(1, -27, 12, 9);
+      g.fillStyle = "#222"; g.fillRect(-40, -9, 80, 2);
+      g.fillStyle = "#0a0a0a"; g.beginPath(); g.arc(-24, 0, 6, 0, 6.283); g.arc(24, 0, 6, 0, 6.283); g.fill();
+      g.restore();
+      glow(GL.white, x + d * 42, y - 9, 14, .95);
+      g.globalAlpha = .16; g.fillStyle = "#fff6d8";
+      g.beginPath(); g.moveTo(x + d * 42, y - 12); g.lineTo(x + d * 150, y - 24); g.lineTo(x + d * 150, y + 6); g.closePath(); g.fill(); g.globalAlpha = 1;
+      glow(GL.red, x - d * 41, y - 9, 8, .9);
+    }
+    function boat(x, y, t) {
+      var bob = Math.sin(t * 1.3) * 2; y += bob;
+      g.fillStyle = "#0e0a08";
+      g.beginPath(); g.moveTo(x - 70, y - 10); g.quadraticCurveTo(x - 40, y + 12, x, y + 12); g.quadraticCurveTo(x + 44, y + 12, x + 74, y - 12); g.lineTo(x + 66, y - 2); g.quadraticCurveTo(x, y + 2, x - 62, y - 1); g.closePath(); g.fill();
+      g.fillStyle = "#3a2414"; g.beginPath(); g.moveTo(x - 30, y + 1); g.quadraticCurveTo(x - 4, y - 30, x + 26, y + 1); g.fill();
+      g.strokeStyle = "rgba(255,190,110,.5)"; g.lineWidth = 1; g.stroke();
+      g.strokeStyle = "#0e0a08"; g.lineWidth = 2.2;
+      g.beginPath(); g.moveTo(x - 56, y - 6); g.lineTo(x - 56, y - 30); g.moveTo(x - 56, y - 22); g.lineTo(x - 80, y + 26); g.stroke();
+      g.fillStyle = "#0e0a08"; g.beginPath(); g.arc(x - 56, y - 33, 4, 0, 6.283); g.fill();
+      glow(GL.gold, x + 34, y - 10, 20, .9); glow(GL.gold, x + 34, y - 10, 46, .25);
+      for (var i = 0; i < 9; i++) glow(GL.gold, x + 34 + Math.sin(t * 2 + i) * 2, y + 14 + i * 7, 7 - i * .5, .35 - i * .035);
+    }
+    function burst() {
+      var cx = 260 + R() * 1080, cy = 80 + R() * 220, sp = [GL.gold, GL.sky, GL.pink, GL.warm][Math.floor(R() * 4)], n = 46;
+      for (var i = 0; i < n; i++) { var a = i / n * 6.283, v = 70 + R() * 70; sparks.push({ x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1.7, sp: sp }); }
+    }
+
+    function draw(t, dt) {
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.fillStyle = skyGrad; g.fillRect(0, 0, cv.width, cv.height);
+      var m = mx;
+      // stars and moon
+      vt(m * 3, sy * -10);
+      for (var i = 0; i < stars.length; i++) {
+        var st = stars[i], a = .25 + .75 * Math.abs(Math.sin(t * st[4] * .5 + st[3]));
+        g.globalAlpha = a; g.fillStyle = "#eaf2fb"; g.fillRect(st[0], st[1], st[2], st[2]);
+      }
+      g.globalAlpha = 1;
+      glow(GL.white, 1420, 138, 120, .22);
+      g.fillStyle = "#f4f1e6"; g.beginPath(); g.arc(1420, 138, 30, 0, 6.283); g.fill();
+      g.fillStyle = "rgba(180,170,150,.35)"; g.beginPath(); g.arc(1410, 130, 7, 0, 6.283); g.arc(1430, 148, 5, 0, 6.283); g.arc(1426, 126, 3, 0, 6.283); g.fill();
+      // fireworks
+      if (dt) { nextBurst -= dt; if (nextBurst <= 0) { burst(); nextBurst = 3 + R() * 3.5; } }
+      for (var p = sparks.length - 1; p >= 0; p--) {
+        var f = sparks[p];
+        if (dt) { f.x += f.vx * dt; f.y += f.vy * dt; f.vy += 38 * dt; f.vx *= .985; f.life -= dt; }
+        if (f.life <= 0) { sparks.splice(p, 1); continue; }
+        glow(f.sp, f.x, f.y, 4 + f.life * 2, Math.min(1, f.life));
+      }
+      // skyline
+      blit(skyC, m * 6, sy * -4);
+      vt(m * 6, sy * -4);
+      for (var w = 0; w < wins.length; w++) {
+        var wn = wins[w]; if (!wn[4]) continue;
+        glow(wn[2] ? GL.white : GL.warm, wn[0] + 1.5, wn[1] + 2, 6, .25 + .5 * Math.max(0, Math.sin(t * .7 + wn[3])));
+      }
+      glow(GL.warm, 1470, 450, 150, .2);
+      glow(GL.sky, 1229, 166, 16 + 4 * Math.sin(t * 2), .9);
+      glow(GL.red, 1229, 160, 5, .5 + .5 * Math.sin(t * 3));
+      for (var sl = 0; sl < 12; sl++) glow(GL.gold, 10 + sl * 24, 478, 4, .7);
+      // river
+      vt(m * 10, 0);
+      var rg = g.createLinearGradient(0, WL, 0, ST);
+      rg.addColorStop(0, "#0c2038"); rg.addColorStop(1, "#050d1a");
+      g.fillStyle = rg; g.fillRect(-60, WL, VW + 120, ST - WL);
+      // bridge reflection: the cached bridge, flipped in slices that ripple
+      g.save(); g.beginPath(); g.rect(-60, WL, VW + 120, ST - WL - 10); g.clip();
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      var bx = Math.round((ox + m * 10 * s) * dpr), sh = 3;
+      for (var yy = 0; yy < 170; yy += sh) {
+        var srcV = WL - 4 - (yy + sh) * 2, dyv = WL + 4 + yy;
+        var wob = Math.sin(t * 1.5 + yy * .16) * (.6 + yy * .028) * s * dpr;
+        g.globalAlpha = .42 * (1 - yy / 170);
+        g.drawImage(bridgeC.c, 0, (srcV - bridgeC.y0) * k, bridgeC.c.width, sh * 2 * k, bx + wob, (oy + dyv * s) * dpr, bridgeC.c.width, sh * k + 1);
+      }
+      g.globalAlpha = 1; g.restore();
+      vt(m * 10, 0);
+      // light streaks and ripples
+      [[1470, 60, GL.warm], [1229, 28, GL.sky], [540, 50, GL.gold], [1060, 50, GL.gold], [800, 40, GL.gold], [130, 30, GL.sky]].forEach(function (L) {
+        for (var j = 0; j < 10; j++) {
+          var yj = WL + 8 + j * 15, xj = L[0] + Math.sin(t * 2.2 + j * 1.3 + L[0]) * (3 + j);
+          g.globalAlpha = .38 - j * .032; g.drawImage(L[2], xj - L[1] / 2, yj - 2, L[1], 5);
+        }
+      });
+      g.globalAlpha = 1;
+      g.fillStyle = "rgba(140,190,240,.12)";
+      for (var rr = 0; rr < 46; rr++) {
+        var ry = WL + 10 + (rr * 37) % (ST - WL - 20), rx = ((rr * 211 + t * (8 + rr % 5) * 3) % (VW + 200)) - 100;
+        g.fillRect(rx, ry, 18 + (rr % 4) * 10, 1.2);
+      }
+      // the bridge and its traffic
+      blit(bridgeC, m * 10, 0);
+      vt(m * 10, 0);
+      for (var q = 0; q < lamps.length; q++) {
+        var lp = lamps[q]; glow(GL.gold, lp[0], lp[1], 7, .45 + .5 * Math.abs(Math.sin(t * 1.4 + lp[2])));
+      }
+      for (var c = 0; c < cars.length; c++) {
+        var car = cars[c];
+        if (dt) { car.x += car.d * car.v * dt; if (car.x > 1310) car.x = 290; if (car.x < 290) car.x = 1310; }
+        var cy2 = car.d > 0 ? 463 : 466;
+        g.fillStyle = car.taxi ? "#f2b90f" : "#c9d3df"; g.fillRect(car.x - 7, cy2 - 4, 14, 5);
+        glow(GL.white, car.x + car.d * 8, cy2 - 2, 5, .9); glow(GL.red, car.x - car.d * 8, cy2 - 2, 3.5, .8);
+      }
+      // the boat
+      vt(m * 14, 0);
+      var bxp = 1760 - ((t / 75) % 1) * 2000;
+      boat(bxp, 622, t);
+      // sky lanterns rising
+      vt(m * 16, sy * -6);
+      for (var l = 0; l < lanterns.length; l++) {
+        var ln = lanterns[l];
+        if (dt) { ln.y -= ln.v * dt; if (ln.y < -40) { ln.y = 700; ln.x = R() * VW; } }
+        var lx = ln.x + Math.sin(t * .6 + ln.ph) * 14;
+        glow(GL.orange, lx, ln.y, 26, .45); g.fillStyle = "rgba(255,170,80,.95)";
+        g.beginPath(); g.moveTo(lx - 5, ln.y - 7); g.lineTo(lx + 5, ln.y - 7); g.lineTo(lx + 3.5, ln.y + 6); g.lineTo(lx - 3.5, ln.y + 6); g.closePath(); g.fill();
+      }
+      // the Strand: street, tram, taxis
+      blit(streetC, m * 22, sy * 10);
+      vt(m * 22, sy * 10);
+      tram(((t / 46) % 1) * 2100 - 300);
+      taxi(1700 - ((t / 11) % 1) * 2000, 797, -1);
+      taxi(1700 - (((t + 6.5) / 11) % 1) * 2000, 797, -1);
+      taxi((((t + 3) / 15) % 1) * 2000 - 200, 774, 1);
+      // Puja lights strung across the top
+      vt(m * 26, sy * 14);
+      [[[-30, 46], [1630, 84], 74], [[820, 20], [1630, 128], 56]].forEach(function (S, si) {
+        var a0 = S[0], a1 = S[1], sag = S[2];
+        g.strokeStyle = "rgba(20,28,44,.9)"; g.lineWidth = 1.4; g.beginPath();
+        for (var u = 0; u <= 1.0001; u += .02) { var px = a0[0] + (a1[0] - a0[0]) * u, py = a0[1] + (a1[1] - a0[1]) * u + Math.sin(u * Math.PI) * sag; if (u) g.lineTo(px, py); else g.moveTo(px, py); }
+        g.stroke();
+        var n = si ? 30 : 64;
+        for (var b2 = 1; b2 < n; b2++) {
+          var u2 = b2 / n, bx2 = a0[0] + (a1[0] - a0[0]) * u2, by2 = a0[1] + (a1[1] - a0[1]) * u2 + Math.sin(u2 * Math.PI) * sag + 4;
+          var tw = Math.sin(t * 2.6 + b2 * 1.7 + si); glow(PUJA[(b2 + si) % 4], bx2, by2, 7, .35 + .6 * tw * tw);
+        }
+      });
+      g.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    function frame(now) {
+      raf = 0; if (!on || document.hidden) return;
+      var dt = last ? Math.min((now - last) / 1000, .05) : 0; last = now; T += dt;
+      mx += (tmx - mx) * .05;
+      var r = ksc.getBoundingClientRect(); sy = clamp((r.top + r.height / 2 - innerHeight / 2) / innerHeight, -1, 1);
+      draw(T, dt);
+      raf = requestAnimationFrame(frame);
+    }
+    function go() { if (!raf && on && !reduce) { last = 0; raf = requestAnimationFrame(frame); } }
+    size(); T = 14; draw(T, 0);
+    addEventListener("resize", function () { size(); draw(T, 0); });
+    if (!reduce) {
+      if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { on = es[0].isIntersecting; go(); }).observe(ksc);
+      else { on = true; go(); }
+      document.addEventListener("visibilitychange", go);
+      if (fine) addEventListener("pointermove", function (e) { tmx = (e.clientX / innerWidth - .5) * 2; }, { passive: true });
+    }
+  })();
 
   /* ── scroll-linked: progress bar, thesis words, drifting screenshots ── */
   var progress = $("#progress");
@@ -1708,6 +2072,17 @@ dropless      0%       12.85
         ctx.beginPath(); ctx.arc(s3[0], s3[1], (2.3 - tr * 0.3) * dpr, 0, 6.283); ctx.fill();
       }
     }
+    // home: sonar rings spreading out from Kolkata
+    var qh = rot(cities[0].v);
+    if (qh[2] > 0) {
+      var sh = proj(qh), ph = (performance.now() / 2600) % 1;
+      ctx.lineWidth = 1.2 * dpr;
+      for (var ring = 0; ring < 3; ring++) {
+        var f = (ph + ring / 3) % 1;
+        ctx.strokeStyle = "rgba(" + ACC + "," + ((1 - f) * 0.55 * qh[2]).toFixed(3) + ")";
+        ctx.beginPath(); ctx.arc(sh[0], sh[1], (6 + f * 38) * dpr, 0, 6.283); ctx.stroke();
+      }
+    }
     // cities
     for (var c = 0; c < cities.length; c++) {
       var q4 = rot(cities[c].v); if (q4[2] < 0) continue;
@@ -1715,8 +2090,16 @@ dropless      0%       12.85
       ctx.fillStyle = "rgba(" + ACC + "," + (a4 * 0.18).toFixed(3) + ")";
       ctx.beginPath(); ctx.arc(s4[0], s4[1], 9 * dpr, 0, 6.283); ctx.fill();
       ctx.fillStyle = "rgba(" + ACC + "," + a4.toFixed(3) + ")";
-      ctx.beginPath(); ctx.arc(s4[0], s4[1], 3 * dpr, 0, 6.283); ctx.fill();
-      if (q4[2] > 0.55 && W > 500 * dpr && cities[c][0] !== "Kolkata") {
+      ctx.beginPath(); ctx.arc(s4[0], s4[1], (c ? 3 : 4.2) * dpr, 0, 6.283); ctx.fill();
+      if (c === 0) {
+        if (W > 500 * dpr && q4[2] > 0.2) {
+          ctx.font = "600 " + (12 * dpr) + "px 'JetBrains Mono', monospace";
+          ctx.fillStyle = "rgba(" + ACC + "," + Math.min(1, q4[2] * 1.2).toFixed(2) + ")";
+          ctx.fillText("Kolkata · home", s4[0] + 12 * dpr, s4[1] - 10 * dpr);
+        }
+        continue;
+      }
+      if (q4[2] > 0.55 && W > 500 * dpr) {
         ctx.font = (500 * 1) + " " + (11 * dpr) + "px 'JetBrains Mono', monospace";
         ctx.fillStyle = "rgba(" + DOT + "," + (q4[2] * 0.7).toFixed(2) + ")";
         ctx.fillText(cities[c][0], s4[0] + 9 * dpr, s4[1] - 7 * dpr);
