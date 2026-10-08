@@ -585,7 +585,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <div class="sec-head rv">
         <span class="kicker">Products</span>
-        <h2 class="sec-title">Two products, a database, two compilers, a training system and an inference cluster. <span class="dim">Built end to end.</span></h2>
+        <h2 class="sec-title">Two products, a database, two compilers, and the systems that train and serve LLMs. <span class="dim">Built end to end.</span></h2>
       </div>
 
       <article class="case" aria-labelledby="waggle-h">
@@ -1001,6 +1001,60 @@ dropless      0%       12.85
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="crucible-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">10</div>
+          <div>
+            <div class="case-tag"><span class="pill">RL environments for coding agents</span><span class="pill">Python · Linux</span><span class="pill">Namespaces · seccomp-BPF</span><span class="pill">OpenEnv</span><span class="pill">GRPO</span><span class="pill">2&times; T4</span></div>
+            <h3 class="case-name" id="crucible-h">crucible<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">Where coding agents learn: every answer the model writes runs in its own disposable sandbox, and the reward comes from tests it cannot fool.</p>
+            <p>Training a model to write code with reinforcement learning means running its code thousands of times
+               per step, safely. crucible builds those sandboxes from Linux primitives, with no virtual machines: a warm
+               process with the task's modules already imported forks each sandbox, which gets its own user; mount,
+               network and PID namespaces; resource limits; no capabilities; and a seccomp-BPF filter that keeps it off
+               the network. Each layer is used only where the machine allows it, so the same code runs on a laptop, in CI
+               and on Kaggle. A live sandbox can be forked mid-episode, its memory shared copy-on-write, so an agent can
+               branch several attempts from one state. Unit-test rewards invite reward hacking, so the grader never lets
+               the model's code share a process with the tests: the asserts run outside the sandbox, and only plain
+               values come back from it. Served through OpenEnv's interface, it graded every answer in GRPO training on
+               ratchet, and every answer was also graded the usual way to count the rewards a hack would have won. Where
+               it falls short: a 0.5B model and 100 steps, so the gain is a few points, and each run also broke 24 to 32
+               tasks it had solved before.</p>
+            <ul class="facts">
+              <li><b>34.9% &rarr; 38.6%</b><span>MBPP pass@1 for Qwen2.5-Coder-0.5B after 100 GRPO steps on two T4s, mean of three seeds; a paired test over the 499 test tasks gives p = 0.013</span></li>
+              <li><b>0 of 9</b><span>Reward hacks that pass crucible's grader; the usual grader passes 4: an always-equal object, exiting before the tests, a forged output, sys.exit at import</span></li>
+              <li><b>4.5 ms</b><span>To fork a sandbox in a state that takes 138 ms to rebuild (30&times;); 8 branches of a 256 MB sandbox use 508 MB, not 2,304</span></li>
+              <li><b>5.3 ms</b><span>To start a fully isolated sandbox, against 19.8 ms for a bare Python with no isolation at all; 526 sandboxes per second</span></li>
+              <li><b>115 of 140</b><span>Tasks fixed by training, over the three seeds, whose answers already ran and gave wrong results: the gain is mostly correctness, not formatting</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/crucible" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/pool_m3.py: MBPP, 499 test tasks, 2x Tesla T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">greedy pass@1, before     34.9%
+after, seeds 0 / 1 / 2    38.9 / 38.1 / 38.9%
+mean of 3 seeds           38.6%   +3.7
+fixed / broken            44/24  48/32  48/28
+paired test over tasks    p = 0.013</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>tests/test_grader.py: 9 reward hacks</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">                        crucible   usual
+always-equal object     fail       pass
+exit before the tests   fail       pass
+forged output           fail       pass
+sys.exit at import      fail       pass
+hacks that pass         0 of 9     4 of 9</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/fork.py and bench/spawn.py: 4 CPUs</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">start an isolated sandbox    5.3 ms
+fork, 256 MB of state        4.8 ms
+rebuild a 90 ms state      138   ms
+fork it instead              4.5 ms   30x
+8 branches of 256 MB       508 MB (2,304 copied)</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1114,7 +1168,7 @@ dropless      0%       12.85
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
           <h3>Machine learning</h3>
-          <div class="chips"><span class="chip">Production pipelines</span><span class="chip">LSTM</span><span class="chip">BERT</span><span class="chip">DDPM</span><span class="chip">Knowledge distillation</span><span class="chip">Pruning</span><span class="chip">int8 quantization</span><span class="chip">ONNX</span><span class="chip">Anomaly detection</span><span class="chip">LLM-assisted diagnosis</span></div>
+          <div class="chips"><span class="chip">RL post-training · GRPO</span><span class="chip">RL environments · sandboxed rewards</span><span class="chip">Mixture-of-experts</span><span class="chip">LLM inference</span><span class="chip">PyTorch</span><span class="chip">Hugging Face Transformers</span><span class="chip">Mixed precision</span><span class="chip">int8 · AWQ quantization</span><span class="chip">ONNX</span><span class="chip">BERT</span><span class="chip">Knowledge distillation</span><span class="chip">Production pipelines</span></div>
         </div>
         <div class="tile rv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="6" rx="2"/><rect x="2.5" y="14.5" width="19" height="6" rx="2"/><path d="M6.5 6.5h.01M6.5 17.5h.01"/></svg>
@@ -1156,6 +1210,15 @@ dropless      0%       12.85
              log-probabilities on my own C++/CUDA engine, a PyTorch trainer data-parallel on tandem, and weights synced
              back in place on the GPU, 369&times; faster than a reload. 100 steps raised Qwen2.5-0.5B on GSM8K from
              48.1% to 52.5%, after I found and fixed fp16 rounding that silently discarded the training updates.</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/crucible" rel="noreferrer">
+          <span class="tag">RL environments · Linux sandboxes · GRPO</span><h3>crucible</h3>
+          <p>Sandboxed environments for training coding agents with reinforcement learning, built from Linux
+             namespaces, seccomp-BPF and resource limits, no virtual machines: a sandbox starts in 5.3 ms, and a live
+             one forks mid-episode in 4.5 ms. Its OpenEnv-compatible grader runs the tests outside the model's code,
+             so none of nine reward hacks passes (the usual grader lets four through). GRPO on ratchet with its rewards
+             lifted MBPP pass@1 from 34.9% to 38.6%, averaged over three seeds (p = 0.013).</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
