@@ -1055,6 +1055,61 @@ fork it instead              4.5 ms   30x
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="lipi-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">11</div>
+          <div>
+            <div class="case-tag"><span class="pill">Indian-language AI</span><span class="pill">Python · PyTorch</span><span class="pill">Byte-level BPE</span><span class="pill">Continued pre-training</span><span class="pill">DDP · ZeRO-1</span><span class="pill">2&times; T4</span></div>
+            <h3 class="case-name" id="lipi-h">lipi<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">The same sentence costs far more tokens in an Indian language than in English. lipi measures that tax and then removes it from an open model.</p>
+            <p>A language model is priced, timed and limited in tokens, so a language that needs more tokens costs its
+               speakers more per answer, makes them wait longer and fits less of their text in the context window. lipi
+               measured the tax for 24 Indian languages on FLORES-200 across 15 production tokenizers, and found a cause
+               no vocabulary can fix: the pre-tokenizer of GPT-4, Llama 3 and Qwen splits words at every vowel sign. lipi-Indic fixes that line for Indian scripts only and adds 96K byte-level BPE merges
+               learned on FineWeb-2 text of every language, confined to Indian-script bytes so English, Chinese, Thai and
+               the rest keep exactly the same tokens. With a smaller vocabulary than Gemini's, it needs fewer tokens than
+               GPT-4o's and Gemini's tokenizers in 23 of the 24 languages (Bengali is the exception). Then I gave
+               Qwen2.5-0.5B the Odia tokens, each embedding starting as the mean of the pieces it replaces, and continued
+               pre-training on Kaggle's two T4s with DDP and ZeRO-1. Where it falls short: reading comprehension in Odia
+               stays at chance for a 0.5B model whatever the tokenizer, English&rarr;Odia translation got worse, and the
+               Gemini figures use Gemma 3's tokenizer, which Gemini is reported to share.</p>
+            <ul class="facts">
+              <li><b>1.30&times;</b><span>Tokens per English token across 24 Indian languages, weighted by speakers, for lipi-Indic; GPT-4o and GPT-5's tokenizer needs 1.92&times;, Gemini's 1.58&times;</span></li>
+              <li><b>4.99&times; &rarr; 1.35&times;</b><span>Odia's cost against English on GPT-4o and on lipi-Indic; Santali's, 13.7&times; on GPT-4o, falls to 1.52&times;</span></li>
+              <li><b>8.6&times;</b><span>Fewer tokens for the same Odia text with the Odia extension, so the same 30 MB trains in 19 minutes instead of 104</span></li>
+              <li><b>20%</b><span>Better prediction of held-out Odia web text (bits per byte) in equal GPU time than training with Qwen's own tokenizer; Odia&rarr;English chrF++ 16.0 &rarr; 24.8</span></li>
+              <li><b>1,667</b><span>Tokens in Qwen's vocabulary that its own pre-tokenizer can never produce, with untrained embeddings; lipi's fix avoids sending other scripts into them</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">Source &amp; results</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>results/m1/indic.json: x English</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">              GPT-4o  Gemini  lipi-Indic
+Hindi          1.57    1.31    1.27
+Tamil          1.98    1.47    1.35
+Odia           4.99    3.51    1.35
+Santali       13.70    5.25    1.52
+speaker-wtd    1.92    1.58    1.30
+cheaper than both in 23 of 24</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/train_m1.py: Qwen2.5-0.5B, 2x T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">                  Qwen    lipi
+Odia tokens    267,893  31,211
+30 MB, minutes     104      19
+equal GPU time:
+ bits/byte, web  0.575   0.461
+ Odia-&gt;Eng chrF    0.0    24.8</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>scripts/extend_indic.py: other languages</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">en fr es ru zh   same ids
+ja ko th he      same ids
+Arabic   1.63 -&gt; 1.54
+Persian  2.58 -&gt; 1.79
+(both share Urdu's script)</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1219,6 +1274,14 @@ fork it instead              4.5 ms   30x
              one forks mid-episode in 4.5 ms. Its OpenEnv-compatible grader runs the tests outside the model's code,
              so none of nine reward hacks passes (the usual grader lets four through). GRPO on ratchet with its rewards
              lifted MBPP pass@1 from 34.9% to 38.6%, averaged over three seeds (p = 0.013).</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">
+          <span class="tag">Indian-language AI · tokenizers · PyTorch</span><h3>lipi</h3>
+          <p>The token tax on Indian languages, measured and then cut: Odia costs 4.99&times; English on GPT-4o. lipi-Indic
+             extends Qwen 2.5's tokenizer for 24 Indian languages and needs fewer tokens than GPT-4o's and Gemini's in 23
+             of them, with a smaller vocabulary than Gemini's. Continued pre-training of Qwen2.5-0.5B on two T4s with its
+             Odia tokens reads the same text 5.4&times; faster and, in equal GPU time, predicts held-out Odia 20% better.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">
