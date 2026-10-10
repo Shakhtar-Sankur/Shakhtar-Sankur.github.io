@@ -1110,6 +1110,59 @@ Persian  2.58 -&gt; 1.79
           </div>
         </div>
       </article>
+      <article class="case" aria-labelledby="kessler-h">
+        <div class="case-head rv">
+          <div class="case-num" aria-hidden="true">12</div>
+          <div>
+            <div class="case-tag"><span class="pill">Space traffic</span><span class="pill">C++ · CUDA</span><span class="pill">Python</span><span class="pill">GPU spatial hashing</span><span class="pill">Statistics</span><span class="pill">GitHub Actions</span></div>
+            <h3 class="case-name" id="kessler-h">kessler<em>.</em></h3>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-text rv">
+            <p class="case-lede">SpaceX reports 207,152 collision-avoidance maneuvers in six months. kessler is an independent, open-source auditor that asked whether anyone outside SpaceX can check that.</p>
+            <p>One C++ SGP4 propagator compiles for both CPU and CUDA and agrees with the reference to 1e-10 km. A GPU
+               spatial hash then screens every pair of the public catalogue for close approaches, refining each with
+               Brent's method, and is proven against brute force (every pair, every second); the GPU and CPU find the
+               same events. It reproduces all of CelesTrak SOCRATES's 100 closest conjunctions and NASA CARA's collision
+               probabilities. Then the audit: from Space-Track's history of 500 Starlink satellites over the six months
+               of SpaceX's report, a step detector (debris, which cannot maneuver, as the control) finds about half as
+               many orbit changes as SpaceX reports avoidance maneuvers; and in the catalogue as it stood on six days
+               spread over that period, satellites that maneuvered had a predicted sub-km approach to a non-Starlink object only 1.3&ndash;1.5&times;
+               as often as those that did not. Where it falls short: public orbits are accurate to about a kilometre,
+               so a predicted approach moves by a median 3.2 km after one routine update; that is the finding, not a flaw
+               to hide. It now screens the whole catalogue every day on GitHub Actions and publishes a 3D globe.</p>
+            <ul class="facts">
+              <li><b>28 s</b><span>To screen every pair of the 32,593 tracked objects, debris included, for the next 24 hours on one T4 (126M orbit states per second)</span></li>
+              <li><b>0.24 m</b><span>Median difference from CelesTrak SOCRATES's distances on its 100 closest conjunctions, all reproduced; NASA CARA's probabilities to 1.6e-8</span></li>
+              <li><b>&asymp; half</b><span>Of SpaceX's reported avoidance maneuvers leave a visible step in public orbit data (debris false alarms: 3% of the Starlink rate)</span></li>
+              <li><b>1.3&ndash;1.5&times;</b><span>How much more often maneuvering Starlinks had a predicted approach under 1 km (0.5 km) to a non-Starlink object: 2,082 vs 40,832 satellites</span></li>
+            </ul>
+            <div class="case-links">
+              <a class="btn btn-primary mag" href="https://shakhtar-sankur.github.io/kessler/" rel="noreferrer">Live globe</a>
+              <a class="btn btn-ghost mag" href="https://github.com/Shakhtar-Sankur/kessler" rel="noreferrer">Source &amp; method</a>
+            </div>
+          </div>
+          <div class="stack" data-drift style="padding-bottom:190px">
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/m2_screen.py --spacetrack: one T4</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">objects, every pair      32,593
+approaches &lt; 5 km, 24 h  75,820
+  closer than 1 km       2,033
+  closer than 200 m         85
+GPU candidate search    18.0 s
+total                   27.7 s
+GPU == CPU events         same</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/m2_socrates.py: vs CelesTrak SOCRATES</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">conjunctions compared  100 / 100
+distance, median        0.24 m
+time, max              15.5 ms
+speed, max             0.49 m/s</pre></div>
+            <div class="window"><div class="term-bar"><i></i><i></i><i></i><span>bench/m4_attribution.py: 6 days</span></div><pre style="margin:0;padding:18px 20px;overflow-x:auto;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre">predicted approach to a non-Starlink
+             maneuvered   quiet
+&lt; 0.5 km        3.3%      2.2%   1.53x
+&lt; 1 km         11.1%      8.6%   1.30x
+satellites      2,082    40,832</pre></div>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1274,6 +1327,14 @@ Persian  2.58 -&gt; 1.79
              one forks mid-episode in 4.5 ms. Its OpenEnv-compatible grader runs the tests outside the model's code,
              so none of nine reward hacks passes (the usual grader lets four through). GRPO on ratchet with its rewards
              lifted MBPP pass@1 from 34.9% to 38.6%, averaged over three seeds (p = 0.013).</p>
+          <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/kessler" rel="noreferrer">
+          <span class="tag">Space traffic · C++/CUDA · Python</span><h3>kessler</h3>
+          <p>An independent auditor of space traffic: SGP4 and all-vs-all conjunction screening in C++/CUDA that
+             screens every pair of the 32,593 tracked objects for a day in 28 s on one T4, reproducing CelesTrak
+             SOCRATES (median 0.24 m) and NASA CARA. It showed that SpaceX's 207,152 reported collision-avoidance
+             maneuvers cannot be verified from public data, and now screens the catalogue daily with a live 3D globe.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">
