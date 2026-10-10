@@ -1302,6 +1302,14 @@ Persian  2.58 -&gt; 1.79
              than its Python engine on a T4.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
+        <a class="tile work rv" data-kind="ml" href="https://github.com/vllm-project/vllm/pull/60955" rel="noreferrer">
+          <span class="tag">Open source · vLLM · under review</span><h3>vLLM PR #60955</h3>
+          <p>A fix to vLLM's attention tests, under review. Running them on a T4 and checking every output against
+             a float64 reference showed that the FlashInfer prefill tests compared non-causal attention with a causal
+             reference, and passed only because their tolerance was larger than the outputs. With the fix all 32
+             cases pass, and all 32 fail if the bug returns.</p>
+          <span class="go">View pull request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
         <a class="tile work rv" data-kind="ml" href="https://github.com/pytorch/pytorch/pull/199875" rel="noreferrer">
           <span class="tag">Open source · PyTorch Inductor · under review</span><h3>PyTorch PR #199875</h3>
           <p>A fix to the torch.compile compiler, under review: in deterministic mode, eager PyTorch fills
