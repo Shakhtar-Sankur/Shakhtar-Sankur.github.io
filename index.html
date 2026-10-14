@@ -1121,23 +1121,17 @@ Persian  2.58 -&gt; 1.79
         </div>
         <div class="case-body">
           <div class="case-text rv">
-            <p class="case-lede">SpaceX reports 207,152 collision-avoidance maneuvers in six months. kessler is an independent, open-source auditor that asked whether anyone outside SpaceX can check that.</p>
+            <p class="case-lede">kessler is an independent, open-source space-traffic tool: every tracked object screened against every other on a GPU, checked against NASA and CelesTrak.</p>
             <p>One C++ SGP4 propagator compiles for both CPU and CUDA and agrees with the reference to 1e-10 km. A GPU
-               spatial hash then screens every pair of the public catalogue for close approaches, refining each with
+               spatial hash then screens every pair of the catalogue for close approaches, refining each with
                Brent's method, and is proven against brute force (every pair, every second); the GPU and CPU find the
                same events. It reproduces all of CelesTrak SOCRATES's 100 closest conjunctions and NASA CARA's collision
-               probabilities. Then the audit: from Space-Track's history of 500 Starlink satellites over the six months
-               of SpaceX's report, a step detector (debris, which cannot maneuver, as the control) finds about half as
-               many orbit changes as SpaceX reports avoidance maneuvers; and in the catalogue as it stood on six days
-               spread over that period, satellites that maneuvered had a predicted sub-km approach to a non-Starlink object only 1.3&ndash;1.5&times;
-               as often as those that did not. Where it falls short: public orbits are accurate to about a kilometre,
-               so a predicted approach moves by a median 3.2 km after one routine update; that is the finding, not a flaw
-               to hide. It now screens the whole catalogue every day on GitHub Actions and publishes a 3D globe.</p>
+               probabilities, and includes a maneuver detector (debris, which cannot maneuver, as the control group) for
+               auditing operators' collision-avoidance reports against public orbit history. It screens CelesTrak's public
+               catalogue every day on GitHub Actions and publishes a 3D globe.</p>
             <ul class="facts">
-              <li><b>28 s</b><span>To screen every pair of the 32,593 tracked objects, debris included, for the next 24 hours on one T4 (126M orbit states per second)</span></li>
+              <li><b>28 s</b><span>To screen every pair of 32,593 tracked objects, debris included, for the next 24 hours on one T4 (126M orbit states per second)</span></li>
               <li><b>0.24 m</b><span>Median difference from CelesTrak SOCRATES's distances on its 100 closest conjunctions, all reproduced; NASA CARA's probabilities to 1.6e-8</span></li>
-              <li><b>&asymp; half</b><span>Of SpaceX's reported avoidance maneuvers leave a visible step in public orbit data (debris false alarms: 3% of the Starlink rate)</span></li>
-              <li><b>1.3&ndash;1.5&times;</b><span>How much more often maneuvering Starlinks had a predicted approach under 1 km (0.5 km) to a non-Starlink object: 2,082 vs 40,832 satellites</span></li>
             </ul>
             <div class="case-links">
               <a class="btn btn-primary mag" href="https://shakhtar-sankur.github.io/kessler/" rel="noreferrer">Live globe</a>
@@ -1332,10 +1326,10 @@ satellites      2,082    40,832</pre></div>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/kessler" rel="noreferrer">
           <span class="tag">Space traffic · C++/CUDA · Python</span><h3>kessler</h3>
-          <p>An independent auditor of space traffic: SGP4 and all-vs-all conjunction screening in C++/CUDA that
-             screens every pair of the 32,593 tracked objects for a day in 28 s on one T4, reproducing CelesTrak
-             SOCRATES (median 0.24 m) and NASA CARA. It showed that SpaceX's 207,152 reported collision-avoidance
-             maneuvers cannot be verified from public data, and now screens the catalogue daily with a live 3D globe.</p>
+          <p>An independent space-traffic tool: SGP4 and all-vs-all conjunction screening in C++/CUDA that
+             screens every pair of 32,593 tracked objects for a day in 28 s on one T4, reproducing CelesTrak
+             SOCRATES (median 0.24 m) and NASA CARA, with a maneuver detector for auditing operators' reports.
+             It screens the public catalogue daily with a live 3D globe.</p>
           <span class="go">View source <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <a class="tile work rv" data-kind="systems ml" href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">
