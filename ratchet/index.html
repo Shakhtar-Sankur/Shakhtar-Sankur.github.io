@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ratchet — the sampler was not the policy</title>
+<meta name="description" content="RL post-training built from scratch: a C++/CUDA inference engine and a PyTorch trainer. A silent fp16 rounding bug at weight sync, found, explained and fixed; GSM8K 48.1% → 52.5% on two T4 GPUs.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/ratchet/">
+<meta property="og:title" content="ratchet: the sampler was not the policy">
+<meta property="og:description" content="Rounding at weight sync was 9–22× the effect of fp16 arithmetic and 15–39× that of the engine's kernels. Found, explained and fixed in a from-scratch GRPO stack.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='8' fill='%23F4F7F5'/><path d='M8 36h32M12 36V24M20 36V18M28 36V14M36 36V9' stroke='%231B2B44' stroke-width='3.5' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try { var t = localStorage.getItem("rt-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"ratchet","description":"Reinforcement-learning post-training (GRPO) built from scratch on a C++/CUDA inference engine and a PyTorch trainer, with a study of the training-inference mismatch.","codeRepository":"https://github.com/Shakhtar-Sankur/ratchet","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/ratchet/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+/* ratchet: a lab notebook. Graph paper, navy ink, red-pencil corrections; italic serif headlines.
+   Light (paper) is the default; "Blueprint" is the dark version, same hues. */
+*,*::before,*::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:root {
+  --bg: #F4F7F5; --grid: rgba(27,43,68,.07); --grid-2: rgba(27,43,68,.13); --card: #FFFFFF; --card-2: #EEF2EF;
+  --ink: #1B2B44; --ink-2: #4A5A70; --ink-3: #7D8A9B; --line: #CDD6D9; --line-2: #E3E9EA;
+  --pencil: #D2412F; --pencil-ink: #B23423; --hi: #FFE9A8;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #c98500;
+  --serif: "Instrument Serif", Georgia, serif; --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0E1A2B; --grid: rgba(180,205,240,.06); --grid-2: rgba(180,205,240,.12); --card: #13223A; --card-2: #182A46;
+  --ink: #E6EEF8; --ink-2: #A9B9CE; --ink-3: #7487A0; --line: #2A3D5A; --line-2: #1E3049;
+  --pencil: #FF7A63; --pencil-ink: #FF8C78; --hi: #5A4A12;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+  color-scheme: dark;
+}
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; color: var(--ink); font: 17px/1.6 var(--sans); background-color: var(--bg);
+  background-image: linear-gradient(var(--grid-2) 1px, transparent 1px), linear-gradient(90deg, var(--grid-2) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px; }
+a { color: var(--pencil-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 13px var(--mono); }
+.top a { color: var(--ink); text-decoration: none; }
+.top nav { display: flex; gap: 16px; align-items: center; }
+.top nav a { color: var(--ink-2); }
+.theme { background: var(--card); border: 1px solid var(--ink); color: var(--ink); padding: 4px 10px; font: inherit; cursor: pointer; }
+@media (max-width: 560px) { .top nav a.hide-s { display: none; } }
+
+.hero { padding: 40px 0 50px; display: grid; grid-template-columns: 1fr; gap: 30px; }
+@media (min-width: 960px) { .hero { grid-template-columns: 1.2fr .8fr; gap: 50px; padding: 64px 0 70px; align-items: end; } }
+.entry { font: 13px var(--mono); color: var(--ink-3); margin: 0 0 18px; }
+.entry b { color: var(--pencil-ink); font-weight: 500; }
+h1 { font: italic 400 clamp(52px, 8.4vw, 104px)/.92 var(--serif); letter-spacing: -.02em; margin: 0 0 22px; }
+h1 s { text-decoration: none; position: relative; }
+h1 s::after { content: ""; position: absolute; left: -2%; right: -2%; top: 52%; height: .07em; background: var(--pencil); transform: rotate(-3deg); }
+h1 ins { text-decoration: none; color: var(--pencil-ink); font-size: .55em; display: inline-block; transform: rotate(-4deg) translateY(-.4em); margin-left: .1em; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--ink); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 12px var(--mono); color: var(--ink-3); }
+.dek { font-size: clamp(18px, 2.1vw, 20px); color: var(--ink-2); margin: 0; max-width: 38rem; }
+.dek b { color: var(--ink); }
+.card { background: var(--card); border: 1.5px solid var(--ink); box-shadow: 6px 6px 0 var(--grid-2); padding: 18px 20px; }
+.result { font: 13px var(--mono); }
+.result h3 { font: 600 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-3); }
+.result .row { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 9px 0; border-top: 1px dashed var(--line); align-items: baseline; }
+.result .row span { color: var(--ink-2); font-family: var(--sans); font-size: 14.5px; }
+.result .row b { font: 400 30px/1 var(--serif); color: var(--ink); white-space: nowrap; }
+.result .row b em { color: var(--pencil-ink); font-style: italic; }
+
+section { padding: 56px 0 8px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 960px) { .sh { grid-template-columns: 220px 1fr; } }
+.fig { font: 13px var(--mono); color: var(--pencil-ink); padding-top: 12px; }
+h2 { font: italic 400 clamp(36px, 5vw, 56px)/1 var(--serif); margin: 0 0 12px; letter-spacing: -.01em; }
+.sh p { margin: 0; color: var(--ink-2); max-width: 44rem; }
+
+/* interactive: rounding */
+.lab { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 960px) { .lab { grid-template-columns: 1.3fr 1fr; } }
+.ctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 4px 0 16px; font: 13px var(--mono); }
+.ctrl input[type=range] { width: 220px; accent-color: var(--pencil); }
+.ctrl .seg { display: inline-flex; border: 1.5px solid var(--ink); }
+.ctrl .seg button { background: var(--card); color: var(--ink); border: 0; padding: 6px 12px; font: inherit; cursor: pointer; }
+.ctrl .seg button + button { border-left: 1.5px solid var(--ink); }
+.ctrl .seg button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+#line svg { display: block; width: 100%; height: auto; overflow: visible; }
+#line text { font: 11.5px var(--mono); fill: var(--ink-2); }
+.readout { font: 13.5px var(--mono); display: grid; gap: 6px; }
+.readout div { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 7px 0; border-top: 1px dashed var(--line); }
+.readout span { color: var(--ink-2); }
+.readout b { font-weight: 500; }
+.verdict { margin-top: 12px; padding: 12px 14px; border: 1.5px solid var(--ink); font-size: 15px; }
+.verdict.bad { border-color: var(--pencil); background: color-mix(in srgb, var(--pencil) 10%, var(--card)); }
+.verdict.good { border-color: var(--s3); background: color-mix(in srgb, var(--s3) 10%, var(--card)); }
+
+/* decomposition chart */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; margin: 0 0 10px; }
+.legend i { display: inline-block; width: 18px; height: 3px; vertical-align: 4px; margin-right: 7px; }
+#decomp { position: relative; }
+#decomp svg { display: block; width: 100%; height: auto; overflow: visible; }
+#decomp text { font: 11.5px var(--mono); fill: var(--ink-3); }
+#decomp .lab2 { font: 600 12.5px var(--sans); fill: var(--ink); }
+#decomp .grid { stroke: var(--line-2); }
+#decomp .hit { fill: transparent; }
+.tip { position: absolute; pointer-events: none; background: var(--card); border: 1.5px solid var(--ink); padding: 9px 12px; font-size: 13px; line-height: 1.5; min-width: 230px; z-index: 2; box-shadow: 4px 4px 0 var(--grid-2); }
+.tip .n { float: right; font-family: var(--mono); margin-left: 12px; }
+.tip i { display: inline-block; width: 10px; height: 3px; vertical-align: 3px; margin-right: 6px; }
+.note { font-size: 13.5px; color: var(--ink-3); margin: 12px 0 0; }
+details.table { margin-top: 12px; }
+details.table summary { cursor: pointer; color: var(--pencil-ink); font: 13px var(--mono); }
+.tbl { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; font: 12.5px var(--mono); width: 100%; }
+th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--line-2); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--ink-3); font-weight: 500; border-bottom: 1.5px solid var(--ink); }
+.findings { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
+@media (min-width: 760px) { .findings { grid-template-columns: repeat(3, 1fr); } }
+.findings .card b { display: block; font: 400 38px/1 var(--serif); color: var(--pencil-ink); }
+.findings .card p { margin: 8px 0 0; font-size: 14.5px; color: var(--ink-2); }
+
+/* systems */
+.sys { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 760px) { .sys { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .sys { grid-template-columns: repeat(4, 1fr); } }
+.sys .card b { display: block; font: 400 46px/1 var(--serif); }
+.sys .card small { display: block; font: 12px var(--mono); color: var(--ink-3); margin-top: 6px; }
+.sys .card p { margin: 8px 0 0; font-size: 14.5px; color: var(--ink-2); }
+.gsm { margin-top: 16px; }
+.gsm table { font-size: 13.5px; }
+
+/* contributions, proof, author */
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 50px 1fr; gap: 4px 16px; padding: 18px 0; border-top: 1px dashed var(--ink-3); }
+@media (min-width: 960px) { .contrib li { grid-template-columns: 70px 300px 1fr; gap: 26px; } }
+.contrib li::before { content: "(" counter(c) ")"; font: italic 400 30px/1 var(--serif); color: var(--pencil-ink); grid-row: span 2; }
+@media (min-width: 960px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: italic 400 28px/1.1 var(--serif); }
+.contrib p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+.contrib p b { color: var(--ink); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; text-decoration: none; color: var(--ink); }
+.proof small { display: block; font: 12px var(--mono); color: var(--pencil-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 600; font-size: 17px; }
+.proof em { display: block; font-style: normal; color: var(--ink-2); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--ink); color: var(--bg); padding: 16px 18px; font: 12.5px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--pencil); color: #fff; border: 0; font: 12px var(--mono); padding: 5px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding-top: 22px; border-top: 1.5px solid var(--ink); }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--ink); }
+.author h3 { margin: 0; font: italic 400 36px/1 var(--serif); }
+.author .role { font: 12px var(--mono); color: var(--ink-3); margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--ink-2); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 13px var(--mono); }
+footer { margin-top: 56px; padding: 22px 0 48px; border-top: 1.5px solid var(--ink); color: var(--ink-3); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 12px 40px; }
+@media (min-width: 960px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 12px var(--mono); color: var(--ink-2); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--pencil); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a href="../">Sankur Kundu</a>
+  <nav>
+    <a class="hide-s" href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">Code</a>
+    <a class="hide-s" href="https://github.com/Shakhtar-Sankur/ratchet/tree/main/research/mismatch" rel="noreferrer">Raw results</a>
+    <button class="theme" id="theme" type="button">Blueprint</button>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <p class="entry">ratchet · lab notebook · <b>found, explained, fixed</b></p>
+    <h1>The sampler <s>was</s><ins>was not</ins> the policy.</h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Research &amp; engineering by Sankur Kundu</span><span class="when">Page updated 15 Oct 2026 · technical report forthcoming on arXiv</span></span></p>
+    <p class="dek">In reinforcement-learning post-training, one engine samples the answers and another computes the gradient, and the maths is only right if both hold the same model. I built both sides from scratch, a C++/CUDA inference engine and a PyTorch trainer, so that every disagreement between them could be seen. <b>The weight sync was silently rounding away most of each update.</b></p>
+  </div>
+  <div class="card result">
+    <h3>Results, Qwen2.5-0.5B on two T4 GPUs</h3>
+    <div class="row"><span>GSM8K accuracy after 100 GRPO steps</span><b>48.1% → <em>52.5%</em></b></div>
+    <div class="row"><span>Engine–trainer gap after training, max</span><b>5.2 → <em>0.043</em></b></div>
+    <div class="row"><span>Weight sync vs reloading the engine</span><b><em>369×</em> faster</b></div>
+    <div class="row"><span>Step time with partial rollouts</span><b><em>1.9×</em> faster</b></div>
+  </div>
+</div>
+
+<section id="bug" aria-labelledby="bug-h">
+  <div class="sh">
+    <div class="fig">fig. 1 — the bug</div>
+    <div><h2 id="bug-h">An update too small to see</h2>
+    <p>The engine stores weights in fp16. Around a typical weight of 0.02, fp16 values are 1.5×10⁻⁵ apart, and an AdamW step at learning rate 10⁻⁶ moves a weight by about 10⁻⁶. Rounded, the update disappears. Move the slider.</p></div>
+  </div>
+  <div class="lab">
+    <div class="card">
+      <div class="ctrl">
+        <label>updates <input type="range" id="k" min="0" max="12" value="3"> <b id="kv">3</b></label>
+        <span class="seg" role="group" aria-label="Trainer computes with"><button type="button" id="bugbtn" aria-pressed="true">trainer: float32</button><button type="button" id="fixbtn" aria-pressed="false">trainer: fp16-rounded (fix)</button></span>
+      </div>
+      <div id="line"></div>
+    </div>
+    <div class="card">
+      <div class="readout">
+        <div><span>master weight (float32)</span><b id="m"></b></div>
+        <div><span>what the engine holds (fp16)</span><b id="e"></b></div>
+        <div><span>what the trainer computes with</span><b id="tr"></b></div>
+        <div><span>update the engine has seen</span><b id="seen"></b></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+  </div>
+</section>
+
+<section id="decomp-s" aria-labelledby="decomp-h">
+  <div class="sh">
+    <div class="fig">fig. 2 — taking the gap apart</div>
+    <div><h2 id="decomp-h">Rounding at sync is the gap</h2>
+    <p>Each source switched on alone, measured on the same 64 fresh rollouts after 1, 3, 10 and 30 GRPO updates: mean change in per-token log-probability (nats, log scale).</p></div>
+  </div>
+  <div class="card">
+    <div class="legend" id="legend"></div>
+    <div id="decomp"></div>
+    <details class="table"><summary>read it as a table</summary><div class="tbl" id="dtable"></div></details>
+    <p class="note">At the released weights every source is below 0.002 on average and rounding to bf16 is exactly zero, because the released weights are bf16 values. "bf16 rounding" rounds the trainer's weights to bf16; it is not a bf16 engine. One run, Qwen2.5-0.5B-Instruct, GSM8K.</p>
+  </div>
+  <div class="findings">
+    <div class="card"><b>9–22×</b><p>Rounding at weight sync against fp16 arithmetic, on average; 15–39× against the engine's own kernels, which never put a token outside the ratio bound.</p></div>
+    <div class="card"><b>13% → 5%</b><p>Share of weights an fp16 engine sees change in an update, from the first to the thirtieth. For bf16: 1.7% → 0.7%.</p></div>
+    <div class="card"><b>11 nats</b><p>The gap bf16 rounding would leave by update 30, with 15% of tokens outside the ratio bound; fp16 stays at a mean of 0.012–0.030.</p></div>
+  </div>
+</section>
+
+<section id="systems" aria-labelledby="sys-h">
+  <div class="sh">
+    <div class="fig">fig. 3 — systems</div>
+    <div><h2 id="sys-h">Fast enough to matter on small GPUs</h2>
+    <p>The engine, the trainer and the loop between them, measured on two Tesla T4s.</p></div>
+  </div>
+  <div class="sys">
+    <div class="card"><b>369×</b><small>0.017 s vs 6.26 s</small><p>Weight sync: the engine converts the trainer's weights in place on its own GPU, instead of a reload.</p></div>
+    <div class="card"><b>1.9×</b><small>49.1 s → 25.6 s per step</small><p>Partial rollouts and one-step-ahead training cut the wait for the longest answer.</p></div>
+    <div class="card"><b>27×</b><small>34 → 931 tokens/s</small><p>A sort-free sampler: the engine had been sorting 151,936 entries on the CPU for every token.</p></div>
+    <div class="card"><b>10⁻⁶</b><small>logprob agreement on CPU</small><p>Trainer and engine share one weight layout and agree within 9.5×10⁻⁷; runs reproduce bit for bit.</p></div>
+  </div>
+  <div class="card gsm">
+    <table>
+      <thead><tr><th>Mode (100 GRPO steps, all 1,319 GSM8K test problems)</th><th>Before</th><th>After</th><th>Time</th></tr></thead>
+      <tbody><tr><td>Colocated: both GPUs generate, then train</td><td>48.1%</td><td><b>52.5%</b></td><td>50.6 min</td></tr>
+      <tr><td>Split: one generates while the other trains</td><td>47.8%</td><td>50.2%</td><td>44.7 min</td></tr></tbody>
+    </table>
+    <p class="note">One run per mode; the difference between the two gains is not established.</p>
+  </div>
+</section>
+
+<section id="new" aria-labelledby="new-h">
+  <div class="sh">
+    <div class="fig">fig. 4 — contributions</div>
+    <div><h2 id="new-h">What this work adds</h2>
+    <p>Most RL stacks measure the engine–trainer gap as one number and correct it in the loss. ratchet controls both sides, so it can say where the gap comes from.</p></div>
+  </div>
+  <ol class="contrib">
+    <li><h3>An observable RL loop</h3><p>A C++/CUDA engine that returns every sampled token's log-probability, and a trainer in <b>the engine's own weight layout</b>, logging the gap on every step of every run.</p></li>
+    <li><h3>A silent failure, and its fix</h3><p>Weight sync into an fp16 engine rounds away most of each update. Computing the trainer with the engine's rounded weights, while the optimizer keeps float32 masters, takes the gap <b>from 5.2 to 0.043 nats</b>.</p></li>
+    <li><h3>The cause, isolated</h3><p>Rounding at sync is <b>9–22× arithmetic precision and 15–39× the kernels</b>; bf16 would be worse and grows worse, consistent with recent findings that fp16 reduces the mismatch.</p></li>
+    <li><h3>Systems for small hardware</h3><p>In-place sync <b>369×</b> faster than a reload, <b>1.9×</b> faster steps and a <b>27×</b> faster sampler, on two T4s; GSM8K 48.1% → 52.5%.</p></li>
+  </ol>
+  <div class="proof">
+    <a class="card" href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer"><small>open source</small><span>ratchet on GitHub</span><em>Apache-2.0; walkthrough, scripts and raw logs for every number.</em></a>
+    <a class="card" href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer"><small>the engine</small><span>relay</span><em>C++/CUDA inference cluster: paged KV cache, continuous batching, fault tolerance.</em></a>
+    <a class="card" href="#cite"><small>paper</small><span>Technical report, forthcoming on arXiv</span><em>“The Sampler Was Not the Policy”. Cite the software now.</em></a>
+  </div>
+  <div class="cite" id="cite">
+    <button type="button" id="copy">copy</button>
+<pre id="bib">@software{kundu2026ratchet,
+  author  = {Kundu, Sankur},
+  title   = {ratchet: reinforcement-learning post-training from scratch, and the training--inference mismatch},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/ratchet},
+  license = {Apache-2.0}
+}</pre>
+  </div>
+</section>
+
+<section aria-label="About the author">
+  <div class="author">
+    <img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72">
+    <div>
+      <h3>Sankur Kundu</h3>
+      <p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+      <p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages, and <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+      <div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>method</b>Qwen2.5-0.5B-Instruct, GSM8K, GRPO (8 answers per problem, clipped objective, AdamW, learning rate 10⁻⁶), two Tesla T4 GPUs on Kaggle. Decomposition: research/mismatch/decompose.py, 64 rollouts per checkpoint, temperature 1; log in research/mismatch/results.</p>
+  <p><b>credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p>
+</footer>
+</div>
+
+<script>
+(function () {
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var btn = document.getElementById("theme");
+  function cur() { return document.documentElement.getAttribute("data-theme") || "light"; }
+  function lab() { btn.textContent = cur() === "light" ? "Blueprint" : "Paper"; }
+  btn.addEventListener("click", function () { var n = cur() === "light" ? "dark" : "light"; document.documentElement.setAttribute("data-theme", n); try { localStorage.setItem("rt-theme", n); } catch (e) {} lab(); });
+  lab();
+  document.getElementById("copy").addEventListener("click", function () {
+    var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "copied"; setTimeout(function () { b.textContent = "copy"; }, 1500); }); } catch (e) {}
+  });
+
+  /* fig 1: fp16 rounding of a weight near 0.02 (exact fp16 values; step 2^-16) */
+  var G0 = 0.0200042724609375, ULP = 1.52587890625e-05, U = 1e-6;
+  var k = document.getElementById("k"), fix = false;
+  function rnd16(v) { return G0 + Math.round((v - G0) / ULP) * ULP; }
+  function f(v) { return v.toFixed(9); }
+  function drawLine() {
+    var n = +k.value, m = G0 + n * U, e = rnd16(m), t = fix ? e : m;
+    document.getElementById("kv").textContent = n;
+    document.getElementById("m").textContent = f(m);
+    document.getElementById("e").textContent = f(e);
+    document.getElementById("tr").textContent = f(t);
+    document.getElementById("seen").textContent = n === 0 ? "–" : Math.round((e - G0) / (n * U) * 100) + "%";
+    var v = document.getElementById("verdict");
+    if (n === 0) { v.className = "verdict"; v.textContent = "At the released weights both sides hold the same value."; }
+    else if (!fix && e !== m) { v.className = "verdict bad"; v.innerHTML = "<b>Mismatch.</b> The trainer computes gradients for a weight the engine does not have; the engine samples from a policy the trainer never had."; }
+    else { v.className = "verdict good"; v.innerHTML = "<b>Same weights.</b> The trainer computes with exactly what the engine holds; the small updates keep accumulating in the master weight until they cross an fp16 step" + (e > G0 ? " (crossed)." : "."); }
+    var box = document.getElementById("line"), W = Math.max(300, box.clientWidth), H = 190, L = 20, R = 20;
+    var lo = G0 - 0.25 * ULP, hi = G0 + 1.25 * ULP;
+    function X(x) { return L + (x - lo) / (hi - lo) * (W - L - R); }
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Number line: fp16 grid around 0.02, master weight after ' + n + ' updates">';
+    s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="96" y2="96" stroke="var(--ink)" stroke-width="1.5"/>';
+    [G0, G0 + ULP].forEach(function (g, i) {
+      s += '<line x1="' + X(g) + '" x2="' + X(g) + '" y1="80" y2="112" stroke="var(--ink)" stroke-width="2"/>';
+      s += '<text x="' + X(g) + '" y="132" text-anchor="middle">fp16 value ' + (i ? "+1 step" : "") + '</text><text x="' + X(g) + '" y="148" text-anchor="middle">' + g.toFixed(7) + '</text>';
+    });
+    var mid = G0 + ULP / 2;
+    s += '<line x1="' + X(mid) + '" x2="' + X(mid) + '" y1="86" y2="106" stroke="var(--ink-3)" stroke-dasharray="3 3"/>';
+    s += '<text x="' + X(mid) + '" y="170" text-anchor="middle" fill="var(--ink-3)">half a step: 7.6×10⁻⁶</text>';
+    for (var j = 1; j <= n; j++) s += '<circle cx="' + X(G0 + j * U) + '" cy="96" r="2.4" fill="var(--ink-3)"/>';
+    s += '<circle cx="' + X(m) + '" cy="96" r="6.5" fill="var(--pencil)"/>';
+    s += '<text x="' + X(m) + '" y="58" text-anchor="middle" fill="var(--pencil-ink)">master</text>';
+    s += '<path d="M' + X(m) + ',64 L' + X(m) + ',86" stroke="var(--pencil)" stroke-width="1.5"/>';
+    s += '<rect x="' + (X(e) - 7) + '" y="89" width="14" height="14" fill="none" stroke="var(--s1)" stroke-width="2.5"/>';
+    s += '<text x="' + X(e) + '" y="30" text-anchor="middle" fill="var(--s1)">engine (fp16)</text>';
+    s += '<path d="M' + X(e) + ',36 L' + X(e) + ',87" stroke="var(--s1)" stroke-width="1.5" stroke-dasharray="2 2"/>';
+    s += '</svg>';
+    box.innerHTML = s;
+  }
+  k.addEventListener("input", drawLine);
+  function setFix(v) { fix = v; document.getElementById("bugbtn").setAttribute("aria-pressed", String(!v)); document.getElementById("fixbtn").setAttribute("aria-pressed", String(v)); drawLine(); }
+  document.getElementById("bugbtn").addEventListener("click", function () { setFix(false); });
+  document.getElementById("fixbtn").addEventListener("click", function () { setFix(true); });
+  drawLine();
+
+  /* fig 2: decomposition (research/mismatch/results/kaggle-2026-10-15.txt, run with the fix) */
+  var UPD = [1, 3, 10, 30];
+  var S = [
+    { name: "rounding to fp16 (sync)", c: "var(--s1)", v: [0.01585, 0.02548, 0.03044, 0.01174], max: [1.93, 2.30, 3.47, 0.78] },
+    { name: "rounding to bf16", c: "var(--s2)", v: [0.02208, 0.04102, 0.10423, 0.19591], max: [2.16, 3.65, 9.70, 10.98] },
+    { name: "fp16 arithmetic", c: "var(--s3)", v: [0.00121, 0.00121, 0.00139, 0.0013], max: [0.073, 0.136, 0.064, 0.069] },
+    { name: "engine kernels", c: "var(--s4)", v: [0.00065, 0.00068, 0.00078, 0.00079], max: [0.033, 0.056, 0.031, 0.066] }
+  ];
+  document.getElementById("legend").innerHTML = S.map(function (s) { return '<span><i style="background:' + s.c + '"></i>' + esc(s.name) + '</span>'; }).join("");
+  var dbox = document.getElementById("decomp"), tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true;
+  function drawD() {
+    var W = Math.max(300, dbox.clientWidth), narrow = W < 560, H = narrow ? 300 : 340, L = 58, R = narrow ? 18 : 170, T = 14, B = 36;
+    var lo = Math.log10(0.0004), hi = Math.log10(0.4);
+    function Y(v) { return T + (hi - Math.log10(v)) / (hi - lo) * (H - T - B); }
+    function X(i) { return L + i / (UPD.length - 1) * (W - L - R); }
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Mean log-probability change per source over GRPO updates, log scale">';
+    [0.001, 0.01, 0.1].forEach(function (g) { s += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/><text x="' + (L - 8) + '" y="' + (Y(g) + 4) + '" text-anchor="end">' + g + '</text>'; });
+    UPD.forEach(function (u, i) { s += '<text x="' + X(i) + '" y="' + (H - 14) + '" text-anchor="middle">' + u + (i === UPD.length - 1 ? " updates" : "") + '</text>'; });
+    S.forEach(function (sr) {
+      s += '<path fill="none" stroke="' + sr.c + '" stroke-width="2" d="' + sr.v.map(function (v, i) { return (i ? "L" : "M") + X(i) + "," + Y(v); }).join("") + '"/>';
+      sr.v.forEach(function (v, i) { s += '<circle cx="' + X(i) + '" cy="' + Y(v) + '" r="4.5" fill="' + sr.c + '" stroke="var(--card)" stroke-width="2"/>'; });
+      if (!narrow) s += '<text class="lab2" x="' + (X(UPD.length - 1) + 10) + '" y="' + (Y(sr.v[sr.v.length - 1]) + 4) + '">' + esc(sr.name) + '</text>';
+    });
+    UPD.forEach(function (u, i) { s += '<rect class="hit" data-i="' + i + '" x="' + (X(i) - (W - L - R) / 6) + '" y="0" width="' + ((W - L - R) / 3) + '" height="' + H + '"/>'; });
+    s += '</svg>';
+    dbox.innerHTML = s; dbox.appendChild(tip);
+    dbox.querySelectorAll(".hit").forEach(function (h) {
+      function show(ev) {
+        var i = +h.dataset.i;
+        tip.innerHTML = "<b>After " + UPD[i] + " update" + (UPD[i] > 1 ? "s" : "") + "</b> <span style='color:var(--ink-3)'>mean / max nats</span>" + S.map(function (sr) { return "<br><i style='background:" + sr.c + "'></i>" + esc(sr.name) + "<span class='n'>" + sr.v[i].toFixed(4) + " / " + sr.max[i] + "</span>"; }).join("");
+        tip.hidden = false;
+        var b = dbox.getBoundingClientRect();
+        var tx = Math.min((ev && ev.clientX ? ev.clientX - b.left : X(i)) + 14, b.width - tip.offsetWidth - 4);
+        tip.style.left = Math.max(0, tx) + "px"; tip.style.top = "8px";
+      }
+      h.addEventListener("mousemove", show); h.addEventListener("click", show);
+      h.addEventListener("mouseleave", function () { tip.hidden = true; });
+    });
+  }
+  drawD();
+  var rt; addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { drawD(); drawLine(); }, 120); });
+  var t = "<table><thead><tr><th>Source</th>" + UPD.map(function (u) { return "<th>" + u + " upd. mean / max</th>"; }).join("") + "</tr></thead><tbody>";
+  S.forEach(function (sr) { t += "<tr><td>" + esc(sr.name) + "</td>" + sr.v.map(function (v, i) { return "<td>" + v.toFixed(4) + " / " + sr.max[i] + "</td>"; }).join("") + "</tr>"; });
+  document.getElementById("dtable").innerHTML = t + "</tbody></table>";
+})();
+</script>
+</body>
+</html>
