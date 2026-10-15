@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kiln — an ML compiler that beats torch.compile on CPU</title>
+<meta name="description" content="An ML compiler built from scratch: ONNX in, fused and auto-tuned SIMD C and CUDA out. Fastest of five engines on BERT on 4 CPU cores (117 ms vs torch.compile 149, ONNX Runtime 153, JAX/XLA 189); 1.65× torch.compile on SmolLM2 on a T4 in fp16.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/kiln/">
+<meta property="og:title" content="kiln: an ML compiler from ONNX to fused, auto-tuned SIMD C and CUDA">
+<meta property="og:description" content="An ML compiler built from scratch: ONNX in, fused and auto-tuned SIMD C and CUDA out. Fastest of five engines on BERT on 4 CPU cores (117 ms vs torch.compile 149, ONNX Runtime 153, JAX/XLA 189); 1.65× torch.compile on SmolLM2 on a T4 in fp16.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%23140C08'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%23FF6A1A'>K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"kiln","description":"An ML compiler built from scratch: ONNX in, fused and auto-tuned SIMD C and CUDA out. Fastest of five engines on BERT on 4 CPU cores (117 ms vs torch.compile 149, ONNX Runtime 153, JAX/XLA 189); 1.65× torch.compile on SmolLM2 on a T4 in fp16.","codeRepository":"https://github.com/Shakhtar-Sankur/kiln","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/kiln/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+:root { --bg:#140C08;--panel:#1D130D;--line:#3A2618;--text:#FFF3E8;--muted:#C9AE98;--accent:#FF6A1A;--accent-ink:#FF8A47;--on-accent:#140C08;--track:#2E1D12;--bar-muted:#7A5A44;--r:10px;--rule:1px solid #3A2618;--display:'Bricolage Grotesque',sans-serif;--body:'Bricolage Grotesque',system-ui,sans-serif;--mono:'Fira Code',ui-monospace,monospace;--num-font:800 40px 'Bricolage Grotesque',sans-serif;--h3-font:700 20px/1.2 'Bricolage Grotesque',sans-serif;color-scheme:dark; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+body{background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,106,26,.16),transparent 70%),var(--bg)}
+h1{font:800 clamp(56px,9vw,112px)/.9 var(--display);letter-spacing:-.04em}
+h1 span{background:linear-gradient(90deg,#FF3D00,#FF8A1A,#FFC247);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:800 clamp(30px,4.4vw,50px)/1 var(--display);letter-spacing:-.03em;margin:0 0 10px}
+.stage{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font:500 11.5px var(--mono);text-align:center;margin-bottom:0}
+.stage div{border:1px solid var(--line);border-radius:8px;padding:10px 4px;background:linear-gradient(180deg,rgba(255,106,26,var(--h)),transparent)}
+.stage b{display:block;font:700 14px var(--body);color:var(--text);margin-bottom:2px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/kiln" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">kiln · an ML compiler, end to end</p>
+    <h1>fire <span>the graph.</span></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 15 Oct 2026</span></span></p>
+    <p class="dek">The pipeline of XLA, TVM and torch.compile, from scratch: decode ONNX, fold and canonicalize the graph, <b>fuse it into a few kernels</b> over an affine loop IR, generate SIMD C or CUDA, compile it at run time and auto-tune every matrix multiply on the machine it runs on. On 4 CPU cores it is <b>the fastest of five engines</b>.</p>
+  </div>
+  <div><div class="stage" aria-label="Compiler stages"><div style="--h:.05"><b>ONNX</b>decode</div><div style="--h:.12"><b>Graph</b>fold · fuse</div><div style="--h:.2"><b>Loops</b>affine IR</div><div style="--h:.3"><b>Code</b>SIMD C · CUDA</div><div style="--h:.45"><b>Tune</b>on device</div></div><div class="results"><div><b>117<em> ms</em></b><span>BERT on 4 CPU cores, 8 × 128 tokens: torch.compile 149, ONNX Runtime 153, JAX/XLA 189, PyTorch 198</span></div><div><b>7.9<em> ms</em></b><span>SmolLM2-135M on a T4 with fp16 tensor cores: 1.65× faster than torch.compile (13.1 ms)</span></div><div><b>3.7<em>×</em></b><span>Faster than torch.compile on the MLP on the T4 (0.30 vs 1.10 ms); auto-tuning worth up to 1.70×</span></div><div><b>16<em> MB</em></b><span>Arena holding BERT's 381 MB of intermediates, planned at compile time</span></div></div></div>
+</div>
+<section aria-labelledby="cpu-h"><div class="sh"><div class="code">01 · On the CPU</div><div><h2 id="cpu-h">Fastest of five engines</h2><p>BERT, 8 sequences of 128 tokens, 4 CPU cores; medians of every timing. Outputs match PyTorch's.</p></div></div><div class="panel"><div class="bars" role="img" aria-label="Lower is better. kiln has the lowest median latency on all three of its CPU benchmark models (bench/run.sh)."><div class="r me"><span>kiln</span><span class="t"><i style="width:59.1%"></i></span><span class="v">117 ms</span></div><div class="r"><span>torch.compile</span><span class="t"><i style="width:75.3%"></i></span><span class="v">149 ms</span></div><div class="r"><span>ONNX Runtime</span><span class="t"><i style="width:77.3%"></i></span><span class="v">153 ms</span></div><div class="r"><span>JAX / XLA</span><span class="t"><i style="width:95.5%"></i></span><span class="v">189 ms</span></div><div class="r"><span>PyTorch eager</span><span class="t"><i style="width:100.0%"></i></span><span class="v">198 ms</span></div></div><p class="cap">Lower is better. kiln has the lowest median latency on all three of its CPU benchmark models (bench/run.sh).</p></div></section><section aria-labelledby="gpu-h"><div class="sh"><div class="code">02 · On the GPU</div><div><h2 id="gpu-h">CUDA it writes for itself</h2><p>The GPU backend generates CUDA with fp16 tensor-core matmuls, split-K and CUDA graphs, compiles it with NVRTC at run time and tunes it on the device.</p></div></div><div class="cols"><div class="panel"><h3>SmolLM2-135M · 1.65×</h3><p>7.9 ms against torch.compile's 13.1 ms on an NVIDIA T4 in fp16.</p></div>
+<div class="panel"><h3>MLP · 3.7×</h3><p>0.30 ms against 1.10 ms; auto-tuning alone is worth up to 1.70×.</p></div>
+<div class="panel"><h3>BERT · behind</h3><p>On BERT in fp16 kiln trails torch.compile, and in fp32 the cuBLAS-based engines stay ahead. Stated, not hidden.</p></div></div></section><section aria-labelledby="checks-h"><div class="sh"><div class="code">03 · Correctness</div><div><h2 id="checks-h">Checked under every schedule</h2><p>CI checks the generated C and CUDA against PyTorch with each optimisation switched off and under every tuned schedule, on an emulator of the CUDA execution model, so a fast wrong kernel cannot ship.</p></div></div><div class="cols"><div class="panel"><h3>Outputs match PyTorch</h3><p>On BERT and SmolLM2, end to end.</p></div><div class="panel"><h3>Every schedule tested</h3><p>Each auto-tuned variant is run against the reference, not just the winner.</p></div><div class="panel"><h3>One arena</h3><p>A memory planner packs every intermediate into one buffer: 381 MB of BERT intermediates in 16 MB.</p></div></div></section>
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What kiln adds</div><div><h2 id="new-h">A whole compiler stack, measured honestly</h2><p>Every stage of a production ML compiler, built from scratch and benchmarked against the engines people actually use.</p></div></div>
+<ol class="contrib"><li><h3>Graph to loops to code</h3><p>ONNX decoding, constant folding, fusion over an <b>affine loop IR</b>, SIMD C and CUDA generation.</p></li><li><h3>Auto-tuning on the device</h3><p>Every matmul tuned where it runs; <b>worth up to 1.70×</b>.</p></li><li><h3>Beats torch.compile on CPU</h3><p><b>117 ms vs 149 ms</b> on BERT, fastest of five engines.</p></li><li><h3>Verified, not just fast</h3><p>Generated code checked against PyTorch <b>under every tuned schedule</b> in CI.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>On an NVIDIA T4 in fp16 kiln trails torch.compile on BERT, and in fp32 the cuBLAS-based engines stay ahead of it.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/kiln" rel=noreferrer><small>Open source</small><span>kiln on GitHub</span><em>Compiler, runtime, benchmarks and raw timings.</em></a><a href="../tessel/"><small>Related</small><span>tessel</span><em>A tile language compiling to CUDA, Metal and Pallas.</em></a><a href="#cite"><small>Cite</small><span>Software citation</span><em>Apache-2.0; reproduce every number from the repository.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026kiln,
+  author  = {Kundu, Sankur},
+  title   = {kiln: an ML compiler from ONNX to fused, auto-tuned SIMD C and CUDA},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/kiln},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages; <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages; <a href="../ratchet/">ratchet</a>, RL post-training from scratch; <a href="../kessler/">kessler</a>, an independent space-traffic audit that runs every day. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>CPU: 4 cores, medians of every timing (bench/run.sh). GPU: Tesla T4, fp16 (bench/run_gpu.sh). Baselines: torch.compile, ONNX Runtime, JAX/XLA and PyTorch eager on the same inputs.</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>

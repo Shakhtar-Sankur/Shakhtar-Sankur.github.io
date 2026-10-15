@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>switchyard — a mixture-of-experts model across two GPUs</title>
+<meta name="description" content="OLMoE-1B-7B served across two GPUs with my own CUDA kernels and peer-to-peer dispatch: bit-identical to one GPU and 2.2× faster decoding than Hugging Face transformers. Includes measurements of what load balancing is worth.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/switchyard/">
+<meta property="og:title" content="switchyard: mixture-of-experts serving across GPUs, from the kernels up">
+<meta property="og:description" content="OLMoE-1B-7B served across two GPUs with my own CUDA kernels and peer-to-peer dispatch: bit-identical to one GPU and 2.2× faster decoding than Hugging Face transformers. Includes measurements of what load balancing is worth.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%23FFFFFF'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%230A7A3E'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"switchyard","description":"OLMoE-1B-7B served across two GPUs with my own CUDA kernels and peer-to-peer dispatch: bit-identical to one GPU and 2.2× faster decoding than Hugging Face transformers. Includes measurements of what load balancing is worth.","codeRepository":"https://github.com/Shakhtar-Sankur/switchyard","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/switchyard/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+:root { --bg:#FFFFFF;--panel:#F3F4F2;--line:#D9DCD6;--text:#111311;--muted:#545A52;--accent:#0A7A3E;--accent-ink:#0A7A3E;--on-accent:#FFFFFF;--track:#E4E7E1;--bar-muted:#A9AFA5;--r:2px;--rule:4px solid #111311;--display:'Barlow Condensed',sans-serif;--body:'Barlow',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--num-font:800 44px 'Barlow Condensed',sans-serif;--h3-font:700 22px/1.15 'Barlow Condensed',sans-serif;color-scheme:light; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1{font:800 clamp(60px,10vw,128px)/.85 var(--display);text-transform:uppercase;letter-spacing:-.01em}
+h1 span{color:var(--accent)}
+h2{font:800 clamp(34px,5vw,58px)/.95 var(--display);text-transform:uppercase;margin:0 0 10px}
+.yard{background:#111311;border-radius:2px;padding:12px}
+.yard svg{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/switchyard" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">switchyard · mixture-of-experts serving</p>
+    <h1>64 experts. <span>2 GPUs.</span></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 15 Oct 2026</span></span></p>
+    <p class="dek">OLMoE-1B-7B sends every token to 8 of the 64 experts in each layer. switchyard gives each GPU half of every layer's experts and <b>moves tokens between GPUs with its own kernels</b>, so the output matches one GPU bit for bit. Everything below the model is written from scratch, including the measurement of what load balancing is worth.</p>
+  </div>
+  <div><div class="yard"><svg viewBox="0 0 520 210" role="img" aria-label="Tokens routed from a router to experts on two GPUs and back">
+<g fill="none" stroke-width="3"><path d="M20 105 H150" stroke="#F4F4F0"/><path d="M150 105 C200 105 210 50 260 50 H420" stroke="#2BD47D"/><path d="M150 105 C200 105 210 160 260 160 H420" stroke="#FFC23D"/>
+<path d="M420 50 C470 50 470 105 500 105" stroke="#2BD47D" stroke-dasharray="6 5"/><path d="M420 160 C470 160 470 105 500 105" stroke="#FFC23D" stroke-dasharray="6 5"/></g>
+<g font-family="Space Mono, monospace" font-size="12" fill="#F4F4F0"><text x="20" y="92">tokens</text><text x="120" y="135">router · top-8</text>
+<text x="262" y="36">GPU 0 · experts 0–31</text><text x="262" y="186">GPU 1 · experts 32–63</text><text x="430" y="125">combine</text></g>
+<g fill="#2BD47D"><rect x="270" y="44" width="12" height="12" rx="1"/><rect x="288" y="44" width="12" height="12" rx="1"/><rect x="306" y="44" width="12" height="12" rx="1"/><rect x="324" y="44" width="12" height="12" rx="1"/><rect x="342" y="44" width="12" height="12" rx="1"/><rect x="360" y="44" width="12" height="12" rx="1"/><rect x="378" y="44" width="12" height="12" rx="1"/><rect x="396" y="44" width="12" height="12" rx="1"/></g><g fill="#FFC23D"><rect x="270" y="154" width="12" height="12" rx="1"/><rect x="288" y="154" width="12" height="12" rx="1"/><rect x="306" y="154" width="12" height="12" rx="1"/><rect x="324" y="154" width="12" height="12" rx="1"/><rect x="342" y="154" width="12" height="12" rx="1"/><rect x="360" y="154" width="12" height="12" rx="1"/><rect x="378" y="154" width="12" height="12" rx="1"/><rect x="396" y="154" width="12" height="12" rx="1"/></g>
+<text x="300" y="112" font-family="Space Mono, monospace" font-size="11" fill="#A9AFA5">peer-to-peer, no NCCL</text></svg></div><div class="results"><div><b>2.2<em>×</em></b><span>Faster decoding than Hugging Face transformers on the same two T4s: 112 vs 52 tokens/s at batch 8</span></div><div><b>Bit-<em>identical</em></b><span>Expert-parallel output equals the single-GPU layer exactly</span></div><div><b>5.4–7<em>×</em></b><span>Faster decode MoE layer than a per-expert PyTorch loop; 1.9–2.3× a cuBLAS loop</span></div><div><b>73<em>%</em></b><span>Of the T4's memory bandwidth reached by the grouped GEMV that streams expert weights</span></div></div></div>
+</div>
+<section aria-labelledby="decode-h"><div class="sh"><div class="code">01 · Serving</div><div><h2 id="decode-h">Twice as fast as the reference</h2><p>OLMoE-1B-7B on two Tesla T4s, decode tokens per second at batch 8; 823 tokens/s at batch 64. Peak memory 7.6 GiB per GPU for a 13.8 GB model.</p></div></div><div class="panel"><div class="bars" role="img" aria-label="Higher is better (bench/serve.py). Greedy output identical to transformers on 7 of 8 prompts over 32 tokens."><div class="r"><span>transformers (auto)</span><span class="t"><i style="width:46.4%"></i></span><span class="v">52 tok/s</span></div><div class="r"><span>switchyard, 1 thread</span><span class="t"><i style="width:78.6%"></i></span><span class="v">88 tok/s</span></div><div class="r me"><span>switchyard, 2 threads</span><span class="t"><i style="width:100.0%"></i></span><span class="v">112 tok/s</span></div></div><p class="cap">Higher is better (bench/serve.py). Greedy output identical to transformers on 7 of 8 prompts over 32 tokens.</p></div></section><section aria-labelledby="kernels-h"><div class="sh"><div class="code">02 · Kernels and dispatch</div><div><h2 id="kernels-h">No atomics, no NCCL</h2><p>Each GPU is driven by its own thread; getting that right meant finding two cross-stream races that only appeared without CUDA_LAUNCH_BLOCKING.</p></div></div><div class="cols"><div class="panel"><h3>Route and sort</h3><p>Each token routed in one warp; rows sorted by expert with a block-wide prefix scan and no atomics.</p></div>
+<div class="panel"><h3>One launch for all experts</h3><p>A tensor-core grouped GEMM with SwiGLU fused into its epilogue; for decode, a grouped GEMV at 73% of memory bandwidth.</p></div>
+<div class="panel"><h3>Peer-to-peer dispatch</h3><p>A kernel writes rows straight into the other GPU's memory, ordered by CUDA events: 1.25× NCCL's all-to-all at 256 tokens per GPU, level at 16–64, slower at 1 and 1,024.</p></div></div></section><section aria-labelledby="balance-h"><div class="sh"><div class="code">03 · Load balance</div><div><h2 id="balance-h">What dropping tokens costs</h2><p>WikiText-2, 2,048 tokens per GPU. The busiest expert gets 4.0× the mean load; the GPUs stay within 6%. Capacity limits drop the tokens an expert has no room for:</p></div></div><div class="panel tbl"><table><thead><tr><th>Capacity factor</th><th>Tokens dropped</th><th>Perplexity</th></tr></thead><tbody>
+<tr class="me"><td>dropless (switchyard)</td><td>0%</td><td>12.85</td></tr><tr><td>2.0</td><td>9.6%</td><td>20.19</td></tr><tr><td>1.0</td><td>28.6%</td><td>92.14</td></tr></tbody></table>
+<p class="cap">Even a generous capacity factor of 2 raises perplexity from 12.9 to 20.2, so switchyard never drops a token (bench/balance.py).</p></div></section>
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What switchyard adds</div><div><h2 id="new-h">Expert parallelism from the kernels up</h2><p>How mixture-of-experts models are served at scale, rebuilt on two free GPUs, with the costs measured rather than assumed.</p></div></div>
+<ol class="contrib"><li><h3>Grouped expert kernels</h3><p>All 64 experts in <b>one launch</b>, SwiGLU fused, 5.4–7× a per-expert loop.</p></li><li><h3>Exact expert parallelism</h3><p>Peer-to-peer dispatch whose output is <b>bit-identical</b> to one GPU.</p></li><li><h3>2.2× Hugging Face</h3><p><b>112 vs 52 tokens/s</b> decoding OLMoE-1B-7B on two T4s.</p></li><li><h3>Load balance, measured</h3><p>Capacity factor 2 <b>drops 9.6% of tokens</b> and raises perplexity 12.9 → 20.2.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>Over PCIe, splitting the experts is never faster than keeping all 64 on one GPU; here expert parallelism buys memory (7.6 GiB per GPU for a 13.8 GB model), not speed.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/switchyard" rel=noreferrer><small>Open source</small><span>switchyard on GitHub</span><em>CUDA kernels, dispatch, benchmarks and raw results.</em></a><a href="../relay/"><small>Related</small><span>relay</span><em>Disaggregated LLM serving in C++, CUDA and Swift.</em></a><a href="#cite"><small>Cite</small><span>Software citation</span><em>Apache-2.0; reproduce every number from the repository.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026switchyard,
+  author  = {Kundu, Sankur},
+  title   = {switchyard: mixture-of-experts serving across GPUs},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/switchyard},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages; <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages; <a href="../ratchet/">ratchet</a>, RL post-training from scratch; <a href="../kessler/">kessler</a>, an independent space-traffic audit that runs every day. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>OLMoE-1B-7B on 2× Tesla T4 (Kaggle): bench/serve.py, bench/ep.py, bench/balance.py (WikiText-2). Baseline: Hugging Face transformers with device_map auto.</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>

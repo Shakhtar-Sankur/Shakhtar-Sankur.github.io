@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>relay — LLM serving, split in two</title>
+<meta name="description" content="LLM serving split into prefill and decode workers, with the KV cache streamed between them while the prompt is still being processed. C++20/CUDA engine, Swift control plane; 384 of 384 requests identical to a fault-free run through 60 worker kills.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/relay/">
+<meta property="og:title" content="relay: disaggregated, fault-tolerant LLM serving in C++, CUDA and Swift">
+<meta property="og:description" content="LLM serving split into prefill and decode workers, with the KV cache streamed between them while the prompt is still being processed. C++20/CUDA engine, Swift control plane; 384 of 384 requests identical to a fault-free run through 60 worker kills.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%2316181B'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%23FFD23F'>R</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"relay","description":"LLM serving split into prefill and decode workers, with the KV cache streamed between them while the prompt is still being processed. C++20/CUDA engine, Swift control plane; 384 of 384 requests identical to a fault-free run through 60 worker kills.","codeRepository":"https://github.com/Shakhtar-Sankur/relay","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/relay/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+:root { --bg:#16181B;--panel:#1E2125;--line:#2E3238;--text:#F4F1E8;--muted:#A7A49B;--accent:#FFD23F;--accent-ink:#FFD23F;--on-accent:#16181B;--track:#2A2D32;--bar-muted:#6B6E74;--r:4px;--rule:3px solid #FFD23F;--display:'Overpass',sans-serif;--body:'Overpass',system-ui,sans-serif;--mono:'Overpass Mono',ui-monospace,monospace;--num-font:900 40px 'Overpass',sans-serif;--h3-font:800 21px/1.2 'Overpass',sans-serif;color-scheme:dark; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1{font:900 clamp(56px,9vw,112px)/.88 var(--display);letter-spacing:-.03em;text-transform:lowercase}
+h1 span{color:var(--accent)}
+h2{font:900 clamp(32px,4.4vw,52px)/1 var(--display);letter-spacing:-.02em;margin:0 0 10px}
+.board .ln span{overflow-wrap:anywhere}@media (max-width:560px){.board{font-size:11.5px}}
+.board{background:#0C0D0F;border:1px solid var(--line);border-radius:6px;padding:14px;font:600 14px var(--mono)}
+.board .hd{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr);gap:8px;color:var(--accent);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:0 6px 8px;border-bottom:1px solid var(--line)}
+.board .ln{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr);gap:8px;padding:9px 6px;border-bottom:1px dashed #24272c;align-items:center}
+.board .ln span:first-child{color:#F4F1E8}
+.board .ln span:nth-child(2){color:#A7A49B}
+.board .ok{color:#3DDC97}
+.flap{display:inline-block;max-width:100%;background:#202328;padding:1px 6px;border-radius:2px;box-shadow:inset 0 -1px 0 #000,inset 0 7px 0 rgba(255,255,255,.04)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/relay" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">relay · disaggregated LLM serving</p>
+    <h1>prefill <span>→</span> decode.</h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 15 Oct 2026</span></span></p>
+    <p class="dek">LLM serving split in two: prompts on prefill workers, tokens on decode workers, and the KV cache <b>streamed between them while the prompt is still being processed</b>. A C++20 and CUDA engine with attention kernels written for it, and a control plane in Swift. Kill a worker and its requests resume elsewhere with exactly the tokens they would have had.</p>
+  </div>
+  <div><div class="board" aria-label="Departure board of relay results"><div class="hd"><span>Service</span><span>Result</span><span>Status</span></div>
+<div class="ln"><span>Prefill 2,048 tok</span><span class="flap">3.7 s → 0.43 s</span><span class="ok">8.7× faster</span></div>
+<div class="ln"><span>KV transfer exposed</span><span class="flap">21.6 → 0.08 ms</span><span class="ok">99–100% hidden</span></div>
+<div class="ln"><span>60 worker kills</span><span class="flap">384 / 384</span><span class="ok">identical</span></div>
+<div class="ln"><span>Prefix cache</span><span class="flap">339 → 179 tok</span><span class="ok">47% fewer</span></div></div><div class="results"><div><b>8.7<em>×</em></b><span>Faster 2,048-token prefill on a T4 with the new attention kernels (TinyLlama; 10.4× on SmolLM2)</span></div><div><b>5.4<em>×</em></b><span>Faster decode steps for 32 sequences at 2,048 tokens, logits within 0.1%</span></div><div><b>384<em>/384</em></b><span>Requests identical to a fault-free run while workers were SIGKILLed 60 times; none failed</span></div><div><b>3 <em>models</em></b><span>SmolLM2, Qwen2.5 and TinyLlama: logits match Hugging Face; Swift tokenizer matches exactly</span></div></div></div>
+</div>
+<section aria-labelledby="how-h"><div class="sh"><div class="code">01 · How it works</div><div><h2 id="how-h">Three layers, each written from scratch</h2><p>The engine computes, the transfer layer moves the cache, and the control plane decides where each request goes.</p></div></div><div class="cols"><div class="panel"><h3>Engine · C++20 + CUDA</h3><p>Paged KV cache, continuous batching with chunked prefill, preemption and prefix caching. Flash attention on tensor cores (WMMA, online softmax) for prompts; flash-decoding over the paged cache for generation, reading each K/V row once for all the query heads that share it.</p></div>
+<div class="panel"><h3>Transfer · streamed per layer</h3><p>Each layer's cache is sent as soon as that layer finishes, over TCP or a shared-memory ring. On a GPU a gather kernel packs it into pinned memory on its own copy stream, so the copy overlaps the next layer's compute. A full decode worker says so and recomputes instead of stalling.</p></div>
+<div class="panel"><h3>Control plane · Swift</h3><p>Calls the engine through Swift's C++ interoperability: tokenizer and chat templates, an OpenAI-compatible streaming API, a router that sends shared-prefix prompts to the worker that already caches them, and admission control.</p></div></div></section><section aria-labelledby="stream-h"><div class="sh"><div class="code">02 · Streaming the cache</div><div><h2 id="stream-h">The transfer disappears</h2><p>46 MB of KV cache after a 2,048-token prompt on a T4: time the decode worker waits for it.</p></div></div><div class="panel"><div class="bars" role="img" aria-label="Exposed KV-transfer time after a 2,048-token prompt on a Tesla T4: 99–100% of the transfer is hidden behind compute."><div class="r"><span>Sent after prefill</span><span class="t"><i style="width:100.0%"></i></span><span class="v">21.6 ms</span></div><div class="r me"><span>Streamed per layer</span><span class="t"><i style="width:0.4%"></i></span><span class="v">0.08 ms</span></div></div><p class="cap">Exposed KV-transfer time after a 2,048-token prompt on a Tesla T4: 99–100% of the transfer is hidden behind compute.</p></div></section><section aria-labelledby="faults-h"><div class="sh"><div class="code">03 · Fault tolerance</div><div><h2 id="faults-h">Kill it, it keeps going</h2><p>Connection, heartbeat and progress watchdogs catch a worker that dies, freezes or stalls; each of its requests resumes on another worker from where it stopped.</p></div></div><div class="cols"><div class="panel"><h3>384 / 384</h3><p>Requests identical to a fault-free run while workers were SIGKILLed 60 times at random: SmolLM2, 3 seeds, two cluster shapes. None failed.</p></div>
+<div class="panel"><h3>Bit-identical</h3><p>The output is the same whether a request is batched, served from the prefix cache, preempted, or split across prefill and decode workers.</p></div>
+<div class="panel"><h3>3 real bugs</h3><p>Found by the chaos tests on the way, each fixed with a test that fails without the fix. A deterministic cluster simulation replays every run from a seed.</p></div></div></section>
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What relay adds</div><div><h2 id="new-h">Disaggregated serving you can read end to end</h2><p>The architecture large inference providers use, built small enough to read and tested hard enough to trust.</p></div></div>
+<ol class="contrib"><li><h3>Layer-streamed KV transfer</h3><p>The cache moves while the prompt is still being processed, <b>hiding 99–100% of the transfer</b> on a T4.</p></li><li><h3>Attention kernels for the paged cache</h3><p>Flash attention on tensor cores and flash-decoding: <b>8.7× faster prefill, 5.4× faster decode steps</b>.</p></li><li><h3>Exact recovery from failures</h3><p>Requests resume on another worker with <b>exactly the tokens they would have had</b>: 384 of 384 through 60 kills.</p></li><li><h3>A Swift control plane over C++</h3><p>Tokenizer, chat templates and an OpenAI-compatible API in Swift calling the engine directly, <b>matching Hugging Face exactly</b>.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>int8 weights help only a single sequence: from batch 8 up, fp16 on tensor cores is faster. relay has not yet been benchmarked against colocated serving or vLLM on several GPUs; that is the next milestone.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/relay" rel=noreferrer><small>Open source</small><span>relay on GitHub</span><em>C++20, CUDA and Swift; tests, chaos runs and benchmarks.</em></a><a href="../ratchet/"><small>Builds on it</small><span>ratchet</span><em>RL post-training whose rollouts come from relay's engine.</em></a><a href="#cite"><small>Cite</small><span>Software citation</span><em>Apache-2.0; reproduce every number from the repository.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026relay,
+  author  = {Kundu, Sankur},
+  title   = {relay: disaggregated, fault-tolerant LLM serving},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/relay},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages; <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages; <a href="../ratchet/">ratchet</a>, RL post-training from scratch; <a href="../kessler/">kessler</a>, an independent space-traffic audit that runs every day. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>Tesla T4 (Kaggle), TinyLlama-1.1B, SmolLM2 and Qwen2.5; logits compared with Hugging Face transformers; chaos tests kill worker processes with SIGKILL at random points. Scripts and raw results are in the repository.</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>
