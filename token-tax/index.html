@@ -71,6 +71,7 @@ a { color: var(--red-ink); text-underline-offset: 3px; }
 .bill { margin-bottom: 46px; }
 .glyph { position: absolute; right: -24px; bottom: -70px; font: 700 clamp(160px, 26vw, 330px)/1 "Noto Serif Oriya", serif; color: transparent; -webkit-text-stroke: 1.2px var(--rule); pointer-events: none; user-select: none; z-index: 0; }
 .hero > *:not(.glyph) { position: relative; z-index: 1; }
+@media (max-width: 700px) { .glyph { right: 0; } }
 .eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red-ink); margin: 0 0 14px; }
 h1 { font: 800 clamp(44px, 8vw, 92px)/.95 var(--serif); font-variation-settings: "opsz" 144; letter-spacing: -.03em; margin: 0 0 22px; }
 h1 em { font-style: italic; font-weight: 400; color: var(--red); }

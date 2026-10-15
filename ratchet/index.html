@@ -251,11 +251,11 @@ footer b { display: block; font: 12px var(--mono); color: var(--ink-2); margin-b
     <div class="card"><b>10⁻⁶</b><small>logprob agreement on CPU</small><p>Trainer and engine share one weight layout and agree within 9.5×10⁻⁷; runs reproduce bit for bit.</p></div>
   </div>
   <div class="card gsm">
-    <table>
+    <div class="tbl"><table>
       <thead><tr><th>Mode (100 GRPO steps, all 1,319 GSM8K test problems)</th><th>Before</th><th>After</th><th>Time</th></tr></thead>
       <tbody><tr><td>Colocated: both GPUs generate, then train</td><td>48.1%</td><td><b>52.5%</b></td><td>50.6 min</td></tr>
       <tr><td>Split: one generates while the other trains</td><td>47.8%</td><td>50.2%</td><td>44.7 min</td></tr></tbody>
-    </table>
+    </table></div>
     <p class="note">One run per mode; the difference between the two gains is not established.</p>
   </div>
 </section>
