@@ -191,7 +191,51 @@ footer { margin-top: 56px; padding: 22px 0 48px; border-top: 3px double var(--in
 footer p { margin: 0; }
 footer .colo { font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 6px; }
 @media (prefers-reduced-motion: no-preference) { .receipt { transition: transform .3s; } .receipt:hover { transform: rotate(0); } }
+
+/* byline, contributions, press, citation, author */
+.byline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 24px; font: 13px var(--mono); color: var(--ink-2); }
+.byline .by { display: block; font: 15px var(--serif); color: var(--ink-2); }
+.byline .when { display: block; font: 12px var(--mono); color: var(--ink-3); margin-top: 2px; }
+.byline { flex-wrap: nowrap; }
+.byline img { flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--ink); }
+.byline b { color: var(--ink); font-weight: 600; }
+.byline .dot { color: var(--ink-3); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; border-top: 1px solid var(--ink); }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+@media (min-width: 900px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: counter(c, upper-roman) "."; font: 800 30px/1 var(--serif); color: var(--red); grid-row: span 2; }
+@media (min-width: 900px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: 700 21px/1.25 var(--serif); }
+.contrib p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+.contrib p b { color: var(--ink); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 26px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; border: 1px solid var(--ink); background: var(--sheet); color: var(--ink); text-decoration: none; }
+.proof a:hover { box-shadow: 4px 4px 0 var(--ink); }
+.proof small { display: block; font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--red-ink); margin-bottom: 6px; }
+.proof span { display: block; font: 600 17px var(--serif); }
+.proof em { display: block; font-style: normal; color: var(--ink-2); font-size: 13.5px; margin-top: 4px; }
+.press { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 900px) { .press { grid-template-columns: 1.4fr 1fr; gap: 40px; } }
+.facts { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+.facts li { padding: 12px 0 12px 26px; border-bottom: 1px solid var(--rule); position: relative; font: 17px/1.5 var(--serif); }
+.facts li::before { content: "¶"; position: absolute; left: 0; top: 12px; color: var(--red); font-weight: 700; }
+.kit { align-self: start; background: var(--sheet); border: 1px solid var(--ink); padding: 18px 20px; font-size: 15px; }
+.kit h3 { margin: 0 0 8px; font: 700 20px var(--serif); }
+.kit p { margin: 0 0 10px; color: var(--ink-2); }
+.kit a.mail { font: 600 15px var(--mono); }
+.cite { position: relative; margin-top: 18px; }
+.cite pre { margin: 0; background: var(--ink); color: var(--paper); padding: 16px 18px; font: 12.5px/1.55 var(--mono); overflow-x: auto; white-space: pre; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--red); color: #fff; border: 0; font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; align-items: start; border-top: 1px solid var(--ink); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 1px solid var(--ink); }
+.author h3 { margin: 0 0 4px; font: 700 24px var(--serif); }
+.author .role { font: 12px var(--mono); color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; margin: 0 0 10px; }
+.author p { margin: 0 0 10px; color: var(--ink-2); max-width: 46rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 13px var(--mono); }
+#dl[hidden] { display: none !important; }
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"The token tax on Indian languages (lipi)","description":"Tokens needed per FLORES-200 devtest sentence in 24 Indian language-script pairs relative to English, for 15 tokenizers shipped with current language models and the lipi-Indic 96K tokenizer.","url":"https://shakhtar-sankur.github.io/token-tax/","sameAs":"https://github.com/Shakhtar-Sankur/lipi","creator":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu","https://huggingface.co/Shakhtar-Sankur"]},"datePublished":"2026-10-15","license":"https://creativecommons.org/licenses/by-sa/4.0/","keywords":["tokenization","Indian languages","Odia","token tax","multilingual NLP","LLM cost"],"isBasedOn":"https://github.com/facebookresearch/flores"}</script>
 </head>
 <body>
 <div class="wrap">
@@ -209,6 +253,7 @@ footer .colo { font: 600 11px var(--mono); letter-spacing: .12em; text-transform
   <div>
     <p class="eyebrow">lipi · a study of 24 Indian languages</p>
     <h1>The token <em>tax.</em></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="40" height="40"><span><span class="by">Research &amp; tokenizer by <b>Sankur Kundu</b></span><span class="when">First published 15 October 2026 · paper forthcoming on arXiv (cs.CL)</span></span></p>
     <p class="dek">AI models read, write, time and bill text in tokens. Their tokenizers were built mostly on English, so <b>the same sentence costs far more tokens in an Indian language</b>: on GPT-4o, Odia needs 4.99× the tokens of English, and Santali 13.7×. lipi measured that tax across 15 tokenizers, then removed it from an open model.</p>
     <div class="figs">
       <div><b>4.99×</b><i>→ 1.35× with lipi</i><span>Odia against English on GPT-4o</span></div>
@@ -290,9 +335,73 @@ footer .colo { font: 600 11px var(--mono); letter-spacing: .12em; text-transform
   </div>
 </section>
 
+<section id="new" aria-labelledby="new-h">
+  <div class="sh">
+    <div class="no">IV · What lipi adds</div>
+    <div><h2 id="new-h">Measured, explained, fixed</h2>
+    <p>lipi focuses on India: every scheduled language, on the tokenizers that ship with the models people actually use. It finds where the tax comes from, and removes it from an open model.</p></div>
+  </div>
+  <ol class="contrib">
+    <li><h3>A census of the tax</h3><p><b>All 22 scheduled languages of India</b> (24 language–script pairs, 1.16 billion speakers) on <b>15 tokenizers</b> that ship with today's models, from GPT-4o and Gemini to Llama, DeepSeek, Mistral, Sarvam and Krutrim, on the same 1,012 sentences per language.</p></li>
+    <li><h3>The cause, isolated</h3><p>The tax has two sources: vocabularies with few Indian-script tokens, and a <b>pre-tokenizer floor</b> that splits words at every vowel sign before the vocabulary is consulted. lipi measures that floor for every Indian language (Odia cannot go below 2.33× English on GPT-4, Llama 3 or Qwen, whatever their vocabulary). The floor was formalised first by Regmi, Pudasaini and Phakami Pun; lipi credits them.</p></li>
+    <li><h3>A fix that keeps every token id</h3><p>lipi-Indic changes the split rule for Indian scripts only and adds 96,000 merges to Qwen 2.5. <b>Every existing token keeps its id</b>, so English and code are tokenized exactly as before. With a smaller vocabulary than Gemini's, it needs <b>fewer tokens than GPT-4o's and Gemini's in 23 of 24 languages</b>.</p></li>
+    <li><h3>The payoff, measured end to end</h3><p>On a real model and GPU: Odia written <b>7.0× faster</b>, <b>7.6× more Odia text</b> in the same context window, and a long Odia document read <b>39× sooner</b>.</p></li>
+  </ol>
+  <div class="proof">
+    <a href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer"><small>Released</small><span>lipi-Indic 96K on Hugging Face</span><em>Load it with one line of transformers.<span id="dl" hidden></span></em></a>
+    <a href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer"><small>Open source</small><span>Code, raw results, method</span><em>Every number on this page is reproducible from a script, Apache-2.0.</em></a>
+    <a href="#cite"><small>Paper</small><span>Forthcoming on arXiv (cs.CL)</span><em>Cite the work now with the reference below.</em></a>
+  </div>
+</section>
+
+<section id="press" aria-labelledby="press-h">
+  <div class="sh">
+    <div class="no">V · For journalists</div>
+    <div><h2 id="press-h">The story in five facts</h2>
+    <p>Free to quote and reuse with credit to “Sankur Kundu, lipi”. Every figure links back to raw data.</p></div>
+  </div>
+  <div class="press">
+    <ul class="facts">
+      <li>On GPT-4o, the same sentence takes <b>4.99× as many tokens in Odia</b> as in English, and <b>13.7× in Santali</b>.</li>
+      <li>Weighted by speakers, an average Indian's text costs <b>1.92× English on GPT-4o</b>, 2.4× on Llama 4 and 5.3× on Qwen 3.</li>
+      <li>On Llama 3 and Qwen 3, <b>every Indian language measured costs at least 2×</b> English.</li>
+      <li>Some tokenizers <b>cannot get below 2.33× for Odia however large their vocabulary</b>, because of how they split words.</li>
+      <li>An open fix, lipi-Indic, brings Odia to <b>1.35×</b> and the speaker-weighted average to <b>1.30×</b>, and writes Odia <b>7× faster</b>.</li>
+    </ul>
+    <div class="kit">
+      <h3>Contact</h3>
+      <p>Sankur Kundu, independent researcher, Bhubaneswar, Odisha. Available for interviews and background briefings.</p>
+      <p><a class="mail" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+      <p style="margin:0"><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a> · <a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a> · <a href="../">Portfolio</a></p>
+    </div>
+  </div>
+  <div class="cite" id="cite">
+    <button type="button" id="copy">Copy</button>
+<pre id="bib">@misc{kundu2026lipi,
+  author       = {Kundu, Sankur},
+  title        = {Removing the Token Tax from an Existing Model: A Vocabulary Extension for 24 Indian Languages That Keeps Every Other Token},
+  year         = {2026},
+  howpublished = {\url{https://github.com/Shakhtar-Sankur/lipi}},
+  note         = {Tokenizer: https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k}
+}</pre>
+  </div>
+</section>
+
+<section aria-label="About the author">
+  <div class="author">
+    <img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72">
+    <div>
+      <h3>Sankur Kundu</h3>
+      <p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India</p>
+      <p>Builds the systems that train and serve language models, and measures who they leave out. Also the author of <a href="https://github.com/Shakhtar-Sankur/babelguard" rel="noreferrer">Babelguard</a>, an open early-warning system for scams across 49 languages, and <a href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">ratchet</a>, reinforcement-learning post-training from scratch (GSM8K 48.1% → 52.5%). Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+      <div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a href="https://huggingface.co/Shakhtar-Sankur" rel="noreferrer">Hugging Face</a></div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <p><span class="colo">Method</span>FLORES-200 devtest, 1,012 sentences per language (Meta, CC BY-SA 4.0; the example sentences are from it). Tax = a language's tokens ÷ English tokens, on the same tokenizer. Speaker weights: Census of India 2011. Google publishes no Gemini tokenizer; the “Gemini” figures are Gemma 3's tokenizer, which third-party ports report to be the same model, not checked against Google's countTokens. The live demo loads GPT-4o's tokenizer (o200k_base, via Xenova/gpt-4o), Qwen/Qwen2.5-0.5B and Shakhtar-Sankur/lipi-indic-96k from Hugging Face with transformers.js, and gives the same counts as the Python tokenizers.</p>
-  <p><span class="colo">By</span><a href="../">Sankur Kundu</a>, Bhubaneswar. Every number on this page is reproducible from the scripts in the <a href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">lipi repository</a>.</p>
+  <p><span class="colo">Credit</span>© 2026 Sankur Kundu. Research, measurements, tokenizer and page. First published 15 October 2026. Sentences from FLORES-200 (CC BY-SA 4.0).</p>
 </footer>
 </div>
 
@@ -318,6 +427,14 @@ footer .colo { font: 600 11px var(--mono); letter-spacing: .12em; text-transform
     label();
   });
   label();
+
+  /* evidence of use: Hugging Face downloads, shown once there are enough to mean something */
+  fetch("https://huggingface.co/api/models/Shakhtar-Sankur/lipi-indic-96k?expand[]=downloads").then(function (r) { return r.json(); }).then(function (j) {
+    if (j && j.downloads >= 100) { var e = document.getElementById("dl"); e.textContent = " " + j.downloads.toLocaleString() + " downloads in the last 30 days."; e.hidden = false; }
+  }).catch(function () {});
+  document.getElementById("copy").addEventListener("click", function () {
+    var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+  });
 
   /* ---------- ledger chart ---------- */
   var modelSel = document.getElementById("model");
