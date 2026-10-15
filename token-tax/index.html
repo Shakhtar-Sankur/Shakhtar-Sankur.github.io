@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,199 +12,277 @@
 <meta property="og:description" content="Odia needs 4.99× the tokens of English on GPT-4o; Santali 13.7×. lipi-Indic brings Odia to 1.35×. Try any sentence.">
 <meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='12' fill='%2307111F'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='700' text-anchor='middle' fill='%2338BDF8'>ଲ</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='8' fill='%23F4EEE3'/><text x='24' y='35' font-family='serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8341B'>ଲ</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Gujarati&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Sans+Ol+Chiki&family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
-<script>try { var t = localStorage.getItem("sk-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+Oriya:wght@400;700&family=Noto+Sans+Oriya&family=Noto+Sans+Devanagari&family=Noto+Sans+Bengali&family=Noto+Sans+Gujarati&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Sans+Ol+Chiki&family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
+<script>try { var t = localStorage.getItem("tt-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
 <style>
+/* The Token Tax: a printed tax bill. Paper, ink and sindoor red; serif headlines, receipts in mono.
+   Light (paper) is the default; dark is warm ink, chosen from the same hues. */
 *,*::before,*::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 :root {
-  --bg: #07111F; --surface: #0D1B2E; --surface-2: #10223A;
-  --text: #EAF2FB; --muted: #8FA3BA; --line: rgba(255,255,255,.1); --line-2: rgba(255,255,255,.06);
-  --accent: #38BDF8; --accent-ink: #38BDF8;
-  --model: #d95926; --lipi: #3987e5;           /* chart series: compared model, lipi-Indic */
-  --chip-a: rgba(56,189,248,.20); --chip-b: rgba(56,189,248,.09);
-  --frag: rgba(217,89,38,.22); --frag-line: #d95926;
-  --display: "Space Grotesk", "Inter", system-ui, sans-serif;
-  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --script: "Noto Sans", "Noto Sans Oriya", "Noto Sans Devanagari", "Noto Sans Bengali", "Noto Sans Gujarati", "Noto Sans Gurmukhi", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Ol Chiki", "Noto Naskh Arabic", "Inter", sans-serif;
-  color-scheme: dark;
-}
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #F3F6FA; --surface: #FFFFFF; --surface-2: #EEF3F9;
-    --text: #0B1626; --muted: #4E5D70; --line: rgba(10,10,20,.12); --line-2: rgba(10,10,20,.07);
-    --accent-ink: #0369A1; --model: #eb6834; --lipi: #2a78d6;
-    --chip-a: rgba(3,105,161,.16); --chip-b: rgba(3,105,161,.07); --frag: rgba(235,104,52,.16);
-    color-scheme: light;
-  }
-}
-:root[data-theme="light"] {
-  --bg: #F3F6FA; --surface: #FFFFFF; --surface-2: #EEF3F9;
-  --text: #0B1626; --muted: #4E5D70; --line: rgba(10,10,20,.12); --line-2: rgba(10,10,20,.07);
-  --accent-ink: #0369A1; --model: #eb6834; --lipi: #2a78d6;
-  --chip-a: rgba(3,105,161,.16); --chip-b: rgba(3,105,161,.07); --frag: rgba(235,104,52,.16);
+  --paper: #F4EEE3; --sheet: #FBF8F1; --sheet-2: #F0E8DA;
+  --ink: #1D1A16; --ink-2: #5A5248; --ink-3: #8A8075; --rule: #D9CFBF; --rule-2: #E8E0D2;
+  --red: #C8341B; --red-ink: #A82A14; --blue: #3D5AA8;
+  --model: #C8341B; --lipi: #3D5AA8;
+  --chip-a: #E9DFCC; --chip-b: #F3ECDF; --frag: #F6D9CF;
+  --serif: "Fraunces", "Noto Serif Oriya", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --script: "Noto Sans Oriya", "Noto Sans Devanagari", "Noto Sans Bengali", "Noto Sans Gujarati", "Noto Sans Gurmukhi", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Ol Chiki", "Noto Naskh Arabic", "IBM Plex Sans", sans-serif;
   color-scheme: light;
 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #16130F; --sheet: #1C1814; --sheet-2: #26201A;
+    --ink: #EFE7DA; --ink-2: #BDB2A2; --ink-3: #8C8274; --rule: #3A322A; --rule-2: #2B251F;
+    --red: #E0603A; --red-ink: #EE7A55; --blue: #6F88D6; --model: #E0603A; --lipi: #6F88D6;
+    --chip-a: #3A3128; --chip-b: #2A241E; --frag: #4A2A1F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #16130F; --sheet: #1C1814; --sheet-2: #26201A;
+  --ink: #EFE7DA; --ink-2: #BDB2A2; --ink-3: #8C8274; --rule: #3A322A; --rule-2: #2B251F;
+  --red: #E0603A; --red-ink: #EE7A55; --blue: #6F88D6; --model: #E0603A; --lipi: #6F88D6;
+  --chip-a: #3A3128; --chip-b: #2A241E; --frag: #4A2A1F;
+  color-scheme: dark;
+}
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); }
-a { color: var(--accent-ink); }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
-@media (min-width: 720px) { .wrap { padding: 0 32px; } }
-header.top { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; gap: 12px; }
-.brand { font: 600 15px var(--display); color: var(--text); text-decoration: none; }
-.brand span { color: var(--accent-ink); }
-.top nav { display: flex; gap: 14px; align-items: center; font-size: 14px; }
-.top nav a { color: var(--muted); text-decoration: none; }
-.top nav a:hover { color: var(--text); }
-.theme { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 4px 10px; font: inherit; cursor: pointer; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
+a { color: var(--red-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
 
-.hero { padding: 40px 0 8px; }
-.kicker { font: 500 13px var(--mono); color: var(--accent-ink); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 12px; }
-h1 { font: 700 clamp(34px, 6vw, 60px)/1.05 var(--display); margin: 0 0 18px; letter-spacing: -.02em; }
-.lede { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 46rem; margin: 0 0 28px; }
-.lede b { color: var(--text); font-weight: 600; }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 0 0 12px; }
-.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
-.tile .big { font: 700 34px/1.1 var(--display); letter-spacing: -.01em; }
-.tile .big small { font-size: 18px; color: var(--muted); font-weight: 500; }
-.tile p { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+/* masthead */
+.mast { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 3px double var(--ink); font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.mast a { color: var(--ink); text-decoration: none; }
+.mast nav { display: flex; gap: 16px; align-items: center; }
+.mast nav a { color: var(--ink-2); }
+.mast nav a:hover { color: var(--red-ink); }
+.theme { background: none; border: 1px solid var(--ink); color: var(--ink); padding: 3px 9px; font: inherit; letter-spacing: inherit; cursor: pointer; border-radius: 0; }
+@media (max-width: 520px) { .mast nav a.hide-s { display: none; } }
 
-section { padding: 44px 0 8px; }
-h2 { font: 600 clamp(24px, 3.4vw, 32px)/1.2 var(--display); margin: 0 0 8px; }
-.sub { color: var(--muted); margin: 0 0 20px; max-width: 44rem; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
-@media (min-width: 720px) { .card { padding: 24px; } }
+/* hero */
+.hero { display: grid; grid-template-columns: 1fr; gap: 28px; padding: 36px 0 44px; position: relative; }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: start; padding: 56px 0 84px; } .bill { margin-top: 28px; } }
+.bill { margin-bottom: 46px; }
+.glyph { position: absolute; right: -24px; bottom: -70px; font: 700 clamp(160px, 26vw, 330px)/1 "Noto Serif Oriya", serif; color: transparent; -webkit-text-stroke: 1.2px var(--rule); pointer-events: none; user-select: none; z-index: 0; }
+.hero > *:not(.glyph) { position: relative; z-index: 1; }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red-ink); margin: 0 0 14px; }
+h1 { font: 800 clamp(44px, 8vw, 92px)/.95 var(--serif); font-variation-settings: "opsz" 144; letter-spacing: -.03em; margin: 0 0 22px; }
+h1 em { font-style: italic; font-weight: 400; color: var(--red); }
+.dek { font: 400 clamp(18px, 2.2vw, 21px)/1.55 var(--serif); font-variation-settings: "opsz" 24; color: var(--ink-2); margin: 0 0 26px; max-width: 34rem; }
+.dek b { color: var(--ink); font-weight: 600; }
+.figs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
+.figs div { padding: 12px 12px 0 0; }
+.figs div + div { padding-left: 12px; border-left: 1px solid var(--rule); }
+.figs b { display: block; font: 700 clamp(24px, 3.4vw, 34px)/1.05 var(--serif); font-variant-numeric: lining-nums; }
+.figs b s { text-decoration: none; color: var(--ink-3); font-weight: 400; font-size: .6em; }
+.figs i { display: block; font: 500 13px var(--mono); color: var(--lipi); font-style: normal; margin-top: 4px; }
+.figs span { display: block; font-size: 13px; color: var(--ink-2); line-height: 1.4; margin-top: 6px; }
+@media (max-width: 520px) { .figs { grid-template-columns: 1fr; } .figs div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } .figs div { padding: 12px 0; } }
 
-.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin: 0 0 14px; }
-.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.field span { font-size: 12px; color: var(--muted); font-weight: 500; }
-select, textarea { font: 15px var(--sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; max-width: 100%; }
-select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
-textarea { width: 100%; min-height: 84px; resize: vertical; font: 18px/1.5 var(--script); }
-.pill { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); border-radius: 999px; padding: 7px 12px; font: 500 14px var(--sans); cursor: pointer; }
-.pill[aria-pressed="true"] { border-color: var(--accent-ink); color: var(--accent-ink); }
+/* receipt */
+.receipt { background: var(--sheet); color: var(--ink); font: 13.5px/1.55 var(--mono); padding: 22px 22px 30px; position: relative; box-shadow: 0 1px 0 var(--rule), 0 18px 40px -24px rgba(60,40,20,.45); transform: rotate(-1.2deg);
+  -webkit-mask: radial-gradient(circle 7px at 50% 100%, transparent 6.5px, #000 7px) 0 0/16px 100% repeat-x; mask: linear-gradient(#000 0 0) top/100% calc(100% - 8px) no-repeat, radial-gradient(circle 8px at 8px 100%, transparent 7.5px, #000 8px) bottom/16px 9px repeat-x; }
+.receipt h3 { font: 600 13px var(--mono); letter-spacing: .14em; text-align: center; margin: 0 0 2px; }
+.receipt .c { text-align: center; color: var(--ink-3); font-size: 12px; margin: 0 0 12px; }
+.receipt .q { font: italic 400 15px/1.45 var(--serif); color: var(--ink-2); border-top: 1px dashed var(--ink-3); border-bottom: 1px dashed var(--ink-3); padding: 10px 0; margin: 0 0 10px; }
+.receipt .l { display: flex; gap: 6px; }
+.receipt .l span:nth-child(2) { flex: 1; border-bottom: 1px dotted var(--ink-3); transform: translateY(-5px); }
+.receipt .l.tot { font-weight: 600; font-size: 15px; margin-top: 4px; }
+.receipt .sep { border-top: 1px dashed var(--ink-3); margin: 10px 0; }
+.receipt .sub { color: var(--ink-3); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 4px; }
+.receipt .or { font-family: "Noto Sans Oriya", var(--mono); }
+.bill { position: relative; }
+.stamp { position: absolute; right: 4px; bottom: -50px; z-index: 2; transform: rotate(-10deg); border: 3px solid var(--red); color: var(--red); font: 800 22px/1 var(--serif); letter-spacing: .04em; padding: 6px 12px 4px; border-radius: 6px; opacity: .85; text-transform: uppercase; mix-blend-mode: multiply; }
+:root[data-theme="dark"] .stamp { mix-blend-mode: normal; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .stamp { mix-blend-mode: normal; } }
+.stamp small { display: block; font: 600 10px var(--mono); letter-spacing: .12em; text-align: center; margin-top: 3px; }
 
-.trow { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 16px 0; border-top: 1px solid var(--line-2); }
-@media (min-width: 720px) { .trow { grid-template-columns: 190px 1fr; gap: 18px; } }
-.who b { display: block; font-weight: 600; }
-.who .meta { color: var(--muted); font-size: 13px; }
-.count { font: 700 28px/1.1 var(--display); display: block; margin-top: 4px; font-variant-numeric: tabular-nums; }
-.count small { font: 400 13px var(--sans); color: var(--muted); }
-.ratio { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
-.ratio b { color: var(--text); }
-.toks { display: flex; flex-wrap: wrap; gap: 3px; align-items: flex-start; font: 19px/1.3 var(--script); min-height: 32px; }
-.t { padding: 2px 4px; border-radius: 4px; white-space: pre; position: relative; }
+/* sections */
+section { padding: 52px 0 12px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 32px; margin: 0 0 22px; border-top: 1px solid var(--ink); padding-top: 14px; }
+@media (min-width: 900px) { .sh { grid-template-columns: 260px 1fr; } }
+.sh .no { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red-ink); }
+h2 { font: 700 clamp(28px, 4vw, 44px)/1.05 var(--serif); font-variation-settings: "opsz" 96; letter-spacing: -.02em; margin: 0 0 10px; }
+.sh p { margin: 0; color: var(--ink-2); max-width: 42rem; }
+
+/* type case (live tokenizers) */
+.case { background: var(--sheet); border: 1px solid var(--rule); padding: 16px; }
+@media (min-width: 760px) { .case { padding: 26px; } }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: end; margin: 0 0 12px; }
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field > span { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+select, textarea { font: 16px var(--sans); color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; padding: 8px 10px; max-width: 100%; }
+select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+textarea { width: 100%; min-height: 86px; resize: vertical; font: 19px/1.5 var(--script); }
+.pills { display: flex; gap: 0; }
+.pill { background: var(--paper); border: 1px solid var(--ink); color: var(--ink); padding: 7px 12px; font: 500 13px var(--mono); cursor: pointer; border-radius: 0; }
+.pill + .pill { border-left: 0; }
+.pill[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.trow { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 18px 0; border-top: 1px solid var(--rule); }
+@media (min-width: 760px) { .trow { grid-template-columns: 200px 1fr; gap: 22px; } }
+.who b { display: block; font: 600 18px var(--serif); }
+.who .meta { display: block; color: var(--ink-3); font: 12px var(--mono); }
+.count { font: 700 40px/1 var(--serif); display: block; margin-top: 8px; font-variant-numeric: lining-nums tabular-nums; }
+.count small { font: 500 12px var(--mono); color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+.trow.lipi .count { color: var(--lipi); }
+.ratio { display: block; font-size: 13px; color: var(--ink-2); line-height: 1.4; margin-top: 4px; }
+.ratio b { color: var(--ink); }
+.toks { display: flex; flex-wrap: wrap; gap: 4px; align-items: flex-start; font: 20px/1.3 var(--script); min-height: 34px; }
+.t { padding: 3px 5px 2px; border: 1px solid var(--rule); border-bottom-width: 2px; white-space: pre; position: relative; border-radius: 2px; }
 .t.a { background: var(--chip-a); } .t.b { background: var(--chip-b); }
-.t.x { background: var(--frag); outline: 1.5px solid var(--frag-line); }
-.t.x sup { position: absolute; top: -9px; right: -6px; background: var(--frag-line); color: #fff; font: 700 10px/1 var(--sans); padding: 2px 4px; border-radius: 7px; }
-.more { color: var(--muted); font-size: 13px; align-self: center; }
-.status { color: var(--muted); font-size: 14px; }
-.key { color: var(--muted); font-size: 13px; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-.key i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+.t.x { background: var(--frag); border-color: var(--red); background-image: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in srgb, var(--red) 18%, transparent) 5px 6px); }
+.t.x sup { position: absolute; top: -10px; right: -7px; background: var(--red); color: #fff; font: 600 10px/1 var(--mono); padding: 3px 4px; border-radius: 0; }
+.more, .status { color: var(--ink-3); font-size: 14px; align-self: center; }
+.key { color: var(--ink-2); font-size: 13px; margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.key i { display: inline-block; width: 16px; height: 14px; vertical-align: -2px; margin-right: 6px; border: 1px solid var(--rule); }
 
-/* chart */
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; margin: 0 0 8px; }
-.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+/* ledger (chart) */
+.ledger { background: var(--sheet); border: 1px solid var(--rule); padding: 16px; }
+@media (min-width: 760px) { .ledger { padding: 26px; } }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; margin: 4px 0 10px; }
+.legend i { display: inline-block; width: 14px; height: 10px; vertical-align: 0; margin-right: 7px; }
 #chart { width: 100%; position: relative; }
 #chart svg { display: block; width: 100%; height: auto; overflow: visible; }
-#chart text { fill: var(--muted); font: 12px var(--sans); }
-#chart .lname { fill: var(--text); font-size: 13px; }
-#chart .val { fill: var(--text); font: 500 12px var(--mono); }
-#chart .grid { stroke: var(--line-2); }
-#chart .ref { stroke: var(--muted); stroke-dasharray: 3 3; }
-#chart .row-hit { fill: transparent; cursor: default; }
-#chart .row-hit:hover, #chart .row-hit.on { fill: var(--line-2); }
-.tip { position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; font-size: 13px; line-height: 1.45; box-shadow: 0 10px 30px -12px rgba(0,0,0,.5); min-width: 190px; z-index: 2; }
-.tip b { font-weight: 600; }
-.tip .k { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+#chart text { fill: var(--ink-3); font: 11px var(--mono); }
+#chart .lname { fill: var(--ink); font: 600 14px var(--serif); }
+#chart .native { fill: var(--ink-3); font: 13px var(--script); }
+#chart .val { fill: var(--ink); font: 500 12px var(--mono); }
+#chart .grid { stroke: var(--rule-2); }
+#chart .ref { stroke: var(--ink-2); stroke-dasharray: 2 3; }
+#chart .row-hit { fill: transparent; }
+#chart .row-hit:hover, #chart .row-hit.on { fill: color-mix(in srgb, var(--ink) 5%, transparent); }
+.tip { position: absolute; pointer-events: none; background: var(--paper); border: 1px solid var(--ink); padding: 10px 12px; font-size: 13px; line-height: 1.5; box-shadow: 4px 4px 0 var(--rule); min-width: 200px; z-index: 2; }
+.tip b { font: 600 15px var(--serif); }
+.tip .k { display: inline-block; width: 10px; height: 10px; margin-right: 6px; }
 .tip .n { font-family: var(--mono); float: right; margin-left: 14px; }
-details.table { margin-top: 14px; }
-details.table summary { cursor: pointer; color: var(--accent-ink); font-size: 14px; }
+details.table { margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 12px; }
+details.table summary { cursor: pointer; color: var(--red-ink); font: 500 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .tbl { overflow-x: auto; margin-top: 10px; }
-table { border-collapse: collapse; font-size: 13px; width: 100%; }
-th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--line-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
-th:first-child, td:first-child { text-align: left; }
-th { color: var(--muted); font-weight: 500; }
+table { border-collapse: collapse; font: 12.5px var(--mono); width: 100%; }
+th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--rule-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child { text-align: left; font-family: var(--sans); }
+th { color: var(--ink-3); font-weight: 500; border-bottom: 1px solid var(--ink); }
 
-.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
-.facts .tile .big { font-size: 28px; }
-.prose { max-width: 44rem; color: var(--muted); }
-.prose p { margin: 0 0 14px; }
-.prose b { color: var(--text); font-weight: 600; }
-.ctas { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
-.btn { display: inline-block; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); color: var(--text); text-decoration: none; font-weight: 500; font-size: 15px; }
-.btn.primary { background: var(--accent); color: #07111F; border-color: transparent; }
-footer { padding: 40px 0 48px; color: var(--muted); font-size: 13px; }
-footer p { margin: 0 0 8px; max-width: 52rem; }
+/* costs */
+.cols { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+@media (min-width: 760px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols > div { padding: 18px 0; }
+@media (min-width: 760px) { .cols > div { padding: 22px 22px 22px 0; } .cols > div + div { padding-left: 22px; border-left: 1px solid var(--rule); } }
+@media (max-width: 759px) { .cols > div + div { border-top: 1px solid var(--rule); } }
+.cols b { display: block; font: 800 clamp(40px, 5vw, 56px)/1 var(--serif); letter-spacing: -.02em; color: var(--red); font-variant-numeric: lining-nums; }
+.cols b s { text-decoration: none; font-weight: 400; font-size: .45em; color: var(--ink-3); letter-spacing: 0; }
+.cols p { margin: 10px 0 0; color: var(--ink-2); font-size: 15px; }
+.essay { display: grid; grid-template-columns: 1fr; gap: 18px 40px; margin-top: 30px; }
+@media (min-width: 900px) { .essay { grid-template-columns: 1fr 1fr; } }
+.essay p { margin: 0; font: 17px/1.65 var(--serif); font-variation-settings: "opsz" 18; color: var(--ink-2); }
+.essay b { color: var(--ink); }
+.ctas { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 0; }
+.btn { display: inline-block; padding: 11px 18px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.btn.primary { background: var(--red); border-color: var(--red); color: #fff; }
+.btn:hover { box-shadow: 3px 3px 0 var(--ink); }
+footer { margin-top: 56px; padding: 22px 0 48px; border-top: 3px double var(--ink); color: var(--ink-2); font-size: 13px; display: grid; gap: 10px 40px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer .colo { font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 6px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { transition: transform .3s; } .receipt:hover { transform: rotate(0); } }
 </style>
 </head>
 <body>
 <div class="wrap">
-<header class="top">
-  <a class="brand" href="../">Sankur Kundu<span>.</span></a>
+<header class="mast">
+  <a href="../">Sankur Kundu</a>
   <nav>
-    <a href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">Code &amp; data</a>
-    <a href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer">Tokenizer</a>
-    <button class="theme" id="theme" type="button" aria-label="Switch colour theme">Light</button>
+    <a class="hide-s" href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">Code &amp; data</a>
+    <a class="hide-s" href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer">Tokenizer</a>
+    <button class="theme" id="theme" type="button" aria-label="Switch colour theme">Dark</button>
   </nav>
 </header>
 
 <div class="hero">
-  <p class="kicker">lipi · the token tax</p>
-  <h1>The same sentence, up to 13.7× the tokens.</h1>
-  <p class="lede">AI models read, write, time and bill text in <b>tokens</b>. Their tokenizers were built mostly on English, so the same sentence in an Indian language takes far more of them. On GPT-4o, <b>Odia needs 4.99× the tokens of English</b>, and Santali 13.7×. lipi measures that tax for 24 Indian languages and 15 tokenizers, then removes it from an open model.</p>
-  <div class="tiles">
-    <div class="tile"><div class="big">4.99× <small>→ 1.35×</small></div><p>Odia against English: GPT-4o's tokenizer, then lipi-Indic 96K.</p></div>
-    <div class="tile"><div class="big">1.92× <small>→ 1.30×</small></div><p>An average Indian's text against English, weighted by speakers (Census 2011): GPT-4o, then lipi-Indic.</p></div>
-    <div class="tile"><div class="big">23 <small>of 24</small></div><p>Indian languages where lipi-Indic needs fewer tokens than both GPT-4o's and Gemini's tokenizers, with a smaller vocabulary than Gemini's.</p></div>
+  <div class="glyph" aria-hidden="true">ଲିପି</div>
+  <div>
+    <p class="eyebrow">lipi · a study of 24 Indian languages</p>
+    <h1>The token <em>tax.</em></h1>
+    <p class="dek">AI models read, write, time and bill text in tokens. Their tokenizers were built mostly on English, so <b>the same sentence costs far more tokens in an Indian language</b>: on GPT-4o, Odia needs 4.99× the tokens of English, and Santali 13.7×. lipi measured that tax across 15 tokenizers, then removed it from an open model.</p>
+    <div class="figs">
+      <div><b>4.99×</b><i>→ 1.35× with lipi</i><span>Odia against English on GPT-4o</span></div>
+      <div><b>1.92×</b><i>→ 1.30× with lipi</i><span>The average Indian's text, weighted by speakers</span></div>
+      <div><b>23 <s>of 24</s></b><i>languages</i><span>where lipi-Indic beats GPT-4o's and Gemini's tokenizers</span></div>
+    </div>
+  </div>
+  <div class="bill">
+  <div class="receipt" aria-label="Example: one sentence on GPT-4o costs 24 tokens in English and 105 in Odia">
+    <h3>TAX INVOICE</h3>
+    <p class="c">FLORES-200 devtest · sentence 67 · billed by GPT-4o</p>
+    <p class="q">“Middle order batsmen, Sachin Tendulkar and Rahul Dravid, performed well and made a hundred-run partnership.”</p>
+    <div class="l"><span>English</span><span></span><span>24 tokens</span></div>
+    <div class="l"><span class="or">ଓଡ଼ିଆ Odia</span><span></span><span>105 tokens</span></div>
+    <div class="l tot"><span>Token tax</span><span></span><span>4.38×</span></div>
+    <div class="sep"></div>
+    <p class="sub">Re-issued with lipi-Indic 96K</p>
+    <div class="l"><span class="or">ଓଡ଼ିଆ Odia</span><span></span><span>35 tokens</span></div>
+    <div class="l tot"><span>Token tax</span><span></span><span>1.40×</span></div>
+  </div>
+  <div class="stamp" aria-hidden="true">Overcharged<small>×4.38</small></div>
   </div>
 </div>
 
 <section id="try" aria-labelledby="try-h">
-  <h2 id="try-h">Try it</h2>
-  <p class="sub">Pick a language, or type anything. Your text is split in your browser by the real tokenizers: GPT-4o's, Qwen 2.5's as it ships, and lipi-Indic's. Nothing is sent anywhere.</p>
-  <div class="card">
+  <div class="sh">
+    <div class="no">I · Set it in type</div>
+    <div><h2 id="try-h">Try any sentence</h2>
+    <p>Pick a language, or type your own. The real tokenizers of GPT-4o, Qwen 2.5 (as it ships) and lipi-Indic split it in your browser; each block is one token. Nothing is sent anywhere.</p></div>
+  </div>
+  <div class="case">
     <div class="controls">
       <label class="field"><span>Language</span><select id="lang"></select></label>
-      <div class="field"><span>Sentence (FLORES-200)</span><div id="sents" style="display:flex;gap:6px;flex-wrap:wrap"></div></div>
+      <div class="field"><span>FLORES-200 sentence</span><div class="pills" id="sents"></div></div>
     </div>
     <label class="field" style="margin-bottom:6px"><span>Text</span><textarea id="text" spellcheck="false"></textarea></label>
-    <div id="live" aria-live="polite"><p class="status" id="status">Loading tokenizers…</p></div>
+    <div id="live" aria-live="polite"><p class="status">Loading tokenizers…</p></div>
     <div class="key">
-      <span><i style="background:var(--chip-a)"></i><i style="background:var(--chip-b);margin-left:-4px"></i>one token per chip</span>
-      <span><i style="background:var(--frag);outline:1.5px solid var(--frag-line)"></i>one letter cut into several byte tokens (count shown)</span>
+      <span><i style="background:var(--chip-a)"></i>one token</span>
+      <span><i style="background:var(--frag);border-color:var(--red)"></i>one letter cut into several byte tokens (count shown)</span>
     </div>
   </div>
 </section>
 
 <section id="all" aria-labelledby="all-h">
-  <h2 id="all-h">Every Indian language, every major model</h2>
-  <p class="sub">Tokens needed for the 1,012 FLORES-200 devtest sentences, divided by the tokens the same tokenizer needs for the same sentences in English. 1× means no tax.</p>
-  <div class="card">
+  <div class="sh">
+    <div class="no">II · The ledger</div>
+    <div><h2 id="all-h">Every language, every model</h2>
+    <p>Tokens for the 1,012 FLORES-200 devtest sentences in each language, divided by the tokens the same tokenizer needs for the same sentences in English. 1× means no tax.</p></div>
+  </div>
+  <div class="ledger">
     <div class="controls">
       <label class="field"><span>Compare lipi-Indic 96K with</span><select id="model"></select></label>
     </div>
     <div class="legend" id="legend"></div>
     <div id="chart"></div>
-    <details class="table"><summary>Show as a table</summary><div class="tbl" id="table"></div></details>
+    <details class="table"><summary>Read it as a table</summary><div class="tbl" id="table"></div></details>
   </div>
 </section>
 
 <section id="why" aria-labelledby="why-h">
-  <h2 id="why-h">Why it matters</h2>
-  <p class="sub">A token count is not a price, since every API sets its own. It is how much text fits in a model's memory and how many steps the model takes to write an answer. Measured on Qwen 2.5 0.5B on one T4 GPU:</p>
-  <div class="facts">
-    <div class="tile"><div class="big">7.0× <small>faster</small></div><p>Writing an Odia sentence: 8.37 s with Qwen's own tokenizer, 1.19 s with lipi-Indic. English takes 0.83 s.</p></div>
-    <div class="tile"><div class="big">116 <small>→ 881</small></div><p>Odia sentences that fit in a 32K-token context window, before and after.</p></div>
-    <div class="tile"><div class="big">3.40 s <small>→ 0.088 s</small></div><p>Reading a 3,000-character Odia document before the first word of the answer (5,923 tokens → 650).</p></div>
+  <div class="sh">
+    <div class="no">III · What it costs</div>
+    <div><h2 id="why-h">Time, memory and money</h2>
+    <p>A token count is not a price, since every API sets its own. It is how much text fits in a model's memory, and how many steps the model takes to write an answer. Measured on Qwen 2.5 0.5B, one T4 GPU:</p></div>
   </div>
-  <div class="prose" style="margin-top:22px">
-    <p><b>Where the tax comes from.</b> Two things. Most tokenizers have few tokens for Indian scripts, so words fall apart into pieces or raw bytes. And the pre-tokenizer of GPT-4, Llama 3 and Qwen splits words at every vowel sign before the vocabulary is even consulted, so however large their vocabulary, they cannot write Odia in fewer than 2.33× the tokens of English.</p>
-    <p><b>The fix.</b> lipi-Indic changes that splitting rule for Indian scripts only and adds 96,000 tokens learned from text in all 24 languages to Qwen 2.5. Every existing token keeps its id, so English and code are tokenized exactly as before.</p>
+  <div class="cols">
+    <div><b>7.0× <s>faster</s></b><p>Writing an Odia sentence: 8.37 s with Qwen's own tokenizer, 1.19 s with lipi-Indic. English takes 0.83 s.</p></div>
+    <div><b>116 <s>→ 881</s></b><p>Odia sentences that fit in a 32K-token context window, before and after.</p></div>
+    <div><b>39× <s>sooner</s></b><p>Reading a 3,000-character Odia document before the first word of the answer: 3.40 s → 0.088 s (5,923 tokens → 650).</p></div>
+  </div>
+  <div class="essay">
+    <p><b>Where the tax comes from.</b> Most tokenizers have few tokens for Indian scripts, so words fall apart into pieces or raw bytes. Worse, the pre-tokenizer of GPT-4, Llama 3 and Qwen splits words at every vowel sign before the vocabulary is even consulted: however large their vocabulary, they cannot write Odia in fewer than 2.33× the tokens of English.</p>
+    <p><b>The fix.</b> lipi-Indic changes that splitting rule for Indian scripts only, and adds 96,000 tokens learned from text in all 24 languages to Qwen 2.5. Every existing token keeps its id, so English and code are tokenized exactly as before, and with a smaller vocabulary than Gemini's it needs fewer tokens than both GPT-4o's and Gemini's tokenizers in 23 of the 24 languages.</p>
   </div>
   <div class="ctas">
     <a class="btn primary" href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer">Use the tokenizer</a>
@@ -213,12 +291,12 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
 </section>
 
 <footer>
-  <p><b>Method.</b> FLORES-200 devtest, 1,012 sentences per language (Meta, CC BY-SA 4.0; the example sentences above are from it). Tax = tokens for a language ÷ tokens for English, on the same tokenizer. Speaker weights: Census of India 2011. Google publishes no Gemini tokenizer; the “Gemini” figures are Gemma 3's tokenizer, which third-party ports report to be the same model, and were not checked against Google's countTokens. The live demo loads GPT-4o's tokenizer (o200k_base, Xenova/gpt-4o), Qwen/Qwen2.5-0.5B and Shakhtar-Sankur/lipi-indic-96k from Hugging Face with transformers.js.</p>
-  <p>By <a href="../">Sankur Kundu</a>. Everything here is reproducible from the scripts in the <a href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">lipi repository</a>.</p>
+  <p><span class="colo">Method</span>FLORES-200 devtest, 1,012 sentences per language (Meta, CC BY-SA 4.0; the example sentences are from it). Tax = a language's tokens ÷ English tokens, on the same tokenizer. Speaker weights: Census of India 2011. Google publishes no Gemini tokenizer; the “Gemini” figures are Gemma 3's tokenizer, which third-party ports report to be the same model, not checked against Google's countTokens. The live demo loads GPT-4o's tokenizer (o200k_base, via Xenova/gpt-4o), Qwen/Qwen2.5-0.5B and Shakhtar-Sankur/lipi-indic-96k from Hugging Face with transformers.js, and gives the same counts as the Python tokenizers.</p>
+  <p><span class="colo">By</span><a href="../">Sankur Kundu</a>, Bhubaneswar. Every number on this page is reproducible from the scripts in the <a href="https://github.com/Shakhtar-Sankur/lipi" rel="noreferrer">lipi repository</a>.</p>
 </footer>
 </div>
 
-<script id="data" type="application/json">{"languages":[{"code":"eng_Latn","name":"English","script":"Latin","speakers":0.0,"sentences":["Middle order batsmen, Sachin Tendulkar and Rahul Dravid, performed well and made a hundred-run partnership.","In one year's time, an infected person may infect 10 to 15 close contacts.","Over four million people went to Rome to attend the funeral."]},{"code":"hin_Deva","name":"Hindi","script":"Devanagari","speakers":528.35,"sentences":["मध्य क्रम के बल्लेबाज सचिन तेंदुलकर और राहुल द्रविड़ ने अच्छा प्रदर्शन किया और शतकीय साझेदारी बनाई.","एक साल के दौरान, एक संक्रमित व्यक्ति 10 से 15 करीबी संपर्कों को संक्रमित कर सकता है.","अंतिम संस्कार में शामिल होने के लिए, चार मिलियन से ज़्यादा लोग रोम गए."]},{"code":"ben_Beng","name":"Bengali","script":"Bengali","speakers":97.24,"sentences":["মিডল অর্ডার ব্যাটসম্যান, শচীন টেন্ডুলকার এবং রাহুল দ্রাভিদ ভালো খেলেছিল এবং একটি শতরানের পার্টনারশিপ করেছিল।","এক বছরের মধ্যে, একজন আক্রান্ত ব্যক্তি তার সংস্পর্শে আসা ১০ থেকে ১৫ জন ব্যাক্তিকে আক্রান্ত করতে পারে।","শবযাত্রাতে অংশ নিতে চার মিলিয়নেরও বেশি লোক রোমে গিয়েছিল।"]},{"code":"mar_Deva","name":"Marathi","script":"Devanagari","speakers":83.03,"sentences":["सचिन तेंडूलकर आणि राहुल द्रविड या मधल्या फळीतील फलंदाजांनी खूप चांगली कामगिरी केली आणि शंभर धावांची भागीदारी केली आहे.","एका वर्षाच्या काळात, एक संक्रमित व्यक्ती 10 ते 15 निकटच्या सहवासितांना संक्रमित करु शकतो. ","चाळीस लाखांहून अधिक लोक अंत्यसंस्कारात सामील होण्यासाठी रोम येथे गेले."]},{"code":"tel_Telu","name":"Telugu","script":"Telugu","speakers":81.13,"sentences":["మిడిల్ ఆర్డర్ బ్యాట్స్ మెన్ సచిన్ టెండూల్కర్, రాహుల్ ద్రావిడ్ లు రాణించి వంద పరుగుల భాగస్వామ్యాన్ని సాధించారు.","ఒక సంవత్సర కాలంలో, వ్యాధి సంక్రమించిన వ్యక్తి నుండి 10 నుండి 15 దగ్గరి పరిచయిస్తులకు సోకుతుంది.","అంత్యక్రియలకు హాజరు కావడానికి, సుమారు నాలుగు మిలియన్ల మంది ప్రజలు రోమ్‌కు వెళ్లారు."]},{"code":"tam_Taml","name":"Tamil","script":"Tamil","speakers":69.03,"sentences":["மிடில் ஆர்டர் பேட்ஸ்மேன்களான சச்சின் டெண்டுல்கர், ராகுல் டிராவிட் ஆகியோர் சிறப்பாக செயல்பட்டு கூட்டாக நூறு ரன்கள் எடுத்தனர்.","ஒரு வருட காலத்தில் தொற்றுள்ள நபர் நெருக்கமான தொடர்பில் 10 முதல் 15 பேர்களுக்கு தொற்றை ஏற்படுத்தலாம்.","இறுதிச்சடங்கில் கலந்துகொள்வதற்கு நான்கு மில்லியனுக்கும் அதிகமான மக்கள் ரோம் சென்றனர்."]},{"code":"guj_Gujr","name":"Gujarati","script":"Gujarati","speakers":55.49,"sentences":["મિડલ ઑર્ડર બૅટ્સમેન સચિન તેંડુલકરે અને રાહુલ દ્રવિડે સારું કાર્યપ્રદર્શન કર્યું અને સો રનની ભાગીદારી કરી.","એક વર્ષના સમયમાં, સંક્રમણગ્રસ્ત વ્યક્તિ નજીકના 10થી 15 લોકોને સંક્રમિત કરી શકે છે.","અંતિમક્રિયામાં ભાગ લેવા માટે ચાલીસ લાખથી વધારે લોકો રોમ ગયાં."]},{"code":"urd_Arab","name":"Urdu","script":"Perso-Arabic","speakers":50.77,"sentences":["درمیانی درجہ کے بیٹس مین سچن ٹنڈولکر اور راہول ڈریوڈ نے اچھی کارکردگی دکھائی اور انہوں نے مل کر سو رن بنائے۔","ایک سال کی مدت میں ایک متاثرہ شخص قریب میں رہنے والے 10 سے 15 افراد کو متاثر کرسکتا ہے۔","چار ملین سے زائد افراد جنازے میں شامل ہونے کے لیے روم گئے تھے۔"]},{"code":"kan_Knda","name":"Kannada","script":"Kannada","speakers":43.71,"sentences":["ಮಧ್ಯಮ ಕ್ರಮಾಂಕದ ಬ್ಯಾಟ್ಸ್‌ಮನ್‍‌ಗಳಾದ ಸಚಿನ್ ತೆಂಡೂಲ್ಕರ್ ಮತ್ತು  ರಾಹುಲ್ ದ್ರಾವಿಡ್, ಉತ್ತಮ ಪ್ರದರ್ಶನ ನೀಡಿ, ನೂರು ರನ್‌ಗಳ ಜೊತೆಯಾಟವಾಡಿದರು.","ಒಂದು ವರ್ಷದ ಅವಧಿಯಲ್ಲಿ, ಸೋಂಕಿತ ವ್ಯಕ್ತಿಯು 10 ರಿಂದ 15 ನಿಕಟ ಸಂಪರ್ಕಗಳಿಗೆ ಸೋಂಕು ತಗುಲಿಸಬಹುದಾಗಿದೆ","ನಾಲ್ಕು ಮಿಲಿಯನ್‌ಗೂ ಹೆಚ್ಚು ಜನರು ಅಂತ್ಯಸಂಸ್ಕಾರಕ್ಕೆ ತೆರಳಿದ್ದರು."]},{"code":"ory_Orya","name":"Odia","script":"Odia","speakers":37.52,"sentences":["ମଧ୍ୟମ କ୍ରମର ବ୍ୟାଟ୍ସମ୍ୟାନ୍, ସଚିନ୍ ତେନ୍ଦୁଲକର ଓ ରାହୁଲ ଦ୍ରାବିଡ ଭଲ ପ୍ରଦର୍ଶନ କରିବା ସହ ଏକ ଶହ ରନ୍‌ର ସହଭାଗୀତା ଯୋଡ଼ିଥିଲେ।","ଗୋଟିଏ ବର୍ଷରେ, ଜଣେ ସଂକ୍ରମିତ ବ୍ୟକ୍ତି 10ରୁ 15 ଜଣ ନିକଟବର୍ତ୍ତୀ ବ୍ୟକ୍ତିଙ୍କୁ ସଂକ୍ରମିତ କରିପାରନ୍ତି।","ଶେଷକୃତ୍ୟରେ ଯୋଗ ଦେବାପାଇଁ 4 ନିୟୁତରୁ ଅଧିକ ଲୋକ ରୋମ ଯାଇଥିଲେ।"]},{"code":"mal_Mlym","name":"Malayalam","script":"Malayalam","speakers":34.84,"sentences":["മധ്യനിര ബാറ്റ്സ്മാൻമാരായ സച്ചിൻ ടെണ്ടുൽക്കർ, രാഹുൽ ദ്രാവിഡ് എന്നിവർ മികച്ച പ്രകടനം കാഴ്ച്ചവയ്ക്കുകയും, ആ കൂട്ടുകെട്ട് നൂറ് റൺസ് നേടുകയും ചെയ്തു.","ഒരു വർഷത്തിനുള്ളിൽ, രോഗബാധിതനായ ഒരാൾ 10 മുതൽ 15 വരെ അടുത്ത സമ്പർക്കം പുലർത്തുന്നവർക്ക് രോഗം പടർത്തിയേക്കാം.","ശവ സംസ്‌കാര ചടങ്ങിൽ പങ്കെടുക്കാൻ നാല് ദശലക്ഷത്തിലധികം ആളുകൾ റോമിലേക്ക് യാത്ര ചെയ്തു."]},{"code":"pan_Guru","name":"Punjabi","script":"Gurmukhi","speakers":33.12,"sentences":["ਮਿਡਲ ਆਰਡਰ ਦੇ ਬੱਲੇਬਾਜ਼ ਸਚਿਨ ਤੇਂਦੁਲਕਰ ਅਤੇ ਰਾਹੁਲ ਦ੍ਰਾਵਿੜ ਨੇ ਚੰਗਾ ਪ੍ਰਦਰਸ਼ਨ ਕਰਦਿਆਂ ਸੌ-ਰਨਾਂ ਦੀ ਸਾਂਝੇਦਾਰੀ ਕੀਤੀ।","ਇੱਕ ਸਾਲ ਵਿੱਚ, ਇੱਕ ਸੰਕ੍ਰਮਿਤ ਵਿਅਕਤੀ ਆਪਣੇ ਨਜ਼ਦੀਕੀ ਸੰਪਰਕ ਵਾਲਿਆਂ 10 ਤੋਂ 15 ਲੋਕਾਂ ਨੂੰ ਸੰਕ੍ਰਮਿਤ ਕਰ ਸਕਦਾ ਹੈ।","ਅੰਤਿਮ ਸੰਸਕਾਰ ਵਿੱਚ ਸ਼ਾਮਿਲ ਹੋਣ ਲਈ ਚਾਰ ਮਿਲੀਅਨ ਲੋਕ ਰੋਮ ਗਏ ਸੀ।"]},{"code":"asm_Beng","name":"Assamese","script":"Bengali","speakers":15.31,"sentences":["মাজৰ আন বেটছমেনসকল, শচীন তেণ্ডুলকাৰ আৰু ৰাহুল দ্ৰাবিড়ে ভালকৈ পৰিৱেশন কৰিছিল আৰু যৌথভাৱে শতক ৰাণ অৰ্জন কৰিছীল৷","1 বছৰৰ সময়ত, এজন আক্ৰান্ত লোকে তেওঁৰ সংস্পৰ্শলৈ অহা  10 ৰ পৰা 15 জন লোকলৈ সংক্ৰমিত কৰে।","অন্তিম সংস্কাৰৰ অনুষ্ঠানত অংশগ্ৰহণ কৰিবলৈ চাৰি মিলিয়ন লোক ৰোমলৈ গৈছিল।"]},{"code":"mai_Deva","name":"Maithili","script":"Devanagari","speakers":13.58,"sentences":["मध्यक्रम के बल्लेबाज सचिन तेंदुलकर आ राहुल द्रविड़ नीक प्रदर्शन करैत सौ रनक साझेदारी केलथि।","एक साल मे एकटा संक्रमित व्यक्ति 10 सँ 15 करीबी लोक कें संक्रमित कए सकैत अछि।","अंतिम संस्कार मे शामिल होएबाक लेल चालीस लाख सँ बेसी लोक सभ रोम गेल छल।"]},{"code":"sat_Olck","name":"Santali","script":"Ol Chiki","speakers":7.37,"sentences":["ᱛᱟᱞᱟᱨᱤᱱ ᱵᱟᱞᱞᱮᱵᱟᱡ ᱥᱟᱪᱤᱱ ᱛᱮᱸᱫᱩᱞᱠᱟᱨ ᱟᱨ ᱨᱟᱦᱩᱞ ᱫᱽᱨᱟᱣᱤᱲ ᱠᱤᱱ ᱱᱟᱯᱟᱭ ᱯᱚᱨᱫᱚᱨᱥᱚᱱ ᱠᱚᱨᱟᱣ ᱛᱩᱞᱩᱡ ᱢᱤᱫ ᱥᱟᱭ ᱨᱚᱱ ᱨᱮᱱᱟᱜ ᱥᱟᱡᱷᱟ ᱠᱮᱫᱟ᱾","ᱢᱤᱫ ᱥᱮᱨᱢᱟ ᱨᱮ ᱢᱤᱫ ᱤᱱᱯᱷᱮᱠᱴᱮᱰ ᱦᱚᱲ ᱥᱩᱨᱼᱥᱩᱯᱩᱨ ᱑᱐ ᱠᱷᱚᱱ ᱑᱕ ᱦᱚᱲ ᱮ ᱤᱱᱯᱷᱮᱠᱴ ᱫᱟᱲᱮᱭᱟᱠᱚᱣᱟ᱾","ᱵᱷᱟᱱᱫᱟᱱ ᱨᱮ ᱥᱮᱞᱮᱫᱚᱜ ᱞᱟᱹᱜᱤᱫ ᱯᱳᱱ ᱢᱤᱞᱤᱭᱚᱱ ᱠᱷᱚᱱ ᱦᱚᱸ ᱰᱷᱮᱨ ᱦᱚᱲ ᱨᱚᱢ ᱛᱮᱠᱚ ᱪᱟᱞᱟᱣ ᱮᱱᱟ᱾"]},{"code":"kas_Arab","name":"Kashmiri","script":"Perso-Arabic","speakers":6.8,"sentences":["مڈل آرڈر بیٹسمین سچن ٹنڈولکر تہٕ راہول ڈریوڈن کور واریاہ اصل کارکردگی ہُند مظٲہرہ کرتھ ہتھ رنزن ہٕنز شراکت قٲیم۔","أکِس ؤریَس منٛز ، ہیٚکہِ  متاثرٕ شخص 10 پیٚٹھٕ 15 قریبی رٲبطَن متاثر کٔرِتھ۔","جنازس منز شرکت کرنہ باپتھ گٔیی 40 لاچھ کھوتہ زائد لوکھ روٗم۔"]},{"code":"kas_Deva","name":"Kashmiri (Devanagari)","script":"Devanagari","speakers":0.0,"sentences":["मिडल ऑर्डर बैट्स्मन सचिन तेंडुलकर (Sachin Tendulkar) ति राहुल डरेविड (Rahul Dravid) हो कोर ओंदाह करकर्दगी हुनद मुज़ाहिराह हातं रन हन हिंज़ शरक्त कारीख।","अकिस वरियस मंज़ हेकि अख इन्फेक्शन लद इंसान 10 पेठ 15 हन नजदीकी राबितह वालयन इन्फेक्शन लारविथ। ","जिनाज़स मंज़ शिरकत बापथ गय 40 लाच खोत ज़्याद लूख रूम।"]},{"code":"npi_Deva","name":"Nepali","script":"Devanagari","speakers":2.93,"sentences":["मध्यक्रमका ब्याट्सम्यान सचिन टेन्डुलकर (Sachin Tendulkar) र राहुल द्राविड (Rahul Dravid)ले राम्रो प्रदर्शन गरेर सय रनको साझेदारी गरे।","एक वर्षमा संक्रमित व्यक्तिले 10 देखि 15 नजिकका सम्पर्कहरूलाई संक्रमित गर्न सक्छ।","चार मिलियनभन्दा बढी मानिसहरू अन्त्येष्टिमा भाग लिन रोम गए।"]},{"code":"snd_Arab","name":"Sindhi","script":"Perso-Arabic","speakers":2.77,"sentences":["مڊل آرڊر بيٽسمين سچن ٽندولڪر ۽ راهول ڊريوڊ سٺي ڪارڪردگي ڏيکاريندي هڪ سؤ رنسن جي پارٽنرشپ ٺاهي.","هڪ سال جي عرصي ۾، هڪ متاثر ٿيندڙ شخص 10 کان 15 ويجهن رابطن کي متاثر ڪري سگهي ٿو.","جنازي ۾ شريڪ ٿيڻ لاءِ چاليهہ لک کان وڌيڪ ماڻهو روم ويا."]},{"code":"mni_Beng","name":"Manipuri","script":"Bengali","speakers":1.76,"sentences":["ময়ায় থংবা মফমদা লৈবা বেৎসমেন, সচিন তেন্দুলকর অমসুং রাহুল দ্রাবিদনা নীংথিজনা শান্নখি অমসুং মখোয় অনি পুন্দুনা রন চাম্মগী খোঙলোয় শেমখি।","অনাবা মীওই অমনা চহি অমগী মনুংদা মহাক্কা নক্নবা মীওই 10দগী 15 ফাওবদা শন্দোকপা য়াই।","অরোইবা মথৌ-মঙম য়াওনবগীদমক্তা মীওই মিলিয়ন মরি হেনবনা রোমদা চৎখি।"]},{"code":"san_Deva","name":"Sanskrit","script":"Devanagari","speakers":0.02,"sentences":["मध्यक्रमस्य वल्लकपटू सचिनतेण्डुलकरमहोदयः राहुलद्रविडमहोदयः च उत्तमं क्रीडितवन्तौ तथा च शतधावनानां सहयोगदानं कृतवन्तौ।","एकस्मिन् वर्षे एव सङ्क्रमितः जनः 10-15 सन्निहितान् जनान् सङ्क्रामयितुं शक्नोति।","चत्वारिंशत्लक्षाधिकाः जनाः अन्त्येष्यां सहभागिनः भवितुं रोमनगरम् अगच्छन्।"]},{"code":"bho_Deva","name":"Bhojpuri","script":"Devanagari","speakers":0.0,"sentences":["मिडिल ऑर्डर के बल्लेबाज सचिन तेंदुलकर अउरी राहुल द्रविड़ अच्छा खेललन, अउरी सौ रन के साझेदारी कइलन.","एक्के साल में छूत लागल एगो आदमी अपने संपर्क में आवे वाला 10 से 15 लोगन के ई बीमारी दे सकेला.","चालीस लाख से ज़्यादा लोग शव यात्रा में शामिल होखेला रोम गइल."]},{"code":"awa_Deva","name":"Awadhi","script":"Devanagari","speakers":0.0,"sentences":["मध्यक्रम का बल्लेबाज सचिन तेंदुलकर अऊर राहुल द्रविड़ अच्छा खेलिन अऊर सौ रन की साझेदारी किहिन।","एक साल मा एक संक्रमित व्यक्ति 10 से 15 करीबी लोगन का संक्रमित कर सकथे।","अंतिम संस्कार मा शामिल होई की खातिर 40 लाख से अधिक लोग रोम गए रहे।"]},{"code":"mag_Deva","name":"Magahi","script":"Devanagari","speakers":0.0,"sentences":["मध्यक्रम के बल्लेबाज सचिन तेंदुलकर आऊर राहुल द्रविड़ अच्छा प्रदर्शन करके सौ रन के साझेदारी कलकई।","एगो साल में एगो संक्रमित व्यक्ति 10 से 15 करीबी लोगन के संक्रमित कर सकई हय।","अंतिम संस्कार में शामिल होए के लेल चार मिलियन से अधिक लोगन रोम गेल रहलई।"]},{"code":"hne_Deva","name":"Chhattisgarhi","script":"Devanagari","speakers":0.0,"sentences":["मध्य आदेश बल्लेबाज, सचिन तेंदुलकर अउ राहुल द्रविड़ ह अच्छी तरह से प्रदर्शन करिस अउ सौ रन साझेदारी करीन।","एक साल म संक्रमित व्यक्ति 10 ले 15 करीबी लोग मन ला संक्रमित कर सकत हवे।","अंतिम संस्कार में भाग लेने बर चार मिलियन से अधिक लोग रोम गिन रहिस।"]}],"tokenizers":[{"id":"lipi96k","label":"lipi-Indic 96K","used_by":"Qwen 2.5 extended with 96,000 Indian-language tokens (this project)","vocab":247665,"tax":{"eng_Latn":1.0,"hin_Deva":1.267,"ben_Beng":1.251,"mar_Deva":1.239,"tel_Telu":1.329,"tam_Taml":1.353,"guj_Gujr":1.358,"urd_Arab":1.381,"kan_Knda":1.373,"ory_Orya":1.352,"mal_Mlym":1.456,"pan_Guru":1.437,"asm_Beng":1.283,"mai_Deva":1.251,"sat_Olck":1.521,"kas_Arab":1.844,"kas_Deva":1.724,"npi_Deva":1.16,"snd_Arab":1.302,"mni_Beng":1.41,"san_Deva":1.321,"bho_Deva":1.281,"awa_Deva":1.259,"mag_Deva":1.277,"hne_Deva":1.281},"weighted":1.305},{"id":"o200k","label":"GPT-4o / GPT-5","used_by":"GPT-4o, GPT-4.1, o1/o3/o4, gpt-oss","vocab":200019,"tax":{"eng_Latn":1.0,"hin_Deva":1.574,"ben_Beng":1.697,"mar_Deva":1.822,"tel_Telu":1.93,"tam_Taml":1.98,"guj_Gujr":1.791,"urd_Arab":1.653,"kan_Knda":1.971,"ory_Orya":4.985,"mal_Mlym":1.957,"pan_Guru":2.618,"asm_Beng":1.989,"mai_Deva":1.759,"sat_Olck":13.7,"kas_Arab":2.609,"kas_Deva":2.234,"npi_Deva":1.614,"snd_Arab":1.71,"mni_Beng":3.073,"san_Deva":2.089,"bho_Deva":1.772,"awa_Deva":1.707,"mag_Deva":1.717,"hne_Deva":1.729},"weighted":1.924},{"id":"gemma3","label":"Gemini","used_by":"Gemma 3's tokenizer, reported to be Gemini's","vocab":262145,"tax":{"eng_Latn":1.0,"hin_Deva":1.311,"ben_Beng":1.211,"mar_Deva":1.402,"tel_Telu":1.776,"tam_Taml":1.469,"guj_Gujr":1.86,"urd_Arab":1.518,"kan_Knda":1.927,"ory_Orya":3.511,"mal_Mlym":1.848,"pan_Guru":2.694,"asm_Beng":2.006,"mai_Deva":1.639,"sat_Olck":5.251,"kas_Arab":2.359,"kas_Deva":1.939,"npi_Deva":1.529,"snd_Arab":2.025,"mni_Beng":2.51,"san_Deva":1.774,"bho_Deva":1.575,"awa_Deva":1.469,"mag_Deva":1.477,"hne_Deva":1.489},"weighted":1.584},{"id":"llama4","label":"Llama 4","used_by":"Llama 4 Scout and Maverick","vocab":201135,"tax":{"eng_Latn":1.0,"hin_Deva":1.651,"ben_Beng":2.054,"mar_Deva":1.909,"tel_Telu":2.83,"tam_Taml":3.749,"guj_Gujr":2.512,"urd_Arab":1.887,"kan_Knda":2.472,"ory_Orya":8.423,"mal_Mlym":2.766,"pan_Guru":3.132,"asm_Beng":3.286,"mai_Deva":2.054,"sat_Olck":9.396,"kas_Arab":2.814,"kas_Deva":2.394,"npi_Deva":1.828,"snd_Arab":2.088,"mni_Beng":3.37,"san_Deva":2.187,"bho_Deva":1.954,"awa_Deva":1.822,"mag_Deva":1.865,"hne_Deva":1.884},"weighted":2.371},{"id":"qwen3","label":"Qwen 2.5 / Qwen 3","used_by":"Qwen 2.5, Qwen 3","vocab":151669,"tax":{"eng_Latn":1.0,"hin_Deva":4.416,"ben_Beng":5.026,"mar_Deva":4.622,"tel_Telu":6.994,"tam_Taml":6.112,"guj_Gujr":6.738,"urd_Arab":3.148,"kan_Knda":6.923,"ory_Orya":9.699,"mal_Mlym":7.226,"pan_Guru":7.277,"asm_Beng":5.386,"mai_Deva":4.386,"sat_Olck":8.92,"kas_Arab":3.468,"kas_Deva":4.37,"npi_Deva":4.415,"snd_Arab":2.845,"mni_Beng":5.608,"san_Deva":4.511,"bho_Deva":4.301,"awa_Deva":4.305,"mag_Deva":4.19,"hne_Deva":4.213},"weighted":5.28},{"id":"deepseek3","label":"DeepSeek-V3","used_by":"DeepSeek-V3, DeepSeek-R1","vocab":128815,"tax":{"eng_Latn":1.0,"hin_Deva":2.795,"ben_Beng":2.017,"mar_Deva":3.002,"tel_Telu":3.743,"tam_Taml":3.07,"guj_Gujr":3.862,"urd_Arab":2.365,"kan_Knda":3.688,"ory_Orya":5.546,"mal_Mlym":4.416,"pan_Guru":4.475,"asm_Beng":2.694,"mai_Deva":3.121,"sat_Olck":6.419,"kas_Arab":3.051,"kas_Deva":3.207,"npi_Deva":2.967,"snd_Arab":2.889,"mni_Beng":3.279,"san_Deva":2.86,"bho_Deva":2.909,"awa_Deva":2.9,"mag_Deva":2.884,"hne_Deva":2.91},"weighted":3.106},{"id":"cl100k","label":"GPT-4","used_by":"GPT-4, GPT-3.5, Phi-4","vocab":100277,"tax":{"eng_Latn":1.0,"hin_Deva":4.759,"ben_Beng":5.799,"mar_Deva":5.055,"tel_Telu":8.288,"tam_Taml":7.644,"guj_Gujr":7.662,"urd_Arab":4.34,"kan_Knda":8.859,"ory_Orya":12.401,"mal_Mlym":8.937,"pan_Guru":7.851,"asm_Beng":6.152,"mai_Deva":4.876,"sat_Olck":12.738,"kas_Arab":4.604,"kas_Deva":4.662,"npi_Deva":4.765,"snd_Arab":3.982,"mni_Beng":6.709,"san_Deva":4.943,"bho_Deva":4.681,"awa_Deva":4.746,"mag_Deva":4.683,"hne_Deva":4.668},"weighted":6.087},{"id":"llama3","label":"Llama 3","used_by":"Llama 3, 3.1, 3.2, 3.3","vocab":128256,"tax":{"eng_Latn":1.0,"hin_Deva":2.522,"ben_Beng":5.758,"mar_Deva":2.805,"tel_Telu":8.291,"tam_Taml":7.647,"guj_Gujr":7.665,"urd_Arab":3.074,"kan_Knda":8.86,"ory_Orya":12.163,"mal_Mlym":8.935,"pan_Guru":7.813,"asm_Beng":6.114,"mai_Deva":2.588,"sat_Olck":12.743,"kas_Arab":3.297,"kas_Deva":2.651,"npi_Deva":2.583,"snd_Arab":2.859,"mni_Beng":6.67,"san_Deva":2.639,"bho_Deva":2.591,"awa_Deva":2.535,"mag_Deva":2.56,"hne_Deva":2.476},"weighted":4.802},{"id":"tekken","label":"Mistral Tekken","used_by":"Mistral NeMo","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"mistral3","label":"Mistral v0.3","used_by":"Mistral 7B v0.3","vocab":32768,"tax":{"eng_Latn":1.0,"hin_Deva":4.554,"ben_Beng":4.899,"mar_Deva":4.667,"tel_Telu":7.18,"tam_Taml":5.844,"guj_Gujr":8.634,"urd_Arab":4.301,"kan_Knda":6.27,"ory_Orya":11.975,"mal_Mlym":10.822,"pan_Guru":10.403,"asm_Beng":5.676,"mai_Deva":4.604,"sat_Olck":12.329,"kas_Arab":4.421,"kas_Deva":4.468,"npi_Deva":4.441,"snd_Arab":4.312,"mni_Beng":5.353,"san_Deva":4.603,"bho_Deva":4.429,"awa_Deva":4.441,"mag_Deva":4.393,"hne_Deva":4.374},"weighted":5.755},{"id":"sarvamm","label":"Sarvam-M","used_by":"Sarvam-M (Sarvam AI, from Mistral Small 3.1)","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"sarvam1","label":"Sarvam-1","used_by":"Sarvam-1","vocab":68096,"tax":{"eng_Latn":1.0,"hin_Deva":1.144,"ben_Beng":1.282,"mar_Deva":1.077,"tel_Telu":1.154,"tam_Taml":1.158,"guj_Gujr":1.203,"urd_Arab":7.391,"kan_Knda":1.218,"ory_Orya":1.464,"mal_Mlym":1.357,"pan_Guru":1.387,"asm_Beng":2.922,"mai_Deva":1.479,"sat_Olck":11.773,"kas_Arab":7.271,"kas_Deva":1.954,"npi_Deva":1.541,"snd_Arab":6.757,"mni_Beng":2.637,"san_Deva":1.608,"bho_Deva":1.402,"awa_Deva":1.287,"mag_Deva":1.297,"hne_Deva":1.294},"weighted":1.601},{"id":"krutrim2","label":"Krutrim-2","used_by":"Krutrim-2 (Ola Krutrim)","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"bloom","label":"BLOOM","used_by":"BLOOM, BLOOMZ","vocab":250680,"tax":{"eng_Latn":1.0,"hin_Deva":1.282,"ben_Beng":1.176,"mar_Deva":1.219,"tel_Telu":1.328,"tam_Taml":1.284,"guj_Gujr":1.353,"urd_Arab":1.355,"kan_Knda":1.302,"ory_Orya":1.368,"mal_Mlym":1.383,"pan_Guru":1.443,"asm_Beng":1.407,"mai_Deva":1.557,"sat_Olck":12.621,"kas_Arab":2.345,"kas_Deva":1.851,"npi_Deva":1.175,"snd_Arab":2.492,"mni_Beng":2.354,"san_Deva":1.623,"bho_Deva":1.535,"awa_Deva":1.425,"mag_Deva":1.449,"hne_Deva":1.435},"weighted":1.377},{"id":"nllb","label":"NLLB-200","used_by":"NLLB-200 (translation)","vocab":256204,"tax":{"eng_Latn":1.0,"hin_Deva":1.213,"ben_Beng":1.277,"mar_Deva":1.264,"tel_Telu":1.327,"tam_Taml":1.416,"guj_Gujr":1.346,"urd_Arab":1.29,"kan_Knda":1.365,"ory_Orya":1.371,"mal_Mlym":1.492,"pan_Guru":1.499,"asm_Beng":1.376,"mai_Deva":1.238,"sat_Olck":2.479,"kas_Arab":1.815,"kas_Deva":1.687,"npi_Deva":1.172,"snd_Arab":1.332,"mni_Beng":1.732,"san_Deva":1.398,"bho_Deva":1.272,"awa_Deva":1.209,"mag_Deva":1.22,"hne_Deva":1.244},"weighted":1.294},{"id":"indicbert2","label":"IndicBERT v2","used_by":"IndicBERT v2 (AI4Bharat)","vocab":250000,"tax":{"eng_Latn":1.0,"hin_Deva":1.171,"ben_Beng":1.015,"mar_Deva":1.048,"tel_Telu":1.063,"tam_Taml":1.05,"guj_Gujr":1.169,"urd_Arab":1.357,"kan_Knda":1.098,"ory_Orya":1.159,"mal_Mlym":1.104,"pan_Guru":1.28,"asm_Beng":1.136,"mai_Deva":1.231,"sat_Olck":1.961,"kas_Arab":2.025,"kas_Deva":1.648,"npi_Deva":1.09,"snd_Arab":1.538,"mni_Beng":2.172,"san_Deva":1.296,"bho_Deva":1.39,"awa_Deva":1.29,"mag_Deva":1.3,"hne_Deva":1.326},"weighted":1.153}],"sentence_ids":[66,100,59]}</script>
+<script id="data" type="application/json">{"languages":[{"code":"eng_Latn","name":"English","script":"Latin","speakers":0.0,"sentences":["Middle order batsmen, Sachin Tendulkar and Rahul Dravid, performed well and made a hundred-run partnership.","In one year's time, an infected person may infect 10 to 15 close contacts.","Over four million people went to Rome to attend the funeral."],"native":"English"},{"code":"hin_Deva","name":"Hindi","script":"Devanagari","speakers":528.35,"sentences":["मध्य क्रम के बल्लेबाज सचिन तेंदुलकर और राहुल द्रविड़ ने अच्छा प्रदर्शन किया और शतकीय साझेदारी बनाई.","एक साल के दौरान, एक संक्रमित व्यक्ति 10 से 15 करीबी संपर्कों को संक्रमित कर सकता है.","अंतिम संस्कार में शामिल होने के लिए, चार मिलियन से ज़्यादा लोग रोम गए."],"native":"हिन्दी"},{"code":"ben_Beng","name":"Bengali","script":"Bengali","speakers":97.24,"sentences":["মিডল অর্ডার ব্যাটসম্যান, শচীন টেন্ডুলকার এবং রাহুল দ্রাভিদ ভালো খেলেছিল এবং একটি শতরানের পার্টনারশিপ করেছিল।","এক বছরের মধ্যে, একজন আক্রান্ত ব্যক্তি তার সংস্পর্শে আসা ১০ থেকে ১৫ জন ব্যাক্তিকে আক্রান্ত করতে পারে।","শবযাত্রাতে অংশ নিতে চার মিলিয়নেরও বেশি লোক রোমে গিয়েছিল।"],"native":"বাংলা"},{"code":"mar_Deva","name":"Marathi","script":"Devanagari","speakers":83.03,"sentences":["सचिन तेंडूलकर आणि राहुल द्रविड या मधल्या फळीतील फलंदाजांनी खूप चांगली कामगिरी केली आणि शंभर धावांची भागीदारी केली आहे.","एका वर्षाच्या काळात, एक संक्रमित व्यक्ती 10 ते 15 निकटच्या सहवासितांना संक्रमित करु शकतो. ","चाळीस लाखांहून अधिक लोक अंत्यसंस्कारात सामील होण्यासाठी रोम येथे गेले."],"native":"मराठी"},{"code":"tel_Telu","name":"Telugu","script":"Telugu","speakers":81.13,"sentences":["మిడిల్ ఆర్డర్ బ్యాట్స్ మెన్ సచిన్ టెండూల్కర్, రాహుల్ ద్రావిడ్ లు రాణించి వంద పరుగుల భాగస్వామ్యాన్ని సాధించారు.","ఒక సంవత్సర కాలంలో, వ్యాధి సంక్రమించిన వ్యక్తి నుండి 10 నుండి 15 దగ్గరి పరిచయిస్తులకు సోకుతుంది.","అంత్యక్రియలకు హాజరు కావడానికి, సుమారు నాలుగు మిలియన్ల మంది ప్రజలు రోమ్‌కు వెళ్లారు."],"native":"తెలుగు"},{"code":"tam_Taml","name":"Tamil","script":"Tamil","speakers":69.03,"sentences":["மிடில் ஆர்டர் பேட்ஸ்மேன்களான சச்சின் டெண்டுல்கர், ராகுல் டிராவிட் ஆகியோர் சிறப்பாக செயல்பட்டு கூட்டாக நூறு ரன்கள் எடுத்தனர்.","ஒரு வருட காலத்தில் தொற்றுள்ள நபர் நெருக்கமான தொடர்பில் 10 முதல் 15 பேர்களுக்கு தொற்றை ஏற்படுத்தலாம்.","இறுதிச்சடங்கில் கலந்துகொள்வதற்கு நான்கு மில்லியனுக்கும் அதிகமான மக்கள் ரோம் சென்றனர்."],"native":"தமிழ்"},{"code":"guj_Gujr","name":"Gujarati","script":"Gujarati","speakers":55.49,"sentences":["મિડલ ઑર્ડર બૅટ્સમેન સચિન તેંડુલકરે અને રાહુલ દ્રવિડે સારું કાર્યપ્રદર્શન કર્યું અને સો રનની ભાગીદારી કરી.","એક વર્ષના સમયમાં, સંક્રમણગ્રસ્ત વ્યક્તિ નજીકના 10થી 15 લોકોને સંક્રમિત કરી શકે છે.","અંતિમક્રિયામાં ભાગ લેવા માટે ચાલીસ લાખથી વધારે લોકો રોમ ગયાં."],"native":"ગુજરાતી"},{"code":"urd_Arab","name":"Urdu","script":"Perso-Arabic","speakers":50.77,"sentences":["درمیانی درجہ کے بیٹس مین سچن ٹنڈولکر اور راہول ڈریوڈ نے اچھی کارکردگی دکھائی اور انہوں نے مل کر سو رن بنائے۔","ایک سال کی مدت میں ایک متاثرہ شخص قریب میں رہنے والے 10 سے 15 افراد کو متاثر کرسکتا ہے۔","چار ملین سے زائد افراد جنازے میں شامل ہونے کے لیے روم گئے تھے۔"],"native":"اردو"},{"code":"kan_Knda","name":"Kannada","script":"Kannada","speakers":43.71,"sentences":["ಮಧ್ಯಮ ಕ್ರಮಾಂಕದ ಬ್ಯಾಟ್ಸ್‌ಮನ್‍‌ಗಳಾದ ಸಚಿನ್ ತೆಂಡೂಲ್ಕರ್ ಮತ್ತು  ರಾಹುಲ್ ದ್ರಾವಿಡ್, ಉತ್ತಮ ಪ್ರದರ್ಶನ ನೀಡಿ, ನೂರು ರನ್‌ಗಳ ಜೊತೆಯಾಟವಾಡಿದರು.","ಒಂದು ವರ್ಷದ ಅವಧಿಯಲ್ಲಿ, ಸೋಂಕಿತ ವ್ಯಕ್ತಿಯು 10 ರಿಂದ 15 ನಿಕಟ ಸಂಪರ್ಕಗಳಿಗೆ ಸೋಂಕು ತಗುಲಿಸಬಹುದಾಗಿದೆ","ನಾಲ್ಕು ಮಿಲಿಯನ್‌ಗೂ ಹೆಚ್ಚು ಜನರು ಅಂತ್ಯಸಂಸ್ಕಾರಕ್ಕೆ ತೆರಳಿದ್ದರು."],"native":"ಕನ್ನಡ"},{"code":"ory_Orya","name":"Odia","script":"Odia","speakers":37.52,"sentences":["ମଧ୍ୟମ କ୍ରମର ବ୍ୟାଟ୍ସମ୍ୟାନ୍, ସଚିନ୍ ତେନ୍ଦୁଲକର ଓ ରାହୁଲ ଦ୍ରାବିଡ ଭଲ ପ୍ରଦର୍ଶନ କରିବା ସହ ଏକ ଶହ ରନ୍‌ର ସହଭାଗୀତା ଯୋଡ଼ିଥିଲେ।","ଗୋଟିଏ ବର୍ଷରେ, ଜଣେ ସଂକ୍ରମିତ ବ୍ୟକ୍ତି 10ରୁ 15 ଜଣ ନିକଟବର୍ତ୍ତୀ ବ୍ୟକ୍ତିଙ୍କୁ ସଂକ୍ରମିତ କରିପାରନ୍ତି।","ଶେଷକୃତ୍ୟରେ ଯୋଗ ଦେବାପାଇଁ 4 ନିୟୁତରୁ ଅଧିକ ଲୋକ ରୋମ ଯାଇଥିଲେ।"],"native":"ଓଡ଼ିଆ"},{"code":"mal_Mlym","name":"Malayalam","script":"Malayalam","speakers":34.84,"sentences":["മധ്യനിര ബാറ്റ്സ്മാൻമാരായ സച്ചിൻ ടെണ്ടുൽക്കർ, രാഹുൽ ദ്രാവിഡ് എന്നിവർ മികച്ച പ്രകടനം കാഴ്ച്ചവയ്ക്കുകയും, ആ കൂട്ടുകെട്ട് നൂറ് റൺസ് നേടുകയും ചെയ്തു.","ഒരു വർഷത്തിനുള്ളിൽ, രോഗബാധിതനായ ഒരാൾ 10 മുതൽ 15 വരെ അടുത്ത സമ്പർക്കം പുലർത്തുന്നവർക്ക് രോഗം പടർത്തിയേക്കാം.","ശവ സംസ്‌കാര ചടങ്ങിൽ പങ്കെടുക്കാൻ നാല് ദശലക്ഷത്തിലധികം ആളുകൾ റോമിലേക്ക് യാത്ര ചെയ്തു."],"native":"മലയാളം"},{"code":"pan_Guru","name":"Punjabi","script":"Gurmukhi","speakers":33.12,"sentences":["ਮਿਡਲ ਆਰਡਰ ਦੇ ਬੱਲੇਬਾਜ਼ ਸਚਿਨ ਤੇਂਦੁਲਕਰ ਅਤੇ ਰਾਹੁਲ ਦ੍ਰਾਵਿੜ ਨੇ ਚੰਗਾ ਪ੍ਰਦਰਸ਼ਨ ਕਰਦਿਆਂ ਸੌ-ਰਨਾਂ ਦੀ ਸਾਂਝੇਦਾਰੀ ਕੀਤੀ।","ਇੱਕ ਸਾਲ ਵਿੱਚ, ਇੱਕ ਸੰਕ੍ਰਮਿਤ ਵਿਅਕਤੀ ਆਪਣੇ ਨਜ਼ਦੀਕੀ ਸੰਪਰਕ ਵਾਲਿਆਂ 10 ਤੋਂ 15 ਲੋਕਾਂ ਨੂੰ ਸੰਕ੍ਰਮਿਤ ਕਰ ਸਕਦਾ ਹੈ।","ਅੰਤਿਮ ਸੰਸਕਾਰ ਵਿੱਚ ਸ਼ਾਮਿਲ ਹੋਣ ਲਈ ਚਾਰ ਮਿਲੀਅਨ ਲੋਕ ਰੋਮ ਗਏ ਸੀ।"],"native":"ਪੰਜਾਬੀ"},{"code":"asm_Beng","name":"Assamese","script":"Bengali","speakers":15.31,"sentences":["মাজৰ আন বেটছমেনসকল, শচীন তেণ্ডুলকাৰ আৰু ৰাহুল দ্ৰাবিড়ে ভালকৈ পৰিৱেশন কৰিছিল আৰু যৌথভাৱে শতক ৰাণ অৰ্জন কৰিছীল৷","1 বছৰৰ সময়ত, এজন আক্ৰান্ত লোকে তেওঁৰ সংস্পৰ্শলৈ অহা  10 ৰ পৰা 15 জন লোকলৈ সংক্ৰমিত কৰে।","অন্তিম সংস্কাৰৰ অনুষ্ঠানত অংশগ্ৰহণ কৰিবলৈ চাৰি মিলিয়ন লোক ৰোমলৈ গৈছিল।"],"native":"অসমীয়া"},{"code":"mai_Deva","name":"Maithili","script":"Devanagari","speakers":13.58,"sentences":["मध्यक्रम के बल्लेबाज सचिन तेंदुलकर आ राहुल द्रविड़ नीक प्रदर्शन करैत सौ रनक साझेदारी केलथि।","एक साल मे एकटा संक्रमित व्यक्ति 10 सँ 15 करीबी लोक कें संक्रमित कए सकैत अछि।","अंतिम संस्कार मे शामिल होएबाक लेल चालीस लाख सँ बेसी लोक सभ रोम गेल छल।"],"native":"मैथिली"},{"code":"sat_Olck","name":"Santali","script":"Ol Chiki","speakers":7.37,"sentences":["ᱛᱟᱞᱟᱨᱤᱱ ᱵᱟᱞᱞᱮᱵᱟᱡ ᱥᱟᱪᱤᱱ ᱛᱮᱸᱫᱩᱞᱠᱟᱨ ᱟᱨ ᱨᱟᱦᱩᱞ ᱫᱽᱨᱟᱣᱤᱲ ᱠᱤᱱ ᱱᱟᱯᱟᱭ ᱯᱚᱨᱫᱚᱨᱥᱚᱱ ᱠᱚᱨᱟᱣ ᱛᱩᱞᱩᱡ ᱢᱤᱫ ᱥᱟᱭ ᱨᱚᱱ ᱨᱮᱱᱟᱜ ᱥᱟᱡᱷᱟ ᱠᱮᱫᱟ᱾","ᱢᱤᱫ ᱥᱮᱨᱢᱟ ᱨᱮ ᱢᱤᱫ ᱤᱱᱯᱷᱮᱠᱴᱮᱰ ᱦᱚᱲ ᱥᱩᱨᱼᱥᱩᱯᱩᱨ ᱑᱐ ᱠᱷᱚᱱ ᱑᱕ ᱦᱚᱲ ᱮ ᱤᱱᱯᱷᱮᱠᱴ ᱫᱟᱲᱮᱭᱟᱠᱚᱣᱟ᱾","ᱵᱷᱟᱱᱫᱟᱱ ᱨᱮ ᱥᱮᱞᱮᱫᱚᱜ ᱞᱟᱹᱜᱤᱫ ᱯᱳᱱ ᱢᱤᱞᱤᱭᱚᱱ ᱠᱷᱚᱱ ᱦᱚᱸ ᱰᱷᱮᱨ ᱦᱚᱲ ᱨᱚᱢ ᱛᱮᱠᱚ ᱪᱟᱞᱟᱣ ᱮᱱᱟ᱾"],"native":"ᱥᱟᱱᱛᱟᱲᱤ"},{"code":"kas_Arab","name":"Kashmiri","script":"Perso-Arabic","speakers":6.8,"sentences":["مڈل آرڈر بیٹسمین سچن ٹنڈولکر تہٕ راہول ڈریوڈن کور واریاہ اصل کارکردگی ہُند مظٲہرہ کرتھ ہتھ رنزن ہٕنز شراکت قٲیم۔","أکِس ؤریَس منٛز ، ہیٚکہِ  متاثرٕ شخص 10 پیٚٹھٕ 15 قریبی رٲبطَن متاثر کٔرِتھ۔","جنازس منز شرکت کرنہ باپتھ گٔیی 40 لاچھ کھوتہ زائد لوکھ روٗم۔"],"native":"کٲشُر"},{"code":"kas_Deva","name":"Kashmiri (Devanagari)","script":"Devanagari","speakers":0.0,"sentences":["मिडल ऑर्डर बैट्स्मन सचिन तेंडुलकर (Sachin Tendulkar) ति राहुल डरेविड (Rahul Dravid) हो कोर ओंदाह करकर्दगी हुनद मुज़ाहिराह हातं रन हन हिंज़ शरक्त कारीख।","अकिस वरियस मंज़ हेकि अख इन्फेक्शन लद इंसान 10 पेठ 15 हन नजदीकी राबितह वालयन इन्फेक्शन लारविथ। ","जिनाज़स मंज़ शिरकत बापथ गय 40 लाच खोत ज़्याद लूख रूम।"],"native":"कॉशुर"},{"code":"npi_Deva","name":"Nepali","script":"Devanagari","speakers":2.93,"sentences":["मध्यक्रमका ब्याट्सम्यान सचिन टेन्डुलकर (Sachin Tendulkar) र राहुल द्राविड (Rahul Dravid)ले राम्रो प्रदर्शन गरेर सय रनको साझेदारी गरे।","एक वर्षमा संक्रमित व्यक्तिले 10 देखि 15 नजिकका सम्पर्कहरूलाई संक्रमित गर्न सक्छ।","चार मिलियनभन्दा बढी मानिसहरू अन्त्येष्टिमा भाग लिन रोम गए।"],"native":"नेपाली"},{"code":"snd_Arab","name":"Sindhi","script":"Perso-Arabic","speakers":2.77,"sentences":["مڊل آرڊر بيٽسمين سچن ٽندولڪر ۽ راهول ڊريوڊ سٺي ڪارڪردگي ڏيکاريندي هڪ سؤ رنسن جي پارٽنرشپ ٺاهي.","هڪ سال جي عرصي ۾، هڪ متاثر ٿيندڙ شخص 10 کان 15 ويجهن رابطن کي متاثر ڪري سگهي ٿو.","جنازي ۾ شريڪ ٿيڻ لاءِ چاليهہ لک کان وڌيڪ ماڻهو روم ويا."],"native":"سنڌي"},{"code":"mni_Beng","name":"Manipuri","script":"Bengali","speakers":1.76,"sentences":["ময়ায় থংবা মফমদা লৈবা বেৎসমেন, সচিন তেন্দুলকর অমসুং রাহুল দ্রাবিদনা নীংথিজনা শান্নখি অমসুং মখোয় অনি পুন্দুনা রন চাম্মগী খোঙলোয় শেমখি।","অনাবা মীওই অমনা চহি অমগী মনুংদা মহাক্কা নক্নবা মীওই 10দগী 15 ফাওবদা শন্দোকপা য়াই।","অরোইবা মথৌ-মঙম য়াওনবগীদমক্তা মীওই মিলিয়ন মরি হেনবনা রোমদা চৎখি।"],"native":"মৈতৈলোন্"},{"code":"san_Deva","name":"Sanskrit","script":"Devanagari","speakers":0.02,"sentences":["मध्यक्रमस्य वल्लकपटू सचिनतेण्डुलकरमहोदयः राहुलद्रविडमहोदयः च उत्तमं क्रीडितवन्तौ तथा च शतधावनानां सहयोगदानं कृतवन्तौ।","एकस्मिन् वर्षे एव सङ्क्रमितः जनः 10-15 सन्निहितान् जनान् सङ्क्रामयितुं शक्नोति।","चत्वारिंशत्लक्षाधिकाः जनाः अन्त्येष्यां सहभागिनः भवितुं रोमनगरम् अगच्छन्।"],"native":"संस्कृतम्"},{"code":"bho_Deva","name":"Bhojpuri","script":"Devanagari","speakers":0.0,"sentences":["मिडिल ऑर्डर के बल्लेबाज सचिन तेंदुलकर अउरी राहुल द्रविड़ अच्छा खेललन, अउरी सौ रन के साझेदारी कइलन.","एक्के साल में छूत लागल एगो आदमी अपने संपर्क में आवे वाला 10 से 15 लोगन के ई बीमारी दे सकेला.","चालीस लाख से ज़्यादा लोग शव यात्रा में शामिल होखेला रोम गइल."],"native":"भोजपुरी"},{"code":"awa_Deva","name":"Awadhi","script":"Devanagari","speakers":0.0,"sentences":["मध्यक्रम का बल्लेबाज सचिन तेंदुलकर अऊर राहुल द्रविड़ अच्छा खेलिन अऊर सौ रन की साझेदारी किहिन।","एक साल मा एक संक्रमित व्यक्ति 10 से 15 करीबी लोगन का संक्रमित कर सकथे।","अंतिम संस्कार मा शामिल होई की खातिर 40 लाख से अधिक लोग रोम गए रहे।"],"native":"अवधी"},{"code":"mag_Deva","name":"Magahi","script":"Devanagari","speakers":0.0,"sentences":["मध्यक्रम के बल्लेबाज सचिन तेंदुलकर आऊर राहुल द्रविड़ अच्छा प्रदर्शन करके सौ रन के साझेदारी कलकई।","एगो साल में एगो संक्रमित व्यक्ति 10 से 15 करीबी लोगन के संक्रमित कर सकई हय।","अंतिम संस्कार में शामिल होए के लेल चार मिलियन से अधिक लोगन रोम गेल रहलई।"],"native":"मगही"},{"code":"hne_Deva","name":"Chhattisgarhi","script":"Devanagari","speakers":0.0,"sentences":["मध्य आदेश बल्लेबाज, सचिन तेंदुलकर अउ राहुल द्रविड़ ह अच्छी तरह से प्रदर्शन करिस अउ सौ रन साझेदारी करीन।","एक साल म संक्रमित व्यक्ति 10 ले 15 करीबी लोग मन ला संक्रमित कर सकत हवे।","अंतिम संस्कार में भाग लेने बर चार मिलियन से अधिक लोग रोम गिन रहिस।"],"native":"छत्तीसगढ़ी"}],"tokenizers":[{"id":"lipi96k","label":"lipi-Indic 96K","used_by":"Qwen 2.5 extended with 96,000 Indian-language tokens (this project)","vocab":247665,"tax":{"eng_Latn":1.0,"hin_Deva":1.267,"ben_Beng":1.251,"mar_Deva":1.239,"tel_Telu":1.329,"tam_Taml":1.353,"guj_Gujr":1.358,"urd_Arab":1.381,"kan_Knda":1.373,"ory_Orya":1.352,"mal_Mlym":1.456,"pan_Guru":1.437,"asm_Beng":1.283,"mai_Deva":1.251,"sat_Olck":1.521,"kas_Arab":1.844,"kas_Deva":1.724,"npi_Deva":1.16,"snd_Arab":1.302,"mni_Beng":1.41,"san_Deva":1.321,"bho_Deva":1.281,"awa_Deva":1.259,"mag_Deva":1.277,"hne_Deva":1.281},"weighted":1.305},{"id":"o200k","label":"GPT-4o / GPT-5","used_by":"GPT-4o, GPT-4.1, o1/o3/o4, gpt-oss","vocab":200019,"tax":{"eng_Latn":1.0,"hin_Deva":1.574,"ben_Beng":1.697,"mar_Deva":1.822,"tel_Telu":1.93,"tam_Taml":1.98,"guj_Gujr":1.791,"urd_Arab":1.653,"kan_Knda":1.971,"ory_Orya":4.985,"mal_Mlym":1.957,"pan_Guru":2.618,"asm_Beng":1.989,"mai_Deva":1.759,"sat_Olck":13.7,"kas_Arab":2.609,"kas_Deva":2.234,"npi_Deva":1.614,"snd_Arab":1.71,"mni_Beng":3.073,"san_Deva":2.089,"bho_Deva":1.772,"awa_Deva":1.707,"mag_Deva":1.717,"hne_Deva":1.729},"weighted":1.924},{"id":"gemma3","label":"Gemini","used_by":"Gemma 3's tokenizer, reported to be Gemini's","vocab":262145,"tax":{"eng_Latn":1.0,"hin_Deva":1.311,"ben_Beng":1.211,"mar_Deva":1.402,"tel_Telu":1.776,"tam_Taml":1.469,"guj_Gujr":1.86,"urd_Arab":1.518,"kan_Knda":1.927,"ory_Orya":3.511,"mal_Mlym":1.848,"pan_Guru":2.694,"asm_Beng":2.006,"mai_Deva":1.639,"sat_Olck":5.251,"kas_Arab":2.359,"kas_Deva":1.939,"npi_Deva":1.529,"snd_Arab":2.025,"mni_Beng":2.51,"san_Deva":1.774,"bho_Deva":1.575,"awa_Deva":1.469,"mag_Deva":1.477,"hne_Deva":1.489},"weighted":1.584},{"id":"llama4","label":"Llama 4","used_by":"Llama 4 Scout and Maverick","vocab":201135,"tax":{"eng_Latn":1.0,"hin_Deva":1.651,"ben_Beng":2.054,"mar_Deva":1.909,"tel_Telu":2.83,"tam_Taml":3.749,"guj_Gujr":2.512,"urd_Arab":1.887,"kan_Knda":2.472,"ory_Orya":8.423,"mal_Mlym":2.766,"pan_Guru":3.132,"asm_Beng":3.286,"mai_Deva":2.054,"sat_Olck":9.396,"kas_Arab":2.814,"kas_Deva":2.394,"npi_Deva":1.828,"snd_Arab":2.088,"mni_Beng":3.37,"san_Deva":2.187,"bho_Deva":1.954,"awa_Deva":1.822,"mag_Deva":1.865,"hne_Deva":1.884},"weighted":2.371},{"id":"qwen3","label":"Qwen 2.5 / Qwen 3","used_by":"Qwen 2.5, Qwen 3","vocab":151669,"tax":{"eng_Latn":1.0,"hin_Deva":4.416,"ben_Beng":5.026,"mar_Deva":4.622,"tel_Telu":6.994,"tam_Taml":6.112,"guj_Gujr":6.738,"urd_Arab":3.148,"kan_Knda":6.923,"ory_Orya":9.699,"mal_Mlym":7.226,"pan_Guru":7.277,"asm_Beng":5.386,"mai_Deva":4.386,"sat_Olck":8.92,"kas_Arab":3.468,"kas_Deva":4.37,"npi_Deva":4.415,"snd_Arab":2.845,"mni_Beng":5.608,"san_Deva":4.511,"bho_Deva":4.301,"awa_Deva":4.305,"mag_Deva":4.19,"hne_Deva":4.213},"weighted":5.28},{"id":"deepseek3","label":"DeepSeek-V3","used_by":"DeepSeek-V3, DeepSeek-R1","vocab":128815,"tax":{"eng_Latn":1.0,"hin_Deva":2.795,"ben_Beng":2.017,"mar_Deva":3.002,"tel_Telu":3.743,"tam_Taml":3.07,"guj_Gujr":3.862,"urd_Arab":2.365,"kan_Knda":3.688,"ory_Orya":5.546,"mal_Mlym":4.416,"pan_Guru":4.475,"asm_Beng":2.694,"mai_Deva":3.121,"sat_Olck":6.419,"kas_Arab":3.051,"kas_Deva":3.207,"npi_Deva":2.967,"snd_Arab":2.889,"mni_Beng":3.279,"san_Deva":2.86,"bho_Deva":2.909,"awa_Deva":2.9,"mag_Deva":2.884,"hne_Deva":2.91},"weighted":3.106},{"id":"cl100k","label":"GPT-4","used_by":"GPT-4, GPT-3.5, Phi-4","vocab":100277,"tax":{"eng_Latn":1.0,"hin_Deva":4.759,"ben_Beng":5.799,"mar_Deva":5.055,"tel_Telu":8.288,"tam_Taml":7.644,"guj_Gujr":7.662,"urd_Arab":4.34,"kan_Knda":8.859,"ory_Orya":12.401,"mal_Mlym":8.937,"pan_Guru":7.851,"asm_Beng":6.152,"mai_Deva":4.876,"sat_Olck":12.738,"kas_Arab":4.604,"kas_Deva":4.662,"npi_Deva":4.765,"snd_Arab":3.982,"mni_Beng":6.709,"san_Deva":4.943,"bho_Deva":4.681,"awa_Deva":4.746,"mag_Deva":4.683,"hne_Deva":4.668},"weighted":6.087},{"id":"llama3","label":"Llama 3","used_by":"Llama 3, 3.1, 3.2, 3.3","vocab":128256,"tax":{"eng_Latn":1.0,"hin_Deva":2.522,"ben_Beng":5.758,"mar_Deva":2.805,"tel_Telu":8.291,"tam_Taml":7.647,"guj_Gujr":7.665,"urd_Arab":3.074,"kan_Knda":8.86,"ory_Orya":12.163,"mal_Mlym":8.935,"pan_Guru":7.813,"asm_Beng":6.114,"mai_Deva":2.588,"sat_Olck":12.743,"kas_Arab":3.297,"kas_Deva":2.651,"npi_Deva":2.583,"snd_Arab":2.859,"mni_Beng":6.67,"san_Deva":2.639,"bho_Deva":2.591,"awa_Deva":2.535,"mag_Deva":2.56,"hne_Deva":2.476},"weighted":4.802},{"id":"tekken","label":"Mistral Tekken","used_by":"Mistral NeMo","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"mistral3","label":"Mistral v0.3","used_by":"Mistral 7B v0.3","vocab":32768,"tax":{"eng_Latn":1.0,"hin_Deva":4.554,"ben_Beng":4.899,"mar_Deva":4.667,"tel_Telu":7.18,"tam_Taml":5.844,"guj_Gujr":8.634,"urd_Arab":4.301,"kan_Knda":6.27,"ory_Orya":11.975,"mal_Mlym":10.822,"pan_Guru":10.403,"asm_Beng":5.676,"mai_Deva":4.604,"sat_Olck":12.329,"kas_Arab":4.421,"kas_Deva":4.468,"npi_Deva":4.441,"snd_Arab":4.312,"mni_Beng":5.353,"san_Deva":4.603,"bho_Deva":4.429,"awa_Deva":4.441,"mag_Deva":4.393,"hne_Deva":4.374},"weighted":5.755},{"id":"sarvamm","label":"Sarvam-M","used_by":"Sarvam-M (Sarvam AI, from Mistral Small 3.1)","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"sarvam1","label":"Sarvam-1","used_by":"Sarvam-1","vocab":68096,"tax":{"eng_Latn":1.0,"hin_Deva":1.144,"ben_Beng":1.282,"mar_Deva":1.077,"tel_Telu":1.154,"tam_Taml":1.158,"guj_Gujr":1.203,"urd_Arab":7.391,"kan_Knda":1.218,"ory_Orya":1.464,"mal_Mlym":1.357,"pan_Guru":1.387,"asm_Beng":2.922,"mai_Deva":1.479,"sat_Olck":11.773,"kas_Arab":7.271,"kas_Deva":1.954,"npi_Deva":1.541,"snd_Arab":6.757,"mni_Beng":2.637,"san_Deva":1.608,"bho_Deva":1.402,"awa_Deva":1.287,"mag_Deva":1.297,"hne_Deva":1.294},"weighted":1.601},{"id":"krutrim2","label":"Krutrim-2","used_by":"Krutrim-2 (Ola Krutrim)","vocab":131072,"tax":{"eng_Latn":1.0,"hin_Deva":1.797,"ben_Beng":2.052,"mar_Deva":2.149,"tel_Telu":2.261,"tam_Taml":2.178,"guj_Gujr":2.723,"urd_Arab":1.754,"kan_Knda":2.21,"ory_Orya":12.867,"mal_Mlym":2.563,"pan_Guru":2.967,"asm_Beng":3.282,"mai_Deva":2.261,"sat_Olck":12.443,"kas_Arab":2.612,"kas_Deva":2.451,"npi_Deva":2.129,"snd_Arab":2.497,"mni_Beng":3.387,"san_Deva":2.287,"bho_Deva":2.083,"awa_Deva":2.034,"mag_Deva":2.043,"hne_Deva":2.029},"weighted":2.471},{"id":"bloom","label":"BLOOM","used_by":"BLOOM, BLOOMZ","vocab":250680,"tax":{"eng_Latn":1.0,"hin_Deva":1.282,"ben_Beng":1.176,"mar_Deva":1.219,"tel_Telu":1.328,"tam_Taml":1.284,"guj_Gujr":1.353,"urd_Arab":1.355,"kan_Knda":1.302,"ory_Orya":1.368,"mal_Mlym":1.383,"pan_Guru":1.443,"asm_Beng":1.407,"mai_Deva":1.557,"sat_Olck":12.621,"kas_Arab":2.345,"kas_Deva":1.851,"npi_Deva":1.175,"snd_Arab":2.492,"mni_Beng":2.354,"san_Deva":1.623,"bho_Deva":1.535,"awa_Deva":1.425,"mag_Deva":1.449,"hne_Deva":1.435},"weighted":1.377},{"id":"nllb","label":"NLLB-200","used_by":"NLLB-200 (translation)","vocab":256204,"tax":{"eng_Latn":1.0,"hin_Deva":1.213,"ben_Beng":1.277,"mar_Deva":1.264,"tel_Telu":1.327,"tam_Taml":1.416,"guj_Gujr":1.346,"urd_Arab":1.29,"kan_Knda":1.365,"ory_Orya":1.371,"mal_Mlym":1.492,"pan_Guru":1.499,"asm_Beng":1.376,"mai_Deva":1.238,"sat_Olck":2.479,"kas_Arab":1.815,"kas_Deva":1.687,"npi_Deva":1.172,"snd_Arab":1.332,"mni_Beng":1.732,"san_Deva":1.398,"bho_Deva":1.272,"awa_Deva":1.209,"mag_Deva":1.22,"hne_Deva":1.244},"weighted":1.294},{"id":"indicbert2","label":"IndicBERT v2","used_by":"IndicBERT v2 (AI4Bharat)","vocab":250000,"tax":{"eng_Latn":1.0,"hin_Deva":1.171,"ben_Beng":1.015,"mar_Deva":1.048,"tel_Telu":1.063,"tam_Taml":1.05,"guj_Gujr":1.169,"urd_Arab":1.357,"kan_Knda":1.098,"ory_Orya":1.159,"mal_Mlym":1.104,"pan_Guru":1.28,"asm_Beng":1.136,"mai_Deva":1.231,"sat_Olck":1.961,"kas_Arab":2.025,"kas_Deva":1.648,"npi_Deva":1.09,"snd_Arab":1.538,"mni_Beng":2.172,"san_Deva":1.296,"bho_Deva":1.39,"awa_Deva":1.29,"mag_Deva":1.3,"hne_Deva":1.326},"weighted":1.153}],"sentence_ids":[66,100,59]}</script>
 <script>
 (function () {
   var D = JSON.parse(document.getElementById("data").textContent);
@@ -229,19 +307,19 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function fx(v) { return v.toFixed(2) + "×"; }
 
-  /* theme toggle, shared with the portfolio */
+  /* theme toggle: paper by default, ink on request */
   var themeBtn = document.getElementById("theme");
-  function current() { var a = document.documentElement.getAttribute("data-theme"); return a || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"); }
-  function label() { themeBtn.textContent = current() === "dark" ? "Light" : "Dark"; }
+  function current() { var a = document.documentElement.getAttribute("data-theme"); return a || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function label() { themeBtn.textContent = current() === "dark" ? "Paper" : "Ink"; }
   themeBtn.addEventListener("click", function () {
     var next = current() === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("sk-theme", next); } catch (e) {}
+    try { localStorage.setItem("tt-theme", next); } catch (e) {}
     label();
   });
   label();
 
-  /* ---------- chart ---------- */
+  /* ---------- ledger chart ---------- */
   var modelSel = document.getElementById("model");
   toks.slice(1).forEach(function (t) {
     var o = document.createElement("option"); o.value = t.id; o.textContent = t.label + " (" + t.used_by + ")"; modelSel.appendChild(o);
@@ -256,25 +334,31 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
     document.getElementById("legend").innerHTML =
       '<span><i style="background:var(--model)"></i>' + esc(m.label) + '</span><span><i style="background:var(--lipi)"></i>lipi-Indic 96K</span>';
     var rows = indic.slice().sort(function (a, b) { return m.tax[b.code] - m.tax[a.code]; });
-    var W = Math.max(320, chart.clientWidth), narrow = W < 560;
-    var L = narrow ? 104 : 168, R = 46, top = 26, rowH = narrow ? 26 : 28, bar = narrow ? 9 : 10, gap = 2;
+    var W = Math.max(300, chart.clientWidth), narrow = W < 560;
+    var L = narrow ? 112 : 236, R = 50, top = 24, rowH = narrow ? 28 : 32, bar = narrow ? 9 : 11, gap = 2;
     var H = top + rows.length * rowH + 8, pw = W - L - R;
     function X(v) { return L + Math.min(v, XMAX) / XMAX * pw; }
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Token tax per Indian language for ' + esc(m.label) + ' and lipi-Indic 96K">';
     for (var g = 0; g <= XMAX; g += narrow ? 4 : 2) {
       s += '<line class="grid" x1="' + X(g) + '" x2="' + X(g) + '" y1="' + (top - 6) + '" y2="' + (H - 4) + '"/>';
-      s += '<text x="' + X(g) + '" y="' + (top - 12) + '" text-anchor="middle">' + g + '×</text>';
+      s += '<text x="' + X(g) + '" y="' + (top - 11) + '" text-anchor="middle">' + g + '×</text>';
     }
     s += '<line class="ref" x1="' + X(1) + '" x2="' + X(1) + '" y1="' + (top - 6) + '" y2="' + (H - 4) + '"/>';
     rows.forEach(function (l, i) {
       var y = top + i * rowH, cy = y + rowH / 2;
       var mv = m.tax[l.code], lv = lipi.tax[l.code];
       var y1 = cy - bar - gap / 2, y2 = cy + gap / 2;
-      s += '<text class="lname" x="' + (L - 10) + '" y="' + (cy + 4) + '" text-anchor="end">' + esc(narrow ? l.name.replace(" (Devanagari)", " (Deva.)") : l.name) + '</text>';
+      var nm = narrow ? l.name.replace(" (Devanagari)", " (Deva.)") : l.name;
+      if (narrow) {
+        s += '<text class="lname" x="' + (L - 10) + '" y="' + (cy + 5) + '" text-anchor="end">' + esc(nm) + '</text>';
+      } else {
+        s += '<text class="native" x="' + (L - 12) + '" y="' + (cy + 5) + '" text-anchor="end">' + esc(l.native) + '</text>';
+        s += '<text class="lname" x="0" y="' + (cy + 5) + '">' + esc(nm) + '</text>';
+      }
       s += barPath(L, y1, X(mv) - L, bar, "var(--model)");
       s += barPath(L, y2, X(lv) - L, bar, "var(--lipi)");
       s += '<text class="val" x="' + (X(mv) + 6) + '" y="' + (y1 + bar - 1) + '">' + mv.toFixed(2) + '</text>';
-      s += '<rect class="row-hit" data-i="' + i + '" x="0" y="' + y + '" width="' + W + '" height="' + rowH + '" rx="4"/>';
+      s += '<rect class="row-hit" data-i="' + i + '" x="0" y="' + y + '" width="' + W + '" height="' + rowH + '"/>';
     });
     s += '</svg>';
     chart.innerHTML = s; chart.appendChild(tip);
@@ -283,7 +367,8 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
         var l = rows[+r.dataset.i];
         chart.querySelectorAll(".row-hit.on").forEach(function (e) { e.classList.remove("on"); });
         r.classList.add("on");
-        tip.innerHTML = "<b>" + esc(l.name) + "</b>" + (l.script !== l.name ? " · " + esc(l.script) + " script" : "") + (l.speakers ? "<br><span style='color:var(--muted)'>" + l.speakers.toFixed(1) + " million speakers</span>" : "") +
+        tip.innerHTML = "<b>" + esc(l.name) + "</b> <span style='font-family:var(--script);color:var(--ink-3)'>" + esc(l.native) + "</span>" +
+          "<br><span style='color:var(--ink-3)'>" + esc(l.script) + " script" + (l.speakers ? " · " + l.speakers.toFixed(1) + " million speakers" : "") + "</span>" +
           "<br><span class='k' style='background:var(--model)'></span>" + esc(m.label) + "<span class='n'>" + fx(m.tax[l.code]) + "</span>" +
           "<br><span class='k' style='background:var(--lipi)'></span>lipi-Indic 96K<span class='n'>" + fx(lipi.tax[l.code]) + "</span>";
         tip.hidden = false;
@@ -305,9 +390,9 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
     t += "<tr><td><b>Weighted by speakers</b></td><td></td>" + toks.map(function (k) { return "<td><b>" + k.weighted.toFixed(2) + "</b></td>"; }).join("") + "</tr></tbody></table>";
     document.getElementById("table").innerHTML = t;
   }
-  /* bar with 4px rounded data end, square at the baseline */
+  /* bar with a 3px rounded data end, square at the baseline */
   function barPath(x, y, w, h, fill) {
-    w = Math.max(w, 2); var r = Math.min(4, w / 2, h / 2);
+    w = Math.max(w, 2); var r = Math.min(3, w / 2, h / 2);
     return '<path fill="' + fill + '" d="M' + x + ',' + y + 'h' + (w - r) + 'a' + r + ',' + r + ' 0 0 1 ' + r + ',' + r + 'v' + (h - 2 * r) + 'a' + r + ',' + r + ' 0 0 1 -' + r + ',' + r + 'h-' + (w - r) + 'z"/>';
   }
   modelSel.addEventListener("change", drawChart);
@@ -316,31 +401,31 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
 
   /* ---------- live tokenizers ---------- */
   var LIVE = [
-    { id: "gpt", repo: "Xenova/gpt-4o", label: "GPT-4o / GPT-5", meta: "o200k_base, 200K tokens" },
-    { id: "qwen", repo: "Qwen/Qwen2.5-0.5B", label: "Qwen 2.5", meta: "as shipped, 152K tokens" },
-    { id: "lipi", repo: "Shakhtar-Sankur/lipi-indic-96k", label: "lipi-Indic 96K", meta: "Qwen 2.5 + 96K Indian-language tokens" }
+    { id: "gpt", repo: "Xenova/gpt-4o", label: "GPT-4o / GPT-5", meta: "o200k_base · 200K tokens" },
+    { id: "qwen", repo: "Qwen/Qwen2.5-0.5B", label: "Qwen 2.5", meta: "as shipped · 152K tokens" },
+    { id: "lipi", repo: "Shakhtar-Sankur/lipi-indic-96k", label: "lipi-Indic 96K", meta: "Qwen 2.5 + 96K Indian tokens" }
   ];
   var langSel = document.getElementById("lang"), sents = document.getElementById("sents"), text = document.getElementById("text");
   var live = document.getElementById("live");
-  langs.forEach(function (l) { var o = document.createElement("option"); o.value = l.code; o.textContent = l.name; langSel.appendChild(o); });
+  langs.forEach(function (l) { var o = document.createElement("option"); o.value = l.code; o.textContent = l.code === "eng_Latn" ? "English" : l.name + " · " + l.native; langSel.appendChild(o); });
   langSel.value = "ory_Orya";
   var sentIdx = 0;
   function preset() { return byCode[langSel.value].sentences[sentIdx]; }
   function drawSentButtons() {
     sents.innerHTML = "";
     D.sentence_ids.forEach(function (sid, i) {
-      var b = document.createElement("button"); b.type = "button"; b.className = "pill"; b.textContent = "#" + (sid + 1);
-      b.title = english.sentences[i]; b.setAttribute("aria-pressed", String(i === sentIdx));
+      var b = document.createElement("button"); b.type = "button"; b.className = "pill"; b.textContent = "No. " + (sid + 1);
+      b.title = english.sentences[i]; b.setAttribute("aria-pressed", String(i === sentIdx && text.value === preset()));
       b.addEventListener("click", function () { sentIdx = i; text.value = preset(); setDir(); drawSentButtons(); run(); });
       sents.appendChild(b);
     });
   }
   function setDir() { text.dir = /Arab/.test(langSel.value) ? "rtl" : "ltr"; }
-  langSel.addEventListener("change", function () { text.value = preset(); setDir(); run(); });
-  drawSentButtons(); text.value = preset(); setDir();
+  langSel.addEventListener("change", function () { text.value = preset(); setDir(); drawSentButtons(); run(); });
+  text.value = preset(); setDir(); drawSentButtons();
 
   live.innerHTML = LIVE.map(function (k) {
-    return '<div class="trow"><div class="who"><b>' + esc(k.label) + '</b><span class="meta">' + esc(k.meta) + '</span><span class="count" id="c-' + k.id + '">…</span><span class="ratio" id="r-' + k.id + '"></span></div><div class="toks" id="t-' + k.id + '"><span class="status">Loading…</span></div></div>';
+    return '<div class="trow ' + k.id + '"><div class="who"><b>' + esc(k.label) + '</b><span class="meta">' + esc(k.meta) + '</span><span class="count" id="c-' + k.id + '">…</span><span class="ratio" id="r-' + k.id + '"></span></div><div class="toks" id="t-' + k.id + '"><span class="status">Loading…</span></div></div>';
   }).join("");
 
   var tk = {}, ready = false;
@@ -416,7 +501,7 @@ footer p { margin: 0 0 8px; max-width: 52rem; }
   }).catch(function (e) {
     LIVE.forEach(function (k) {
       document.getElementById("c-" + k.id).textContent = "–";
-      document.getElementById("t-" + k.id).innerHTML = '<span class="status">Could not load the tokenizers from Hugging Face (' + esc(e && e.message || e) + '). The chart below works without them.</span>';
+      document.getElementById("t-" + k.id).innerHTML = '<span class="status">Could not load the tokenizers from Hugging Face (' + esc(e && e.message || e) + '). The ledger below works without them.</span>';
     });
   });
 })();
