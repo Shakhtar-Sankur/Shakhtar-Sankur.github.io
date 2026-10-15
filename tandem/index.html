@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tandem — distributed training on its own collectives</title>
+<meta name="description" content="Distributed training from scratch on its own collectives, with no torch.distributed and no NCCL: DDP, ZeRO-1/2/3 and GPipe/1F1B pipelines whose losses and weights match PyTorch&#x27;s DDP and FSDP to the last bit on two T4s.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/tandem/">
+<meta property="og:title" content="tandem: DDP, ZeRO and pipeline parallelism from scratch, bit-identical to PyTorch">
+<meta property="og:description" content="Distributed training from scratch on its own collectives, with no torch.distributed and no NCCL: DDP, ZeRO-1/2/3 and GPipe/1F1B pipelines whose losses and weights match PyTorch&#x27;s DDP and FSDP to the last bit on two T4s.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%23FFF8F0'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%235B3DF5'>T</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"tandem","description":"Distributed training from scratch on its own collectives, with no torch.distributed and no NCCL: DDP, ZeRO-1/2/3 and GPipe/1F1B pipelines whose losses and weights match PyTorch&#x27;s DDP and FSDP to the last bit on two T4s.","codeRepository":"https://github.com/Shakhtar-Sankur/tandem","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/tandem/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+:root { --bg:#FFF8F0;--panel:#FFFFFF;--line:#EADFD2;--text:#1A1033;--muted:#5E5470;--accent:#5B3DF5;--accent-ink:#4B2FE0;--on-accent:#FFFFFF;--track:#F1E8DD;--bar-muted:#C2B5A6;--r:999px;--rule:2px solid #1A1033;--display:'Archivo',sans-serif;--body:'Archivo',system-ui,sans-serif;--mono:'Spline Sans Mono',ui-monospace,monospace;--num-font:900 38px 'Archivo',sans-serif;--h3-font:800 20px/1.2 'Archivo',sans-serif;color-scheme:light; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1{font:900 clamp(54px,9vw,112px)/.88 var(--display);font-stretch:125%;letter-spacing:-.02em;text-transform:uppercase}
+h1 span{color:var(--accent)}
+h2{font:900 clamp(30px,4.4vw,52px)/1 var(--display);font-stretch:118%;letter-spacing:-.01em;margin:0 0 10px;text-transform:uppercase}
+.panel,.results,.proof a,.cite pre,.limits{border-radius:18px}
+.results div{padding:18px 20px}
+.ring{background:#1A1033;border-radius:18px;padding:12px}
+.ring svg{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/tandem" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">tandem · distributed training from scratch</p>
+    <h1>in <span>lockstep.</span></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 15 Oct 2026</span></span></p>
+    <p class="dek">The parallelisms behind large-model training, on PyTorch tensors and autograd but <b>with no torch.distributed and no NCCL</b>: its own ring all-reduce, reduce-scatter and all-gather underneath DDP, ZeRO-1, 2 and 3, and GPipe and 1F1B pipelines. On two T4 GPUs every one ends with <b>exactly PyTorch's weights</b>.</p>
+  </div>
+  <div><div class="ring"><svg viewBox="0 0 440 200" role="img" aria-label="Ring all-reduce among four GPUs"><circle cx="110" cy="100" r="70" fill="none" stroke="#5B3DF5" stroke-width="4" stroke-dasharray="10 8"/><circle cx="109.99974287564277" cy="30.00000000047224" r="22" fill="#1A1033"/><text x="109.99974287564277" y="35.00000000047224" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="13" fill="#FFF8F0">GPU0</text><circle cx="180.0" cy="100.0" r="22" fill="#1A1033"/><text x="180.0" y="105.0" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="13" fill="#FFF8F0">GPU1</text><circle cx="109.99974287564277" cy="169.99999999952774" r="22" fill="#1A1033"/><text x="109.99974287564277" y="174.99999999952774" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="13" fill="#FFF8F0">GPU2</text><circle cx="40.000000001888935" cy="99.99948575128553" r="22" fill="#1A1033"/><text x="40.000000001888935" y="104.99948575128553" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="13" fill="#FFF8F0">GPU3</text><g font-family="Spline Sans Mono, monospace" fill="#FFF8F0"><text x="220" y="70" font-size="15" font-weight="600">ring all-reduce</text><text x="220" y="96" font-size="12" fill="#C9BEFF">reduce-scatter, then all-gather</text><text x="220" y="118" font-size="12" fill="#C9BEFF">shared-memory rings, CUDA IPC</text><text x="220" y="140" font-size="12" fill="#C9BEFF">no NCCL anywhere</text></g></svg></div><div class="results"><div><b>0.0</b><span>Largest weight difference from PyTorch DDP and FSDP after 20 steps on two T4s, for DDP and ZeRO-1, 2 and 3</span></div><div><b>1.6–2.8<em>×</em></b><span>Faster all-reduce with the C++/CUDA engine than the Python one on a T4, 64 KB to 64 MB</span></div><div><b>±2<em>%</em></b><span>Of NCCL's all-reduce bandwidth at 64–256 MB with the Python engine across two T4s</span></div><div><b>17% / 32–52<em>%</em></b><span>Less memory per GPU with ZeRO-3 than DDP, and with 1F1B than GPipe, on an 86M-parameter GPT</span></div></div></div>
+</div>
+<section aria-labelledby="exact-h"><div class="sh"><div class="code">01 · Exactness</div><div><h2 id="exact-h">Bit-identical to PyTorch</h2><p>bench/run.py verify on two Tesla T4s: after 20 training steps, every mode ends with the same losses and weights as PyTorch.</p></div></div><div class="panel tbl"><table><thead><tr><th>tandem mode</th><th>Checked against</th><th>Weights</th></tr></thead><tbody>
+<tr class="me"><td>DDP</td><td>torch DDP (NCCL)</td><td>equal</td></tr><tr class="me"><td>ZeRO-1</td><td>torch DDP (NCCL)</td><td>equal</td></tr><tr class="me"><td>ZeRO-2</td><td>torch DDP (NCCL)</td><td>equal</td></tr><tr class="me"><td>ZeRO-3 (FSDP-style)</td><td>torch DDP (NCCL)</td><td>equal</td></tr><tr class="me"><td>Pipeline, 1F1B</td><td>one process</td><td>equal</td></tr></tbody></table>
+<p class="cap">torch FSDP matches torch DDP too, so ZeRO-3 is equal to both.</p></div></section><section aria-labelledby="engine-h"><div class="sh"><div class="code">02 · The C++ engine</div><div><h2 id="engine-h">Collectives without NCCL</h2><p>The collectives moved into a PyTorch C++ extension: lock-free single-producer, single-consumer rings in shared memory and a progress thread on the CPU; on GPUs, buffers shared through CUDA IPC, ordered by interprocess events and reduced by a fused CUDA kernel, so the host never waits for a piece.</p></div></div><div class="panel tbl"><table><thead><tr><th>All-reduce on a Tesla T4</th><th>Python engine</th><th>C++ engine</th><th>Speed-up</th></tr></thead><tbody>
+<tr><td>64 KB</td><td>1.79 ms</td><td>0.64 ms</td><td>2.8×</td></tr><tr><td>1 MB</td><td>1.53 ms</td><td>0.83 ms</td><td>1.9×</td></tr><tr><td>4 MB</td><td>1.65 ms</td><td>0.75 ms</td><td>2.2×</td></tr><tr><td>64 MB</td><td>10.00 ms</td><td>6.24 ms</td><td>1.6×</td></tr></tbody></table>
+<p class="cap">Results bit-identical between the two engines.</p></div></section><section aria-labelledby="parallel-h"><div class="sh"><div class="code">03 · Parallelisms</div><div><h2 id="parallel-h">Every way to split a model</h2><p>Each parallelism is built on the same three collectives, in the order Megatron-LM and FSDP use them.</p></div></div><div class="cols"><div class="panel"><h3>DDP, overlapped</h3><p>Gradient buckets reduced as backward fills them, so communication hides behind compute.</p></div>
+<div class="panel"><h3>ZeRO-1, 2 and 3</h3><p>Sharded optimizer state, gradients and, FSDP-style, parameters gathered just before use and prefetched: 17% less memory per GPU than DDP.</p></div>
+<div class="panel"><h3>GPipe and 1F1B</h3><p>Pipeline schedules in Megatron-LM's order; 1F1B uses 32–52% less memory than GPipe on an 86M-parameter GPT.</p></div></div></section>
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What tandem adds</div><div><h2 id="new-h">Large-model training, understood from the wire up</h2><p>What torch.distributed, NCCL, DeepSpeed and Megatron do, rebuilt so that every byte on the wire is accounted for.</p></div></div>
+<ol class="contrib"><li><h3>Own collectives</h3><p>Ring all-reduce, reduce-scatter and all-gather <b>within 2% of NCCL's bandwidth</b> at 64–256 MB.</p></li><li><h3>Every parallelism</h3><p>DDP, ZeRO-1/2/3 and GPipe/1F1B, <b>bit-identical to PyTorch</b> after 20 steps.</p></li><li><h3>A C++/CUDA engine</h3><p>Shared-memory rings, CUDA IPC and a fused reduce kernel: <b>1.6–2.8× faster</b>.</p></li><li><h3>Memory, measured</h3><p>ZeRO-3 <b>17% less</b> than DDP; 1F1B <b>32–52% less</b> than GPipe.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>tandem's DDP reaches 86% of PyTorch DDP's throughput, and the C++ engine has not yet been timed against NCCL across two GPUs.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/tandem" rel=noreferrer><small>Open source</small><span>tandem on GitHub</span><em>Collectives, parallelisms, C++ engine and benchmarks.</em></a><a href="../switchyard/"><small>Related</small><span>switchyard</span><em>Mixture-of-experts serving with peer-to-peer dispatch.</em></a><a href="#cite"><small>Cite</small><span>Software citation</span><em>Apache-2.0; reproduce every number from the repository.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026tandem,
+  author  = {Kundu, Sankur},
+  title   = {tandem: distributed training on its own collectives},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/tandem},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages; <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages; <a href="../ratchet/">ratchet</a>, RL post-training from scratch; <a href="../kessler/">kessler</a>, an independent space-traffic audit that runs every day. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>2× Tesla T4 (Kaggle): bench/run.py verify (20 steps, weights compared with torch DDP and FSDP), all-reduce timings on one T4 for the Python and C++ engines, 86M-parameter GPT for memory.</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>crucible — sandboxes where coding agents learn</title>
+<meta name="description" content="Every answer a model writes runs in its own disposable Linux sandbox, and the reward comes from tests it cannot fool: 0 of 9 reward hacks pass, against 4 of 9 for the usual grader. GRPO with it lifted MBPP pass@1 from 34.9% to 38.6% (three seeds, p = 0.013).">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/crucible/">
+<meta property="og:title" content="crucible: sandboxed rewards for RL on code, with graders a model cannot fool">
+<meta property="og:description" content="Every answer a model writes runs in its own disposable Linux sandbox, and the reward comes from tests it cannot fool: 0 of 9 reward hacks pass, against 4 of 9 for the usual grader. GRPO with it lifted MBPP pass@1 from 34.9% to 38.6% (three seeds, p = 0.013).">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%23F7F5FA'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%237A1FA2'>C</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Public+Sans:wght@400;500;600;700&family=Azeret+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"crucible","description":"Every answer a model writes runs in its own disposable Linux sandbox, and the reward comes from tests it cannot fool: 0 of 9 reward hacks pass, against 4 of 9 for the usual grader. GRPO with it lifted MBPP pass@1 from 34.9% to 38.6% (three seeds, p = 0.013).","codeRepository":"https://github.com/Shakhtar-Sankur/crucible","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/crucible/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-15"}</script>
+<style>
+:root { --bg:#F7F5FA;--panel:#FFFFFF;--line:#E2DCEB;--text:#1B1424;--muted:#5D5269;--accent:#7A1FA2;--accent-ink:#7A1FA2;--on-accent:#FFFFFF;--track:#EDE7F3;--bar-muted:#B7ABC4;--r:14px;--rule:1px solid #1B1424;--display:'Unbounded',sans-serif;--body:'Public Sans',system-ui,sans-serif;--mono:'Azeret Mono',ui-monospace,monospace;--num-font:800 30px 'Unbounded',sans-serif;--h3-font:700 18px/1.25 'Unbounded',sans-serif;color-scheme:light; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1{font:800 clamp(44px,7.4vw,92px)/.95 var(--display);letter-spacing:-.03em}
+h1 span{color:var(--accent)}
+h2{font:800 clamp(28px,4vw,46px)/1.02 var(--display);letter-spacing:-.02em;margin:0 0 10px}
+.nest{position:relative;padding:0}
+.nest div{border:2px solid var(--accent);border-radius:14px;padding:12px 12px 0;background:rgba(122,31,162,.035)}
+.nest div div{border-style:dashed}
+.nest span{display:block;font:600 11.5px var(--mono);color:var(--accent);letter-spacing:.04em;margin-bottom:8px}
+.nest .core{border:2px solid #1B1424;background:#1B1424;color:#F7F5FA;padding:14px;margin-bottom:12px;font:600 14px var(--mono);text-align:center;border-radius:10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/crucible" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">crucible · sandboxes for RL on code</p>
+    <h1>tests it <span>cannot fool.</span></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 15 Oct 2026</span></span></p>
+    <p class="dek">Training a model to write code with reinforcement learning means running its code thousands of times per step, safely. crucible builds a <b>disposable sandbox for every answer</b> from Linux primitives, with no virtual machines, and grades it with tests that <b>never share a process with the model's code</b>.</p>
+  </div>
+  <div><div class="nest" aria-label="Isolation layers around each answer"><div><span>user namespace · own user</span><div><span>mount · network · PID namespaces</span><div><span>resource limits · no capabilities</span><div><span>seccomp-BPF: no network</span><div class="core">the model's answer</div></div></div></div></div></div><div class="results"><div><b>34.9→38.6<em>%</em></b><span>MBPP pass@1 for Qwen2.5-Coder-0.5B after 100 GRPO steps on two T4s, mean of three seeds; paired test p = 0.013</span></div><div><b>0<em> of 9</em></b><span>Reward hacks that pass crucible's grader; the usual grader passes 4</span></div><div><b>4.5<em> ms</em></b><span>To fork a live sandbox in a state that takes 138 ms to rebuild (30×)</span></div><div><b>5.3<em> ms</em></b><span>To start a fully isolated sandbox: 526 sandboxes a second</span></div></div></div>
+</div>
+<section aria-labelledby="hacks-h"><div class="sh"><div class="code">01 · Reward hacking</div><div><h2 id="hacks-h">The grader a model cannot game</h2><p>Unit-test rewards invite reward hacking, so the asserts run outside the sandbox and only plain values come back from it. tests/test_grader.py tries nine hacks against both graders:</p></div></div><div class="panel tbl"><table><thead><tr><th>Hack</th><th>crucible</th><th>Usual grader</th></tr></thead><tbody>
+<tr><td>An always-equal object</td><td>fail</td><td>pass</td></tr><tr><td>Exiting before the tests run</td><td>fail</td><td>pass</td></tr><tr><td>Forged test output</td><td>fail</td><td>pass</td></tr><tr><td>sys.exit at import</td><td>fail</td><td>pass</td></tr>
+<tr class="me"><td>Hacks that earn the reward</td><td>0 of 9</td><td>4 of 9</td></tr></tbody></table>
+<p class="cap">During GRPO training every answer was also graded the usual way, to count the rewards a hack would have won.</p></div></section><section aria-labelledby="speed-h"><div class="sh"><div class="code">02 · Isolation at speed</div><div><h2 id="speed-h">Faster than a bare Python</h2><p>A warm process with the task's modules already imported forks each sandbox; a live sandbox can itself be forked mid-episode, its memory shared copy-on-write, so an agent can branch several attempts from one state. Four CPUs:</p></div></div><div class="panel"><div class="bars" role="img" aria-label="Time to start a sandbox. 8 branches of a 256 MB sandbox use 508 MB instead of 2,304 MB copied (bench/spawn.py, bench/fork.py)."><div class="r"><span>bare Python, no isolation</span><span class="t"><i style="width:100.0%"></i></span><span class="v">19.8 ms</span></div><div class="r me"><span>crucible, fully isolated</span><span class="t"><i style="width:26.8%"></i></span><span class="v">5.3 ms</span></div></div><p class="cap">Time to start a sandbox. 8 branches of a 256 MB sandbox use 508 MB instead of 2,304 MB copied (bench/spawn.py, bench/fork.py).</p></div></section><section aria-labelledby="rl-h"><div class="sh"><div class="code">03 · Training with it</div><div><h2 id="rl-h">RL on code, graded safely</h2><p>Served through OpenEnv's interface, crucible graded every answer in GRPO training on ratchet. MBPP, 499 test tasks, two Tesla T4s:</p></div></div><div class="panel tbl"><table><thead><tr><th>Greedy pass@1</th><th>Seed 0</th><th>Seed 1</th><th>Seed 2</th><th>Mean</th></tr></thead><tbody>
+<tr><td>Before training</td><td colspan="3" style="text-align:center">34.9%</td><td>34.9%</td></tr><tr class="me"><td>After 100 GRPO steps</td><td>38.9%</td><td>38.1%</td><td>38.9%</td><td>38.6%</td></tr>
+<tr><td>Tasks fixed / broken</td><td>44 / 24</td><td>48 / 32</td><td>48 / 28</td><td></td></tr></tbody></table>
+<p class="cap">Paired test over the 499 tasks: p = 0.013. 115 of the 140 fixes were answers that already ran and gave wrong results: the gain is mostly correctness, not formatting (scripts/pool_m3.py).</p></div></section>
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What crucible adds</div><div><h2 id="new-h">Safe rewards for code-writing models</h2><p>The infrastructure that RL on code depends on, built from Linux primitives and measured against the attacks a model actually finds.</p></div></div>
+<ol class="contrib"><li><h3>Sandboxes from Linux primitives</h3><p>Namespaces, limits, no capabilities and seccomp: <b>5.3 ms per isolated sandbox</b>, no VMs.</p></li><li><h3>A grader that resists hacking</h3><p>Tests outside the sandbox: <b>0 of 9 hacks</b> pass, against 4 of 9.</p></li><li><h3>Branching episodes</h3><p>Fork a live sandbox in <b>4.5 ms</b>, copy-on-write, to explore several attempts.</p></li><li><h3>A measured training gain</h3><p><b>34.9% → 38.6%</b> MBPP pass@1, three seeds, p = 0.013.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>A 0.5B model and 100 steps, so the gain is a few points, and each run also broke 24 to 32 tasks it had solved before.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/crucible" rel=noreferrer><small>Open source</small><span>crucible on GitHub</span><em>Sandbox runtime, grader, OpenEnv server and benchmarks.</em></a><a href="../ratchet/"><small>Trains with</small><span>ratchet</span><em>The GRPO stack crucible graded every answer for.</em></a><a href="#cite"><small>Cite</small><span>Software citation</span><em>Apache-2.0; reproduce every number from the repository.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026crucible,
+  author  = {Kundu, Sankur},
+  title   = {crucible: sandboxed, hack-resistant rewards for reinforcement learning on code},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/crucible},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds the systems that train and serve language models. Also the author of <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages; <a href="../babelguard/">Babelguard</a>, an open early-warning system for scams across languages; <a href="../ratchet/">ratchet</a>, RL post-training from scratch; <a href="../kessler/">kessler</a>, an independent space-traffic audit that runs every day. Pull requests to PyTorch, vLLM and Meta's ExecuTorch, the last approved by two maintainers.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>MBPP (499 test tasks), Qwen2.5-Coder-0.5B, 100 GRPO steps on 2× Tesla T4 with ratchet, seeds 0–2 (scripts/pool_m3.py); grader attacks in tests/test_grader.py; sandbox timings on 4 CPUs (bench/spawn.py, bench/fork.py).</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Page updated 15 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>
