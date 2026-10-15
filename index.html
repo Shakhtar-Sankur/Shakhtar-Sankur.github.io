@@ -22,6 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,800&family=Big+Shoulders+Display:wght@800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -200,6 +201,50 @@ section { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 .sec-title { font: 700 clamp(40px, 6.4vw, 92px)/.95 var(--display); letter-spacing: -.05em; margin: 18px 0 0; }
 .sec-title .dim { color: var(--muted); }
 .sec-sub { color: var(--muted); max-width: 620px; font-size: 17px; margin: 22px 0 0; }
+/* ══════════ research & evidence ══════════ */
+.flag { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 980px) { .flag { grid-template-columns: repeat(3, 1fr); } }
+.fcard { display: flex; flex-direction: column; min-height: 400px; padding: 26px; text-decoration: none; border-radius: var(--r); position: relative; overflow: hidden; transition: transform .25s; }
+.fcard:hover { transform: translateY(-4px); }
+.fcard .ft { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.fcard h3 { margin: 18px 0 12px; }
+.fcard p { margin: 0; font-size: 15px; line-height: 1.55; }
+.fcard .fbig { margin-top: auto; padding-top: 22px; }
+.fcard .fbig b { display: block; }
+.fcard .fbig span { display: block; font-size: 13px; margin-top: 6px; }
+.fcard .fgo { margin-top: 18px; font: 600 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.fcard.lipi { background: #F4EEE3; color: #1D1A16; }
+.fcard.lipi .ft, .fcard.lipi .fgo { color: #A82A14; }
+.fcard.lipi h3 { font: 800 44px/.95 "Fraunces", Georgia, serif; }
+.fcard.lipi h3 em { font-style: italic; font-weight: 400; color: #C8341B; }
+.fcard.lipi .fbig b { font: 700 46px/1 "Fraunces", Georgia, serif; }
+.fcard.lipi .fbig span, .fcard.lipi p { color: #5A5248; }
+.fcard.bg { background: #0F1011; color: #F2F0EA; border: 1px solid #2C2F33; }
+.fcard.bg::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: repeating-linear-gradient(-45deg, #F5B301 0 12px, #0F1011 12px 24px); }
+.fcard.bg .ft, .fcard.bg .fgo { color: #F5B301; }
+.fcard.bg h3 { font: 900 50px/.9 "Big Shoulders Display", Impact, sans-serif; text-transform: uppercase; }
+.fcard.bg h3 span { color: #F5B301; }
+.fcard.bg .fbig b { font: 800 52px/1 "Big Shoulders Display", Impact, sans-serif; color: #F5B301; }
+.fcard.bg .fbig span, .fcard.bg p { color: #B9B5AA; }
+.fcard.rt { background-color: #F4F7F5; color: #1B2B44; background-image: linear-gradient(rgba(27,43,68,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(27,43,68,.08) 1px, transparent 1px); background-size: 22px 22px; border: 1.5px solid #1B2B44; }
+.fcard.rt .ft, .fcard.rt .fgo { color: #B23423; }
+.fcard.rt h3 { font: italic 400 44px/.95 "Instrument Serif", Georgia, serif; }
+.fcard.rt h3 s { text-decoration-color: #D2412F; text-decoration-thickness: 3px; }
+.fcard.rt .fbig b { font: italic 400 46px/1 "Instrument Serif", Georgia, serif; color: #B23423; }
+.fcard.rt .fbig span, .fcard.rt p { color: #4A5A70; }
+.ledger { margin-top: 28px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 980px) { .ledger { grid-template-columns: repeat(3, 1fr); } }
+.lcol { border: 1px solid var(--line); border-radius: var(--r); padding: 22px; background: var(--surface); }
+.lcol h3 { margin: 0 0 4px; font: 600 13px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
+.lcol .lsub { margin: 0 0 12px; color: var(--muted); font-size: 13.5px; }
+.lcol ul { list-style: none; margin: 0; padding: 0; }
+.lcol li { padding: 11px 0; border-top: 1px solid var(--line-2); font-size: 14.5px; line-height: 1.45; }
+.lcol li a { color: var(--text); font-weight: 600; text-decoration: none; }
+.lcol li a:hover { color: var(--accent-ink); }
+.lcol li > span:not(.st) { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.lcol .st { display: inline-block; font: 600 10.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
+.lcol .st.ok { color: #10B981; border-color: rgba(16,185,129,.45); }
+
 .sec-head { margin-bottom: clamp(44px, 6vw, 72px); }
 
 /* reveal */
@@ -438,6 +483,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="bar">
     <a class="brand" href="#top" aria-label="Sankur Kundu, home">sk<span>.</span></a>
     <div class="navlinks">
+      <a href="#research">Research</a>
       <a href="#glance">Glance</a>
       <a href="#products">Products</a>
       <a href="#experience">Experience</a>
@@ -454,6 +500,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </button>
   </div>
   <div id="mobilemenu" hidden>
+    <a href="#research">Research</a>
     <a href="#glance">Glance</a>
     <a href="#products">Products</a>
     <a href="#experience">Experience</a>
@@ -500,6 +547,69 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <span>React</span><span>TypeScript</span><span>Capacitor</span><span>Supabase</span><span>Postgres + RLS</span><span>Node</span><span>Electron</span><span>Python</span><span>PyTorch</span><span>C++</span><span>CUDA</span><span>Swift</span><span>ONNX</span><span>GCP</span><span>AWS</span><span>Terraform</span><span>Kubernetes</span>
     </div>
   </div>
+
+  <!-- ══════════ research & evidence ══════════ -->
+  <section id="research">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="kicker">Research &amp; evidence</span>
+        <h2 class="sec-title">Three studies. <span class="dim">Every number public.</span></h2>
+      </div>
+      <div class="flag">
+        <a class="fcard lipi rv" href="token-tax/">
+          <span class="ft">lipi · tokenization</span>
+          <h3>The token <em>tax.</em></h3>
+          <p>Indian languages need far more tokens than English for the same sentence. Measured for all 22 scheduled languages on 15 tokenizers, then removed from an open model.</p>
+          <div class="fbig"><b>4.99× → 1.35×</b><span>Odia against English: GPT-4o's tokenizer, then lipi-Indic. Fewer tokens than GPT-4o's and Gemini's in 23 of 24 languages.</span></div>
+          <span class="fgo">Try any sentence →</span>
+        </a>
+        <a class="fcard bg rv" href="babelguard/">
+          <span class="ft">Babelguard · scam defence</span>
+          <h3>Protection <span>doesn't</span> translate.</h3>
+          <p>An open early-warning system that recognises the same scam operation in any language, built for the languages today's defences serve least.</p>
+          <div class="fbig"><b>1.5% → 85%</b><span>Translated scams recognised: text matching vs Babelguard's meaning link. 4,057 messages a second, crash-safe.</span></div>
+          <span class="fgo">See the protection gap →</span>
+        </a>
+        <a class="fcard rt rv" href="ratchet/">
+          <span class="ft">ratchet · RL post-training</span>
+          <h3>The sampler <s>was</s> was not the policy.</h3>
+          <p>RL post-training from scratch on a C++/CUDA engine and a PyTorch trainer. A silent fp16 rounding bug at weight sync, found, taken apart and fixed.</p>
+          <div class="fbig"><b>48.1% → 52.5%</b><span>GSM8K after 100 GRPO steps on two T4s; rounding at sync was 9–22× the effect of fp16 arithmetic.</span></div>
+          <span class="fgo">Move the slider →</span>
+        </a>
+      </div>
+      <div class="ledger">
+        <div class="lcol rv">
+          <h3>Manuscripts</h3>
+          <p class="lsub">Sole author.</p>
+          <ul>
+            <li><a href="token-tax/#cite">Removing the Token Tax from an Existing Model</a><span class="st">arXiv, forthcoming</span><span>A vocabulary extension for 24 Indian languages that keeps every other token. cs.CL.</span></li>
+            <li><a href="ratchet/#cite">The Sampler Was Not the Policy</a><span class="st">arXiv, forthcoming</span><span>Finding and removing a silent training–inference mismatch in a from-scratch GRPO stack.</span></li>
+            <li><a href="babelguard/">Scam defence stops at English</a><span class="st">in preparation</span><span>The multilingual scam-protection gap, measured on 33,869 reported scams in 49 languages.</span></li>
+          </ul>
+        </div>
+        <div class="lcol rv">
+          <h3>Major open-source projects</h3>
+          <p class="lsub">Pull requests to the frameworks AI runs on.</p>
+          <ul>
+            <li><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">Meta ExecuTorch #23677</a><span class="st ok">approved by two maintainers</span><span>Out-of-bounds reads in the 2-bit and 4-bit embedding kernels of on-device LLMs.</span></li>
+            <li><a href="https://github.com/vllm-project/vllm/pull/60955" rel="noreferrer">vLLM #60955</a><span class="st">under review</span><span>FlashInfer prefill tests compared non-causal attention with a causal reference.</span></li>
+            <li><a href="https://github.com/pytorch/pytorch/pull/199875" rel="noreferrer">PyTorch #199875</a><span class="st">under review</span><span>Deterministic fill for torch.empty under the Inductor compiler.</span></li>
+            <li><a href="https://github.com/pytorch/pytorch/pull/199441" rel="noreferrer">PyTorch #199441</a> · <a href="https://github.com/pytorch/pytorch/pull/199646" rel="noreferrer">#199646</a><span class="st">under review</span><span>Re-enabling torch.compile tests, each checked on CPU and T4 GPUs.</span></li>
+          </ul>
+        </div>
+        <div class="lcol rv">
+          <h3>Released for others to use</h3>
+          <p class="lsub">Open models, tools and data.</p>
+          <ul>
+            <li><a href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer">lipi-Indic 96K</a><span class="st">Hugging Face</span><span>Tokenizer for 24 Indian languages; loads with one line of transformers.</span></li>
+            <li><a href="https://github.com/Shakhtar-Sankur/babelguard" rel="noreferrer">Babelguard</a><span class="st">Apache-2.0</span><span>Open for pilots with CERTs, telecom fraud teams and fact-checkers.</span></li>
+            <li><a href="https://github.com/Shakhtar-Sankur/ratchet" rel="noreferrer">ratchet + relay</a><span class="st">Apache-2.0</span><span>GRPO trainer and C++/CUDA inference engine, with raw logs for every result.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ══════════ bento ══════════ -->
   <section id="glance">
