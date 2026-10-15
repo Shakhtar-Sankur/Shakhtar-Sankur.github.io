@@ -290,7 +290,7 @@ footer b { color: var(--text-2); font: 600 10.5px var(--mono); letter-spacing: .
     <p>The streaming engine, measured on synthetic campaigns built from real reported templates, each with its own links, numbers and payment IDs, and real translations.</p></div>
   </div>
   <div class="gauges">
-    <div><b>4,057/s</b><span>Messages linked per second with 3 feature workers, identical results to one process</span><small>100M messages ≈ 7 hours on 4 cores</small></div>
+    <div><b>4,057/s</b><span>Messages linked per second with 3 feature workers, identical results to one process</span><small>measured with 2,000 campaigns; more campaigns cost more per message</small></div>
     <div><b>0.21 KB</b><span>Engine memory per message at 1,000,000 messages (203 MB)</span><small>longest pause 96 ms</small></div>
     <div><b>99.5%</b><span>B-cubed F1 against the known campaigns, at 100,000 and at 1,000,000 messages</span><small>synthetic load from real templates</small></div>
     <div><b>50 / 0</b><span>Random crashes / messages lost: every restart rebuilt identical campaigns</span><small>write-ahead log + atomic snapshots</small></div>
