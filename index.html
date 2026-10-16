@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sankur Kundu — ML systems engineer and independent researcher</title>
-<meta name="description" content="Sankur Kundu builds the systems that train and serve AI, and measures who they leave out: sole author of four manuscripts, pull requests to PyTorch, vLLM and Meta's ExecuTorch, thirteen open-source systems each benchmarked against the industry standard, and a co-founder.">
+<meta name="description" content="Sankur Kundu builds the systems that train and serve AI, and measures who they leave out: sole author of four manuscripts, pull requests to Meta's ExecuTorch (approved by two maintainers), vLLM, PyTorch and OpenEnv, thirteen open-source systems each benchmarked against the industry standard, and a co-founder.">
 <meta name="author" content="Sankur Kundu">
 <meta name="theme-color" content="#F7F6F2">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://shakhtar-sankur.github.io/">
 <meta property="og:title" content="Sankur Kundu — ML systems engineer and independent researcher">
-<meta property="og:description" content="I build the systems that train and serve AI, and measure who they leave out. Research on Indian-language tokenization, multilingual scam defence and RL post-training; 13 open-source systems; pull requests to PyTorch, vLLM and ExecuTorch.">
+<meta property="og:description" content="I build the systems that train and serve AI, and measure who they leave out. Research on Indian-language tokenization, multilingual scam defence and RL post-training; 13 open-source systems; pull requests to ExecuTorch (approved), vLLM, PyTorch and OpenEnv.">
 <meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -195,7 +195,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
       <div class="me"><img src="avatar.jpg" alt="Sankur Kundu" width="64" height="64"><div><b>Sankur Kundu</b><span>B.Tech CSE (AI &amp; ML), IEM Kolkata, 2026</span></div></div>
       <ul class="ev">
         <li><b>4</b><span>manuscripts, sole author: <a href="token-tax/">tokenization</a>, <a href="ratchet/">RL post-training</a>, <a href="babelguard/">multilingual scam defence</a>, <a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf" rel="noreferrer">satellite collision risk</a></span></li>
-        <li><b>6</b><span>pull requests to PyTorch, vLLM and Meta's ExecuTorch; <a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">one approved by two maintainers</a></span></li>
+        <li><b>8</b><span>pull requests to Meta's ExecuTorch, vLLM, PyTorch and OpenEnv; <a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">one approved by two maintainers</a></span></li>
         <li><b>13</b><span>open-source systems, each measured against the reference and stating its limits</span></li>
         <li><b>1,617</b><span>npm downloads of <a href="populace/">Populace</a> in 2026, a testing tool I wrote and shipped</span></li>
         <li><b>Daily</b><span><a href="kessler/">kessler</a> screens every active satellite against every other, in public, each morning; its collision probabilities match NASA CARA's on all 53 of NASA's test cases</span></li>
@@ -255,6 +255,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
           <li><a href="https://github.com/vllm-project/vllm/pull/60955" rel="noreferrer">vLLM #60955</a><span class="st">under review</span><p>The FlashInfer prefill tests compared non-causal attention with a causal reference and passed only because of a loose tolerance; fixed so they catch the bug.</p></li>
           <li><a href="https://github.com/pytorch/pytorch/pull/199875" rel="noreferrer">PyTorch #199875</a><span class="st">under review</span><p>Deterministic mode fills torch.empty with NaN in eager PyTorch but not under the Inductor compiler; fixed without filling Inductor's own buffers, which is why an earlier fix was reverted.</p></li>
           <li><a href="https://github.com/pytorch/pytorch/pull/199441" rel="noreferrer">PyTorch #199441</a> · <a href="https://github.com/pytorch/pytorch/pull/199646" rel="noreferrer">#199646</a><span class="st">under review</span><p>Re-enabled 21 torch.compile tests skipped for bugs long fixed, and documented why 11 more must stay skipped, each checked on CPU and T4 GPUs.</p></li>
+          <li><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">OpenEnv #1441</a> · <a href="https://github.com/huggingface/OpenEnv/pull/1442" rel="noreferrer">#1442</a><span class="st">under review</span><p>In the reward rubrics RL environments use to grade agents, composite rubrics ran their pre-hooks after scoring their children (a timing hook read 0.01 ms for 400 ms of work), and a rubric handing off to an async judge recorded an unawaited coroutine as its score. 9 of 13 new tests fail without the fixes.</p></li>
         </ul>
       </div>
       <div class="box">
@@ -318,7 +319,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
       </div>
       <ol class="tl">
         <li><span class="when">2026 —</span><span><b>Co-founder &amp; Founding Engineer, Gigzen</b><span>Waggle, Populace and the public test report. Incorporation in progress.</span></span></li>
-        <li><span class="when">2026 —</span><span><b>Independent research</b><span>lipi, Babelguard and ratchet; pull requests to PyTorch, vLLM and ExecuTorch.</span></span></li>
+        <li><span class="when">2026 —</span><span><b>Independent research</b><span>lipi, Babelguard and ratchet; pull requests to ExecuTorch, vLLM, PyTorch and OpenEnv.</span></span></li>
         <li><span class="when">Jun – Jul 2026</span><span><b>Freelance data scientist</b><span>Upwork, client in Spain: merged two hotel censuses on national statistics identifiers, with validation.</span></span></li>
         <li><span class="when">2022 – 2026</span><span><b>B.Tech, Computer Science &amp; Engineering (AI &amp; ML)</b><span>Institute of Engineering and Management, Kolkata.</span></span></li>
       </ol>
