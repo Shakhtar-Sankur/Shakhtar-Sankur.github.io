@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence: every claim, with its proof — Sankur Kundu</title>
+<meta name="description" content="Every headline claim on Sankur Kundu's résumé, with the public proof behind it: merged pull requests, raw benchmark results, papers and reproduction scripts.">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/evidence/">
+<meta property="og:title" content="Evidence: every claim, with its proof">
+<meta property="og:description" content="Merged pull requests, raw benchmark results, papers and reproduction scripts behind every number on Sankur Kundu's résumé.">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%230B1530'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%2378A9FF'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&family=Red+Hat+Text:wght@400;500;700&family=Red+Hat+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#0B1530; --panel:#111E40; --line:#22335E; --text:#E8EEFF; --muted:#9AA8CC; --accent:#78A9FF; --accent-ink:#9EC1FF; --ok:#7BD88F; --wait:#F2C46D; --display:'Red Hat Display',sans-serif; --body:'Red Hat Text',system-ui,sans-serif; --mono:'Red Hat Mono',ui-monospace,monospace; }
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: 1px solid var(--line); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+header.hero { padding: 44px 0 28px; }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 14px; }
+h1 { font: 900 clamp(30px, 5vw, 46px)/1.08 var(--display); margin: 0 0 16px; letter-spacing: -.01em; }
+.dek { color: var(--muted); max-width: 760px; margin: 0; font-size: 17px; }
+h2 { font: 700 22px/1.25 var(--display); margin: 44px 0 6px; }
+.sub { color: var(--muted); margin: 0 0 16px; font-size: 15px; }
+.rows { display: grid; gap: 10px; }
+.row { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; }
+@media (min-width: 860px) { .row { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; } }
+.claim { font-weight: 500; }
+.claim b { color: var(--text); }
+.proof { font-size: 14.5px; color: var(--muted); }
+.proof a { margin-right: 10px; }
+.tag { display: inline-block; font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-right: 8px; vertical-align: 1px; }
+.tag.ok { color: #0B1530; background: var(--ok); }
+.tag.wait { color: #0B1530; background: var(--wait); }
+.tag.priv { color: var(--text); background: #33467A; }
+.note { margin-top: 36px; padding: 16px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 8px 8px 0; color: var(--muted); font-size: 15px; }
+footer { margin: 48px 0 40px; color: var(--muted); font: 500 12px var(--mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a href="../">Sankur Kundu</a><nav><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur">GitHub</a><a href="https://linkedin.com/in/sankur-kundu">LinkedIn</a></nav></div>
+
+  <header class="hero">
+    <p class="eyebrow">Evidence</p>
+    <h1>Every claim on my résumé, with its proof.</h1>
+    <p class="dek">Each headline number links to something you can check without asking me: a merged pull request, a raw results file, a paper, or a script that reproduces it. The two items that rest on private correspondence say so, and I will forward the original messages on request.</p>
+  </header>
+
+  <h2>Recognition</h2>
+  <p class="sub">The public work each one rests on is linked; the correspondence itself is available on request.</p>
+  <div class="rows">
+    <div class="row"><div class="claim"><span class="tag priv">On request</span><b>NASA CARA</b>: my reproduction of CARA's Monte Carlo collision probability (53 of 53 test cases) is under review by its analysts. CARA's operations lead sent it to the analysis team (email, 20 October 2026).</div>
+      <div class="proof">Public: <a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf">paper</a><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/bench/results/m3_sdmc.json">raw results, 53 cases</a><a href="https://github.com/nasa/CARA_Analysis_Tools">NASA's own test cases</a><a href="https://shakhtar-sankur.github.io/kessler/">live page</a></div></div>
+    <div class="row"><div class="claim"><span class="tag priv">On request</span><b>Entrepreneur First (UK)</b>: scouted by its Talent Investor from my public work alone (October 2026), citing my cuBLAS-parity compiler.</div>
+      <div class="proof">Public: <a href="https://shakhtar-sankur.github.io/tessel/">tessel study page</a><a href="https://github.com/Shakhtar-Sankur/tessel">tessel source and benchmarks</a></div></div>
+  </div>
+
+  <h2>Open-source contributions</h2>
+  <p class="sub">Each link opens the pull request or issue itself, with its review history.</p>
+  <div class="rows">
+    <div class="row"><div class="claim"><span class="tag ok">Merged</span><b>Meta ExecuTorch #23677</b>: bounds check for the 2-bit and 4-bit quantized embedding kernels used by on-device LLMs (approved by two maintainers).</div>
+      <div class="proof"><a href="https://github.com/pytorch/executorch/pull/23677">pytorch/executorch#23677</a></div></div>
+    <div class="row"><div class="claim"><span class="tag ok">Merged</span><b>Hugging Face OpenEnv #1441, #1442</b>: two fixes to the reward rubrics that grade RL agents.</div>
+      <div class="proof"><a href="https://github.com/huggingface/OpenEnv/pull/1441">huggingface/OpenEnv#1441</a><a href="https://github.com/huggingface/OpenEnv/pull/1442">#1442</a></div></div>
+    <div class="row"><div class="claim"><span class="tag wait">In review</span><b>Google JAX, NVIDIA, Apple MLX, vLLM, PyTorch, ExecuTorch</b></div>
+      <div class="proof"><a href="https://github.com/jax-ml/jax/pull/41859">jax#41859</a><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98">NVIDIA#98</a><a href="https://github.com/ml-explore/mlx/pull/4737">mlx#4737</a><a href="https://github.com/vllm-project/vllm/pull/60955">vllm#60955</a><a href="https://github.com/pytorch/pytorch/pull/199875">pytorch#199875</a><a href="https://github.com/pytorch/pytorch/pull/199441">#199441</a><a href="https://github.com/pytorch/pytorch/pull/199646">#199646</a><a href="https://github.com/pytorch/executorch/pull/23912">executorch#23912</a></div></div>
+    <div class="row"><div class="claim"><span class="tag wait">Open</span><b>IBM Relay-BP</b>: reported that IBM's reference decoder gives different answers for the same shot depending on batch order, with a reproduction script and two fixes.</div>
+      <div class="proof"><a href="https://github.com/trmue/relay/issues/47">trmue/relay#47</a></div></div>
+    <div class="row"><div class="claim"><span class="tag wait">Open</span><b>Riverlane Deltakit</b>: proposed offline Relay-BP decoding for Deltakit's qLDPC circuits.</div>
+      <div class="proof"><a href="https://github.com/Deltakit/deltakit/issues/411">Deltakit/deltakit#411</a></div></div>
+  </div>
+
+  <h2>Results against the published state of the art</h2>
+  <p class="sub">Every repository has the scripts that produced these numbers; the raw output files are linked where a single file holds them.</p>
+  <div class="rows">
+    <div class="row"><div class="claim"><b>IBM</b>: GPU decoder bit-identical to IBM's Relay-BP on 256 of 256 shots (float64 and float32); 4.0× faster than IBM's decoder on every CPU thread of the same machine; IBM's published result reproduced first (41 vs 44 errors in 10,000 shots).</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/syndrome/">study page</a><a href="https://github.com/Shakhtar-Sankur/syndrome/blob/main/results/m2/m2_t4_f64_f32_kaggle_log.jsonl">raw T4 output</a><a href="https://github.com/Shakhtar-Sankur/syndrome/blob/main/results/m0/m0_reference_p0.004_Z.csv">IBM reproduction</a><a href="https://github.com/Shakhtar-Sankur/syndrome">source</a></div></div>
+    <div class="row"><div class="claim"><b>NVIDIA and PyMatching</b>: NVIDIA's two Ising pre-decoders run through NVIDIA's own pipeline, logged error rates matched to every printed digit (524,288 shots per distance); PyMatching 2's published scaling and thresholds reproduced.</div>
+      <div class="proof"><a href="https://github.com/Shakhtar-Sankur/parity">parity: source and results</a></div></div>
+    <div class="row"><div class="claim"><b>NASA</b>: Monte Carlo collision probability agreeing with NASA CARA's on all 53 of its test conjunctions (χ² p = 0.67), 15–19× faster per core than NASA's library.</div>
+      <div class="proof"><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/bench/results/m3_sdmc.json">raw results</a><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf">paper</a><a href="https://shakhtar-sankur.github.io/kessler/">live page</a></div></div>
+    <div class="row"><div class="claim"><b>NVIDIA cuBLAS</b>: tessel's matrix multiply at parity with cuBLAS on a T4 (1.00–1.04×); causal attention 1.3–1.9× faster than PyTorch SDPA; an LLM engine on its kernels matching vLLM token for token.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/tessel/">study page</a><a href="https://github.com/Shakhtar-Sankur/tessel">source and benchmarks</a></div></div>
+    <div class="row"><div class="claim"><b>OpenAI and Google tokenizers</b>: lipi-Indic needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/token-tax/">study page</a><a href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k">model on Hugging Face</a><a href="https://github.com/Shakhtar-Sankur/lipi/blob/main/paper/main.pdf">paper</a></div></div>
+    <div class="row"><div class="claim"><b>Hugging Face and vLLM</b>: relay prefill 8.7× faster on a T4, 384 of 384 requests identical through 60 worker kills; switchyard decodes 2.2× faster than Hugging Face, bit-identical to one GPU.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/relay/">relay</a><a href="https://shakhtar-sankur.github.io/switchyard/">switchyard</a></div></div>
+    <div class="row"><div class="claim"><b>PyTorch and NCCL</b>: tandem trains bit-identically to PyTorch DDP and FSDP, all-reduce within 2% of NCCL's bandwidth; ratchet lifts Qwen2.5-0.5B from 48.1% to 52.5% on GSM8K.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/tandem/">tandem</a><a href="https://shakhtar-sankur.github.io/ratchet/">ratchet</a><a href="https://github.com/Shakhtar-Sankur/ratchet/blob/main/paper/main.pdf">ratchet report</a></div></div>
+    <div class="row"><div class="claim"><b>torch.compile, ONNX Runtime and XLA</b>: kiln runs BERT in 117 ms on four CPU cores, against 149, 153 and 189 ms.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/kiln/">study page</a><a href="https://github.com/Shakhtar-Sankur/kiln">source</a></div></div>
+    <div class="row"><div class="claim"><b>Correctness</b>: quorumdb, verified by simulating 10,000 clusters through 610,000 crashes and a TLA+ model, found 6 real bugs before release.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/quorumdb/">study page</a><a href="https://github.com/Shakhtar-Sankur/quorumdb">source</a></div></div>
+    <div class="row"><div class="claim"><b>Multilingual safety</b>: Babelguard, 33,869 scam messages in 49 languages; an English keyword filter catches 86% of English scams but 10–36% in six Asian languages.</div>
+      <div class="proof"><a href="https://shakhtar-sankur.github.io/babelguard/">study page</a><a href="https://github.com/Shakhtar-Sankur/babelguard">source</a></div></div>
+  </div>
+
+  <h2>Manuscripts</h2>
+  <div class="rows">
+    <div class="row"><div class="claim">Reproducing NASA CARA's Monte Carlo Probability of Collision (physics.space-ph)</div><div class="proof"><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf">PDF</a></div></div>
+    <div class="row"><div class="claim">The Sampler Was Not the Policy: a silent training–inference mismatch in GRPO (cs.LG)</div><div class="proof"><a href="https://github.com/Shakhtar-Sankur/ratchet/blob/main/paper/main.pdf">PDF</a></div></div>
+    <div class="row"><div class="claim">Removing the Token Tax from an Existing Model: 24 Indian languages (cs.CL)</div><div class="proof"><a href="https://github.com/Shakhtar-Sankur/lipi/blob/main/paper/main.pdf">PDF</a></div></div>
+    <div class="row"><div class="claim">Scam Defence Stops at English (in preparation)</div><div class="proof"><a href="https://shakhtar-sankur.github.io/babelguard/">study page</a></div></div>
+  </div>
+
+  <p class="note">To verify a private item, email <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a> and I will forward the original message. Everything else on this page can be checked from the links alone, and each repository's README says how to rerun its numbers.</p>
+
+  <footer>Last updated 22 October 2026</footer>
+</div>
+</body>
+</html>
