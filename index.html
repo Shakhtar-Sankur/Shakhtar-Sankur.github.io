@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sankur Kundu — ML systems engineer and independent researcher</title>
-<meta name="description" content="Sankur Kundu, ML systems engineer and researcher: matched NASA on 53/53 collision-probability test cases, 15× faster, now under review by NASA CARA; a cuBLAS-parity compiler; a tokenizer that beats GPT-4o and Gemini in 23 of 24 Indian languages. Sole author of four manuscripts, fixes merged into Meta's ExecuTorch and Hugging Face's OpenEnv, pull requests to vLLM and PyTorch, thirteen open-source systems each benchmarked against the industry standard, and a co-founder.">
+<meta name="description" content="Sankur Kundu, ML systems engineer and researcher: matched NASA on 53/53 collision-probability test cases, 15× faster, now under review by NASA CARA; a GPU quantum decoder bit-identical to IBM's; a cuBLAS-parity compiler; a tokenizer that beats GPT-4o and Gemini in 23 of 24 Indian languages. Sole author of four manuscripts, fixes merged into Meta's ExecuTorch and Hugging Face's OpenEnv, pull requests to vLLM and PyTorch, thirteen open-source systems each benchmarked against the industry standard, and a co-founder.">
 <meta name="author" content="Sankur Kundu">
 <meta name="theme-color" content="#F7F6F2">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://shakhtar-sankur.github.io/">
 <meta property="og:title" content="Sankur Kundu — ML systems engineer and independent researcher">
-<meta property="og:description" content="Matched NASA on 53/53 collision-probability test cases, 15× faster, now under review by NASA CARA · cuBLAS-parity compiler · a tokenizer that beats GPT-4o and Gemini in 23 of 24 Indian languages · fixes merged at Meta and Hugging Face. Research on Indian-language tokenization, multilingual scam defence and RL post-training; 13 open-source systems; fixes merged into Meta's ExecuTorch and Hugging Face's OpenEnv; pull requests to vLLM and PyTorch.">
+<meta property="og:description" content="Matched NASA on 53/53 collision-probability test cases, 15× faster, now under review by NASA CARA · GPU quantum decoder bit-identical to IBM's · cuBLAS-parity compiler · a tokenizer that beats GPT-4o and Gemini in 23 of 24 Indian languages · fixes merged at Meta and Hugging Face. Research on Indian-language tokenization, multilingual scam defence and RL post-training; 13 open-source systems; fixes merged into Meta's ExecuTorch and Hugging Face's OpenEnv; pull requests to vLLM and PyTorch.">
 <meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -188,7 +188,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
     <div>
       <p class="kicker"><b>ML systems engineer · independent researcher</b> · Bhubaneswar, India · open to relocation</p>
       <h1>Matched NASA on 53 of 53 cases, 15× faster, <em>now under review by NASA CARA.</em></h1>
-      <p class="lede">That is <a href="kessler/">kessler</a>, my open satellite collision-risk engine, checked on all 53 of NASA's own test conjunctions. Also built from scratch and benchmarked against the industry standard, including where mine loses: a <b>compiler at cuBLAS parity</b>, an LLM engine at <b>1.05× vLLM</b>, and a <b>tokenizer that beats GPT-4o's and Gemini's in 23 of 24 Indian languages</b>. Fixes merged at <b>Meta</b> and <b>Hugging Face</b>.</p>
+      <p class="lede">That is <a href="kessler/">kessler</a>, my open satellite collision-risk engine, checked on all 53 of NASA's own test conjunctions. Also built from scratch and benchmarked against the industry standard, including where mine loses: a <b>GPU quantum decoder bit-identical to IBM's</b>, a <b>compiler at cuBLAS parity</b>, an LLM engine at <b>1.05× vLLM</b>, and a <b>tokenizer that beats GPT-4o's and Gemini's in 23 of 24 Indian languages</b>. Fixes merged at <b>Meta</b> and <b>Hugging Face</b>.</p>
       <div class="ctas"><a class="btn solid" href="#research">See the research</a><a class="btn" href="Sankur-Kundu-Resume.pdf">Résumé (PDF)</a><a class="btn" href="Sankur-Kundu-CV.pdf">Full CV (PDF)</a><a class="btn" href="mailto:sankur.kundu.tw@gmail.com">Email</a></div>
     </div>
     <aside class="card-me" aria-label="At a glance">
@@ -309,7 +309,8 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   <section id="more" aria-labelledby="more-h">
     <div class="sh"><div class="num">05 — Index</div><div><h2 id="more-h">Everything else, <em>in one list.</em></h2><p>Earlier systems and coursework-era projects, each stating where it falls short.</p></div></div>
     <div class="idx">
-      <a href="https://github.com/Shakhtar-Sankur/parity" rel="noreferrer"><span class="nm">parity</span><span class="ds">An open benchmark for quantum error-correction decoders: reproduced PyMatching 2's scaling and threshold, and ran NVIDIA's Ising pre-decoders on identical Stim samples. Next, an open GPU decoder for IBM's qLDPC codes.</span><span class="tg">Python · CUDA · quantum</span></a>
+      <a href="https://github.com/Shakhtar-Sankur/syndrome" rel="noreferrer"><span class="nm">syndrome</span><span class="ds">An open GPU decoder for IBM's quantum LDPC codes: IBM's Relay-BP in CUDA, bit-identical to IBM's reference on a T4 (64 of 64 shots, up to all 301 relay legs). IBM's own decoder reproduces IBM's published rate here: 41 vs 44 errors in 10,000 shots.</span><span class="tg">C++ · CUDA · quantum</span></a>
+      <a href="https://github.com/Shakhtar-Sankur/parity" rel="noreferrer"><span class="nm">parity</span><span class="ds">An open benchmark for quantum error-correction decoders: reproduced PyMatching 2's scaling and threshold, and ran NVIDIA's Ising pre-decoders on identical Stim samples.</span><span class="tg">Python · CUDA · quantum</span></a>
       <a href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer"><span class="nm">ferrolm</span><span class="ds">OpenAI-compatible LLM server and retrieval stack in Rust with zero dependencies: paged KV cache, continuous batching, speculative decoding.</span><span class="tg">Rust · LLM inference</span></a>
       <a href="https://github.com/Shakhtar-Sankur/faultline" rel="noreferrer"><span class="nm">faultline</span><span class="ds">Jepsen-style fault injection against real etcd clusters: partitions, kill -9 and pauses across four release lines.</span><span class="tg">Rust · distributed systems</span></a>
       <a href="https://github.com/Shakhtar-Sankur/ML-Model-Serving-Platform" rel="noreferrer"><span class="nm">ML model serving platform</span><span class="ds">NVIDIA Triton and Redis: versioned rollout, A/B routing, circuit breaking and drift detection.</span><span class="tg">MLOps</span></a>
