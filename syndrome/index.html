@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>syndrome — a GPU decoder bit-identical to IBM's Relay-BP</title>
+<meta name="description" content="An open GPU implementation of IBM's Relay-BP decoder for the [[144,12,12]] gross code. On an NVIDIA T4 it gives answers bit-identical to IBM's reference on 64 of 64 shots, every float64 posterior included; IBM's own decoder reproduces IBM's published error rate here (41 vs 44 errors in 10,000 shots).">
+<meta name="author" content="Sankur Kundu">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shakhtar-sankur.github.io/syndrome/">
+<meta property="og:title" content="syndrome: IBM's quantum decoder on a GPU, bit for bit">
+<meta property="og:description" content="An open GPU implementation of IBM's Relay-BP decoder for the [[144,12,12]] gross code. On an NVIDIA T4 it gives answers bit-identical to IBM's reference on 64 of 64 shots, every float64 posterior included; IBM's own decoder reproduces IBM's published error rate here (41 vs 44 errors in 10,000 shots).">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%230B1530'/><text x='24' y='33' font-family='Arial,sans-serif' font-size='26' font-weight='800' text-anchor='middle' fill='%2378A9FF'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&family=Red+Hat+Text:wght@400;500;700&family=Red+Hat+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"syndrome","description":"An open GPU implementation of IBM's Relay-BP decoder for the [[144,12,12]] gross code. On an NVIDIA T4 it gives answers bit-identical to IBM's reference on 64 of 64 shots, every float64 posterior included; IBM's own decoder reproduces IBM's published error rate here (41 vs 44 errors in 10,000 shots).","codeRepository":"https://github.com/Shakhtar-Sankur/syndrome","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://shakhtar-sankur.github.io/syndrome/","author":{"@type":"Person","name":"Sankur Kundu","url":"https://shakhtar-sankur.github.io/","sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]},"dateModified":"2026-10-22"}</script>
+<style>
+:root { --bg:#0B1530;--panel:#111E40;--line:#22335E;--text:#E8EEFF;--muted:#9AA8CC;--accent:#78A9FF;--accent-ink:#9EC1FF;--on-accent:#0B1530;--track:#1A2A52;--bar-muted:#46588A;--r:6px;--rule:1px solid #183020;--display:'Red Hat Display',sans-serif;--body:'Red Hat Text',system-ui,sans-serif;--mono:'Red Hat Mono',ui-monospace,monospace;--num-font:900 40px 'Red Hat Display',sans-serif;--h3-font:700 20px/1.2 'Red Hat Display',sans-serif;color-scheme:dark; }
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--body); }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 40px; } }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; border-bottom: var(--rule); }
+.top a { color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--accent-ink); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 44px 0 50px; }
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 52px; padding: 64px 0 70px; align-items: center; } }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 16px; }
+h1 { margin: 0 0 22px; overflow-wrap: anywhere; }
+.eyebrow, .dek { overflow-wrap: anywhere; }
+.byline { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+.byline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+.byline .by { display: block; font-weight: 600; }
+.byline .when { display: block; font: 11.5px var(--mono); color: var(--muted); }
+.dek { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 19.5px); max-width: 36rem; }
+.dek b { color: var(--text); }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 30px; }
+.results div { background: var(--panel); padding: 16px 18px; }
+.results b { display: block; font: var(--num-font); line-height: 1; color: var(--text); }
+.results b em { font-style: normal; color: var(--accent-ink); }
+@media (max-width: 560px) { .results b { font-size: 28px !important; } .results div { padding: 14px; } }
+.results b { overflow-wrap: anywhere; }
+.results span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+section { padding: 60px 0 6px; }
+.sh { display: grid; grid-template-columns: 1fr; gap: 6px 36px; margin: 0 0 24px; }
+@media (min-width: 980px) { .sh { grid-template-columns: 260px 1fr; } }
+.code { font: 600 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); padding-top: 10px; border-top: 2px solid var(--accent); align-self: start; }
+.sh p { margin: 0; color: var(--muted); max-width: 46rem; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+@media (min-width: 760px) { .panel { padding: 26px; } }
+.cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+.cols .panel h3 { margin: 0 0 8px; font: var(--h3-font); }
+.cols .panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 10px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr 82px; gap: 12px; align-items: center; font-size: 14.5px; }
+@media (max-width: 560px) { .bars .r { grid-template-columns: 100px 1fr 64px; font-size: 13px; } }
+.bars .t { height: 16px; background: var(--track); border-radius: 3px; position: relative; }
+.bars .t i { position: absolute; inset: 0 auto 0 0; background: var(--bar-muted); border-radius: 0 3px 3px 0; }
+.bars .r.me .t i { background: var(--accent); }
+.bars .r.me { font-weight: 700; }
+.bars .v { font: 500 13px var(--mono); text-align: right; }
+.cap { color: var(--muted); font-size: 13.5px; margin: 14px 0 0; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font: 13.5px var(--mono); }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; font-family: var(--body); }
+th { color: var(--muted); font-weight: 500; }
+tr.me td { color: var(--accent-ink); font-weight: 600; }
+.limits { border: 1px dashed var(--accent); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px 24px; margin-top: 16px; }
+@media (min-width: 980px) { .limits { grid-template-columns: 220px 1fr; } }
+.limits b { font: var(--h3-font); color: var(--accent-ink); }
+.limits p { margin: 0; color: var(--muted); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 56px 1fr; gap: 4px 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+@media (min-width: 980px) { .contrib li { grid-template-columns: 90px 300px 1fr; gap: 28px; } }
+.contrib li::before { content: "0" counter(c); font: var(--num-font); font-size: 32px; line-height: 1; color: var(--accent-ink); grid-row: span 2; }
+@media (min-width: 980px) { .contrib li::before { grid-row: auto; } }
+.contrib h3 { margin: 0; font: var(--h3-font); }
+.contrib p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.contrib p b { color: var(--text); }
+.proof { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+.proof a { display: block; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--text); text-decoration: none; }
+.proof a:hover { border-color: var(--accent); }
+.proof small { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px; }
+.proof span { display: block; font-weight: 700; font-size: 16.5px; }
+.proof em { display: block; font-style: normal; color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+.cite { position: relative; margin-top: 22px; }
+.cite pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--muted); padding: 16px 18px; font: 12px/1.6 var(--mono); overflow-x: auto; }
+.cite button { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 4px; font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; }
+.author { display: grid; grid-template-columns: 72px 1fr; gap: 18px; border-top: 2px solid var(--accent); padding-top: 22px; }
+.author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.author h3 { margin: 0; font: var(--h3-font); font-size: 28px; }
+.author .role { font: 11.5px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 10px; }
+.author p { margin: 0 0 10px; color: var(--muted); max-width: 48rem; }
+.author .links { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 12px var(--mono); }
+footer { margin: 56px 0 40px; padding-top: 18px; border-top: var(--rule); color: var(--muted); font-size: 13px; display: grid; grid-template-columns: 1fr; gap: 10px 40px; }
+@media (min-width: 980px) { footer { grid-template-columns: 2fr 1fr; } }
+footer p { margin: 0; }
+footer b { display: block; font: 600 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1{font:900 clamp(52px,8.6vw,104px)/.9 var(--display);letter-spacing:-.03em}
+h1 span{color:var(--accent)}
+h2{font:900 clamp(30px,4.4vw,50px)/1 var(--display);letter-spacing:-.02em;margin:0 0 10px}
+.term{background:#070E22;border:1px solid var(--line);border-radius:8px;overflow:hidden;font:13px/1.55 var(--mono)}
+.term .tb{display:flex;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.term .tb i{width:10px;height:10px;border-radius:50%;background:#22335E}
+.term pre{margin:0;padding:14px 16px;color:#B9CCF5;overflow-x:auto}
+.term pre b{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top"><a href="../">Sankur Kundu</a><nav><a href="https://github.com/Shakhtar-Sankur/syndrome" rel="noreferrer">Code</a><a href="#cite">Cite</a></nav></header>
+<div class="hero">
+  <div>
+    <p class="eyebrow">syndrome · quantum error correction</p>
+    <h1>bit-identical <span>to IBM.</span></h1>
+    <p class="byline"><img src="../avatar.jpg" alt="" width="42" height="42"><span><span class="by">Designed, built and measured by Sankur Kundu</span><span class="when">Open source (Apache-2.0) · page updated 22 Oct 2026</span></span></p>
+    <p class="dek">IBM plans to build fault-tolerant quantum computers on <b>bivariate bicycle codes</b> such as the [[144,12,12]] gross code, decoded by <b>Relay-BP</b>, IBM's own algorithm. syndrome is an open GPU implementation of it, checked against <b>IBM's reference code shot by shot</b>: every decoding, every float64 posterior, every iteration count.</p>
+  </div>
+  <div><div class="term" aria-label="Output of the GPU-against-IBM check on a T4"><div class="tb"><i></i><i></i><i></i></div><pre>$ python bench/m2_gpu.py   # Kaggle, Tesla T4
+p = 0.003   32 shots   identical: <b>32 / 32</b>
+            max |posterior difference| = <b>0.0</b>
+p = 0.004   32 shots   identical: <b>32 / 32</b>
+            max |posterior difference| = <b>0.0</b>
+            relay legs used: 5 ... 301</pre></div><div class="results"><div><b>64/64</b><span>Shots where the GPU's decoding, float64 posteriors, success and iterations equal IBM's</span></div><div><b>0.0</b><span>Largest difference in any posterior, on shots running up to all 301 relay legs</span></div><div><b>41 <em>vs</em> 44</b><span>Logical errors in 10,000 shots: IBM's decoder run here, against IBM's published count</span></div><div><b>391,320</b><span>Edges in the gross code's decoding graph: 1,728 detectors, 67,752 error mechanisms</span></div></div></div>
+</div>
+
+<section aria-labelledby="why-h"><div class="sh"><div class="code">01 · Why</div><div><h2 id="why-h">A decoder has to keep up</h2><p>A quantum computer corrects its errors only if a classical decoder works out what went wrong, round after round, as fast as the hardware produces syndromes: about once a microsecond on superconducting devices.</p></div></div>
+<div class="cols"><div class="panel"><h3>IBM's codes</h3><p>Bivariate bicycle codes protect 12 logical qubits with 144 data qubits at distance 12, far fewer qubits than a surface code needs for the same protection.</p></div>
+<div class="panel"><h3>IBM's decoder</h3><p>Relay-BP (Müller et al., arXiv:2506.01779) runs belief propagation in legs, each with different memory strengths, relaying posteriors from leg to leg until enough solutions are found.</p></div>
+<div class="panel"><h3>The gap</h3><p>IBM's open reference runs on a CPU: 1.65 s per shot at p = 0.3% and 5.1 to 5.5 s at p = 0.4% on one core here. NVIDIA's GPU Relay-BP is closed source. No open GPU implementation had been checked against IBM's.</p></div></div></section>
+
+<section aria-labelledby="repro-h"><div class="sh"><div class="code">02 · Reproduce first</div><div><h2 id="repro-h">IBM's result, reproduced</h2><p>Before any GPU number was reported, IBM's own decoder ran on IBM's own circuit files (gross code, Z memory, 12 rounds, uniform circuit noise), with the settings from IBM's results file.</p></div></div>
+<div class="panel tbl"><table><thead><tr><th></th><th>Shots</th><th>Logical errors</th><th>Rate</th><th>95% interval</th></tr></thead><tbody>
+<tr><td>IBM's published row, p = 0.4%</td><td>10,000</td><td>44</td><td>4.4 × 10⁻³</td><td></td></tr>
+<tr class="me"><td>IBM's decoder, run here</td><td>10,000</td><td>41</td><td>4.1 × 10⁻³</td><td>2.9–5.6 × 10⁻³</td></tr></tbody></table>
+<p class="cap">The two counts differ by less than their sampling error (two-proportion z = −0.33). Raw results: results/m0/m0_reference_p0.004_Z.csv.</p></div></section>
+
+<section aria-labelledby="same-h"><div class="sh"><div class="code">03 · Same answers</div><div><h2 id="same-h">The GPU decodes as IBM's code does</h2><p>The same shots and the same table of memory strengths went through IBM's Rust decoder on the CPU and through syndrome's CUDA kernel on a T4, and every field was compared exactly, not within a tolerance.</p></div></div>
+<div class="panel tbl"><table><thead><tr><th>p</th><th>Shots</th><th>Decodings</th><th>Posteriors</th><th>Success</th><th>Iterations</th><th>Largest difference</th><th>Legs used</th></tr></thead><tbody>
+<tr class="me"><td>0.3%</td><td>32</td><td>32/32</td><td>32/32</td><td>32/32</td><td>32/32</td><td>0.0</td><td>5–28</td></tr>
+<tr class="me"><td>0.4%</td><td>32</td><td>32/32</td><td>32/32</td><td>32/32</td><td>32/32</td><td>0.0</td><td>5–301</td></tr></tbody></table>
+<p class="cap">The CPU build of the same source also matches IBM's decoder on 12 of 12 shots. Raw output: results/m2/m2_t4_kaggle_log.jsonl.</p></div></section>
+
+<section aria-labelledby="speed-h"><div class="sh"><div class="code">04 · Speed</div><div><h2 id="speed-h">Correct first, not fast yet</h2><p>The first GPU build is faster than IBM's decoder on one CPU core, and about level with it on a whole 4-thread CPU.</p></div></div>
+<div class="panel tbl"><table><thead><tr><th>Batch</th><th>IBM, one CPU core</th><th>syndrome, T4</th><th>vs one core</th></tr></thead><tbody>
+<tr><td>32 shots, p = 0.3%</td><td>1.65 s per shot</td><td>8.8 s per batch</td><td>6.0×</td></tr>
+<tr><td>32 shots, p = 0.4%</td><td>5.46 s per shot</td><td>84.8 s per batch</td><td>2.1×</td></tr>
+<tr class="me"><td>2,048 shots, p = 0.3%</td><td>1.65 s per shot</td><td>0.40 s per shot</td><td>4.2×</td></tr></tbody></table>
+<p class="cap">Why: every message is float64 to match the reference, and a T4 runs float64 at 1/32 of its float32 rate; each shot has its own thread block walking 391,320 edges an iteration; a batch waits for its slowest shot. Next: IBM's float32 decoder as the reference, several shots per block, and refilling a slot as soon as its shot finishes.</p></div></section>
+
+<section aria-labelledby="new-h"><div class="sh"><div class="code">What syndrome adds</div><div><h2 id="new-h">How the match was made</h2><p>Bit-for-bit agreement does not happen by accident in floating point; each of these was needed.</p></div></div>
+<ol class="contrib"><li><h3>One source, two targets</h3><p>The check and variable updates are written once in a header that compiles for the <b>CPU and a CUDA thread block</b>, following IBM's code operation for operation.</p></li><li><h3>Same rounding</h3><p>Min-sum with the two smallest magnitudes, Mem-BP priors, sums in IBM's order, and <b>fused multiply-add turned off</b>, because it rounds once where IBM's code rounds twice.</p></li><li><h3>Independent shots</h3><p>IBM's decoder draws memory strengths from one generator shared across shots; syndrome uses IBM's <b>explicit-table option</b> so thousands of shots can be decoded at once and each compared exactly.</p></li><li><h3>Reproduced before compared</h3><p>IBM's own decoder reproduced <b>IBM's published error rate</b> here before any GPU number was reported.</p></li></ol>
+<div class="limits"><b>Where it falls short</b><p>Not yet faster than IBM's decoder on a multi-core CPU. The exact match is shown on 64 shots at two noise levels in one basis; GPU error rates over millions of shots, the X basis and streaming (sliding-window) decoding are still to do. An independent implementation, not affiliated with or endorsed by IBM.</p></div>
+<div class="proof"><a href="https://github.com/Shakhtar-Sankur/syndrome" rel=noreferrer><small>Open source</small><span>syndrome on GitHub</span><em>CUDA kernel, CPU core, checks against IBM and raw results.</em></a><a href="https://github.com/Shakhtar-Sankur/parity" rel=noreferrer><small>Related</small><span>parity</span><em>An open decoder benchmark: PyMatching 2 and NVIDIA's Ising pre-decoders, reproduced.</em></a><a href="https://arxiv.org/abs/2506.01779" rel=noreferrer><small>The algorithm</small><span>Relay-BP (IBM)</span><em>Müller et al., arXiv:2506.01779; reference code at github.com/trmue/relay.</em></a></div>
+<div class="cite" id="cite"><button type="button" id="copy">Copy</button>
+<pre id="bib">@software{kundu2026syndrome,
+  author  = {Kundu, Sankur},
+  title   = {syndrome: an open GPU implementation of Relay-BP, bit-identical to IBM's reference},
+  year    = {2026},
+  url     = {https://github.com/Shakhtar-Sankur/syndrome},
+  license = {Apache-2.0}
+}</pre></div>
+</section>
+<section aria-label="About the author"><div class="author"><img src="../avatar.jpg" alt="Sankur Kundu" width="72" height="72"><div>
+<h3>Sankur Kundu</h3><p class="role">ML systems engineer &amp; independent researcher · Bhubaneswar, India · <a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></p>
+<p>Builds GPU and ML systems from scratch and checks them against the published state of the art. Also the author of <a href="../kessler/">kessler</a>, whose collision-probability Monte Carlo matches NASA CARA's on all 53 of its test cases; <a href="../tessel/">tessel</a>, a tile-language compiler with GEMM at cuBLAS parity; and <a href="../token-tax/">lipi</a>, a tokenizer that needs fewer tokens than GPT-4o's and Gemini's in 23 of 24 Indian languages. Fixes merged into Meta's ExecuTorch and Hugging Face's OpenEnv.</p>
+<div class="links"><a href="../">Portfolio</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a></div></div></div></section>
+<footer><p><b>Method</b>bench/m0_reference.py (IBM's relay_bp at d185194 through sinter, 10,000 shots); bench/m2_gpu.py on a Kaggle T4 (32 identity shots per noise level, 2,048 for throughput). All in the repository.</p><p><b>Credit</b>© 2026 Sankur Kundu. Code Apache-2.0. Relay-BP and its reference implementation are IBM's. Page updated 22 October 2026.</p></footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", function () {
+  var b = this; try { navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }); } catch (e) {}
+});
+</script>
+</body>
+</html>
