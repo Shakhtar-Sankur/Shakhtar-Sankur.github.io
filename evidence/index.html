@@ -70,6 +70,8 @@ footer { margin: 48px 0 40px; color: var(--muted); font: 500 12px var(--mono); }
   <h2>Open-source contributions</h2>
   <p class="sub">Each link opens the pull request or issue itself, with its review history.</p>
   <div class="rows">
+    <div class="row"><div class="claim"><span class="tag ok">Merged</span><b>NVIDIA Ising-Decoding #98, #99</b> (NVIDIA's AI decoders for quantum error correction): the models NVIDIA publishes on Hugging Face now load out of the box in its tests, and both checkpoint settings work as documented. Reviewed over several rounds, approved and merged by maintainer Ivan Basov (30 October and 2 November 2026): &ldquo;Merged, thank you for the contribution and for working through the review rounds.&rdquo;</div>
+      <div class="proof"><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98">NVIDIA/Ising-Decoding#98</a><a href="https://github.com/NVIDIA/Ising-Decoding/pull/99">#99</a></div></div>
     <div class="row"><div class="claim"><span class="tag ok">Merged</span><b>Apple MLX #4737</b>: data-race fix in MLX's distributed ring backend, the transport that links Macs for multi-machine training; reviewed, approved and merged by MLX maintainer @zcbenz (22 October 2026). ThreadSanitizer: 2–4 races per run before the fix, none after.</div>
       <div class="proof"><a href="https://github.com/ml-explore/mlx/pull/4737">ml-explore/mlx#4737</a></div></div>
     <div class="row"><div class="claim"><span class="tag ok">Merged</span><b>Meta ExecuTorch #23677</b>: bounds check for the 2-bit and 4-bit quantized embedding kernels used by on-device LLMs, approved by two Meta maintainers (16 October 2026); Scott Roy (Meta): “LGTM! Thanks for the fix!”</div>
