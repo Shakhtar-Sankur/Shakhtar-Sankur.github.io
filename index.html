@@ -6,7 +6,7 @@
 <title>Sankur Kundu — ML systems engineer and independent researcher</title>
 <meta name="description" content="Sankur Kundu, ML systems engineer and researcher: matched NASA on 53/53 collision-probability test cases, 15× faster, now under review by NASA CARA; a GPU quantum decoder bit-identical to IBM's; a 494M-parameter LLM bit-identical on an NVIDIA GPU and a CPU; a cuBLAS-parity compiler; a tokenizer that beats GPT-4o and Gemini in 23 of 24 Indian languages. Sole author of three manuscripts, 14 fixes merged at NVIDIA, Apple's MLX, Meta's ExecuTorch, Tencent's ncnn, IBM Quantum's Relay-BP, the Massachusetts Institute of Technology's MEEP, the US Department of Energy national laboratories' Kokkos, Carnegie Mellon University's XGrammar, Hugging Face's OpenEnv, Oxford's PyZX and JaxMARL, a full lab submitted to Harvard's Machine Learning Systems textbook, pull requests in review at public-sector science software of the European Organization for Nuclear Research (CERN), the European Centre for Medium-Range Weather Forecasts, the UK Met Office and Science and Technology Facilities Council and the Swiss National Supercomputing Centre, and at Google and IBM, seventeen open-source systems each benchmarked against the industry standard, and a co-founder.">
 <meta name="author" content="Sankur Kundu">
-<meta name="theme-color" content="#F7F6F2">
+<meta name="theme-color" content="#0B0D12">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://shakhtar-sankur.github.io/">
 <meta property="og:title" content="Sankur Kundu — ML systems engineer and independent researcher">
@@ -170,6 +170,102 @@ h2 em { font-style: italic; }
 .contact p { color: var(--ink-2); max-width: 44rem; }
 footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13px; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
 </style>
+<style>
+/* 2026-11 redesign: recognition first. A dark hero, then the people who merged the work, by name. */
+:root { --hx-bg: #0B0D12; --hx-ink: #F2EEE4; --hx-ink-2: #B9B3A6; --hx-ink-3: #8C877C; --hx-line: rgba(242,238,228,.14); --brass: #C9A24E; --brass-2: #8A6A22; --gov: #7FD8A8; }
+:root[data-theme="dark"] { --brass-2: #D9B866; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brass-2: #D9B866; } }
+.hx { background: radial-gradient(1200px 520px at 78% -10%, rgba(201,162,78,.16), transparent 60%), radial-gradient(900px 500px at -10% 110%, rgba(127,216,168,.08), transparent 60%), var(--hx-bg); color: var(--hx-ink); padding: 72px 0 40px; scroll-margin-top: 58px; }
+.hx a { color: var(--hx-ink); }
+.hx-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; align-items: start; }
+@media (min-width: 980px) { .hx-grid { grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; } }
+.hx-kick { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 500 12.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hx-ink-3); margin: 0 0 26px; }
+.hx-kick span:first-child { color: var(--brass); }
+.hx h1 { font: 400 clamp(42px, 6.4vw, 88px)/1.02 var(--serif); letter-spacing: -.028em; margin: 0 0 26px; color: var(--hx-ink); }
+.hx h1 em { color: var(--brass); }
+.hx-lede { font-size: clamp(18px, 1.9vw, 21px); line-height: 1.55; color: var(--hx-ink-2); max-width: 44rem; margin: 0 0 32px; }
+.hx-lede b { color: var(--hx-ink); font-weight: 600; }
+.hx-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+.hbtn { display: inline-flex; align-items: center; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--hx-line); text-decoration: none; font: 600 15px var(--sans); color: var(--hx-ink); transition: border-color .2s, background .2s; }
+.hbtn:hover { border-color: var(--hx-ink-2); }
+.hbtn.solid { background: var(--brass); border-color: var(--brass); color: #15120A; }
+.hbtn.solid:hover { background: #D8B562; }
+.hx-id { border: 1px solid var(--hx-line); border-radius: 22px; padding: 26px; background: rgba(255,255,255,.035); }
+.hx-id img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; display: block; margin-bottom: 16px; border: 2px solid rgba(201,162,78,.55); }
+.hx-name { font: 500 28px var(--serif); margin: 0 0 6px; }
+.hx-role { color: var(--hx-ink-2); margin: 0 0 18px; font-size: 15.5px; line-height: 1.5; }
+.hx-id dl { margin: 0; display: grid; gap: 12px; border-top: 1px solid var(--hx-line); padding-top: 16px; }
+.hx-id dt { font: 500 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hx-ink-3); }
+.hx-id dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.45; overflow-wrap: anywhere; }
+.hx-stats { list-style: none; margin: 56px 0 0; padding: 26px 0 0; border-top: 1px solid var(--hx-line); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 24px; }
+@media (min-width: 760px) { .hx-stats { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.hx-stats b { display: block; font: 400 clamp(34px, 3.6vw, 48px)/1 var(--serif); letter-spacing: -.02em; color: var(--hx-ink); margin-bottom: 8px; }
+.hx-stats span { font-size: 13.5px; color: var(--hx-ink-2); line-height: 1.4; display: block; }
+.hx-at { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 30px; }
+.hx-at span { font: 500 11.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--hx-ink-3); margin-right: 6px; }
+.hx-at a { text-decoration: none; font: 600 13.5px var(--sans); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--hx-line); color: var(--hx-ink); }
+.hx-at a:hover { border-color: var(--hx-ink-2); }
+.hx-at a.g { border-color: rgba(127,216,168,.55); color: var(--gov); }
+
+.rc, .ps { padding: 96px 0 0; scroll-margin-top: 58px; }
+.rc-head { max-width: 52rem; margin-bottom: 40px; }
+.eyebrow { font: 500 12.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brass-2); margin: 0 0 14px; }
+.rc-head h2 { font: 400 clamp(36px, 5vw, 64px)/1.04 var(--serif); letter-spacing: -.022em; margin: 0 0 16px; }
+.rc-head p:not(.eyebrow) { color: var(--ink-2); font-size: 17.5px; margin: 0; }
+.rx { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 26px; display: flex; flex-direction: column; }
+.rx-sector { font: 500 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 12px; }
+.rx-org { font: 500 clamp(26px, 2.4vw, 32px)/1.08 var(--serif); letter-spacing: -.015em; margin: 0 0 12px; }
+.rx-proj { font-size: 15px; line-height: 1.5; color: var(--ink-2); margin: 0 0 18px; }
+.rx-proj a { color: var(--ink); font-weight: 600; }
+.rx blockquote { margin: auto 0 0; padding: 18px 0 0; border-top: 1px solid var(--line-2); font: italic 400 19px/1.4 var(--serif); color: var(--ink); position: relative; }
+.rx blockquote.metric { font: 500 17px/1.4 var(--sans); font-style: normal; }
+.rx blockquote cite { display: block; font: 500 12px var(--mono); font-style: normal; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 10px; }
+.rx-by { margin: 14px 0 0; font-size: 13.5px; color: var(--ink-3); line-height: 1.4; }
+.rx-by b { display: block; color: var(--ink); font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.rx.feat { background: radial-gradient(800px 400px at 100% 0%, rgba(201,162,78,.18), transparent 60%), var(--hx-bg); color: var(--hx-ink); border-color: transparent; padding: 34px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; margin-bottom: 18px; }
+@media (min-width: 900px) { .rx.feat { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; padding: 44px; } }
+.rx.feat .rx-sector { color: var(--gov); }
+.rx.feat .rx-org { font-size: clamp(32px, 3.6vw, 48px); color: var(--hx-ink); }
+.rx.feat .rx-proj { color: var(--hx-ink-2); }
+.rx.feat .rx-proj a, .rx.feat a { color: var(--hx-ink); }
+.rx.feat blockquote { border-top-color: var(--hx-line); color: var(--brass); font-size: 24px; }
+.rx.feat blockquote cite { color: var(--hx-ink-3); }
+.rx-people { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; align-content: start; }
+.rx-people li { padding: 15px 0; border-bottom: 1px solid var(--hx-line); display: grid; gap: 2px; }
+.rx-people li:first-child { border-top: 1px solid var(--hx-line); }
+.rx-people .v { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brass); }
+.rx-people b { font: 500 21px var(--serif); color: var(--hx-ink); }
+.rx-people li > span:last-child { font-size: 14px; color: var(--hx-ink-2); }
+.rx-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+@media (min-width: 700px) { .rx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1040px) { .rx-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.ps-rows { border-top: 1px solid var(--ink); }
+.ps-r { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; padding: 20px 0; border-bottom: 1px solid var(--line); text-decoration: none; align-items: center; transition: background .2s; }
+.ps-r:hover { background: var(--bg-2); }
+@media (min-width: 820px) { .ps-r { grid-template-columns: 220px minmax(0, 1fr) auto; padding: 22px 8px; } }
+.ps-s { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); grid-column: 1 / -1; }
+@media (min-width: 820px) { .ps-s { grid-column: auto; } }
+.ps-o { font: 500 clamp(20px, 2vw, 25px)/1.2 var(--serif); }
+.ps-o small { display: block; font: 400 14px/1.45 var(--sans); color: var(--ink-2); margin-top: 6px; }
+.pill { font: 600 12.5px var(--sans); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.rv { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 48px; }
+@media (min-width: 900px) { .rv { grid-template-columns: repeat(3, minmax(0, 1fr)); } .rv-c.big { grid-column: 1 / -1; } }
+.rv-c { border: 1px solid var(--line); border-radius: 20px; padding: 26px; background: var(--card); }
+.rv-c h3 { font: 500 26px/1.15 var(--serif); margin: 0 0 10px; }
+.rv-c p:not(.rx-sector) { color: var(--ink-2); font-size: 15px; margin: 0 0 14px; }
+.rv-c a { font-weight: 600; text-decoration: none; }
+.rv-c.big { background: var(--bg-2); }
+.rv-c.big h3 { font-size: clamp(28px, 3vw, 38px); }
+.rv-c.big p:not(.rx-sector) { font-size: 17px; max-width: 54rem; }
+#research { padding-top: 110px; }
+.num { color: var(--brass-2); border-top-color: var(--brass-2); }
+@media (min-width: 1040px) { .rx-grid > .rx:nth-child(1), .rx-grid > .rx:nth-child(3) { grid-column: span 2; } .rx-grid > .rx:nth-child(1) .rx-org, .rx-grid > .rx:nth-child(3) .rx-org { font-size: 38px; } }
+:root[data-theme="dark"] .rx.feat, :root[data-theme="dark"] .hx { border: 1px solid var(--hx-line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rx.feat { border: 1px solid var(--hx-line); } :root:not([data-theme="light"]) .hx { border-bottom: 1px solid var(--hx-line); } }
+:root[data-theme="dark"] .hx { border-width: 0 0 1px; }
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -177,10 +273,11 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Sankur Kundu, home">Sankur Kundu</a>
     <nav aria-label="Primary">
+      <a class="opt" href="#recognition">Recognition</a>
+      <a class="opt" href="#public-sector">Public sector</a>
       <a class="opt" href="#research">Research</a>
       <a class="opt" href="#systems">Systems</a>
-      <a class="opt" href="#evidence">Evidence</a>
-      <a class="opt" href="#founder">Founder</a>
+      <a class="opt" href="#evidence">Record</a>
       <a class="opt" href="#about">About</a>
       <a class="cv" href="Sankur-Kundu-Resume.pdf">Résumé</a>
       <button class="theme" id="theme" type="button" aria-label="Switch colour theme">◐</button>
@@ -189,30 +286,95 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
 </header>
 
 <main id="main">
-<div class="wrap" id="top">
-  <div class="hero">
-    <div>
-      <p class="kicker"><b>ML systems engineer · independent researcher</b> · Bhubaneswar, India · open to relocation</p>
-      <h1>Matched NASA on 53 of 53 cases, 15× faster, <em>now under review by NASA CARA.</em></h1>
-      <div class="merged-at" aria-label="Organisations that merged my fixes"><span class="ma-l">Merged at</span><a class="gov" href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">US Department of Energy</a><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">NVIDIA</a><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">Apple</a><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">Meta</a><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">IBM Quantum</a><a class="gov" href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">Massachusetts Institute of Technology</a><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">Tencent</a><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">Carnegie Mellon University</a><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">University of Oxford</a><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">Hugging Face</a></div>
-      <p class="lede">That is <a href="kessler/">kessler</a>, my open satellite collision-risk engine, checked on all 53 of NASA's own test conjunctions. Also built from scratch and benchmarked against the industry standard, including where mine loses: a <b>GPU quantum decoder bit-identical to IBM's</b>, a <b>compiler at cuBLAS parity</b>, an LLM engine at <b>1.05× vLLM</b>, and a <b>tokenizer that beats GPT-4o's and Gemini's in 23 of 24 Indian languages</b>. Fourteen fixes merged in 21 days at <b>NVIDIA</b> (two), <b>Apple</b>, <b>Meta</b>, <b>Tencent</b> (by ncnn&rsquo;s creator), <b>IBM Quantum</b> (by Relay-BP&rsquo;s first author), the <b>Massachusetts Institute of Technology</b> (by MEEP&rsquo;s original lead developer), the <b>US Department of Energy national laboratories</b> (Kokkos, by its lead at <b>Los Alamos National Laboratory</b> after approval from <b>Oak Ridge National Laboratory</b>; in the Kokkos 5.4 release notes), <b>Carnegie Mellon University&rsquo;s XGrammar</b> (the structured-output engine of vLLM, SGLang and NVIDIA TensorRT-LLM), <b>Hugging Face</b>, <b>the University of Oxford&rsquo;s PyZX</b> and <b>JaxMARL</b> (University of Oxford, University College London and Imperial College London); pull requests in review at public-sector science software of <b>CERN</b> (European Organization for Nuclear Research), the <b>European Centre for Medium-Range Weather Forecasts</b>, the <b>UK Met Office</b> and the <b>Swiss National Supercomputing Centre</b>; a full lab <a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer"><b>submitted to Harvard's Machine Learning Systems textbook</b></a>; and more in review at <b>Google JAX</b>, <b>vLLM</b>, <b>PyTorch</b> and the research labs of the <b>Massachusetts Institute of Technology</b> and <b>ETH Zurich</b>.</p>
-      <div class="ctas"><a class="btn solid" href="#research">See the research</a><a class="btn" href="Sankur-Kundu-Resume.pdf">Résumé (PDF)</a><a class="btn" href="Sankur-Kundu-CV.pdf">Full CV (PDF)</a><a class="btn" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Evidence: the original emails</a><a class="btn" href="mailto:sankur.kundu.tw@gmail.com">Email</a></div>
+<section class="hx" id="top" aria-labelledby="hx-h">
+  <div class="wrap hx-grid">
+    <div class="hx-main">
+      <p class="hx-kick"><span>ML systems engineer · independent researcher</span><span>Bhubaneswar, India · open to relocation</span></p>
+      <h1 id="hx-h">Fourteen fixes, <em>merged by the people who lead the projects.</em></h1>
+      <p class="hx-lede">At the <b>US Department of Energy national laboratories</b>, <b>NVIDIA</b>, <b>Apple</b>, <b>Meta</b>, <b>IBM Quantum</b> and the <b>Massachusetts Institute of Technology</b>, in 21 days. Alongside them, a satellite collision-risk engine that matches NASA on 53 of 53 test cases, <b>now under review by NASA Conjunction Assessment Risk Analysis</b>.</p>
+      <div class="hx-ctas"><a class="hbtn solid" href="#recognition">Who merged them</a><a class="hbtn" href="Sankur-Kundu-Resume.pdf">Résumé</a><a class="hbtn" href="Sankur-Kundu-CV.pdf">Full CV</a><a class="hbtn" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Original emails (PDF)</a></div>
     </div>
-    <aside class="card-me" aria-label="At a glance">
-      <div class="me"><img src="avatar.jpg" alt="Sankur Kundu" width="64" height="64"><div><b>Sankur Kundu</b><span>B.Tech, Computer Science &amp; Engineering (AI &amp; ML), Institute of Engineering &amp; Management, Kolkata, 2026</span></div></div>
-      <ul class="ev">
-        <li><b>3</b><span>manuscripts, sole author: <a href="token-tax/">tokenization</a>, <a href="ratchet/">RL post-training</a>, <a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf" rel="noreferrer">satellite collision risk</a></span></li>
-        <li><b>14</b><span>fixes merged in 21 days: the <a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">US Department of Energy national laboratories</a>, <a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">NVIDIA</a> (two), <a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">Apple</a>, <a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">Meta</a> (two), <a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">IBM Quantum</a>, the <a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">Massachusetts Institute of Technology</a>, <a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">Tencent</a>, <a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">Carnegie Mellon University</a>, <a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">Hugging Face</a> (two), the <a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">University of Oxford</a> and <a href="https://github.com/bold-lab-ai/JaxMARL/pull/206" rel="noreferrer">JaxMARL</a>. <a href="#evidence">Who merged each one &darr;</a></span></li>
-        <li><b>7</b><span>pull requests at public-sector science software: <b>2 merged</b> (<a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">US Department of Energy</a>, <a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">Massachusetts Institute of Technology</a>), 1 approved, 4 in review (<a href="https://github.com/rucio/rucio/pull/8862" rel="noreferrer">European Organization for Nuclear Research (CERN)</a>, <a href="https://github.com/ecmwf/eccodes/pull/684" rel="noreferrer">European Centre for Medium-Range Weather Forecasts</a>, <a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">UK Met Office and Science and Technology Facilities Council</a>, <a href="https://github.com/reframe-hpc/reframe/pull/3750" rel="noreferrer">Swiss National Supercomputing Centre</a>)</span></li>
-        <li><b>17</b><span>open-source systems, each measured against the reference and stating its limits</span></li>
-        <li><b>1,617</b><span>npm downloads of <a href="populace/">Populace</a> in 2026, a testing tool I wrote and shipped</span></li>
-        <li><b>140M</b><span>pairs of active satellites <a href="kessler/">kessler</a> screens in public every day (531 million pairs of the full catalogue in 28 s on one GPU); its collision probabilities match NASA CARA's on all 53 of NASA's test cases</span></li>
-      </ul>
+    <aside class="hx-id" aria-label="Profile">
+      <img src="avatar.jpg" alt="Sankur Kundu" width="88" height="88">
+      <p class="hx-name">Sankur Kundu</p>
+      <p class="hx-role">GPU software for AI and science, every result checked against a reference implementation.</p>
+      <dl>
+        <div><dt>Education</dt><dd>B.Tech, Computer Science &amp; Engineering (AI &amp; ML), Institute of Engineering &amp; Management, Kolkata, 2026</dd></div>
+        <div><dt>Company</dt><dd>Co-founder and founding engineer, Gigzen</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></dd></div>
+      </dl>
     </aside>
   </div>
+  <div class="wrap">
+    <ul class="hx-stats" aria-label="At a glance">
+      <li><b>14</b><span>fixes merged in 21 days</span></li>
+      <li><b>2</b><span>merged at public-sector science software</span></li>
+      <li><b>53 / 53</b><span>NASA test cases matched, under review by NASA</span></li>
+      <li><b>3</b><span>manuscripts, sole author</span></li>
+      <li><b>17</b><span>open-source systems, each benchmarked</span></li>
+    </ul>
+    <div class="hx-at" aria-label="Organisations that merged my fixes"><span>Merged at</span><a class="g" href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">US Department of Energy</a><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">NVIDIA</a><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">Apple</a><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">Meta</a><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">IBM Quantum</a><a class="g" href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">Massachusetts Institute of Technology</a><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">Tencent</a><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">Carnegie Mellon University</a><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">University of Oxford</a><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">Hugging Face</a></div>
+  </div>
+</section>
 
+<section class="rc" id="recognition" aria-labelledby="rc-h">
+  <div class="wrap">
+    <div class="rc-head"><p class="eyebrow">01 — Recognition</p><h2 id="rc-h">Merged by the people <em>who lead the projects.</em></h2><p>Every fix below was found by running the project's own tests on real hardware, fixed with a test that fails without it, and reviewed and merged by its maintainers. Each name links to the public pull request; the signed original emails are in the <a href="evidence/">evidence</a>.</p></div>
+
+    <article class="rx feat">
+      <div class="rx-l">
+        <p class="rx-sector">Energy &amp; national security · merged 5 November 2026</p>
+        <h3 class="rx-org">US Department of Energy national laboratories</h3>
+        <p class="rx-proj"><a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">Kokkos #9738</a>, the laboratories' GPU performance-portability library (Exascale Computing Project): sort now compiles on NVIDIA CUDA and AMD HIP for types without a default constructor; 20 of 20 GPU tests pass.</p>
+        <blockquote>&ldquo;Generally the approach looks good.&rdquo;<cite>Damien Lebrun-Grandi&eacute;, Kokkos lead</cite></blockquote>
+      </div>
+      <ul class="rx-people">
+        <li><span class="v">Merged by</span><b>Damien Lebrun-Grandi&eacute;</b><span>Leads the Kokkos project · Los Alamos National Laboratory</span></li>
+        <li><span class="v">Approved by</span><b>Daniel Arndt</b><span>Kokkos developer, computational scientist · Oak Ridge National Laboratory</span></li>
+        <li><span class="v">Reviewed by</span><b>Andrey Prokopenko</b><span>Oak Ridge National Laboratory · proposed my next Kokkos fix</span></li>
+        <li><span class="v">Release</span><b><a href="https://github.com/kokkos/kokkos/issues/9714" rel="noreferrer">Kokkos 5.4 release notes</a></b><span>Listed under Bug Fixes by the Kokkos lead</span></li>
+      </ul>
+    </article>
+
+    <div class="rx-grid">
+      <article class="rx"><p class="rx-sector">Academic research · merged 5 Nov 2026</p><h3 class="rx-org">Massachusetts Institute of Technology</h3><p class="rx-proj"><a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">MEEP #3364</a>, its electromagnetics simulator: time estimates up to 4&times; too short, now 0.97&ndash;1.02&times;. A second fix, <a href="https://github.com/NanoComp/meep/pull/3363" rel="noreferrer">#3363</a>, approved.</p><blockquote>&ldquo;Raising a ValueError is the correct approach because in Python, failing fast and explicitly is strongly preferred over silently mutating inputs.&rdquo;</blockquote><p class="rx-by"><b>Ardavan Oskooi</b>MEEP's original lead developer, first author of its reference paper</p></article>
+      <article class="rx"><p class="rx-sector">Quantum computing · merged 5 Nov 2026</p><h3 class="rx-org">IBM Quantum</h3><p class="rx-proj"><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">Relay-BP #49</a>, the quantum error-correction decoder: the same shot decoded differently by batch order, 1,970 of 2,000 shots, now 0.</p><blockquote>&ldquo;Thank you! Happy with this, will merge it.&rdquo;</blockquote><p class="rx-by"><b>Tristan M&uuml;ller</b>First author of Relay-BP, IBM Quantum</p></article>
+      <article class="rx"><p class="rx-sector">AI for quantum error correction · merged 30 Oct &amp; 2 Nov 2026</p><h3 class="rx-org">NVIDIA</h3><p class="rx-proj"><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">Ising-Decoding #98</a> and <a href="https://github.com/NVIDIA/Ising-Decoding/pull/99" rel="noreferrer">#99</a>: the models NVIDIA publishes on Hugging Face now load in its tests, out of the box.</p><blockquote>&ldquo;Merged, thank you for the contribution and for working through the review rounds.&rdquo;</blockquote><p class="rx-by"><b>Ivan Basov</b>Maintainer, NVIDIA Ising-Decoding</p></article>
+      <article class="rx"><p class="rx-sector">On-device AI · merged 16 &amp; 28 Oct 2026</p><h3 class="rx-org">Meta</h3><p class="rx-proj"><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">ExecuTorch #23677</a> and <a href="https://github.com/pytorch/executorch/pull/23912" rel="noreferrer">#23912</a>, the runtime behind on-device AI in Instagram and WhatsApp: an out-of-bounds read and a type check in its LLM kernels.</p><blockquote>&ldquo;LGTM! Thanks for the fix!&rdquo;</blockquote><p class="rx-by"><b>Scott Roy and Jacob Stevens</b>Meta maintainers</p></article>
+      <article class="rx"><p class="rx-sector">Machine learning on Apple silicon · merged 22 Oct 2026</p><h3 class="rx-org">Apple</h3><p class="rx-proj"><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">MLX #4737</a>, Apple's machine learning framework (29,000 stars): a data race in its distributed training backend.</p><blockquote class="metric">2&ndash;4 races per run &rarr; 0</blockquote><p class="rx-by"><b>@zcbenz</b>MLX maintainer, who reviewed, approved and merged it</p></article>
+      <article class="rx"><p class="rx-sector">On-device AI · merged 5 Nov 2026</p><h3 class="rx-org">Tencent</h3><p class="rx-proj"><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">ncnn #7239</a>, its on-device inference framework (24,000 stars): NaN outputs on Vulkan GPUs, now none. Its creator extended the tests in his own commit.</p><blockquote>&ldquo;Thanks for your contribution !&rdquo;</blockquote><p class="rx-by"><b>nihui</b>Creator and lead maintainer of ncnn</p></article>
+      <article class="rx"><p class="rx-sector">Quantum circuits · merged 22 Oct 2026</p><h3 class="rx-org">University of Oxford</h3><p class="rx-proj"><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">PyZX #563</a>, the ZX-calculus circuit optimiser: 25 of 100 random circuits optimised into a different unitary, now 0.</p><blockquote>&ldquo;Thanks for the fix! This was a regression from an earlier PR.&rdquo;</blockquote><p class="rx-by"><b>John van de Wetering</b>Co-creator of PyZX</p></article>
+      <article class="rx"><p class="rx-sector">Structured output for LLM serving · merged 29 Oct 2026</p><h3 class="rx-org">Carnegie Mellon University</h3><p class="rx-proj"><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">XGrammar #1012</a>, the default structured-output engine of vLLM, SGLang and NVIDIA TensorRT-LLM: a crash behind a long-closed issue.</p><blockquote class="metric">Extended in the maintainer's own commit, then merged</blockquote><p class="rx-by"><b>Linzhang Li</b>XGrammar maintainer</p></article>
+      <article class="rx"><p class="rx-sector">Reinforcement learning · merged 26 Oct 2026</p><h3 class="rx-org">University of Oxford, University College London &amp; Imperial College London</h3><p class="rx-proj"><a href="https://github.com/bold-lab-ai/JaxMARL/pull/206" rel="noreferrer">JaxMARL #206</a> (NeurIPS 2024): 8 Q-learning baselines saw a blank first observation every episode.</p><blockquote>&ldquo;Good find!!&rdquo;</blockquote><p class="rx-by"><b>Alex Rutherford</b>Lead author of JaxMARL</p></article>
+      <article class="rx"><p class="rx-sector">Reinforcement-learning environments · merged 19 Oct 2026</p><h3 class="rx-org">Hugging Face</h3><p class="rx-proj"><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">OpenEnv #1441</a> and <a href="https://github.com/huggingface/OpenEnv/pull/1442" rel="noreferrer">#1442</a>, governed by Meta-PyTorch, Hugging Face, NVIDIA and Microsoft: reward rubrics scored out of order.</p><blockquote>&ldquo;Reviewed hook ordering and async composition; 177 rubric tests pass.&rdquo;</blockquote><p class="rx-by"><b>OpenEnv reviewer</b>Approved and merged both</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="ps" id="public-sector" aria-labelledby="ps-h">
+  <div class="wrap">
+    <div class="rc-head"><p class="eyebrow">02 — Public-sector science</p><h2 id="ps-h">The software governments <em>run for science.</em></h2><p>Seven pull requests, by sector: two merged, one approved, four in review. Each was tested before and after with the project's own tests, in public runs.</p></div>
+    <div class="ps-rows">
+      <a class="ps-r" href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer"><span class="ps-s">Energy &amp; national security</span><span class="ps-o">US Department of Energy national laboratories<small>Kokkos · merged by its lead at Los Alamos National Laboratory after approval from Oak Ridge National Laboratory; in the Kokkos 5.4 release notes</small></span><span class="pill ok">Merged</span></a>
+      <a class="ps-r" href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer"><span class="ps-s">Academic research</span><span class="ps-o">Massachusetts Institute of Technology<small>MEEP · one fix merged by its original lead developer, a second approved</small></span><span class="pill ok">Merged</span></a>
+      <a class="ps-r" href="https://github.com/rucio/rucio/pull/8862" rel="noreferrer"><span class="ps-s">Particle physics</span><span class="ps-o">European Organization for Nuclear Research (CERN)<small>Rucio, data management of the Large Hadron Collider experiments · eleven commands reported success when they had failed</small></span><span class="pill">In review</span></a>
+      <a class="ps-r" href="https://github.com/ecmwf/eccodes/pull/684" rel="noreferrer"><span class="ps-s">Weather &amp; climate</span><span class="ps-o">European Centre for Medium-Range Weather Forecasts<small>ecCodes, its library for global weather data (intergovernmental, 35 states) · about 6,000 wrong grid coordinates, now none</small></span><span class="pill">In review</span></a>
+      <a class="ps-r" href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer"><span class="ps-s">Weather &amp; climate</span><span class="ps-o">UK Met Office and Science and Technology Facilities Council<small>PSyclone, code generator of the Met Office's LFRic model · maintainer review: &ldquo;otherwise it looks good&rdquo;</small></span><span class="pill">In review</span></a>
+      <a class="ps-r" href="https://github.com/reframe-hpc/reframe/pull/3750" rel="noreferrer"><span class="ps-s">National supercomputing</span><span class="ps-o">Swiss National Supercomputing Centre, ETH Zurich<small>ReFrame, its supercomputer testing framework · a regression test on its 4.10 milestone</small></span><span class="pill">In review</span></a>
+    </div>
+
+    <div class="rv">
+      <div class="rv-c big"><p class="rx-sector">Under review · since 20 October 2026</p><h3>NASA Conjunction Assessment Risk Analysis</h3><p>My independent reproduction of CARA's Monte Carlo collision probabilities, on all 53 of its test conjunctions, 15&ndash;19&times; faster per core. CARA's operations team lead referred it to its analysis team: &ldquo;Our analysis team will investigate&hellip; and will provide you with our findings.&rdquo;</p><a href="kessler/">kessler →</a></div>
+      <div class="rv-c"><p class="rx-sector">Submitted · 4 November 2026</p><h3>Harvard's Machine Learning Systems textbook</h3><p>A full lab for Prof. Vijay Janapa Reddi's open textbook, on why temperature-0 language models are not deterministic; its team: &ldquo;the feature looks great&rdquo;.</p><a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">Pull request #2175 →</a></div>
+      <div class="rv-c"><p class="rx-sector">In review · Google</p><h3>Google JAX</h3><p>A gradient gap open since 2021, assigned for review to Matthew Johnson, one of JAX's original authors.</p><a href="https://github.com/jax-ml/jax/pull/41859" rel="noreferrer">Pull request #41859 →</a></div>
+      <div class="rv-c"><p class="rx-sector">Scouted · October 2026</p><h3>Entrepreneur First (UK)</h3><p>Scouted from my public work alone, citing a cuBLAS-parity compiler and a negative result I chose to publish: &ldquo;which I rarely see&rdquo;.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
   <section id="research" aria-labelledby="research-h">
-    <div class="sh"><div class="num">01 — Research</div><div><h2 id="research-h">Three studies. <em>Every number public.</em></h2><p>Each one asks who an AI system serves badly, measures it, and fixes it, with code and raw results anyone can rerun. Each study page has its findings, method, limitations, press facts and a citation.</p></div></div>
+    <div class="sh"><div class="num">03 — Research</div><div><h2 id="research-h">Three studies. <em>Every number public.</em></h2><p>Each one asks who an AI system serves badly, measures it, and fixes it, with code and raw results anyone can rerun. Each study page has its findings, method, limitations, press facts and a citation.</p></div></div>
     <div class="flag">
       <a class="f lipi" href="token-tax/">
         <span class="t">lipi · tokenization · Indian languages</span>
@@ -239,7 +401,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   </section>
 
   <section id="systems" aria-labelledby="systems-h">
-    <div class="sh"><div class="num">02 — Systems</div><div><h2 id="systems-h">The machinery of modern AI, <em>built from scratch.</em></h2><p>Serving, training, compiling and verifying, each benchmarked against what industry uses: vLLM, cuBLAS, torch.compile, NCCL, NASA's and IBM's own tools. Each has its own study page.</p></div></div>
+    <div class="sh"><div class="num">04 — Systems</div><div><h2 id="systems-h">The machinery of modern AI, <em>built from scratch.</em></h2><p>Serving, training, compiling and verifying, each benchmarked against what industry uses: vLLM, cuBLAS, torch.compile, NCCL, NASA's and IBM's own tools. Each has its own study page.</p></div></div>
     <div class="sys">
       <a class="s" href="kessler/" style="--sbg:#03050A;--sfg:#E8EDF5;--sac:#FF7A1A"><span class="sw"><span class="n">kessler</span><span class="m">live, daily</span></span><span class="bd"><p>Independent space-traffic audit: every active satellite screened against every other each morning; a Monte Carlo collision probability matching NASA CARA's on all 53 of its test cases, 15–19× faster than NASA's library.</p><small>C++ · CUDA · Python</small></span></a>
       <a class="s" href="syndrome/" style="--sbg:#0B1530;--sfg:#E8EEFF;--sac:#78A9FF"><span class="sw"><span class="n">syndrome</span><span class="m">= IBM · 28.7×</span></span><span class="bd"><p>IBM's Relay-BP quantum error-correction decoder on a GPU, bit-identical to IBM's reference on every shot checked (float64 and float32); a single shot decodes 28.7× faster than IBM's decoder, and a batch 4.0× faster than IBM's decoder on the whole CPU.</p><small>C++ · CUDA · quantum</small></span></a>
@@ -257,7 +419,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   </section>
 
   <section id="evidence" aria-labelledby="evidence-h">
-    <div class="sh"><div class="num">03 — Evidence</div><div><h2 id="evidence-h">Contributions others <em>can check.</em></h2><p>Manuscripts, contributions to the frameworks AI runs on, and tools released for others to use, each with its current status stated plainly.</p></div></div>
+    <div class="sh"><div class="num">05 — Full record</div><div><h2 id="evidence-h">Contributions others <em>can check.</em></h2><p>Manuscripts, contributions to the frameworks AI runs on, and tools released for others to use, each with its current status stated plainly.</p></div></div>
     <div class="ledger">
       <div class="box" style="grid-column:1/-1">
         <h3>Recognition</h3><p class="sub">From outside my own work.</p>
@@ -315,7 +477,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   </section>
 
   <section id="founder" aria-labelledby="founder-h">
-    <div class="sh"><div class="num">04 — Founder</div><div><h2 id="founder-h">Co-founder and founding engineer, <em>Gigzen.</em></h2><p>Software for the people who move the world's goods: one person often rides for several platforms, and none of them sees their whole working life. I own the engineering, from the Postgres schema to the signed Android build and the public record of what was tested. Company name approved by India's Ministry of Corporate Affairs; incorporation in progress.</p></div></div>
+    <div class="sh"><div class="num">06 — Founder</div><div><h2 id="founder-h">Co-founder and founding engineer, <em>Gigzen.</em></h2><p>Software for the people who move the world's goods: one person often rides for several platforms, and none of them sees their whole working life. I own the engineering, from the Postgres schema to the signed Android build and the public record of what was tested. Company name approved by India's Ministry of Corporate Affairs; incorporation in progress.</p></div></div>
     <div class="founder">
       <div class="box"><h3>Waggle</h3><p>Three Android apps on one backend, for riders, shops and customers: a shop's order becomes a rider's job, with dispatch decided first-accept-wins inside the database, UPI settlement and GST billing.</p>
         <div class="stats"><div><b>150 / 150</b><span>attack cases on the database rules, all blocked</span></div><div><b>3 apps</b><span>live on one Supabase backend</span></div></div>
@@ -330,7 +492,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   </section>
 
   <section id="more" aria-labelledby="more-h">
-    <div class="sh"><div class="num">05 — Index</div><div><h2 id="more-h">Everything else, <em>in one list.</em></h2><p>Earlier systems and coursework-era projects, each stating where it falls short.</p></div></div>
+    <div class="sh"><div class="num">07 — Index</div><div><h2 id="more-h">Everything else, <em>in one list.</em></h2><p>Earlier systems and coursework-era projects, each stating where it falls short.</p></div></div>
     <div class="idx">
       <a href="syndrome/"><span class="nm">syndrome</span><span class="ds">An open GPU decoder for IBM's quantum LDPC codes: IBM's Relay-BP in CUDA, bit-identical to IBM's reference on a T4 (float64 and float32): one shot 28.7× faster than IBM's decoder, a batch 4.0× faster than IBM's decoder on the whole CPU. IBM's own decoder reproduces IBM's published rate here: 41 vs 44 errors in 10,000 shots.</span><span class="tg">C++ · CUDA · quantum</span></a>
       <a href="https://github.com/Shakhtar-Sankur/parity" rel="noreferrer"><span class="nm">parity</span><span class="ds">An open benchmark for quantum error-correction decoders: reproduced PyMatching 2's scaling and threshold, and ran NVIDIA's Ising pre-decoders on identical Stim samples.</span><span class="tg">Python · CUDA · quantum</span></a>
@@ -348,7 +510,7 @@ footer { border-top: 1px solid var(--line); padding: 22px 0 40px; font-size: 13p
   </section>
 
   <section id="about" aria-labelledby="about-h">
-    <div class="sh"><div class="num">06 — About</div><div><h2 id="about-h">Correctness first, <em>then speed.</em></h2></div></div>
+    <div class="sh"><div class="num">08 — About</div><div><h2 id="about-h">Correctness first, <em>then speed.</em></h2></div></div>
     <div class="about">
       <div class="bio">
         <p>I am an ML systems engineer from Bhubaneswar, Odisha. I work at the layer most people never see: the engines that serve language models, the loops that train them, the compilers and kernels under both, and the tests that prove they are right.</p>
