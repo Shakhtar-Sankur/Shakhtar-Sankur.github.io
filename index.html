@@ -34,10 +34,10 @@ h1{font:600 40px/1.1 var(--sans);letter-spacing:-.02em;margin:0 0 10px}
 .role b{color:var(--ink);font-weight:600}
 .photo{margin:0}
 .photo img{width:100%;max-width:230px;height:auto;display:block;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
-@media (max-width:719px){.photo{order:-1}.photo img{max-width:180px}}
+
 .links{display:flex;flex-wrap:wrap;gap:4px 14px;margin:14px 0 0}
 .links a::before{content:"[";color:var(--mute)}.links a::after{content:"]";color:var(--mute)}
-h2{font:600 22px/1.3 var(--sans);letter-spacing:-.01em;margin:44px 0 12px;padding-top:4px}
+h2{font:600 22px/1.3 var(--sans);letter-spacing:-.01em;margin:40px 0 12px;padding-top:4px}
 ul.why{margin:0;padding-left:1.15em}
 ul.why li{margin:0 0 10px}
 ul.why q{font-style:italic;quotes:"“" "”"}
@@ -58,6 +58,15 @@ details.all summary{cursor:pointer;color:var(--link);font-weight:500;margin:6px 
 .built{margin:0;padding-left:1.15em;list-style:disc}.built li{margin:0 0 10px}.built b{font-weight:600}.built .n{color:#9a3b00;font-weight:600;margin-left:6px;font-size:15px}.built p{display:inline;margin:0 0 0 6px;color:var(--ink2)}
 .papers{margin:0;padding-left:1.4em}.papers li{margin:0 0 8px}
 @media (max-width:480px){nav.top{gap:16px}nav.top a[href='#papers'],nav.top a[href$='Resume.pdf']{display:none}}
+.photos{display:flex;flex-direction:column;gap:16px}
+.photo.work img{max-width:230px}
+.photo figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+@media (max-width:719px){.photos{order:-1;flex-direction:row;align-items:flex-end;gap:12px}.photo img{max-width:150px}.photo.work img{max-width:170px}}
+.builtfig{margin:4px 0 18px}
+.builtfig img{width:100%;max-width:300px;height:auto;display:block;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
+.builtfig figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+@media (min-width:720px){.builtfig{float:right;width:300px;margin:4px 0 18px 32px}}
+#built::after{content:"";display:block;clear:both}
 footer{margin-top:56px;border-top:1px solid var(--rule);padding:22px 0 40px;color:var(--mute);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 section{border:0;padding:0}
@@ -74,10 +83,6 @@ section{border:0;padding:0}
     <p class="role"><b>ML systems engineer and independent researcher.</b> I build GPU software for AI and science, and check every result against a reference implementation.</p>
     <p class="role">Co-founder of <a href="gigzen/">Gigzen</a>. B.Tech in Computer Science and Engineering (AI &amp; ML), Institute of Engineering &amp; Management, Kolkata, 2026. Based in Bhubaneswar, India; open to relocation.</p>
     <p class="links"><a href="mailto:sankur.kundu.tw@gmail.com">Email</a><a href="Sankur-Kundu-CV.pdf">CV</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Signed emails</a></p>
-  </div>
-  <figure class="photo"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"></figure>
-</div>
-
 <h2>Why you might know me</h2>
 <ul class="why">
   <li><b>NASA&rsquo;s Conjunction Assessment Risk Analysis team</b> checked my reproduction of its collision probabilities (53 of 53 test cases, 15&ndash;19&times; faster per core): <q>your sampling space results indeed appear to be fully consistent with what we see in CARA operations</q>. <a href="kessler/">kessler</a></li>
@@ -86,6 +91,11 @@ section{border:0;padding:0}
   <li><b>Google XLA</b>, the compiler behind JAX and TPUs: I fixed a simplification that returned 0 instead of 10. <q>The change in the PR is correct.</q> <a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></li>
   <li>I built <a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer">chirp</a>, which finds 62 of 71 LIGO gravitational-wave events blind, and <a href="syndrome/">syndrome</a>, a GPU decoder bit-identical to IBM&rsquo;s and 28.7&times; faster.</li>
 </ul>
+  </div>
+  <div class="photos"><figure class="photo"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"></figure></div>
+</div>
+
+
 <section id="merged"><h2>Merged by the people who lead the projects</h2>
   <div>
     <ol class="top6">
@@ -105,6 +115,7 @@ section{border:0;padding:0}
     <p class="note">Each bug was found by running the project&rsquo;s own tests and fixed with a test that fails without the fix. <a href="evidence/">Every claim, with its proof →</a></p>
   </div></section>
 <section id="built"><h2>Things I built</h2>
+  <figure class="builtfig"><img src="at-work.jpg" alt="Sankur Kundu working at a laptop" width="460" height="310" loading="lazy"><figcaption>At work</figcaption></figure>
   <ul class="built">
     <li><a href="kessler/"><b>kessler</b></a><span class="n">53/53</span><p>NASA CARA&rsquo;s Monte Carlo collision probability on all 53 test cases, 15&ndash;19&times; faster per core; screens 531 million object pairs in 28 s on one T4.</p></li>
     <li><a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer"><b>chirp</b></a><span class="n">62/71</span><p>An independent GPU search for gravitational waves that finds 62 of 71 LIGO O4a events blind.</p></li>
