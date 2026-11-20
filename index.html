@@ -7,7 +7,10 @@
 <meta name="description" content="Sankur Kundu, ML systems engineer and independent researcher. NASA CARA's Analysis Team: “fully consistent with what we see in CARA operations.” Harvard's Prof. Vijay Janapa Reddi: “every result in your table reproduces.” 29 fixes merged by the people who lead the projects: Google, the European Space Agency, ITER, NIST, the US Department of Energy national laboratories, MIT, gem5, the UK Met Office (twice), NVIDIA, Apple, Meta and IBM Quantum.">
 <meta property="og:title" content="Sankur Kundu — 29 fixes, merged by the people who lead the projects">
 <meta property="og:description" content="NASA CARA: “fully consistent with what we see in CARA operations” · Harvard: “every result in your table reproduces” · 29 fixes merged at Google, ESA, ITER, NIST, US DOE, MIT, gem5, the UK Met Office, NVIDIA, Apple, Meta and IBM Quantum.">
-<meta property="og:image" content="https://shakhtar-sankur.github.io/og-2026.jpg">
+<meta property="og:image" content="https://shakhtar-sankur.github.io/og-29.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shakhtar-sankur.github.io/og-29.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#05060A">
@@ -209,6 +212,21 @@ h2 em{font-style:normal;font-weight:300;color:var(--gov)}
 .end .wrap{padding-top:120px;padding-bottom:120px;display:grid;gap:28px;justify-items:start}
 .end h2{font-size:clamp(44px,8.5vw,140px);line-height:.9}
 .end p{color:var(--ink-2);margin:0;max-width:44rem}
+.badge{position:relative;border:1px solid var(--line-2);background:linear-gradient(180deg,var(--panel),var(--void));padding:18px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);max-width:420px}
+.badge .bh{display:flex;justify-content:space-between;color:var(--mute);margin-bottom:14px}
+.badge .bh b{color:var(--pass);font-weight:500}
+.badge .ph{position:relative;aspect-ratio:1/1;overflow:hidden;border:1px solid var(--line)}
+.badge .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.badge .ph::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(5,6,10,.12) 0 1px,transparent 1px 3px);pointer-events:none}
+.badge .ph i{position:absolute;width:18px;height:18px;border-color:var(--uni);border-style:solid;z-index:1}
+.badge .ph i:nth-child(2){left:8px;top:8px;border-width:2px 0 0 2px}.badge .ph i:nth-child(3){right:8px;top:8px;border-width:2px 2px 0 0}
+.badge .ph i:nth-child(4){left:8px;bottom:8px;border-width:0 0 2px 2px}.badge .ph i:nth-child(5){right:8px;bottom:8px;border-width:0 2px 2px 0}
+.badge .bn{font:700 22px/1.1 var(--disp);text-transform:uppercase;letter-spacing:-.02em;margin:16px 0 4px}
+.badge .br{color:var(--ink-2);font-size:14.5px;margin:0 0 12px}
+.badge .bf{display:flex;justify-content:space-between;gap:8px;color:var(--mute);border-top:1px dashed var(--line-2);padding-top:12px}
+.badge .bf b{color:var(--gov);font-weight:700}
+.ab3{display:grid;gap:36px}
+@media (min-width:1080px){.ab3{grid-template-columns:380px 1.2fr 1fr;gap:56px;align-items:start}}
 footer{padding:26px 0 40px;color:var(--mute)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
@@ -356,7 +374,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="s" id="about" aria-labelledby="ab-h">
   <div class="wrap pad">
     <div class="sh rv"><p class="no m">06 · Operator</p><div><h2 id="ab-h">Sankur <em>Kundu.</em></h2></div></div>
-    <div class="ab rv">
+    <div class="ab3 rv">
+      <figure class="badge" style="margin:0"><div class="bh m"><span>Operator ID · SK-29</span><span>record <b>public</b></span></div><div class="ph"><img src="sankur.jpg" alt="Sankur Kundu" width="800" height="800" loading="lazy"><i></i><i></i><i></i><i></i></div><figcaption><p class="bn">Sankur Kundu</p><p class="br">ML systems engineer · independent researcher</p><div class="bf m"><span>Bhubaneswar, India</span><span><b>29</b> merged</span></div></figcaption></figure>
       <div>
         <p><strong>I build GPU software for AI and science, and I check every result against a reference implementation.</strong> That habit is how I find bugs other people miss: a parser that reads 1.8e-09 as 1.8 &minus; 9, a decoder whose answer depends on batch order, contrail climate forcing off by 12&times;.</p>
         <p>B.Tech in Computer Science and Engineering (AI and ML), and co-founder of <a href="gigzen/">Gigzen</a>, where I built Waggle, a three-app delivery platform, and released <a href="populace/">Populace</a>, an open-source simulated-user tester with 1,600+ npm downloads.</p>
