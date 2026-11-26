@@ -13,9 +13,9 @@
 <meta name="theme-color" content="#fbfaf7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-weight='700' font-size='26' text-anchor='middle' fill='%23fff'%3ESK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0e1116;--ink2:#3d4450;--mute:#6b7280;--rule:#e7e5e0;--paper:#fbfaf7;--card:#fff;--accent:#1f4fd1;--accent2:#a3410b;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--serif:'Source Serif 4',Georgia,'Times New Roman',serif;color-scheme:light}
+:root{--ink:#0e1116;--ink2:#3d4450;--mute:#6b7280;--rule:#e7e5e0;--paper:#fbfaf7;--card:#fff;--accent:#1f4fd1;--accent2:#0e8f86;--a1:#1f4fd1;--a2:#0e8f86;--chipb:#e3e0d8;--grad:linear-gradient(90deg,#1f4fd1,#0e8f86);--mono:'JetBrains Mono',ui-monospace,monospace;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--serif:'Source Serif 4',Georgia,'Times New Roman',serif;color-scheme:light}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--paper);scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);overflow-x:hidden}
@@ -30,47 +30,57 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:
 nav.top .brand{font-weight:700;color:var(--ink);letter-spacing:-.01em}
 nav.top .links-n{display:flex;align-items:center;gap:22px;font-size:15px}
 nav.top .links-n a{color:var(--ink2)}
-nav.top .links-n a.cta{color:#fff;background:var(--ink);padding:7px 14px;border-radius:999px}
-nav.top .links-n a.cta:hover{text-decoration:none;background:#2a2f38}
+nav.top .links-n a.cta{color:#fff;background:var(--grad);padding:7px 14px;border-radius:999px}
+nav.top .links-n a.cta:hover{text-decoration:none;filter:brightness(1.08)}
+/* banner band */
+.band{position:relative;background-color:var(--paper);background-image:radial-gradient(760px 380px at 12% -6%,rgba(31,79,209,.16),transparent 70%),radial-gradient(640px 340px at 100% 100%,rgba(14,143,134,.13),transparent 70%),linear-gradient(rgba(14,17,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(14,17,22,.045) 1px,transparent 1px);background-size:auto,auto,32px 32px,32px 32px;padding-bottom:34px}
+.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--grad)}
+.proof{display:grid;gap:18px;align-items:stretch}
+@media (min-width:900px){.proof{grid-template-columns:1fr 470px;gap:24px}}
+.panel{border:1px solid var(--chipb);background:rgba(251,250,247,.75);border-radius:18px;padding:20px 20px 18px;box-shadow:0 20px 50px -28px rgba(15,23,42,.35)}
+.panel h3{margin:0 0 12px;font:600 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
+.chips li{font:500 13.5px/1 var(--sans);padding:8px 11px;border-radius:999px;background:#fff;border:1px solid var(--chipb);color:var(--ink)}
+.chips li.lab{border-color:rgba(31,79,209,.5);background:rgba(31,79,209,.09)}
+.kick{font:500 12.5px var(--mono);letter-spacing:.04em;color:var(--a2);margin:0 0 6px}
 /* hero */
 .hero{display:grid;gap:36px;padding:64px 0 40px;align-items:center}
 @media (min-width:820px){.hero{grid-template-columns:1fr 300px;gap:56px;padding:84px 0 48px}}
-.eyebrow{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+.eyebrow{font:500 13.5px var(--mono);letter-spacing:.04em;color:var(--a2);margin:0 0 18px}.eyebrow b{color:var(--ink2);font-weight:500}
 h1{font:600 52px/1.04 var(--serif);letter-spacing:-.02em;margin:0 0 20px}
-h1 em{font-style:italic;color:var(--accent)}
+h1 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
 @media (max-width:600px){h1{font-size:38px}}
 .lede{font-size:19px;color:var(--ink2);margin:0 0 26px;max-width:620px}
 .lede b{color:var(--ink);font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:500;font-size:15px;border:1px solid var(--ink);color:var(--ink);background:transparent}
 .btn:hover{text-decoration:none;background:var(--ink);color:#fff}
-.btn.solid{background:var(--ink);color:#fff}
-.btn.solid:hover{background:#2a2f38}
+.btn.solid{background:var(--grad);color:#fff;border-color:transparent}
+.btn.solid:hover{filter:brightness(1.08);background:var(--grad)}
 .portrait{margin:0;position:relative}
 .portrait img{width:100%;max-width:300px;height:auto;display:block;border-radius:22px;box-shadow:0 2px 4px rgba(0,0,0,.06),0 24px 48px -12px rgba(15,23,42,.28)}
 .portrait figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12)}
 @media (max-width:819px){.portrait{order:-1}.portrait img{max-width:200px}}
 /* stats */
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:18px;overflow:hidden;margin:8px 0 26px}
-@media (min-width:820px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--card);padding:22px 22px 20px}
-.stat .num{font:600 40px/1 var(--serif);letter-spacing:-.02em;color:var(--ink)}
-.stat .num small{font-size:22px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--chipb);border:1px solid var(--chipb);border-radius:18px;overflow:hidden;margin:0;box-shadow:0 20px 50px -28px rgba(15,23,42,.35)}
+
+.stat{background:rgba(255,255,255,.88);padding:22px 22px 20px}
+.stat .num{font:700 38px/1 var(--sans);letter-spacing:-.035em;color:var(--ink)}
+.stat .num small{font-size:21px;color:var(--mute);font-weight:600}
 .stat .lbl{margin-top:8px;font-size:14px;line-height:1.4;color:var(--ink2)}
-.orgs{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;color:var(--mute);font-size:14.5px;line-height:1.9;margin:0 0 8px;padding:0 4px}
-.orgs span{white-space:nowrap}
-.orgs i{font-style:normal;color:#c9c5bc;margin:0 9px}
 /* quotes */
 .quotes{display:grid;gap:18px;margin:38px 0 10px}
 @media (min-width:820px){.quotes{grid-template-columns:1fr 1fr}}
 .quote{margin:0;background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:26px 26px 22px;position:relative}
-.quote::before{content:"\201C";position:absolute;top:-6px;left:20px;font:600 72px/1 var(--serif);color:var(--accent);opacity:.18}
+.quote::before{content:"\201C";position:absolute;top:-6px;left:20px;font:600 72px/1 var(--serif);color:var(--a2);opacity:.22}
+.quote{border-top:3px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#1f4fd1,#0e8f86) border-box;border-left-color:var(--rule);border-right-color:var(--rule);border-bottom-color:var(--rule)}
 .quote blockquote{margin:0;font:italic 400 21px/1.45 var(--serif);color:var(--ink)}
 .quote figcaption{margin-top:14px;font-size:14.5px;color:var(--ink2)}
 .quote figcaption b{color:var(--ink);font-weight:600}
 /* sections */
 section{padding:46px 0 6px}
 h2{font:600 32px/1.15 var(--serif);letter-spacing:-.015em;margin:0 0 6px}
+section>h2::before{content:"";display:block;width:44px;height:4px;border-radius:2px;background:var(--grad);margin:0 0 14px}
 .sub{color:var(--mute);margin:0 0 24px;font-size:16px}
 ul.why{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 @media (min-width:820px){ul.why{grid-template-columns:1fr 1fr}}
@@ -100,7 +110,7 @@ details.all summary{cursor:pointer;color:var(--accent);font-weight:600;padding:1
 @media (min-width:640px){.built{grid-template-columns:1fr 1fr}}
 @media (min-width:980px){.built{grid-template-columns:1fr 1fr 1fr}}
 .built li{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:6px}
-.built .n{font:600 26px/1.1 var(--serif);color:var(--accent2);letter-spacing:-.01em}
+.built .n{font:700 25px/1.1 var(--sans);letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;align-self:flex-start}
 .built a b{font-weight:600}
 .built p{margin:0;color:var(--ink2);font-size:15.5px;line-height:1.55}
 .built li.wide{grid-column:1/-1}
@@ -111,13 +121,12 @@ details.all summary{cursor:pointer;color:var(--accent);font-weight:600;padding:1
 .papers{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:p}
 .papers li{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px 18px 14px 52px;position:relative;font-size:16px}
 .papers li::before{counter-increment:p;content:counter(p);position:absolute;left:18px;top:13px;font:600 18px var(--serif);color:var(--mute)}
-.contact{margin:54px 0 0;background:var(--ink);color:#e9eaee;border-radius:22px;padding:34px 30px;display:grid;gap:18px;align-items:center}
+.contact{position:relative;overflow:hidden;margin:54px 0 0;border:1px solid var(--chipb);border-radius:22px;padding:34px 30px 38px;display:grid;gap:18px;align-items:center;background-color:#fff;background-image:radial-gradient(520px 260px at 0% 0%,rgba(31,79,209,.13),transparent 70%),radial-gradient(460px 240px at 100% 100%,rgba(14,143,134,.12),transparent 70%),linear-gradient(rgba(14,17,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(14,17,22,.045) 1px,transparent 1px);background-size:auto,auto,32px 32px,32px 32px}
+.contact::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--grad)}
 @media (min-width:820px){.contact{grid-template-columns:1fr auto}}
-.contact h2{color:#fff;font-size:28px;margin:0 0 6px}
-.contact p{margin:0;color:#b9bdc7}
-.contact .btn{border-color:#fff;color:#fff}.contact .btn:hover{background:#fff;color:var(--ink)}
-.contact .btn.solid{background:#fff;color:var(--ink)}
-footer{margin-top:40px;border-top:1px solid var(--rule);padding:22px 0 40px;color:var(--mute);font-size:14px}
+.contact h2{font-size:28px;margin:0 0 6px}
+.contact p{margin:0;color:var(--ink2)}
+footer{margin-top:40px;border-top:1px solid var(--chipb);padding:22px 0 40px;color:var(--mute);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media (max-width:600px){nav.top .links-n{gap:14px;font-size:14px}nav.top .links-n a.hide-s{display:none}.wrap{padding:0 18px}.stat .num{font-size:32px}}
 </style>
@@ -125,11 +134,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <nav class="top" aria-label="Sections"><div class="wrap"><a class="brand" href="./">Sankur Kundu</a><div class="links-n"><a href="#merged">Merged</a><a href="#built">Built</a><a class="hide-s" href="#papers">Papers</a><a class="hide-s" href="Sankur-Kundu-Resume.pdf">Résumé</a><a class="cta" href="Sankur-Kundu-CV.pdf">CV</a></div></div></nav>
-<div class="wrap">
 <main id="main">
+<header class="band"><div class="wrap">
 <div class="hero">
   <div>
-    <p class="eyebrow">Machine learning (ML) systems engineer &middot; independent researcher</p>
+    <p class="eyebrow">sankur-kundu <b>&middot;</b> machine learning (ML) systems engineer</p>
     <h1>Verified by NASA and Harvard. <em>30 fixes</em> merged by the people who lead the projects.</h1>
     <p class="lede">I build <b>graphics processing unit (GPU) software for artificial intelligence (AI) and science</b>, and prove every result against an independent reference. Co-founder of <a href="gigzen/">Gigzen</a>. Bachelor of Technology (B.Tech) in Computer Science and Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026. Based in Bhubaneswar, India; open to relocation.</p>
     <div class="btns"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">Email me</a><a class="btn" href="Sankur-Kundu-CV.pdf">CV</a><a class="btn" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a class="btn" href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a class="btn" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Signed emails</a></div>
@@ -137,13 +146,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <figure class="portrait"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"><figcaption>Bhubaneswar, India</figcaption></figure>
 </div>
 
+<div class="proof">
 <div class="stats" role="list">
   <div class="stat" role="listitem"><div class="num">30</div><div class="lbl">fixes merged by the people who lead the projects</div></div>
   <div class="stat" role="listitem"><div class="num">53<small>/53</small></div><div class="lbl">NASA collision-risk test cases reproduced, 15&ndash;19&times; faster per core</div></div>
   <div class="stat" role="listitem"><div class="num">3</div><div class="lbl">US Department of Energy national laboratories: Los Alamos, Oak Ridge, Idaho</div></div>
   <div class="stat" role="listitem"><div class="num">1</div><div class="lbl">Harvard textbook lab, rerun and merged; listed as a contributor</div></div>
 </div>
-<p class="orgs"><span>Google</span><i>/</i><span>European Space Agency</span><i>/</i><span>ITER</span><i>/</i><span>US National Institute of Standards and Technology</span><i>/</i><span>Idaho, Los Alamos &amp; Oak Ridge National Laboratories</span><i>/</i><span>Massachusetts Institute of Technology</span><i>/</i><span>UK Met Office</span><i>/</i><span>NVIDIA</span><i>/</i><span>Apple</span><i>/</i><span>Meta</span><i>/</i><span>IBM Quantum</span></p>
+<div class="panel"><h3>Merged by the people who lead</h3><ul class="chips" aria-label="Organisations">
+<li>Google</li><li>European Space Agency</li><li>ITER Organization</li><li class="lab">Idaho National Laboratory</li><li class="lab">Los Alamos National Laboratory</li><li class="lab">Oak Ridge National Laboratory</li><li>US National Institute of Standards and Technology</li><li>Massachusetts Institute of Technology</li><li>UK Met Office</li><li>NVIDIA</li><li>Apple</li><li>Meta</li><li>IBM Quantum</li></ul></div>
+</div>
+</div></header>
+<div class="wrap">
+
 
 <div class="quotes">
   <figure class="quote"><blockquote>Your sampling space results indeed appear to be fully consistent with what we see in CARA operations.</blockquote><figcaption><b>NASA Conjunction Assessment Risk Analysis (CARA) team</b>, which protects NASA satellites from collisions, on my reproduction of its collision probabilities. <a href="kessler/">kessler</a></figcaption></figure>
@@ -201,8 +216,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </ol></section>
 
 <div class="contact"><div><h2>Let&rsquo;s talk</h2><p>Open to machine learning systems, GPU and research roles; relocation welcome.</p></div><div class="btns"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a><a class="btn" href="Sankur-Kundu-CV.pdf">Download CV</a></div></div>
-</main>
 </div>
+</main>
 <footer><div class="wrap"><span>&copy; 2026 Sankur Kundu</span><span><a href="plain/">Plain text</a> &middot; <a href="evidence/">Evidence</a></span></div></footer>
 </body>
 </html>
