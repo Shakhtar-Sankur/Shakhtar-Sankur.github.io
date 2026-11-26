@@ -10,133 +10,199 @@
 <meta property="og:image" content="https://shakhtar-sankur.github.io/og-30.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://shakhtar-sankur.github.io/og-30.jpg">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#fbfaf7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-weight='700' font-size='26' text-anchor='middle' fill='%23fff'%3ESK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#111;--ink2:#444;--mute:#777;--rule:#e6e6e6;--link:#1a4fd1;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--serif:'Source Serif 4',Georgia,serif;color-scheme:light}
+:root{--ink:#0e1116;--ink2:#3d4450;--mute:#6b7280;--rule:#e7e5e0;--paper:#fbfaf7;--card:#fff;--accent:#1f4fd1;--accent2:#a3410b;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--serif:'Source Serif 4',Georgia,'Times New Roman',serif;color-scheme:light}
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;background:#fff}
-body{margin:0;background:#fff;color:var(--ink);font:400 17px/1.65 var(--sans);overflow-x:hidden}
-a{color:var(--link);text-decoration:none}
+html{-webkit-text-size-adjust:100%;background:var(--paper);scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--link);outline-offset:2px}
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
 .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#000;color:#fff;padding:6px 10px;z-index:9}
-nav.top{display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap;padding:22px 0;font-size:15px;border-bottom:1px solid var(--rule)}
-nav.top a{color:var(--ink2)}
-nav.top a.cur{color:var(--ink);font-weight:600}
-.intro{display:grid;gap:28px;padding:44px 0 8px}
-@media (min-width:720px){.intro{grid-template-columns:1fr 230px;gap:44px}}
-h1{font:600 40px/1.1 var(--sans);letter-spacing:-.02em;margin:0 0 10px}
-.role{margin:0 0 18px;color:var(--ink2)}
-.role b{color:var(--ink);font-weight:600}
-.photo{margin:0}
-.photo img{width:100%;max-width:230px;height:auto;display:block;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
-
-.links{display:flex;flex-wrap:wrap;gap:4px 14px;margin:14px 0 0}
-.links a::before{content:"[";color:var(--mute)}.links a::after{content:"]";color:var(--mute)}
-h2{font:600 22px/1.3 var(--sans);letter-spacing:-.01em;margin:40px 0 12px;padding-top:4px}
-ul.why{margin:0;padding-left:1.15em}
-ul.why li{margin:0 0 10px}
-ul.why q{font-style:italic;quotes:"“" "”"}
-.top6{margin:0;padding-left:1.4em}
-.top6 li{margin:0 0 10px}
-.top6 q{font-style:italic}
-.also{color:var(--ink2);margin:14px 0}
-details.all summary{cursor:pointer;color:var(--link);font-weight:500;margin:6px 0}
-.grp{margin:18px 0 26px}
-.grp h3{font:600 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 0 4px}
+/* nav */
+nav.top{position:sticky;top:0;z-index:5;background:rgba(251,250,247,.9);backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--rule)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+nav.top .brand{font-weight:700;color:var(--ink);letter-spacing:-.01em}
+nav.top .links-n{display:flex;align-items:center;gap:22px;font-size:15px}
+nav.top .links-n a{color:var(--ink2)}
+nav.top .links-n a.cta{color:#fff;background:var(--ink);padding:7px 14px;border-radius:999px}
+nav.top .links-n a.cta:hover{text-decoration:none;background:#2a2f38}
+/* hero */
+.hero{display:grid;gap:36px;padding:64px 0 40px;align-items:center}
+@media (min-width:820px){.hero{grid-template-columns:1fr 300px;gap:56px;padding:84px 0 48px}}
+.eyebrow{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+h1{font:600 52px/1.04 var(--serif);letter-spacing:-.02em;margin:0 0 20px}
+h1 em{font-style:italic;color:var(--accent)}
+@media (max-width:600px){h1{font-size:38px}}
+.lede{font-size:19px;color:var(--ink2);margin:0 0 26px;max-width:620px}
+.lede b{color:var(--ink);font-weight:600}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:500;font-size:15px;border:1px solid var(--ink);color:var(--ink);background:transparent}
+.btn:hover{text-decoration:none;background:var(--ink);color:#fff}
+.btn.solid{background:var(--ink);color:#fff}
+.btn.solid:hover{background:#2a2f38}
+.portrait{margin:0;position:relative}
+.portrait img{width:100%;max-width:300px;height:auto;display:block;border-radius:22px;box-shadow:0 2px 4px rgba(0,0,0,.06),0 24px 48px -12px rgba(15,23,42,.28)}
+.portrait figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+@media (max-width:819px){.portrait{order:-1}.portrait img{max-width:200px}}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:18px;overflow:hidden;margin:8px 0 26px}
+@media (min-width:820px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--card);padding:22px 22px 20px}
+.stat .num{font:600 40px/1 var(--serif);letter-spacing:-.02em;color:var(--ink)}
+.stat .num small{font-size:22px;color:var(--mute)}
+.stat .lbl{margin-top:8px;font-size:14px;line-height:1.4;color:var(--ink2)}
+.orgs{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;color:var(--mute);font-size:14.5px;line-height:1.9;margin:0 0 8px;padding:0 4px}
+.orgs span{white-space:nowrap}
+.orgs i{font-style:normal;color:#c9c5bc;margin:0 9px}
+/* quotes */
+.quotes{display:grid;gap:18px;margin:38px 0 10px}
+@media (min-width:820px){.quotes{grid-template-columns:1fr 1fr}}
+.quote{margin:0;background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:26px 26px 22px;position:relative}
+.quote::before{content:"\201C";position:absolute;top:-6px;left:20px;font:600 72px/1 var(--serif);color:var(--accent);opacity:.18}
+.quote blockquote{margin:0;font:italic 400 21px/1.45 var(--serif);color:var(--ink)}
+.quote figcaption{margin-top:14px;font-size:14.5px;color:var(--ink2)}
+.quote figcaption b{color:var(--ink);font-weight:600}
+/* sections */
+section{padding:46px 0 6px}
+h2{font:600 32px/1.15 var(--serif);letter-spacing:-.015em;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 24px;font-size:16px}
+ul.why{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+@media (min-width:820px){ul.why{grid-template-columns:1fr 1fr}}
+ul.why li{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px;color:var(--ink2);font-size:16px}
+ul.why li b{color:var(--ink)}
+ul.why q{font-style:italic;quotes:"\201C" "\201D"}
+.cards{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+@media (min-width:820px){.cards{grid-template-columns:1fr 1fr}}
+.cards li{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:18px 20px;font-size:16px;color:var(--ink2);transition:box-shadow .2s,transform .2s}
+.cards li:hover{box-shadow:0 10px 30px -14px rgba(15,23,42,.25);transform:translateY(-1px)}
+.cards li .org{display:block;font-weight:600;color:var(--ink);font-size:16.5px;margin-bottom:4px}
+.cards li q{font-style:italic;color:var(--ink)}
+.also{color:var(--ink2);margin:20px 0 10px;font-size:16px}
+details.all{margin-top:14px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:6px 20px}
+details.all summary{cursor:pointer;color:var(--accent);font-weight:600;padding:12px 0;list-style-position:inside}
+.grp{margin:14px 0 22px}
+.grp h3{font:600 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 4px}
 .grp ol{list-style:none;margin:0;padding:0}
-.grp li{padding:12px 0;border-bottom:1px solid var(--rule)}
-.fig{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-.grp li .fig{display:block;font-size:14px;color:#9a3b00}
+.grp li{padding:14px 0;border-bottom:1px solid var(--rule);display:grid;gap:4px}
+@media (min-width:820px){.grp li{grid-template-columns:170px 1fr;gap:18px}}
+.grp li .fig{font:600 15px var(--sans);color:var(--accent2);font-variant-numeric:tabular-nums}
 .who{margin:0}.who b{font-weight:600}.who .x{font-size:12px;color:var(--mute)}.who .pj{color:var(--ink2)}
-.wh{margin:2px 0 0;color:var(--ink2)}.by{margin:4px 0 0;color:var(--ink2);font-size:15.5px}.by q{font-style:italic;color:var(--ink)}.by .pr{margin-left:6px;font-size:14px}.by .pr a{margin-right:8px}
-.note{color:var(--mute);font-size:15px}
-.built{margin:0;padding-left:1.15em;list-style:disc}.built li{margin:0 0 10px}.built b{font-weight:600}.built .n{color:#9a3b00;font-weight:600;margin-left:6px;font-size:15px}.built p{display:inline;margin:0 0 0 6px;color:var(--ink2)}
-.papers{margin:0;padding-left:1.4em}.papers li{margin:0 0 8px}
-@media (max-width:480px){nav.top{gap:16px}nav.top a[href='#papers'],nav.top a[href$='Resume.pdf']{display:none}}
-.photos{display:flex;flex-direction:column;gap:16px}
-.photo.work img{max-width:230px}
-.photo figcaption{font-size:13px;color:var(--mute);margin-top:6px}
-@media (max-width:719px){.photos{order:-1;flex-direction:row;align-items:flex-end;gap:12px}.photo img{max-width:150px}.photo.work img{max-width:170px}}
-.builtfig{margin:4px 0 18px}
-.builtfig img{width:100%;max-width:300px;height:auto;display:block;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
-.builtfig figcaption{font-size:13px;color:var(--mute);margin-top:6px}
-@media (min-width:720px){.builtfig{float:right;width:300px;margin:4px 0 18px 32px}}
-#built::after{content:"";display:block;clear:both}
-footer{margin-top:56px;border-top:1px solid var(--rule);padding:22px 0 40px;color:var(--mute);font-size:14px}
+.wh{margin:2px 0 0;color:var(--ink2);font-size:16px}.by{margin:4px 0 0;color:var(--ink2);font-size:15px}.by q{font-style:italic;color:var(--ink)}.by .pr{margin-left:6px;font-size:14px}.by .pr a{margin-right:8px}
+.note{color:var(--mute);font-size:15px;margin-top:16px}
+/* built */
+.built{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+@media (min-width:640px){.built{grid-template-columns:1fr 1fr}}
+@media (min-width:980px){.built{grid-template-columns:1fr 1fr 1fr}}
+.built li{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:6px}
+.built .n{font:600 26px/1.1 var(--serif);color:var(--accent2);letter-spacing:-.01em}
+.built a b{font-weight:600}
+.built p{margin:0;color:var(--ink2);font-size:15.5px;line-height:1.55}
+.built li.wide{grid-column:1/-1}
+.work{display:grid;gap:22px;align-items:center;margin:0 0 26px}
+@media (min-width:820px){.work{grid-template-columns:420px 1fr}}
+.work img{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 18px 40px -18px rgba(15,23,42,.35)}
+.work p{margin:0;color:var(--ink2)}
+.papers{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:p}
+.papers li{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px 18px 14px 52px;position:relative;font-size:16px}
+.papers li::before{counter-increment:p;content:counter(p);position:absolute;left:18px;top:13px;font:600 18px var(--serif);color:var(--mute)}
+.contact{margin:54px 0 0;background:var(--ink);color:#e9eaee;border-radius:22px;padding:34px 30px;display:grid;gap:18px;align-items:center}
+@media (min-width:820px){.contact{grid-template-columns:1fr auto}}
+.contact h2{color:#fff;font-size:28px;margin:0 0 6px}
+.contact p{margin:0;color:#b9bdc7}
+.contact .btn{border-color:#fff;color:#fff}.contact .btn:hover{background:#fff;color:var(--ink)}
+.contact .btn.solid{background:#fff;color:var(--ink)}
+footer{margin-top:40px;border-top:1px solid var(--rule);padding:22px 0 40px;color:var(--mute);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-section{border:0;padding:0}
+@media (max-width:600px){nav.top .links-n{gap:14px;font-size:14px}nav.top .links-n a.hide-s{display:none}.wrap{padding:0 18px}.stat .num{font-size:32px}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<nav class="top" aria-label="Sections"><div class="wrap"><a class="brand" href="./">Sankur Kundu</a><div class="links-n"><a href="#merged">Merged</a><a href="#built">Built</a><a class="hide-s" href="#papers">Papers</a><a class="hide-s" href="Sankur-Kundu-Resume.pdf">Résumé</a><a class="cta" href="Sankur-Kundu-CV.pdf">CV</a></div></div></nav>
 <div class="wrap">
-<nav class="top" aria-label="Sections"><a class="cur" href="./">About</a><a href="#merged">Merged</a><a href="#built">Built</a><a href="#papers">Papers</a><a href="Sankur-Kundu-CV.pdf">CV</a><a href="Sankur-Kundu-Resume.pdf">Résumé</a></nav>
 <main id="main">
-<div class="intro">
+<div class="hero">
   <div>
-    <h1>Sankur Kundu</h1>
-    <p class="role"><b>Machine learning (ML) systems engineer and independent researcher.</b> I build graphics processing unit (GPU) software for artificial intelligence (AI) and science, and prove every result against an independent reference.</p>
-    <p class="role">Co-founder of <a href="gigzen/">Gigzen</a>, where I released <a href="populace/">Populace</a> (1,600+ downloads on npm, the JavaScript package registry). Scouted by Entrepreneur First (UK) from my public work. Bachelor of Technology (B.Tech) in Computer Science and Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026. Based in Bhubaneswar, India; open to relocation.</p>
-    <p class="links"><a href="mailto:sankur.kundu.tw@gmail.com">Email</a><a href="Sankur-Kundu-CV.pdf">CV</a><a href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Signed emails</a></p>
-<h2>Why you might know me</h2>
-<ul class="why">
-  <li><b>NASA&rsquo;s Conjunction Assessment Risk Analysis (CARA) team</b>, which protects NASA satellites from collisions, checked my reproduction of its collision probabilities (53 of 53 test cases, 15&ndash;19&times; faster per core): <q>your sampling space results indeed appear to be fully consistent with what we see in CARA operations</q>. <a href="kessler/">kessler</a></li>
-  <li><b>Harvard&rsquo;s Prof. Vijay Janapa Reddi</b> merged my lab into his Machine Learning Systems textbook after rerunning it, <q>every result in your table reproduces</q>, and listed me as a contributor. <a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">#2175</a></li>
-  <li><b>30 of my fixes</b> have been merged by the people who lead the projects, at Google, the European Space Agency, ITER, the US National Institute of Standards and Technology (NIST), <b>three US Department of Energy national laboratories</b> (Los Alamos, Oak Ridge and Idaho), the Massachusetts Institute of Technology (MIT), gem5, the UK Met Office, NVIDIA, Apple, Meta and IBM Quantum.</li>
-  <li><b>Approved by the leaders themselves:</b> Jason Lowe-Power (gem5), Dario Izzo (European Space Agency), Damien Lebrun-Grandi&eacute; (Kokkos, Los Alamos National Laboratory), Casey Icenhour (MOOSE, Idaho National Laboratory), Jonathan Guyer (NIST), Ardavan Oskooi (MIT MEEP) and Olivier Hoenen (ITER); and the creators of Tencent&rsquo;s ncnn, Oxford&rsquo;s PyZX and IBM&rsquo;s Relay-BP.</li>
-  <li><b>Google XLA</b> (Accelerated Linear Algebra), the compiler behind JAX and Google&rsquo;s Tensor Processing Units (TPUs): I fixed a simplification that returned 0 instead of 10. <q>The change in the PR is correct.</q> <a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></li>
-  <li>I built <a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer">chirp</a>, which finds 62 of 71 gravitational-wave events of LIGO (the Laser Interferometer Gravitational-Wave Observatory) blind, and <a href="syndrome/">syndrome</a>, a GPU decoder for IBM&rsquo;s quantum computers, bit-identical to IBM&rsquo;s own and 28.7&times; faster.</li>
-</ul>
+    <p class="eyebrow">Machine learning (ML) systems engineer &middot; independent researcher</p>
+    <h1>Verified by NASA and Harvard. <em>30 fixes</em> merged by the people who lead the projects.</h1>
+    <p class="lede">I build <b>graphics processing unit (GPU) software for artificial intelligence (AI) and science</b>, and prove every result against an independent reference. Co-founder of <a href="gigzen/">Gigzen</a>. Bachelor of Technology (B.Tech) in Computer Science and Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026. Based in Bhubaneswar, India; open to relocation.</p>
+    <div class="btns"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">Email me</a><a class="btn" href="Sankur-Kundu-CV.pdf">CV</a><a class="btn" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a class="btn" href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a class="btn" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Signed emails</a></div>
   </div>
-  <div class="photos"><figure class="photo"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"></figure></div>
+  <figure class="portrait"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"><figcaption>Bhubaneswar, India</figcaption></figure>
 </div>
 
+<div class="stats" role="list">
+  <div class="stat" role="listitem"><div class="num">30</div><div class="lbl">fixes merged by the people who lead the projects</div></div>
+  <div class="stat" role="listitem"><div class="num">53<small>/53</small></div><div class="lbl">NASA collision-risk test cases reproduced, 15&ndash;19&times; faster per core</div></div>
+  <div class="stat" role="listitem"><div class="num">3</div><div class="lbl">US Department of Energy national laboratories: Los Alamos, Oak Ridge, Idaho</div></div>
+  <div class="stat" role="listitem"><div class="num">1</div><div class="lbl">Harvard textbook lab, rerun and merged; listed as a contributor</div></div>
+</div>
+<p class="orgs"><span>Google</span><i>/</i><span>European Space Agency</span><i>/</i><span>ITER</span><i>/</i><span>US National Institute of Standards and Technology</span><i>/</i><span>Idaho, Los Alamos &amp; Oak Ridge National Laboratories</span><i>/</i><span>Massachusetts Institute of Technology</span><i>/</i><span>UK Met Office</span><i>/</i><span>NVIDIA</span><i>/</i><span>Apple</span><i>/</i><span>Meta</span><i>/</i><span>IBM Quantum</span></p>
 
-<section id="merged"><h2>Merged by the people who lead the projects</h2>
-  <div>
-    <ol class="top6">
-      <li><b>Google XLA</b> (Accelerated Linear Algebra), the compiler behind JAX and Tensor Processing Units, returned 0 instead of 10 for max(a, clamp(a, x, b)). <q>The change in the PR is correct.</q> <a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></li>
-      <li><b>gem5</b>, the simulator of chip research, read 1.8e-09 as 1.8 &minus; 9: &minus;61,489.8 instead of 0.285. Approved by its lead, Jason Lowe-Power. <a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">#3762</a></li>
-      <li><b>European Space Agency</b>: a pagmo2 crash open since May 2024, merged by its co-author Dario Izzo. <a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">#660</a></li>
-      <li><b>US Department of Energy</b>: Kokkos GPU sort, merged by its lead at Los Alamos National Laboratory after approval from Oak Ridge National Laboratory. <a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">#9738</a></li>
-      <li><b>Idaho National Laboratory</b>: MOOSE (Multiphysics Object-Oriented Simulation Environment), its open-source simulation framework. An electromagnetic boundary condition&rsquo;s Jacobian had the wrong sign; I fixed it and made its admittance complex. Approved by Casey Icenhour, who wrote the module. <a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">#34496</a></li>
-      <li><b>ITER</b>: two fixes to IMAS-Python, the data library of the international fusion-energy project, merged by Olivier Hoenen. <a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">#152</a> <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a></li>
-      <li><b>US National Institute of Standards and Technology (NIST)</b>: FiPy truncated boundary distances on integer grids; merged by Jonathan Guyer, one of its authors. <a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">#1243</a></li>
-    </ol>
-    <p class="also">Also merged at the UK Met Office (twice), the Massachusetts Institute of Technology (twice), IBM Quantum, NVIDIA (twice), Apple, Meta (twice), Tencent, Harvard, the Barcelona Supercomputing Center (twice), Estonia&rsquo;s Information System Authority (twice), the University of Oxford, Carnegie Mellon University, Hugging Face (twice), Contrails.org and JaxMARL.</p>
-    <details class="all"><summary>See all 30, with what was wrong and who merged it</summary>
+<div class="quotes">
+  <figure class="quote"><blockquote>Your sampling space results indeed appear to be fully consistent with what we see in CARA operations.</blockquote><figcaption><b>NASA Conjunction Assessment Risk Analysis (CARA) team</b>, which protects NASA satellites from collisions, on my reproduction of its collision probabilities. <a href="kessler/">kessler</a></figcaption></figure>
+  <figure class="quote"><blockquote>Every result in your table reproduces.</blockquote><figcaption><b>Prof. Vijay Janapa Reddi, Harvard University</b>, after rerunning my lab and merging it into his Machine Learning Systems textbook. <a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">#2175</a></figcaption></figure>
+</div>
+
+<section id="why"><h2>Why you might know me</h2><p class="sub">The short version, with links to the public record.</p>
+<ul class="why">
+  <li><b>30 of my fixes</b> have been merged at Google, the European Space Agency, ITER, the US National Institute of Standards and Technology (NIST), <b>three US Department of Energy national laboratories</b>, the Massachusetts Institute of Technology (MIT), gem5, the UK Met Office, NVIDIA, Apple, Meta and IBM Quantum.</li>
+  <li><b>Approved by the leaders themselves:</b> Jason Lowe-Power (gem5), Dario Izzo (European Space Agency), Damien Lebrun-Grandi&eacute; (Kokkos, Los Alamos National Laboratory), Casey Icenhour (MOOSE, Idaho National Laboratory), Jonathan Guyer (NIST), Ardavan Oskooi (MIT MEEP) and Olivier Hoenen (ITER).</li>
+  <li>I built <a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer">chirp</a>, which finds 62 of 71 gravitational-wave events of LIGO (the Laser Interferometer Gravitational-Wave Observatory) blind, and <a href="syndrome/">syndrome</a>, a GPU decoder for IBM&rsquo;s quantum computers, bit-identical to IBM&rsquo;s own and 28.7&times; faster.</li>
+  <li>Released <a href="populace/">Populace</a> (1,600+ downloads on npm, the JavaScript package registry). Scouted by Entrepreneur First (UK) from my public work.</li>
+  <li>Sole author of three manuscripts. Every claim on this page links to its public record, and the signed original emails are in the <a href="evidence/">evidence</a>.</li>
+</ul></section>
+
+<section id="merged"><h2>Merged by the people who lead the projects</h2><p class="sub">Each bug was found by running the project&rsquo;s own tests and fixed with a test that fails without the fix.</p>
+  <ol class="cards">
+    <li><span class="org">Google XLA (Accelerated Linear Algebra)</span>The compiler behind JAX and Tensor Processing Units returned 0 instead of 10 for max(a, clamp(a, x, b)). <q>The change in the PR is correct.</q> <a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></li>
+    <li><span class="org">Idaho National Laboratory, MOOSE</span>MOOSE (Multiphysics Object-Oriented Simulation Environment): an electromagnetic boundary condition&rsquo;s Jacobian had the wrong sign; I fixed it and made its admittance complex. Approved by Casey Icenhour, who wrote the module. <a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">#34496</a></li>
+    <li><span class="org">gem5</span>The simulator of chip research read 1.8e-09 as 1.8 &minus; 9: &minus;61,489.8 instead of 0.285. Approved by its lead, Jason Lowe-Power. <a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">#3762</a></li>
+    <li><span class="org">European Space Agency</span>A pagmo2 crash open since May 2024, merged by its co-author Dario Izzo the day I opened it. <a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">#660</a></li>
+    <li><span class="org">US Department of Energy, Kokkos</span>GPU sort, merged by its lead at Los Alamos National Laboratory after approval from Oak Ridge National Laboratory. <a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">#9738</a></li>
+    <li><span class="org">ITER</span>Two fixes to IMAS-Python, the data library of the international fusion-energy project, merged by Olivier Hoenen. <a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">#152</a> <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a></li>
+    <li><span class="org">US National Institute of Standards and Technology (NIST)</span>FiPy truncated boundary distances on integer grids; merged by Jonathan Guyer, one of its authors. <a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">#1243</a></li>
+    <li><span class="org">UK Met Office</span>Two fixes: Iris crashed on a constant date-time column; PSyclone, the code generator of its LFRic weather and climate model, dropped Fortran bindings. <a href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer">#7375</a> <a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">#3668</a></li>
+  </ol>
+  <p class="also">Also merged at the Massachusetts Institute of Technology (twice), IBM Quantum, NVIDIA (twice), Apple, Meta (twice), Tencent, Harvard, the Barcelona Supercomputing Center (twice), Estonia&rsquo;s Information System Authority (twice), the University of Oxford, Carnegie Mellon University, Hugging Face (twice), Contrails.org and JaxMARL.</p>
+  <details class="all"><summary>See all 30, with what was wrong and who merged it</summary>
 <div class="grp"><h3>Government &amp; public science · 12</h3><ol><li><span class="fig">crash → 84/84</span><div><p class="who"><b>European Space Agency</b> <span class="pj">· pagmo2 · the Advanced Concepts Team’s optimisation library</span></p><p class="wh">Monotonic basin hopping crashed whenever its inner optimiser left the bounds, a bug open since May 2024. It now perturbs around the nearest point inside them.</p><p class="by">Dario Izzo · Co-author of pagmo2 · merged it the day I opened it. <span class="pr"><a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">#660</a></span></p></div></li><li><span class="fig">1,808 tests pass</span><div><p class="who"><b>ITER Organization</b> <span class="x">×2</span> <span class="pj">· IMAS-Python · data library of the international fusion-energy project</span></p><p class="wh">imas convert now takes a list of IDSs (Interface Data Structures) and occurrences and stops before writing if one is missing; a second fix pins the data-dictionary version the tests need.</p><p class="by">Olivier Hoenen · ITER · assigned me the issue, approved and merged both. <q>Looks good to me now.</q> <span class="pr"><a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">#152</a> <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a></span></p></div></li><li><span class="fig">dy=3: 1 → 1.5</span><div><p class="who"><b>US National Institute of Standards and Technology (NIST)</b> <span class="pj">· FiPy · finite-volume partial differential equation (PDE) solver</span></p><p class="wh">With integer grid spacing, Grid2D truncated the distances from boundary faces to their cells. They are now computed in float64, as the reviewer asked.</p><p class="by">Jonathan Guyer · NIST · one of FiPy’s authors · merged it. <span class="pr"><a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">#1243</a></span></p></div></li><li><span class="fig">no build → 20/20</span><div><p class="who"><b>US Department of Energy</b> <span class="pj">· Kokkos · GPU library of the national laboratories</span></p><p class="wh">Kokkos::sort did not compile on NVIDIA CUDA or AMD HIP for types without a default constructor; it now sorts an index permutation. In the Kokkos 5.4 release notes.</p><p class="by">Damien Lebrun-Grandié · Leads Kokkos, Los Alamos · merged it after approval by Daniel Arndt, Oak Ridge. <q>Generally the approach looks good.</q> <span class="pr"><a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">#9738</a></span></p></div></li><li><span class="fig">wrong sign → fixed</span><div><p class="who"><b>Idaho National Laboratory</b> <span class="pj">· MOOSE · Multiphysics Object-Oriented Simulation Environment, the US Department of Energy laboratory’s open-source simulation framework</span></p><p class="wh">The Jacobian (the derivative Newton’s method uses) of the electromagnetics module’s transient absorbing boundary condition had the wrong sign and a mismatched coupling term. I fixed it and, at the module author’s request, made the admittance complex, with a deprecation so downstream apps keep working; two new Jacobian tests, 100% of new lines covered.</p><p class="by">Casey Icenhour · Wrote the electromagnetics module, Idaho National Laboratory · approved it; Guillaume Giudicelli approved and merged it. <q>thanks for the contribution</q> <span class="pr"><a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">#34496</a></span></p></div></li><li><span class="fig">crash → time coord</span><div><p class="who"><b>UK Met Office</b> <span class="pj">· Iris · weather and climate data in Python</span></p><p class="wh">iris.pandas.as_cubes crashed when a date-time column held one value in every row. It now becomes a time coordinate with the right units and calendar.</p><p class="by">Martin Yeo · UK Met Office · approved and merged it. <q>Thanks @Shakhtar-Sankur!</q> <span class="pr"><a href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer">#7375</a></span></p></div></li><li><span class="fig">6,502 tests pass</span><div><p class="who"><b>UK Met Office &amp; Science and Technology Facilities Council (STFC)</b> <span class="pj">· PSyclone · code generator of the LFRic weather and climate model</span></p><p class="wh">Fortran BIND(C) bindings were dropped and BIND(C) functions crashed it. Both fixed; entry 82 of its changelog.</p><p class="by">PSyclone maintainer · Ran the integration tests, approved and merged it. <q>ITs passed</q> <span class="pr"><a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">#3668</a></span></p></div></li><li><span class="fig">32-bit → 64-bit</span><div><p class="who"><b>Barcelona Supercomputing Center</b> <span class="x">×2</span> <span class="pj">· Autosubmit · Spain’s climate-model workflow manager</span></p><p class="wh">Job timestamps overflowed 32-bit PostgreSQL columns and crashed autosubmit run. Invited for the 4.2.0 release and credited in its changelog, then a second fix the maintainer asked for.</p><p class="by">Bruno P. Kinoshita · Autosubmit maintainer · merged both. <q>Thanks (again) @Shakhtar-Sankur !!!</q> <span class="pr"><a href="https://github.com/BSC-ES/autosubmit/pull/3405" rel="noreferrer">#3405</a> <a href="https://github.com/BSC-ES/autosubmit/pull/3406" rel="noreferrer">#3406</a></span></p></div></li><li><span class="fig">offline crash → skipped</span><div><p class="who"><b>Estonian Information System Authority</b> <span class="x">×2</span> <span class="pj">· libdigidocpp · Estonia’s digital-signature library</span></p><p class="wh">Signing tests crashed without a network connection and are now skipped offline; the Online Certificate Status Protocol (OCSP) time-check notes now match the code.</p><p class="by">Raul Metsma · Maintainer · approved both. Merged by Kristel Merilain.. <q>Thanks, both rules now match the code.</q> <span class="pr"><a href="https://github.com/open-eid/libdigidocpp/pull/777" rel="noreferrer">#777</a> <a href="https://github.com/open-eid/libdigidocpp/pull/775" rel="noreferrer">#775</a></span></p></div></li></ol></div>
     <div class="grp"><h3>Universities &amp; research · 8</h3><ol><li><span class="fig">−61,489.8 → 0.285</span><div><p class="who"><b>gem5</b> <span class="pj">· Simulator of academic and industry chip research</span></p><p class="wh">Power-model formulas read 1.8e-09 as 1.8 − 9, with no warning. Fixed the parser and wrote its first unit tests; all 1,092 unit tests pass.</p><p class="by">Jason Lowe-Power · Leads gem5 · approved it. Merged by Bobby R. Bruce.. <span class="pr"><a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">#3762</a></span></p></div></li><li><span class="fig">0.25× → 0.97–1.02×</span><div><p class="who"><b>MIT</b> <span class="x">×2</span> <span class="pj">· MEEP · electromagnetics simulator</span></p><p class="wh">Remaining-time estimates fell to a quarter of the real time, on an issue where Prof. Steven G. Johnson asked for a pull request; and an input is no longer silently mutated.</p><p class="by">Ardavan Oskooi · MEEP’s original lead developer · merged both. <q>failing fast and explicitly is strongly preferred</q> <span class="pr"><a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">#3364</a> <a href="https://github.com/NanoComp/meep/pull/3363" rel="noreferrer">#3363</a></span></p></div></li><li><span class="fig">8× too fast → measured</span><div><p class="who"><b>Harvard University</b> <span class="pj">· mlsysim · simulator of the Machine Learning Systems textbook</span></p><p class="wh">The simulator modelled FP32 work on the NVIDIA T4 about 8× too fast, measured on a real T4. The second merge, after my full lab.</p><p class="by">Prof. Vijay Janapa Reddi · Author of the textbook · merged it. <span class="pr"><a href="https://github.com/harvard-edge/cs249r_book/pull/2192" rel="noreferrer">#2192</a></span></p></div></li><li><span class="fig">12× → 1×</span><div><p class="who"><b>Contrails.org</b> <span class="pj">· pycontrails · aviation climate-impact library</span></p><p class="wh">Gridded contrail radiative forcing was divided by one time step instead of the averaging window, and the cell area came from the wrong grid.</p><p class="by">Zeb Engberg · Maintainer · merged it. <q>Thanks @Shakhtar-Sankur !</q> <span class="pr"><a href="https://github.com/contrailcirrus/pycontrails/pull/453" rel="noreferrer">#453</a></span></p></div></li><li><span class="fig">25/100 → 0</span><div><p class="who"><b>University of Oxford</b> <span class="pj">· PyZX · ZX-calculus quantum-circuit optimiser</span></p><p class="wh">Three optimisers changed what the circuit computes on random Clifford circuits, a regression from an earlier change.</p><p class="by">John van de Wetering · Co-creator of PyZX · merged it. <q>Thanks for the fix!</q> <span class="pr"><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">#563</a></span></p></div></li><li><span class="fig">8 baselines fixed</span><div><p class="who"><b>JaxMARL</b> <span class="pj">· NeurIPS 2024 · Oxford, UCL and Imperial College London</span></p><p class="wh">The rollout manager behind 8 Q-learning baselines zeroed the first observation of every new episode.</p><p class="by">Alex Rutherford · Lead author · approved and merged it. <q>Good find!!</q> <span class="pr"><a href="https://github.com/bold-lab-ai/JaxMARL/pull/206" rel="noreferrer">#206</a></span></p></div></li><li><span class="fig">crash → whole chars</span><div><p class="who"><b>Carnegie Mellon University</b> <span class="pj">· XGrammar · structured output for vLLM, SGLang and TensorRT-LLM</span></p><p class="wh">Jump-forward decoding crashed whenever a grammar forced part of a UTF-8 character; it now returns only whole characters. Its maintainer extended the fix to the web bindings.</p><p class="by">Linzhang Li · Maintainer · approved and merged it. <span class="pr"><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">#1012</a></span></p></div></li></ol></div>
     <div class="grp"><h3>Industry · 10</h3><ol><li><span class="fig">0 → 10</span><div><p class="who"><b>Google</b> <span class="pj">· XLA (Accelerated Linear Algebra) · compiler behind JAX, TensorFlow and Tensor Processing Units (TPUs)</span></p><p class="wh">The algebraic simplifier rewrote max(a, clamp(a, x, b)) to clamp(a, x, b) for any bounds. It now rewrites only when a ≤ b is known; all 2,070 simplifier tests pass.</p><p class="by">Greg Olechwierowicz · XLA reviewer · landed by Google in XLA’s main branch. <q>The change in the PR is correct.</q> <span class="pr"><a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></span></p></div></li><li><span class="fig">1,970/2,000 → 0</span><div><p class="who"><b>IBM Quantum</b> <span class="pj">· Relay-BP · quantum error-correction decoder</span></p><p class="wh">The decoder gave different answers for the same shot depending on batch order. Its first author chose my fix from the two I proposed.</p><p class="by">Tristan Müller · First author of Relay-BP · merged it. <q>Happy with this, will merge it.</q> <span class="pr"><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">#49</a></span></p></div></li><li><span class="fig">ignored → bit for bit</span><div><p class="who"><b>NVIDIA</b> <span class="x">×2</span> <span class="pj">· Ising-Decoding · AI decoders for quantum error correction</span></p><p class="wh">Tests and docs ignored the SafeTensors models NVIDIA publishes on Hugging Face; they now load the newest file, bit for bit, and honour the checkpoint setting.</p><p class="by">Ivan Basov · Maintainer · approved and merged both. <q>thank you for the contribution and for working through the review rounds</q> <span class="pr"><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">#98</a> <a href="https://github.com/NVIDIA/Ising-Decoding/pull/99" rel="noreferrer">#99</a></span></p></div></li><li><span class="fig">2–4 races → 0</span><div><p class="who"><b>Apple</b> <span class="pj">· MLX · Apple’s machine learning framework, 29k stars</span></p><p class="wh">A data race in the distributed ring backend, the transport that links Macs for multi-machine training.</p><p class="by">@zcbenz · MLX maintainer · approved and merged it. <span class="pr"><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">#4737</a></span></p></div></li><li><span class="fig">out of bounds → checked</span><div><p class="who"><b>Meta</b> <span class="x">×2</span> <span class="pj">· ExecuTorch · on-device AI in Instagram and WhatsApp</span></p><p class="wh">The 2- and 4-bit quantised embedding kernels of on-device LLMs read outside their tables and scales; both fixed.</p><p class="by">Scott Roy and Jacob Stevens · Meta maintainers · approved and merged. <q>LGTM! Thanks for the fix!</q> <span class="pr"><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">#23677</a> <a href="https://github.com/pytorch/executorch/pull/23912" rel="noreferrer">#23912</a></span></p></div></li><li><span class="fig">30 NaN → 0</span><div><p class="who"><b>Tencent</b> <span class="pj">· ncnn · on-device artificial intelligence inference, 24k stars</span></p><p class="wh">Mish returned NaN on Vulkan GPUs for large inputs. Its creator extended the tests before merging.</p><p class="by">nihui · Creator of ncnn · approved and merged it. <q>Thanks for your contribution !</q> <span class="pr"><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">#7239</a></span></p></div></li><li><span class="fig">177 tests pass</span><div><p class="who"><b>Hugging Face</b> <span class="x">×2</span> <span class="pj">· OpenEnv · environments for RL training</span></p><p class="wh">Reward rubrics ran pre-hooks after scoring and left async judges unawaited; both fixed.</p><p class="by">OpenEnv reviewer · Approved and merged both. <q>177 rubric tests pass</q> <span class="pr"><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">#1441</a> <a href="https://github.com/huggingface/OpenEnv/pull/1442" rel="noreferrer">#1442</a></span></p></div></li></ol></div>
         </details>
-    <p class="note">Each bug was found by running the project&rsquo;s own tests and fixed with a test that fails without the fix. <a href="evidence/">Every claim, with its proof →</a></p>
-  </div></section>
-<section id="built"><h2>Things I built</h2>
-  <figure class="builtfig"><img src="at-work.jpg" alt="Sankur Kundu working at a laptop" width="460" height="310" loading="lazy"><figcaption>At work</figcaption></figure>
+  <p class="note"><a href="evidence/">Every claim, with its proof &rarr;</a></p>
+</section>
+
+<section id="built"><h2>Things I built</h2><p class="sub">Each one checked against an independent reference.</p>
+  <div class="work"><img src="at-work.jpg" alt="Sankur Kundu working at a laptop" width="460" height="310" loading="lazy"><p>I work from Bhubaneswar, India, mostly on one NVIDIA T4 graphics card in public Kaggle notebooks, so anyone can rerun the numbers below.</p></div>
   <ul class="built">
-    <li><a href="kessler/"><b>kessler</b></a><span class="n">53/53</span><p>NASA Conjunction Assessment Risk Analysis (CARA) Monte Carlo collision probability on all 53 test cases, 15&ndash;19&times; faster per core; screens 531 million object pairs in 28 s on one T4.</p></li>
-    <li><a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer"><b>chirp</b></a><span class="n">62/71</span><p>An independent GPU search for gravitational waves that finds 62 of 71 LIGO O4a events blind.</p></li>
-    <li><a href="syndrome/"><b>syndrome</b></a><span class="n">28.7&times;</span><p>A GPU decoder for IBM&rsquo;s quantum codes, bit-identical to IBM&rsquo;s Relay-BP and 28.7&times; faster per shot.</p></li>
-    <li><a href="tessel/"><b>tessel</b></a><span class="n">1.00&times; cuBLAS</span><p>A tile language and compiler in Rust: matrix multiplication (GEMM) at parity with NVIDIA cuBLAS, attention 1.3&ndash;1.9&times; faster than PyTorch&rsquo;s.</p></li>
-    <li><a href="https://github.com/Shakhtar-Sankur/samebit" rel="noreferrer"><b>samebit</b></a><span class="n">0.75%</span><p>Qwen2.5-0.5B run entirely in integers, within 0.75% of float32, the same bits on a GPU and a CPU.</p></li>
-    <li><a href="token-tax/"><b>lipi</b></a><span class="n">23/24</span><p>A tokenizer that beats GPT-4o&rsquo;s and Gemini&rsquo;s in 23 of 24 Indian languages.</p></li>
-    <li><a href="ratchet/"><b>ratchet</b></a><span class="n">5.2 &rarr; 0.04</span><p>Group Relative Policy Optimization (GRPO), a reinforcement-learning method for large language models, built from scratch; found 16-bit (fp16) weight sync silently erasing training updates.</p></li>
-    <li><a href="https://github.com/Shakhtar-Sankur/larzavan" rel="noreferrer"><b>larzavan</b></a><span class="n">8.8 / 9.0</span><p>Open global earthquake early warning: Tohoku&rsquo;s magnitude from satellite-positioning (GNSS) data, held out of the fit.</p></li>
-    <li><a href="relay/"><b>relay</b></a> · <a href="switchyard/"><b>switchyard</b></a> · <a href="kiln/"><b>kiln</b></a> · <a href="quorumdb/"><b>quorumdb</b></a><p>Large language model (LLM) serving that survives 60 worker kills, mixture-of-experts 2.2&times; faster than Hugging Face, a machine learning compiler beating torch.compile, and a distributed SQL database.</p></li>
+    <li><span class="n">53/53</span><a href="kessler/"><b>kessler</b></a><p>NASA Conjunction Assessment Risk Analysis (CARA) Monte Carlo collision probability on all 53 test cases, 15&ndash;19&times; faster per core; screens 531 million object pairs in 28 s on one T4.</p></li>
+    <li><span class="n">62/71</span><a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer"><b>chirp</b></a><p>An independent GPU search for gravitational waves that finds 62 of 71 LIGO O4a events blind.</p></li>
+    <li><span class="n">28.7&times;</span><a href="syndrome/"><b>syndrome</b></a><p>A GPU decoder for IBM&rsquo;s quantum codes, bit-identical to IBM&rsquo;s Relay-BP and 28.7&times; faster per shot.</p></li>
+    <li><span class="n">1.00&times; cuBLAS</span><a href="tessel/"><b>tessel</b></a><p>A tile language and compiler in Rust: matrix multiplication (GEMM) at parity with NVIDIA cuBLAS, attention 1.3&ndash;1.9&times; faster than PyTorch&rsquo;s.</p></li>
+    <li><span class="n">0.75%</span><a href="https://github.com/Shakhtar-Sankur/samebit" rel="noreferrer"><b>samebit</b></a><p>Qwen2.5-0.5B run entirely in integers, within 0.75% of float32, the same bits on a GPU and a CPU.</p></li>
+    <li><span class="n">23/24</span><a href="token-tax/"><b>lipi</b></a><p>A tokenizer that beats GPT-4o&rsquo;s and Gemini&rsquo;s in 23 of 24 Indian languages.</p></li>
+    <li><span class="n">5.2 &rarr; 0.04</span><a href="ratchet/"><b>ratchet</b></a><p>Group Relative Policy Optimization (GRPO), a reinforcement-learning method for large language models, built from scratch; found 16-bit (fp16) weight sync silently erasing training updates.</p></li>
+    <li><span class="n">8.8 / 9.0</span><a href="https://github.com/Shakhtar-Sankur/larzavan" rel="noreferrer"><b>larzavan</b></a><p>Open global earthquake early warning: Tohoku&rsquo;s magnitude from satellite-positioning (GNSS) data, held out of the fit.</p></li>
+    <li><span class="n">60 kills</span><p><a href="relay/"><b>relay</b></a> &middot; <a href="switchyard/"><b>switchyard</b></a> &middot; <a href="kiln/"><b>kiln</b></a> &middot; <a href="quorumdb/"><b>quorumdb</b></a></p><p>Large language model (LLM) serving that survives 60 worker kills, mixture-of-experts 2.2&times; faster than Hugging Face, a machine learning compiler beating torch.compile, and a distributed SQL database.</p></li>
   </ul></section>
-<section id="papers"><h2>Papers</h2>
+
+<section id="papers"><h2>Papers</h2><p class="sub">Sole author; arXiv submissions in progress.</p>
   <ol class="papers">
     <li><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf" rel="noreferrer">Reproducing NASA CARA&rsquo;s Monte Carlo Probability of Collision: An Open Two-Body Implementation, Checked on All 53 of CARA&rsquo;s Test Conjunctions</a></li>
     <li><a href="https://github.com/Shakhtar-Sankur/lipi/blob/main/paper/main.pdf" rel="noreferrer">Removing the Token Tax from an Existing Model: A Vocabulary Extension for 24 Indian Languages That Keeps Every Other Token</a></li>
     <li><a href="https://github.com/Shakhtar-Sankur/ratchet/blob/main/paper/main.pdf" rel="noreferrer">The Sampler Was Not the Policy: Finding and Removing a Silent Training&ndash;Inference Mismatch in a From-Scratch GRPO Stack</a></li>
   </ol></section>
+
+<div class="contact"><div><h2>Let&rsquo;s talk</h2><p>Open to machine learning systems, GPU and research roles; relocation welcome.</p></div><div class="btns"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a><a class="btn" href="Sankur-Kundu-CV.pdf">Download CV</a></div></div>
 </main>
-<footer><div class="wrap" style="padding:0"><span>&copy; 2026 Sankur Kundu</span><span><a href="plain/">Plain text</a> · <a href="evidence/">Evidence</a></span></div></footer>
 </div>
+<footer><div class="wrap"><span>&copy; 2026 Sankur Kundu</span><span><a href="plain/">Plain text</a> &middot; <a href="evidence/">Evidence</a></span></div></footer>
 </body>
 </html>
