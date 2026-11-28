@@ -414,6 +414,26 @@ h2 em,.spread h3 em,.study h3 em{color:var(--navy)}
 .meter i{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,#8a6a1f,#d9b65e)!important;box-shadow:0 0 10px rgba(217,182,94,.45)}
 .meter i::after{content:"";position:absolute;right:-8px;top:50%;width:16px;height:16px;transform:translateY(-50%);border:1.5px solid #d9b65e;border-radius:50%;
   background:radial-gradient(circle,#d9b65e 0 1.6px,transparent 2.2px),linear-gradient(#d9b65e,#d9b65e) center/1px 100% no-repeat,linear-gradient(#d9b65e,#d9b65e) center/100% 1px no-repeat;opacity:.95}
+/* ---- Bond touches ---- */
+/* gold double-pinstripe frame around the screen */
+body::after{content:"";position:fixed;inset:8px;border:1px solid var(--gold);outline:.6px solid var(--gold);outline-offset:-5px;border-radius:6px;pointer-events:none;z-index:70;opacity:.85}
+@media (max-width:600px){body::after{inset:5px;outline-offset:-4px}}
+/* EYES ONLY stamp in the hero */
+.hgrid{position:relative}
+.hgrid::before{content:"EYES ONLY";position:absolute;top:-46px;right:0;z-index:3;font:700 14px/1 var(--mono);letter-spacing:.26em;color:var(--rouge);border:2.5px solid var(--rouge);padding:9px 14px 8px;border-radius:5px;
+  box-shadow:inset 0 0 0 2px var(--bg),inset 0 0 0 3.5px var(--rouge);transform:rotate(6deg);opacity:.9;pointer-events:none;animation:eyes .5s cubic-bezier(.3,1.5,.5,1) 1.5s both}
+@keyframes eyes{0%{opacity:0;transform:rotate(6deg) scale(1.9)}100%{opacity:.9;transform:rotate(6deg) scale(1)}}
+@media (max-width:979px){.hgrid::before{top:-30px;font-size:11px;padding:7px 10px 6px}}
+/* status line */
+.status{margin:22px 0 0;font:700 12.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--goldtx)}
+.status b{color:var(--rouge);font-weight:700}
+.status i{font-style:normal;color:var(--gold);margin:0 .5em}
+/* scope ring sweeps in, locks on, then breathes */
+.arch::after{animation:lockon 2.1s cubic-bezier(.4,0,.2,1) .5s both,breathe 4s ease-in-out 2.6s infinite alternate}
+@keyframes lockon{0%{opacity:0;transform:translate(-90px,70px) scale(1.35)}55%{opacity:.8;transform:translate(14px,-8px) scale(1.04)}100%{opacity:.8;transform:none}}
+@keyframes breathe{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.hgrid::before,.arch::after{animation:none}}
+@media (max-width:600px){.hero{padding-top:70px}.hgrid::before{top:-54px}}
 
 </style><script>document.documentElement.classList.add("js")</script>
 </head>
@@ -442,6 +462,7 @@ h2 em,.spread h3 em,.study h3 em{color:var(--navy)}
       <div><dt>Contact</dt><dd><a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></dd></div>
       <div><dt>Education</dt><dd>Bachelor of Technology (B.Tech), Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026</dd></div>
     </dl>
+    <p class="status rv"><b>Status: active</b><i>·</i>Clearance: public record</p>
   </div>
   <figure class="arch rv"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"><figcaption>Sankur Kundu <span>Bhubaneswar, India</span></figcaption></figure>
 </div></div></header>
