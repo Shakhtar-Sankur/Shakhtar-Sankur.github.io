@@ -1013,18 +1013,20 @@ async function checkPR(o, r, n) {
   cache[key] = out; try { sessionStorage.setItem('prcache', JSON.stringify(cache)); } catch (e) {}
   return out;
 }
-function prLinks(el) { return $$('a[href]', el).map(function (a) { var m = a.href.match(PR_RE); return m ? { o: m[1], r: m[2], n: m[3], a: a } : null; }).filter(Boolean); }
+function prLinks(el) { var seen = {}; return $$('a[href]', el).map(function (a) { var m = a.href.match(PR_RE); return m ? { o: m[1], r: m[2], n: m[3], a: a } : null; }).filter(function (p) { if (!p) return false; var k = p.o + '/' + p.r + '#' + p.n; if (seen[k]) return false; seen[k] = 1; return true; }); }
+var ALL_MERGED = 'https://github.com/search?q=' + encodeURIComponent('is:pr author:Shakhtar-Sankur is:merged') + '&type=pullrequests';
+function openLater(url, t0) { var wait = Math.max(0, 1500 - (Date.now() - t0)); setTimeout(function () { var w = window.open(url, '_blank'); if (w) { try { w.opener = null; } catch (e) {} } }, wait); }
 function dateStr(s) { try { return new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return s; } }
 async function verifyEl(el) {
   var out = $('.vres', el); if (!out) { out = document.createElement('span'); out.className = 'vres'; (el.querySelector('div') || el).appendChild(out); }
-  var prs = prLinks(el), lines = [], tally = { merged: 0, other: 0, err: 0 };
+  var prs = prLinks(el), lines = [], tally = { merged: 0, other: 0, err: 0, first: prs.length ? prs[0].a.href : '' };
   out.textContent = 'Asking GitHub…';
   for (var i = 0; i < prs.length; i++) {
     var p = prs[i], r;
     try { r = await checkPR(p.o, p.r, p.n); } catch (e) { r = { err: 'network' }; }
     if (r.err === 'limit') { lines.push('<span class="no">#' + p.n + ': GitHub&rsquo;s hourly limit for anonymous checks is reached; <a href="' + p.a.href + '" rel="noreferrer">open the pull request</a></span>'); tally.err++; }
     else if (r.err) { lines.push('<span class="no">#' + p.n + ': GitHub did not answer (' + r.err + '); <a href="' + p.a.href + '" rel="noreferrer">open the pull request</a></span>'); tally.err++; }
-    else if (r.merged) { lines.push('<span class="ok">✓ #' + p.n + ' merged' + (r.by ? ' by @' + r.by : '') + (r.at ? ' on ' + dateStr(r.at) : '') + '</span> · live from GitHub'); tally.merged++; }
+    else if (r.merged) { lines.push('<a class="ok" href="' + p.a.href + '" target="_blank" rel="noreferrer">✓ #' + p.n + ' merged' + (r.by ? ' by @' + r.by : '') + (r.at ? ' on ' + dateStr(r.at) : '') + ' ↗</a> · live from GitHub'); tally.merged++; }
     else { lines.push('<span class="no">#' + p.n + ': GitHub shows this pull request as ' + r.state + ' without its merge flag</span>; <a href="' + p.a.href + '" rel="noreferrer">see how it landed</a>'); tally.other++; }
   }
   out.innerHTML = lines.join('<br>');
@@ -1033,14 +1035,14 @@ async function verifyEl(el) {
 function addVerify(el) {
   if (!prLinks(el).length) return;
   var b = document.createElement('button'); b.type = 'button'; b.className = 'vone'; b.textContent = 'Verify on GitHub';
-  b.addEventListener('click', function () { b.remove(); verifyEl(el); });
+  b.addEventListener('click', function () { var t0 = Date.now(); b.remove(); verifyEl(el).then(function (r) { if (r && r.first) openLater(r.first, t0); }); });
   (el.querySelector('div') || el).appendChild(b);
 }
 $$('[data-verify]').forEach(addVerify);
 $$('#allfixes .grp li').forEach(addVerify);
 var vsum = $('#vsum');
 async function verifyAll() {
-  var det = $('#allfixes'); det.open = true;
+  var t0 = Date.now(); var det = $('#allfixes'); det.open = true;
   var items = $$('#allfixes .grp li'), t = { merged: 0, other: 0, err: 0 }, done = 0, total = 0;
   items.forEach(function (li) { total += prLinks(li).length; var b = $('.vone', li); if (b) b.remove(); });
   vsum.textContent = 'Checking ' + total + ' pull requests on GitHub…';
@@ -1048,6 +1050,8 @@ async function verifyAll() {
     var r = await verifyEl(items[i]); t.merged += r.merged; t.other += r.other; t.err += r.err; done += prLinks(items[i]).length;
     vsum.textContent = 'Checked ' + done + ' of ' + total + ': ' + t.merged + ' merged' + (t.other ? ', ' + t.other + ' landed another way' : '') + (t.err ? ', ' + t.err + ' not answered' : '');
   }
+  vsum.insertAdjacentHTML('beforeend', ' · <a href="' + ALL_MERGED + '" target="_blank" rel="noreferrer">see them all on GitHub ↗</a>');
+  openLater(ALL_MERGED, t0);
 }
 $('#vall').addEventListener('click', verifyAll);
 
