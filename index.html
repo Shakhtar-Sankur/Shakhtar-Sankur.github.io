@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="paper">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,264 +10,402 @@
 <meta property="og:image" content="https://shakhtar-sankur.github.io/og-30.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://shakhtar-sankur.github.io/og-30.jpg">
-<meta name="theme-color" content="#05070d">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%235b8cff'/%3E%3Cstop offset='1' stop-color='%2322d3c5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2305070d'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-weight='700' font-size='26' text-anchor='middle' fill='url(%23g)'%3ESK%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#f4efe6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f4efe6'/%3E%3Crect x='0' y='56' width='21.3' height='8' fill='%23143a9a'/%3E%3Crect x='42.7' y='56' width='21.3' height='8' fill='%23d62b36'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-style='italic' font-size='30' text-anchor='middle' fill='%23111'%3ESK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Sankur Kundu","jobTitle":"Machine learning systems engineer","url":"https://shakhtar-sankur.github.io/","image":"https://shakhtar-sankur.github.io/sankur-portrait.jpg","address":{"@type":"PostalAddress","addressLocality":"Bhubaneswar","addressCountry":"IN"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Institute of Engineering & Management, Kolkata"},"sameAs":["https://github.com/Shakhtar-Sankur","https://www.linkedin.com/in/sankur-kundu"]}</script>
-<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script>try{var t=localStorage.getItem('theme2');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
-:root{--mono:'JetBrains Mono',ui-monospace,monospace;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--disp:'Space Grotesk','Inter',system-ui,sans-serif;--r:18px}
-[data-theme=dark]{--bg:#05070d;--bg2:#0a0f1c;--ink:#e9eef8;--ink2:#a8b3c8;--mute:#6e7a93;--line:rgba(148,163,184,.14);--line2:rgba(148,163,184,.26);--glass:rgba(12,18,34,.62);--glass2:rgba(16,24,44,.8);--a1:#5b8cff;--a2:#22d3c5;--a3:#a78bfa;--ok:#34d399;--warn:#fbbf24;--grid:rgba(91,140,255,.07);--glow:0 0 0 1px rgba(91,140,255,.18),0 20px 60px -24px rgba(34,211,197,.35);color-scheme:dark}
-[data-theme=light]{--bg:#fbfaf7;--bg2:#f2f1ec;--ink:#0e1116;--ink2:#3d4450;--mute:#6b7280;--line:rgba(14,17,22,.1);--line2:rgba(14,17,22,.18);--glass:rgba(255,255,255,.72);--glass2:rgba(255,255,255,.9);--a1:#1f4fd1;--a2:#0e8f86;--a3:#6d4bd8;--ok:#0f8a5f;--warn:#a16207;--grid:rgba(14,17,22,.05);--glow:0 0 0 1px rgba(31,79,209,.12),0 20px 50px -28px rgba(15,23,42,.35);color-scheme:light}
+:root{--serif:'Instrument Serif',Georgia,'Times New Roman',serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;--ease:cubic-bezier(.2,.7,.1,1)}
+[data-theme=paper]{--bg:#f4efe6;--bg2:#ebe4d6;--card:#fbf8f2;--ink:#111111;--ink2:#3b3934;--mute:#7a746a;--line:rgba(17,17,17,.13);--line2:rgba(17,17,17,.24);--bleu:#143a9a;--rouge:#d62b36;--blanc:#ffffff;--a1:#143a9a;--a2:#111111;--a3:#d62b36;--ok:#1d7a4f;--warn:#a3530a;--term:#111111;--termink:#efe9dd;color-scheme:light}
+[data-theme=noir]{--bg:#0d0d0c;--bg2:#161614;--card:#151513;--ink:#f4efe6;--ink2:#cfc8bb;--mute:#8d867a;--line:rgba(244,239,230,.12);--line2:rgba(244,239,230,.24);--bleu:#7f9dff;--rouge:#ff5c63;--blanc:#f4efe6;--a1:#7f9dff;--a2:#f4efe6;--a3:#ff5c63;--ok:#5fd39b;--warn:#f0b35a;--term:#000000;--termink:#efe9dd;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--bg);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16.5px/1.65 var(--sans);overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%)}
-a{color:var(--a1);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--a2);outline-offset:2px;border-radius:4px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+a{color:var(--bleu);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--rouge);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
 .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--ink);color:var(--bg);padding:6px 10px;z-index:99}
-.grad{background:linear-gradient(92deg,var(--a1),var(--a2) 55%,var(--a3));-webkit-background-clip:text;background-clip:text;color:transparent}
-.mono{font-family:var(--mono)}
+.tri{display:flex;height:6px}.tri i{flex:1}.tri i:nth-child(1){background:#143a9a}.tri i:nth-child(2){background:#f4efe6;box-shadow:inset 0 -1px 0 rgba(17,17,17,.08)}.tri i:nth-child(3){background:#d62b36}
+.serif{font-family:var(--serif);font-weight:400}.it{font-style:italic}.red{color:var(--rouge)}.blue{color:var(--bleu)}
+.kicker{font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin:0 0 18px}
 /* nav */
-nav.top{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .3s,border-color .3s}
-nav.top.scrolled{background:var(--glass);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--line)}
-nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:14px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font:600 15px var(--disp);letter-spacing:.01em}.brand:hover{text-decoration:none}
-.mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font:700 12px var(--disp);color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));box-shadow:0 0 18px rgba(34,211,197,.35)}
-.nl{display:flex;align-items:center;gap:20px;font-size:14.5px}.nl a{color:var(--ink2)}.nl a:hover{color:var(--ink);text-decoration:none}
-.kbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--glass);color:var(--ink2);border-radius:10px;padding:6px 10px;font:500 12.5px var(--mono);cursor:pointer}
-.kbtn:hover{color:var(--ink);border-color:var(--a1)}
-.ibtn{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line2);background:var(--glass);color:var(--ink2);border-radius:10px;cursor:pointer}.ibtn:hover{color:var(--ink);border-color:var(--a1)}
-.cta{color:#fff!important;background:linear-gradient(92deg,var(--a1),var(--a2));padding:7px 15px;border-radius:999px;font-weight:600}.cta:hover{filter:brightness(1.1);text-decoration:none}
-@media (max-width:760px){.nl .hs{display:none}.nl{gap:12px}}
+nav.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.top.scrolled{border-bottom-color:var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.brand{font:italic 400 26px/1 var(--serif);color:var(--ink);letter-spacing:-.01em}.brand:hover{text-decoration:none}
+.nl{display:flex;align-items:center;gap:22px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}.nl a{color:var(--ink2)}.nl a:hover{color:var(--ink);text-decoration:none}
+.kbtn,.ibtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;height:34px;padding:0 12px;font:500 11.5px var(--mono);letter-spacing:.06em;cursor:pointer}
+.ibtn{width:34px;padding:0;justify-content:center}.kbtn:hover,.ibtn:hover{color:var(--ink);border-color:var(--ink)}
+.cta{color:var(--bg)!important;background:var(--ink);padding:9px 16px;border-radius:999px}.cta:hover{text-decoration:none;background:var(--rouge)}
+@media (max-width:820px){.nl .hs{display:none}.nl{gap:10px}}
 /* hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:96px 0 60px;isolation:isolate}
-#orbit{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 78%,transparent) 34%,transparent 62%),linear-gradient(0deg,var(--bg) 0%,transparent 22%)}
-@media (max-width:899px){.hero::after{background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 70%,transparent) 55%,color-mix(in srgb,var(--bg) 35%,transparent) 100%)}}
-.hero>.wrap{width:100%}
-.hgrid{display:grid;gap:36px;align-items:center;width:100%}
-@media (min-width:900px){.hgrid{grid-template-columns:minmax(0,680px) 1fr}}
-.eyebrow .av{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--a2);box-shadow:0 0 14px rgba(34,211,197,.35);margin-right:4px}
-.whygrid{display:grid;gap:18px;align-items:start}
-@media (min-width:980px){.whygrid{grid-template-columns:300px 1fr}.whygrid .cards{grid-template-columns:1fr 1fr}}
-.eyebrow{font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--a2);margin:0 0 20px;display:flex;align-items:center;gap:10px}
-.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok);animation:pulse 2s infinite}
-@keyframes pulse{50%{opacity:.35}}
-h1{font:700 clamp(40px,6.2vw,76px)/1.0 var(--disp);letter-spacing:-.035em;margin:0 0 22px}
+.hero{padding:70px 0 40px;position:relative}
+.hgrid{display:grid;gap:44px;align-items:end}
+@media (min-width:980px){.hgrid{grid-template-columns:1fr 320px;align-items:center}}
+h1{font:400 clamp(54px,8.4vw,124px)/.92 var(--serif);letter-spacing:-.035em;margin:0 0 30px}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+h1 .ln>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.loaded h1 .ln>span{transform:none}
+h1 .ln:nth-child(2)>span{transition-delay:.08s}h1 .ln:nth-child(3)>span{transition-delay:.16s}h1 .ln:nth-child(4)>span{transition-delay:.24s}
 .lede{font-size:18px;color:var(--ink2);max-width:640px;margin:0 0 28px}.lede b{color:var(--ink);font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:500;font-size:14.5px;border:1px solid var(--line2);color:var(--ink);background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .2s,transform .2s}
-.btn:hover{text-decoration:none;border-color:var(--a1);transform:translateY(-1px)}
-.btn.solid{background:linear-gradient(92deg,var(--a1),var(--a2));color:#fff;border-color:transparent;box-shadow:0 10px 30px -10px rgba(34,211,197,.6)}
-.holo{position:relative;margin:0 auto;max-width:320px;padding:12px}
-.holo img{width:100%;height:auto;display:block;border-radius:16px;filter:saturate(1.05) contrast(1.03)}
-.holo::before,.holo::after{content:"";position:absolute;width:28px;height:28px;border:2px solid var(--a2)}
-.holo::before{top:0;left:0;border-right:0;border-bottom:0;border-top-left-radius:8px}.holo::after{bottom:0;right:0;border-left:0;border-top:0;border-bottom-right-radius:8px}
-.holo .tag{position:absolute;left:24px;bottom:24px;font:500 11.5px var(--mono);letter-spacing:.08em;background:rgba(5,7,13,.72);color:#e9eef8;border:1px solid rgba(34,211,197,.4);padding:4px 10px;border-radius:999px}
-@media (max-width:979px){.whygrid .holo{max-width:260px;margin:0}}
-.hud{position:absolute;font:500 11px var(--mono);letter-spacing:.08em;color:var(--mute);text-transform:uppercase;line-height:1.7;pointer-events:none}
-.hud b{color:var(--a2);font-weight:500}
-.hud.tl{top:78px;right:24px;text-align:right}.hud.bl{bottom:22px;left:24px}
-@media (max-width:760px){.hud{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:500 14.5px var(--sans);border:1px solid var(--ink);color:var(--ink);background:transparent;transition:background .25s,color .25s,transform .25s var(--ease)}
+.btn:hover{text-decoration:none;background:var(--ink);color:var(--bg)}
+.btn.solid{background:var(--ink);color:var(--bg)}.btn.solid:hover{background:var(--rouge);border-color:var(--rouge)}
+.arch{margin:0;position:relative;max-width:320px}
+.arch img{width:100%;height:auto;display:block;border-radius:170px 170px 18px 18px;filter:grayscale(.15) contrast(1.02)}
+.arch::after{content:"";position:absolute;inset:-10px;border:1px solid var(--line2);border-radius:180px 180px 26px 26px;pointer-events:none}
+.arch figcaption{margin-top:14px;font:italic 400 19px var(--serif);color:var(--ink2);display:flex;justify-content:space-between}
+.arch figcaption span{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);align-self:center}
+@media (max-width:979px){.arch{max-width:240px}}
+/* marquees */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;white-space:nowrap}
+.band+.band{border-top:0}
+.mtrack{display:inline-flex;align-items:center;gap:38px;will-change:transform}
+.mtrack span{font:italic 400 clamp(34px,4.6vw,64px)/1 var(--serif);letter-spacing:-.02em;color:var(--ink)}
+.mtrack span.lab{color:var(--bleu)}
+.mtrack i{width:10px;height:10px;border-radius:50%;flex:none}
+.band.nums .mtrack span{font:400 clamp(30px,4vw,54px)/1 var(--serif);font-style:normal;color:var(--ink2)}
+.band.nums .mtrack span b{color:var(--rouge);font-weight:400}
 /* stats */
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:-30px;position:relative;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid var(--line)}
 @media (min-width:900px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 18px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--glow)}
-.stat .num{font:700 40px/1 var(--disp);letter-spacing:-.04em}.stat .num small{font-size:20px;color:var(--mute)}
-.stat .lbl{margin-top:8px;font-size:13.5px;line-height:1.45;color:var(--ink2)}
-/* marquee */
-.marq{margin:42px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.marq .lab{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-align:center;padding:12px 0 0}
-.track{display:flex;gap:44px;width:max-content;padding:14px 0 16px;animation:marq 55s linear infinite}
-.marq:hover .track{animation-play-state:paused}
-.track span{font:600 17px var(--disp);color:var(--ink2);white-space:nowrap;letter-spacing:-.01em}.track span.lab2{color:var(--a2)}
-@keyframes marq{to{transform:translateX(-50%)}}
+.stat{padding:30px 22px 28px;border-right:1px solid var(--line)}.stat:last-child{border-right:0}
+@media (max-width:899px){.stat:nth-child(2n){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.stat .num{font:400 clamp(54px,6vw,84px)/.9 var(--serif);letter-spacing:-.03em}.stat .num small{font-size:.45em;color:var(--mute)}
+.stat .lbl{margin-top:12px;font-size:14px;line-height:1.45;color:var(--ink2);max-width:240px}
 /* sections */
-section{padding:84px 0 0}
-.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:26px}
-.idx{font:500 12px var(--mono);letter-spacing:.14em;color:var(--a2);text-transform:uppercase;margin:0 0 10px}
-h2{font:700 clamp(30px,3.6vw,44px)/1.06 var(--disp);letter-spacing:-.03em;margin:0}
-.sub{color:var(--ink2);margin:10px 0 0;max-width:640px}
-.glass{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.spot{position:relative;overflow:hidden}
-.spot::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px circle at var(--mx,-999px) var(--my,-999px),rgba(91,140,255,.14),transparent 60%);opacity:0;transition:opacity .3s}
-.spot:hover::before{opacity:1}
+section{padding:110px 0 0}
+.sh{display:grid;gap:14px;margin-bottom:38px}
+@media (min-width:900px){.sh{grid-template-columns:200px 1fr;align-items:start}}
+.no{font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--rouge);padding-top:14px}
+h2{font:400 clamp(44px,6vw,86px)/.96 var(--serif);letter-spacing:-.03em;margin:0}
+h2 em{font-style:italic;color:var(--bleu)}
+.sub{color:var(--ink2);margin:16px 0 0;max-width:620px;font-size:17px}
 /* quotes */
-.quotes{display:grid;gap:16px;margin-top:56px}
+.quotes{display:grid;gap:0;border-bottom:1px solid var(--line)}
 @media (min-width:900px){.quotes{grid-template-columns:1fr 1fr}}
-.quote{margin:0;padding:28px 28px 24px}
-.quote blockquote{margin:0 0 16px;font:500 22px/1.38 var(--disp);letter-spacing:-.015em}
-.quote blockquote::before{content:"“";display:block;font:700 54px/0.6 var(--disp);margin-bottom:6px}
-.quote figcaption{font-size:14.5px;color:var(--ink2)}.quote figcaption b{color:var(--ink)}
-/* live proof */
-.lab-grid{display:grid;gap:16px}
-@media (min-width:900px){.lab-grid{grid-template-columns:1.05fr .95fr}}
-.lab-l{padding:26px}
-.lab-l h3{font:600 20px var(--disp);margin:0 0 8px;letter-spacing:-.01em}.lab-l p{color:var(--ink2);margin:0 0 14px;font-size:15.5px}
+.quote{margin:0;padding:56px 34px 46px 0}
+@media (min-width:900px){.quote+.quote{padding-left:34px;border-left:1px solid var(--line)}}
+.quote blockquote{margin:0 0 20px;font:italic 400 clamp(28px,3vw,40px)/1.15 var(--serif);letter-spacing:-.01em}
+.quote blockquote::before{content:"« ";color:var(--rouge)}.quote blockquote::after{content:" »";color:var(--rouge)}
+.quote figcaption{font-size:14.5px;color:var(--ink2);max-width:520px}.quote figcaption b{color:var(--ink)}
+/* proof */
+.lab{display:grid;gap:18px}
+@media (min-width:900px){.lab{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px}
+.lab-l{padding:30px}
+.lab-l h3{font:italic 400 30px/1.1 var(--serif);margin:0 0 10px}.lab-l p{color:var(--ink2);margin:0 0 16px;font-size:15.5px}
 .presets{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 18px}
-.presets button{font:500 12.5px var(--mono);padding:7px 12px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
-.presets button[aria-pressed=true]{border-color:var(--a2);color:var(--ink);background:rgba(34,211,197,.1)}
-.params{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font:400 13px var(--mono);color:var(--ink2);margin:0 0 18px}
-.params div{border:1px dashed var(--line2);border-radius:10px;padding:8px 10px}.params b{color:var(--ink);font-weight:500}
-.run{font:600 15px var(--sans);border:0;border-radius:12px;padding:13px 20px;color:#fff;background:linear-gradient(92deg,var(--a1),var(--a2));cursor:pointer;box-shadow:0 12px 34px -12px rgba(34,211,197,.7);width:100%}
-.run:disabled{opacity:.6;cursor:progress}
-.lab-r{padding:22px;font-family:var(--mono);font-size:13px;display:flex;flex-direction:column;gap:12px;min-height:100%}
-.term{flex:1;background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink2);line-height:1.75;overflow:auto;min-height:220px}
-[data-theme=light] .term{background:rgba(14,17,22,.04)}
-.term .k{color:var(--mute)}.term .v{color:var(--ink)}.term .g{color:var(--ok)}.term .w{color:var(--warn)}
-.meter{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a1),var(--a2));transition:width .25s}
-.verdict{font:600 15px var(--disp);color:var(--ink)}
-.fine{font-size:12.5px;color:var(--mute);margin:0}
-/* merged */
-.vbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.vbtn{font:500 12.5px var(--mono);border:1px solid var(--line2);background:var(--glass);color:var(--ink2);border-radius:999px;padding:7px 13px;cursor:pointer}
-.vbtn:hover{border-color:var(--a2);color:var(--ink)}
-.vsum{font:500 12.5px var(--mono);color:var(--mute)}
-.cards{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-@media (min-width:820px){.cards{grid-template-columns:1fr 1fr}}
-.cards>li{padding:20px 22px;font-size:15.5px;color:var(--ink2);transition:transform .25s,border-color .25s}
-.cards>li:hover{transform:translateY(-2px);border-color:var(--line2)}
-.cards .org{display:block;font:600 17px var(--disp);color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
-.cards q,.by q{font-style:italic;color:var(--ink)}
-.vres{display:block;margin-top:10px;font:400 12.5px/1.6 var(--mono);color:var(--mute)}
+.presets button{font:500 12px var(--mono);padding:8px 13px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
+.presets button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.params{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font:400 12.5px var(--mono);color:var(--ink2);margin:0 0 20px}
+.params div{border-top:1px solid var(--line);padding:8px 0}.params b{color:var(--ink);font-weight:500}
+.run{font:500 15px var(--sans);border:0;border-radius:999px;padding:14px 22px;color:var(--bg);background:var(--ink);cursor:pointer;width:100%;transition:background .25s}
+.run:hover{background:var(--rouge)}.run:disabled{opacity:.6;cursor:progress}
+.lab-r{padding:0;overflow:hidden;display:flex;flex-direction:column;background:var(--term);border-color:var(--term)}
+.term{flex:1;padding:24px 26px;color:#a9a397;font:400 13px/1.85 var(--mono);min-height:250px}
+.term .k{color:#8a8478}.term .v{color:var(--termink)}.term .g{color:#6fdca5}.term .w{color:#f0b35a}
+.lab-r .foot{padding:0 26px 24px}
+.meter{height:3px;background:rgba(239,233,221,.14);margin:0 0 16px}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#143a9a 0 33%,#efe9dd 33% 66%,#d62b36 66%);transition:width .25s}
+.verdict{font:italic 400 22px/1.25 var(--serif);color:var(--termink);min-height:28px}
+.fine{font:400 11.5px/1.6 var(--mono);color:#8a8478;margin:10px 0 0}
+/* why */
+.why{display:grid;gap:30px;align-items:start}
+@media (min-width:980px){.why{grid-template-columns:1fr 1fr}}
+.why p{margin:0;font-size:17px;color:var(--ink2)}.why p b{color:var(--ink);font-weight:600}
+.why p:first-child::first-letter{float:left;font:400 92px/.8 var(--serif);color:var(--rouge);margin:6px 10px 0 0}
+.cols{display:grid;gap:22px}
+/* merged: sticky stack */
+.vbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px}
+.vbtn{font:500 12px var(--mono);letter-spacing:.06em;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:9px 15px;cursor:pointer}
+.vbtn:hover{background:var(--ink);color:var(--bg)}
+.vsum{font:500 12px var(--mono);color:var(--mute)}
+.stack{list-style:none;margin:0;padding:0;position:relative}
+.stack>li{position:sticky;top:calc(84px + var(--i) * 14px);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:30px 32px;margin-bottom:18px;display:grid;gap:10px;box-shadow:0 -10px 30px -18px rgba(17,17,17,.25)}
+@media (min-width:900px){.stack>li{grid-template-columns:260px 1fr;gap:30px;padding:36px 40px}}
+.stack .org{font:italic 400 34px/1.05 var(--serif);color:var(--ink)}
+.stack .idx{font:500 11.5px var(--mono);letter-spacing:.16em;color:var(--rouge);display:block;margin-bottom:10px}
+.stack .txt{font-size:16.5px;color:var(--ink2)}.stack q,.by q{font-style:italic;color:var(--ink)}
+.vres{display:block;margin-top:12px;font:400 12.5px/1.6 var(--mono);color:var(--mute)}
 .vres .ok{color:var(--ok)}.vres .no{color:var(--warn)}
-.vone{display:table;margin-top:10px;font:500 11.5px var(--mono);border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;padding:4px 10px;cursor:pointer}
-.vone:hover{border-color:var(--a2);color:var(--ink)}
-.also{color:var(--ink2);margin:22px 0 0}
-details.all{margin-top:16px;padding:4px 22px}
-details.all summary{cursor:pointer;color:var(--a1);font-weight:600;padding:14px 0}
-.grp{margin:14px 0 22px}
-.grp h3{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--a2);margin:0 0 4px}
+.vone{display:table;margin-top:12px;font:500 11px var(--mono);letter-spacing:.05em;border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;padding:5px 11px;cursor:pointer}
+.vone:hover{border-color:var(--ink);color:var(--ink)}
+.also{color:var(--ink2);margin:30px 0 0;font-size:16.5px;max-width:900px}
+details.all{margin-top:22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+details.all summary{cursor:pointer;padding:20px 0;font:italic 400 26px var(--serif);color:var(--ink);list-style:none}
+details.all summary::after{content:" +";color:var(--rouge)}details.all[open] summary::after{content:" −"}
+.grp{margin:10px 0 26px}
+.grp h3{font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--bleu);margin:0 0 4px}
 .grp ol{list-style:none;margin:0;padding:0}
-.grp li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
-@media (min-width:820px){.grp li{grid-template-columns:190px 1fr;gap:20px}}
-.grp li .fig{font:500 14px var(--mono);color:var(--a2)}
+.grp li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+@media (min-width:820px){.grp li{grid-template-columns:200px 1fr;gap:24px}}
+.grp li .fig{font:italic 400 22px var(--serif);color:var(--rouge)}
 .who{margin:0}.who b{font-weight:600}.who .x{font-size:12px;color:var(--mute)}.who .pj{color:var(--ink2)}
 .wh{margin:2px 0 0;color:var(--ink2);font-size:15.5px}.by{margin:4px 0 0;color:var(--ink2);font-size:14.5px}.by .pr{margin-left:6px;font-size:14px}.by .pr a{margin-right:8px}
-.note{color:var(--mute);font-size:14.5px;margin-top:16px}
-/* built */
-.work{display:grid;gap:20px;align-items:center;margin:0 0 22px;padding:14px}
-@media (min-width:820px){.work{grid-template-columns:400px 1fr}}
-.work img{width:100%;height:auto;display:block;border-radius:12px}.work p{margin:0 8px;color:var(--ink2)}
-.built{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-@media (min-width:640px){.built{grid-template-columns:1fr 1fr}}
-@media (min-width:980px){.built{grid-template-columns:1fr 1fr 1fr}}
-.built>li{padding:20px 22px;display:flex;flex-direction:column;gap:6px;transition:transform .25s,border-color .25s}
-.built>li:hover{transform:translateY(-2px);border-color:var(--line2)}
-.built .n{font:700 30px/1.05 var(--disp);letter-spacing:-.035em}
-.built a b{font:600 16px var(--disp)}
-.built p{margin:0;color:var(--ink2);font-size:15px;line-height:1.55}
+.note{margin-top:20px;font-size:15px}
+/* bento */
+.bento{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:700px){.bento{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1050px){.bento{grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto)}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 24px 22px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:transform .4s var(--ease),border-color .3s}
+.tile:hover{transform:translateY(-4px);border-color:var(--line2)}
+.tile .n{font:400 clamp(44px,4.4vw,64px)/.9 var(--serif);letter-spacing:-.03em;color:var(--ink)}
+.tile .n em{color:var(--rouge)}
+.tile a b{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.tile p{margin:0;color:var(--ink2);font-size:15px;line-height:1.55}
+@media (min-width:1050px){.t-big{grid-column:span 2;grid-row:span 2}.t-wide{grid-column:span 2}}
+.t-big canvas{width:100%;height:260px;display:block;margin:6px 0 8px}
+.t-photo{padding:0}.t-photo img{width:100%;height:100%;object-fit:cover;display:block;min-height:220px}
+.t-photo .cap{position:absolute;left:16px;right:16px;bottom:14px;background:color-mix(in srgb,var(--bg) 88%,transparent);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--ink2)}
+.t-ink{background:var(--ink);border-color:var(--ink)}.t-ink .n,.t-ink p,.t-ink a{color:var(--bg)}.t-ink .n em{color:#ff6b72}
 /* papers */
-.papers{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:p}
-.papers li{padding:16px 20px 16px 62px;position:relative}
-.papers li::before{counter-increment:p;content:"0" counter(p);position:absolute;left:20px;top:16px;font:500 14px var(--mono);color:var(--a2)}
+.papers{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.papers li{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:24px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.papers .rn{font:italic 400 34px var(--serif);color:var(--rouge)}
+.papers a{font:400 clamp(21px,2.1vw,28px)/1.25 var(--serif);color:var(--ink)}.papers a:hover{color:var(--bleu)}
 /* contact */
-.contact{margin:96px 0 0;padding:44px 34px;display:grid;gap:20px;align-items:center;position:relative;overflow:hidden}
-.contact::before{content:"";position:absolute;inset:-1px;z-index:-1;background:radial-gradient(600px 240px at 0% 0%,rgba(91,140,255,.22),transparent 70%),radial-gradient(500px 240px at 100% 100%,rgba(34,211,197,.18),transparent 70%)}
-@media (min-width:820px){.contact{grid-template-columns:1fr auto}}
-.contact h2{font-size:clamp(30px,3.4vw,42px)}.contact p{margin:8px 0 0;color:var(--ink2)}
-footer{margin-top:60px;border-top:1px solid var(--line);padding:24px 0 44px;color:var(--mute);font-size:13.5px}
-footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.contact{padding:130px 0 40px;text-align:left}
+.contact h2{font-size:clamp(70px,13vw,190px);line-height:.85}
+.contact h2 .red{font-style:normal}
+.contact p{color:var(--ink2);max-width:560px;font-size:18px;margin:26px 0 26px}
+.mail{font:italic 400 clamp(26px,3.4vw,44px) var(--serif);color:var(--ink);background:linear-gradient(var(--rouge),var(--rouge)) 0 100%/0 2px no-repeat;transition:background-size .5s var(--ease)}
+.mail:hover{text-decoration:none;background-size:100% 2px}
+footer{margin-top:60px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:22px 28px 30px;color:var(--mute);font:400 12px var(--mono);letter-spacing:.06em}
 /* palette */
-#pal{position:fixed;inset:0;z-index:80;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;background:rgba(2,4,10,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#pal{position:fixed;inset:0;z-index:80;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;background:rgba(17,17,17,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 #pal.open{display:flex}
-.pbox{width:min(560px,92vw);background:var(--glass2);border:1px solid var(--line2);border-radius:16px;box-shadow:0 30px 80px -20px rgba(0,0,0,.6);overflow:hidden;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.pbox input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:400 16px var(--sans);padding:16px 18px;outline:none}
+.pbox{width:min(560px,92vw);background:var(--card);border:1px solid var(--line2);border-radius:18px;box-shadow:0 30px 80px -20px rgba(0,0,0,.4);overflow:hidden}
+.pbox input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:italic 400 22px var(--serif);padding:16px 20px;outline:none}
 .pbox ul{list-style:none;margin:0;padding:6px;max-height:50vh;overflow:auto}
-.pbox li{padding:10px 12px;border-radius:10px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;color:var(--ink2);font-size:14.5px}
-.pbox li[aria-selected=true]{background:rgba(91,140,255,.14);color:var(--ink)}
-.pbox li span{font:400 12px var(--mono);color:var(--mute)}
+.pbox li{padding:10px 14px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;color:var(--ink2);font-size:14.5px}
+.pbox li[aria-selected=true]{background:var(--ink);color:var(--bg)}.pbox li[aria-selected=true] span{color:var(--bg)}
+.pbox li span{font:400 11px var(--mono);color:var(--mute);letter-spacing:.08em;text-transform:uppercase}
 /* reveal */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
-@media (max-width:600px){.wrap{padding:0 18px}.stat .num{font-size:32px}.contact{padding:30px 22px}}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}h1 .ln>span{transform:none}}
+@media (max-width:600px){.wrap{padding:0 18px}.stack>li{padding:24px 22px}.quote{padding-right:0}}
+/* ---- v3 components ---- */
+.facts{display:grid;gap:0;margin:34px 0 0;border-top:1px solid var(--line)}
+@media (min-width:760px){.facts{grid-template-columns:repeat(3,1fr)}}
+.facts div{padding:14px 18px 14px 0;border-bottom:1px solid var(--line)}
+.facts dt{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin:0 0 4px}
+.facts dd{margin:0;font:italic 400 21px/1.25 var(--serif);color:var(--ink)}
+@media (min-width:900px){.stats.s5{grid-template-columns:repeat(5,1fr)}}
+.spread{display:grid;gap:26px;padding:56px 0;border-top:1px solid var(--line)}
+@media (min-width:980px){.spread{grid-template-columns:380px 1fr;gap:56px}}
+.spread .tag{font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--rouge);margin:0 0 12px}
+.spread h3{font:400 clamp(40px,4.6vw,66px)/.95 var(--serif);letter-spacing:-.03em;margin:0}
+.spread h3 em{color:var(--bleu)}
+.spread .body p{margin:0 0 16px;font-size:17px;color:var(--ink2)}
+.bigq{margin:6px 0 22px;font:italic 400 clamp(26px,2.6vw,36px)/1.18 var(--serif);color:var(--ink)}
+.bigq::before{content:"« ";color:var(--rouge)}.bigq::after{content:" »";color:var(--rouge)}
+.bigq+.bigq{margin-top:-6px}
+.src{font:400 12.5px var(--mono);color:var(--mute);margin:-8px 0 20px}
+dl.who3{display:grid;gap:0;margin:0;border-top:1px solid var(--line)}
+@media (min-width:700px){dl.who3{grid-template-columns:1fr 1fr}}
+dl.who3 div{padding:12px 16px 12px 0;border-bottom:1px solid var(--line)}
+dl.who3 dt{font:500 10.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--rouge);margin-bottom:3px}
+dl.who3 dd{margin:0;font-size:15px;color:var(--ink2)}dl.who3 dd b{display:block;font:italic 400 20px/1.2 var(--serif);color:var(--ink);font-weight:400}
+.stack>li{top:calc(84px + var(--j) * 12px)}
+.stack .q3{font:italic 400 22px/1.25 var(--serif);color:var(--ink);margin:12px 0 4px}
+.stack .q3::before{content:"« ";color:var(--rouge)}.stack .q3::after{content:" »";color:var(--rouge)}
+.stack .meta{font:400 12.5px var(--mono);color:var(--mute)}
+.stack dl.who3{margin-top:14px}
+.ledger{border-top:1px solid var(--ink)}
+.lrow{display:grid;gap:6px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
+@media (min-width:900px){.lrow{grid-template-columns:190px 1fr 120px;gap:24px}}
+.lrow .sec{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.lrow .inst{font:italic 400 26px/1.15 var(--serif);color:var(--ink);display:block;margin-bottom:4px}
+.lrow .det{color:var(--ink2);font-size:15.5px}
+.pill{display:inline-block;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.ok{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.pill.rv2{border-color:var(--bleu);color:var(--bleu)}
+.hl4{display:grid;gap:14px;margin-top:34px}
+@media (min-width:900px){.hl4{grid-template-columns:repeat(4,1fr)}}
+.hl4 .card{padding:22px}.hl4 .k{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--rouge)}
+.hl4 h4{font:italic 400 24px/1.1 var(--serif);margin:8px 0 10px}.hl4 p{margin:0 0 10px;font-size:14.5px;color:var(--ink2)}
+.study{display:grid;gap:24px;padding:60px 0;border-top:1px solid var(--line)}
+@media (min-width:980px){.study{grid-template-columns:1fr 1fr;gap:56px;align-items:center}}
+.study .t{font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.study h3{font:400 clamp(44px,5vw,76px)/.95 var(--serif);letter-spacing:-.03em;margin:12px 0 16px}
+.study h3 em{color:var(--rouge)}
+.study p{color:var(--ink2);font-size:17px;margin:0 0 14px}
+.study .giant{font:400 clamp(64px,8.6vw,132px)/.9 var(--serif);letter-spacing:-.04em;color:var(--ink)}
+.study .giant em{color:var(--bleu);font-style:normal}
+.study .gl{margin-top:14px;font-size:15px;color:var(--ink2);max-width:460px}
+.study .why2{display:inline-block;margin-top:14px;font:500 11.5px var(--mono);letter-spacing:.06em;color:var(--rouge)}
+.study.alt .giant em{color:var(--rouge)}
+.sys{display:grid;gap:14px}
+@media (min-width:700px){.sys{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1050px){.sys{grid-template-columns:repeat(3,1fr)}}
+.sys .tile .m{font:400 clamp(34px,3.2vw,48px)/.95 var(--serif);letter-spacing:-.02em;color:var(--ink)}
+.sys .tile .m em{color:var(--rouge);font-style:normal}
+.sys .tile .nm{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bleu)}
+.sys .tile .tg{font:400 12px var(--mono);color:var(--mute);margin-top:auto;padding-top:8px}
+@media (min-width:1050px){.sys .t-big{grid-column:span 2;grid-row:span 2}}
+.scale{display:grid;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+@media (min-width:900px){.scale{grid-template-columns:repeat(3,1fr)}}
+.scale div{padding:30px 24px 30px 0}
+@media (min-width:900px){.scale div+div{padding-left:24px;border-left:1px solid var(--line)}}
+.scale .g{font:400 clamp(52px,5.6vw,84px)/.9 var(--serif);letter-spacing:-.03em}
+.scale .g em{color:var(--rouge);font-style:normal}
+.scale h4{font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--bleu);margin:14px 0 8px}
+.scale p{margin:0;color:var(--ink2);font-size:15px}
+.sub3{font:italic 400 34px/1.1 var(--serif);margin:70px 0 6px}
+.sub3+p.lead{color:var(--ink2);margin:0 0 22px}
+details.tech{border-bottom:1px solid var(--line)}
+details.tech summary{list-style:none;cursor:pointer;display:grid;gap:6px;padding:18px 0;align-items:baseline}
+@media (min-width:900px){details.tech summary{grid-template-columns:1fr 150px}}
+details.tech summary .nm2{font:italic 400 23px/1.2 var(--serif);color:var(--ink)}
+details.tech summary .nm2::after{content:" +";color:var(--rouge)}details.tech[open] summary .nm2::after{content:" −"}
+details.tech .bd2{padding:0 0 20px;color:var(--ink2);font-size:15.5px;max-width:900px}
+.ms{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ms li{display:grid;gap:6px;padding:22px 0;border-bottom:1px solid var(--line)}
+@media (min-width:900px){.ms li{grid-template-columns:60px 1fr 200px;gap:20px;align-items:baseline}}
+.ms .rn{font:italic 400 30px var(--serif);color:var(--rouge)}
+.ms a.tt{font:400 clamp(21px,2vw,27px)/1.25 var(--serif);color:var(--ink)}
+.ms p{margin:6px 0 0;color:var(--ink2);font-size:15px}
+.fdr{display:grid;gap:16px;margin-top:10px}
+@media (min-width:900px){.fdr{grid-template-columns:repeat(3,1fr)}}
+.fdr .card{padding:26px;display:flex;flex-direction:column;gap:10px}
+.fdr h3{font:italic 400 34px/1 var(--serif);margin:0}
+.fdr p{margin:0;color:var(--ink2);font-size:15px}
+.fdr .nums2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.fdr .nums2 b{display:block;font:400 40px/.95 var(--serif);color:var(--ink);font-weight:400}
+.fdr .nums2 b em{color:var(--rouge);font-style:normal}
+.fdr .nums2 span{font-size:13px;color:var(--ink2)}
+.fdr .lk a{font:500 12px var(--mono);letter-spacing:.08em;margin-right:14px}
+.phones{display:flex;gap:14px;overflow-x:auto;padding:18px 0 6px;scroll-snap-type:x mandatory}
+.phones img{height:420px;width:auto;border-radius:26px;border:1px solid var(--line2);scroll-snap-align:start;flex:none;background:var(--card)}
+.idx3{border-top:1px solid var(--ink)}
+.idx3 a{display:grid;gap:4px;padding:18px 0;border-bottom:1px solid var(--line);color:var(--ink);transition:padding .35s var(--ease)}
+@media (min-width:900px){.idx3 a{grid-template-columns:280px 1fr 200px;gap:24px;align-items:baseline}}
+.idx3 a:hover{text-decoration:none;padding-left:14px}
+.idx3 .nm{font:italic 400 26px/1.1 var(--serif)}.idx3 .ds{color:var(--ink2);font-size:15px}.idx3 .tg{font:400 12px var(--mono);color:var(--mute)}
+.about{display:grid;gap:34px}
+@media (min-width:980px){.about{grid-template-columns:1fr 1fr;gap:56px}}
+.about p{margin:0 0 18px;font-size:18px;color:var(--ink2)}.about p b{color:var(--ink);font-weight:600}
+.about p:first-child::first-letter{float:left;font:400 96px/.8 var(--serif);color:var(--rouge);margin:6px 10px 0 0}
+.tl{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.tl li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+.tl .when{font:500 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--rouge)}
+.tl b{font:italic 400 24px/1.15 var(--serif);font-weight:400;color:var(--ink)}.tl span.d{color:var(--ink2);font-size:15px}
+abbr{text-decoration:none}
+/* v3 additions */
+.sys a.tile{color:var(--ink);text-decoration:none}.sys a.tile:hover{text-decoration:none}
+.sys .t-ink .nm,.sys .t-ink .m,.sys .t-ink .tg,.sys .t-ink p{color:var(--bg)}.sys .t-ink .m em{color:#ff6b72}
+.sys .tile p b{color:var(--ink);font-weight:600}.sys .t-ink p b{color:var(--bg)}
+.phones img.wide{height:420px;border-radius:18px}
+@media (max-width:600px){.phones img{height:340px}.phones img.wide{height:220px}}
+.spread[data-verify] .vone{margin-top:18px}
+.scale a.g{display:block;color:var(--ink);text-decoration:none}
+.ledger a.lrow{color:inherit;text-decoration:none;transition:padding .35s var(--ease)}
+.ledger a.lrow:hover{padding-left:12px}
+.hl4 .card a{font:500 12px var(--mono);letter-spacing:.06em}
+a.study{color:inherit;text-decoration:none}a.study:hover h3 em{text-decoration:underline;text-decoration-thickness:2px}
+.ms li>div p a{font:inherit}
+.stack>li{position:relative;top:auto}
+@media (min-width:900px) and (min-height:760px){.stack>li{position:sticky;top:calc(84px + var(--j) * 12px)}}
+@media (min-width:980px){.hgrid{align-items:start}.hgrid .arch{position:sticky;top:120px;margin-top:40px}}
+.study .giant{white-space:nowrap;font-size:clamp(40px,6vw,92px)}
+.fdr .nums2 span{display:block;line-height:1.45;margin-top:4px}
+@media (max-width:600px){section{padding-top:64px}.hero{padding-top:36px}}
+.kicker .deg{color:var(--bleu);font-weight:500}.arch figcaption span{text-align:right;max-width:62%;line-height:1.4}
+
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="tri" aria-hidden="true"><i></i><i></i><i></i></div>
 <nav class="top" aria-label="Sections"><div class="wrap">
-  <a class="brand" href="./"><span class="mark" aria-hidden="true">SK</span>Sankur Kundu</a>
+  <a class="brand" href="./">Sankur Kundu</a>
   <div class="nl">
-    <a class="hs" href="#proof">Live proof</a><a class="hs" href="#merged">Merged</a><a class="hs" href="#built">Built</a><a class="hs" href="#papers">Papers</a>
-    <button class="kbtn" id="kopen" type="button" aria-label="Open command menu"><span aria-hidden="true">⌘K</span><span class="hs">Search</span></button>
-    <button class="ibtn" id="theme" type="button" aria-label="Switch between dark and light theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <a class="hs" href="#recognition">Recognition</a><a class="hs" href="#merged">Merged</a><a class="hs" href="#proof">Proof</a><a class="hs" href="#research">Research</a><a class="hs" href="#systems">Systems</a><a class="hs" href="#founder">Founder</a>
+    <button class="kbtn" id="kopen" type="button" aria-label="Open command menu"><span aria-hidden="true">⌘K</span></button>
+    <button class="ibtn" id="theme" type="button" aria-label="Switch between paper and noir theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
     <a class="cta" href="Sankur-Kundu-CV.pdf">CV</a>
   </div>
 </div></nav>
 <main id="main">
-<header class="hero">
-  <canvas id="orbit" aria-hidden="true"></canvas>
-  <div class="hud tl" aria-hidden="true">Orbital debris field · simulated<br>Objects <b id="h-n">0</b> · <b id="h-fps">0</b> fps<br>Close approaches screened <b id="h-ca">0</b><br>GPU compute <b id="h-gpu">checking</b></div>
-  <div class="wrap"><div class="hgrid">
-    <div>
-      <p class="eyebrow"><img class="av" src="avatar.jpg" alt="" width="34" height="34"><span class="dot" aria-hidden="true"></span>Machine learning systems engineer</p>
-      <h1 class="rv">Verified by NASA and Harvard. <span class="grad">30 fixes</span> merged by the people who lead the projects.</h1>
-      <p class="lede rv">I build <b>graphics processing unit (GPU) software for artificial intelligence (AI) and science</b>, and prove every result against an independent reference. Co-founder of <a href="gigzen/">Gigzen</a>. Bachelor of Technology (B.Tech) in Computer Science and Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026. Based in Bhubaneswar, India; open to relocation.</p>
-      <div class="btns rv"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">Email me</a><a class="btn" href="#proof">Run the live proof</a><a class="btn" href="Sankur-Kundu-CV.pdf">CV</a><a class="btn" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a class="btn" href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a class="btn" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Signed emails</a></div>
-    </div>
-  </div></div>
-</header>
-<div class="wrap">
-  <div class="stats" role="list">
-    <div class="stat rv" role="listitem"><div class="num"><span data-count="30">30</span></div><div class="lbl">fixes merged by the people who lead the projects</div></div>
-    <div class="stat rv" role="listitem"><div class="num"><span data-count="53">53</span><small>/53</small></div><div class="lbl">NASA collision-risk test cases reproduced, 15&ndash;19&times; faster per core</div></div>
-    <div class="stat rv" role="listitem"><div class="num"><span data-count="3">3</span></div><div class="lbl">US Department of Energy national laboratories: Los Alamos, Oak Ridge, Idaho</div></div>
-    <div class="stat rv" role="listitem"><div class="num"><span data-count="1">1</span></div><div class="lbl">Harvard textbook lab, rerun and merged; listed as a contributor</div></div>
+<header class="hero"><div class="wrap"><div class="hgrid">
+  <div>
+    <p class="kicker">N° 00 · Machine learning systems engineer · <b class="deg">Bachelor of Technology, Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning)</b>, Institute of Engineering &amp; Management, Kolkata, 2026 · Bhubaneswar, India · open to relocation</p>
+    <h1><span class="ln"><span>Verified by NASA</span></span><span class="ln"><span>and Harvard.</span></span><span class="ln"><span><em class="red">30 fixes</em> merged</span></span><span class="ln"><span class="it">by the people who lead the projects.</span></span></h1>
+    <p class="lede rv">I build <b>graphics processing unit (GPU) software for artificial intelligence (AI) and science</b>, and check every result against a reference implementation. NASA&rsquo;s Conjunction Assessment Risk Analysis (CARA) team on my collision-risk findings: &ldquo;fully consistent with what we see in CARA operations.&rdquo; Harvard&rsquo;s Prof. Vijay Janapa Reddi, merging my lab into his textbook: &ldquo;every result in your table reproduces.&rdquo;</p>
+    <p class="lede rv">And fixes merged at Google, the European Space Agency, the ITER Organization, the US National Institute of Standards and Technology, the US Department of Energy national laboratories (Los Alamos, Oak Ridge and Idaho), the Estonian Information System Authority, the Massachusetts Institute of Technology, the Barcelona Supercomputing Center, the UK Met Office (twice), gem5, NVIDIA, Apple, Meta and IBM Quantum. <b>Approved by the leaders themselves:</b> Jason Lowe-Power (gem5), Dario Izzo (European Space Agency), Damien Lebrun-Grandi&eacute; (Kokkos, Los Alamos National Laboratory), Casey Icenhour (MOOSE, Idaho National Laboratory), Jonathan Guyer (US National Institute of Standards and Technology), Ardavan Oskooi (Massachusetts Institute of Technology MEEP) and Olivier Hoenen (ITER Organization).</p>
+    <div class="btns rv"><a class="btn solid mag" href="mailto:sankur.kundu.tw@gmail.com">Email me</a><a class="btn mag" href="#proof">Run the live proof</a><a class="btn mag" href="Sankur-Kundu-Resume.pdf">Résumé</a><a class="btn mag" href="Sankur-Kundu-CV.pdf">Full CV</a><a class="btn mag" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Original emails (PDF)</a><a class="btn mag" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a class="btn mag" href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a class="btn mag" href="https://huggingface.co/Shakhtar-Sankur" rel="noreferrer">Hugging Face</a></div>
+    <dl class="facts rv">
+      <div><dt>Education</dt><dd>Bachelor of Technology (B.Tech), Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning), Institute of Engineering &amp; Management, Kolkata, 2026</dd></div>
+      <div><dt>Company</dt><dd>Co-founder and founding engineer, <a href="gigzen/">Gigzen</a></dd></div>
+      <div><dt>Contact</dt><dd><a href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></dd></div>
+    </dl>
   </div>
-</div>
-<div class="marq" aria-label="Organisations whose leaders merged my fixes"><div class="lab">Merged by the people who lead</div><div class="track" aria-hidden="true"><span>Google</span><span>European Space Agency</span><span>ITER Organization</span><span class="lab2">Idaho National Laboratory</span><span class="lab2">Los Alamos National Laboratory</span><span class="lab2">Oak Ridge National Laboratory</span><span>US National Institute of Standards and Technology</span><span>Massachusetts Institute of Technology</span><span>UK Met Office</span><span>NVIDIA</span><span>Apple</span><span>Meta</span><span>IBM Quantum</span><span>Harvard University</span><span>gem5</span><span>Tencent</span><span>Barcelona Supercomputing Center</span><span>Estonia’s Information System Authority</span><span>University of Oxford</span><span>Carnegie Mellon University</span><span>Hugging Face</span><span>Contrails.org</span><span>JaxMARL</span><span>Google</span><span>European Space Agency</span><span>ITER Organization</span><span class="lab2">Idaho National Laboratory</span><span class="lab2">Los Alamos National Laboratory</span><span class="lab2">Oak Ridge National Laboratory</span><span>US National Institute of Standards and Technology</span><span>Massachusetts Institute of Technology</span><span>UK Met Office</span><span>NVIDIA</span><span>Apple</span><span>Meta</span><span>IBM Quantum</span><span>Harvard University</span><span>gem5</span><span>Tencent</span><span>Barcelona Supercomputing Center</span><span>Estonia’s Information System Authority</span><span>University of Oxford</span><span>Carnegie Mellon University</span><span>Hugging Face</span><span>Contrails.org</span><span>JaxMARL</span></div></div>
-<div class="wrap">
-<div class="quotes">
-  <figure class="quote glass spot rv"><blockquote>Your sampling space results indeed appear to be fully consistent with what we see in CARA operations.</blockquote><figcaption><b>NASA Conjunction Assessment Risk Analysis (CARA) team</b>, which protects NASA satellites from collisions, on my reproduction of its collision probabilities. <a href="kessler/">kessler</a></figcaption></figure>
-  <figure class="quote glass spot rv"><blockquote>Every result in your table reproduces.</blockquote><figcaption><b>Prof. Vijay Janapa Reddi, Harvard University</b>, after rerunning my lab and merging it into his Machine Learning Systems textbook. <a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">#2175</a></figcaption></figure>
-</div>
+  <figure class="arch rv"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800"><figcaption>Sankur Kundu <span>B.Tech, Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning)</span></figcaption></figure>
+</div></div></header>
 
-<section id="proof"><div class="sh rv"><div><p class="idx">01 · Live proof</p><h2>Don&rsquo;t take my word for it. <span class="grad">Run it.</span></h2><p class="sub">The check at the heart of kessler, running on your own device: a Monte Carlo estimate of the probability that two objects collide, compared with the exact answer.</p></div></div>
-  <div class="lab-grid">
-    <div class="lab-l glass spot rv">
-      <h3>Collision probability, two ways</h3>
-      <p>Each sample draws a possible position of one object relative to the other from its uncertainty. The share of samples that land inside the combined hard-body radius is the probability of collision. The exact value comes from integrating the same distribution over that circle.</p>
-      <div class="presets" role="group" aria-label="Encounter">
-        <button type="button" data-p="0" aria-pressed="true">Close pass</button><button type="button" data-p="1">Grazing pass</button><button type="button" data-p="2">Elongated cloud</button>
-      </div>
-      <div class="params" id="params"></div>
-      <button class="run" id="run" type="button">Run on your GPU</button>
-    </div>
-    <div class="lab-r glass rv" aria-live="polite">
-      <div class="term" id="term"><span class="k">// press run</span></div>
-      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
-      <div class="verdict" id="verdict">&nbsp;</div>
-      <p class="fine">Illustrative encounters, not NASA data. kessler runs this comparison on all 53 of NASA CARA&rsquo;s published test cases.</p>
-    </div>
+<div class="band" aria-label="Organisations whose leaders merged my fixes"><div class="mtrack" data-speed="-1" aria-hidden="true"><span>Google</span><i style="background:#143a9a"></i><span>European Space Agency</span><i style="background:#d62b36"></i><span>ITER Organization</span><i style="background:#143a9a"></i><span class="lab">Idaho National Laboratory</span><i style="background:#d62b36"></i><span class="lab">Los Alamos National Laboratory</span><i style="background:#143a9a"></i><span class="lab">Oak Ridge National Laboratory</span><i style="background:#d62b36"></i><span>US National Institute of Standards and Technology</span><i style="background:#143a9a"></i><span>Massachusetts Institute of Technology</span><i style="background:#d62b36"></i><span>UK Met Office</span><i style="background:#143a9a"></i><span>NVIDIA</span><i style="background:#d62b36"></i><span>Apple</span><i style="background:#143a9a"></i><span>Meta</span><i style="background:#d62b36"></i><span>IBM Quantum</span><i style="background:#143a9a"></i><span>Harvard University</span><i style="background:#d62b36"></i><span>gem5</span><i style="background:#143a9a"></i><span>Tencent</span><i style="background:#d62b36"></i><span>Barcelona Supercomputing Center</span><i style="background:#143a9a"></i><span>Estonian Information System Authority</span><i style="background:#d62b36"></i><span>University of Oxford</span><i style="background:#143a9a"></i><span>Carnegie Mellon University</span><i style="background:#d62b36"></i><span>Hugging Face</span><i style="background:#143a9a"></i><span>Contrails.org</span><i style="background:#d62b36"></i><span>JaxMARL</span><i style="background:#143a9a"></i><span>Google</span><i style="background:#143a9a"></i><span>European Space Agency</span><i style="background:#d62b36"></i><span>ITER Organization</span><i style="background:#143a9a"></i><span class="lab">Idaho National Laboratory</span><i style="background:#d62b36"></i><span class="lab">Los Alamos National Laboratory</span><i style="background:#143a9a"></i><span class="lab">Oak Ridge National Laboratory</span><i style="background:#d62b36"></i><span>US National Institute of Standards and Technology</span><i style="background:#143a9a"></i><span>Massachusetts Institute of Technology</span><i style="background:#d62b36"></i><span>UK Met Office</span><i style="background:#143a9a"></i><span>NVIDIA</span><i style="background:#d62b36"></i><span>Apple</span><i style="background:#143a9a"></i><span>Meta</span><i style="background:#d62b36"></i><span>IBM Quantum</span><i style="background:#143a9a"></i><span>Harvard University</span><i style="background:#d62b36"></i><span>gem5</span><i style="background:#143a9a"></i><span>Tencent</span><i style="background:#d62b36"></i><span>Barcelona Supercomputing Center</span><i style="background:#143a9a"></i><span>Estonian Information System Authority</span><i style="background:#d62b36"></i><span>University of Oxford</span><i style="background:#143a9a"></i><span>Carnegie Mellon University</span><i style="background:#d62b36"></i><span>Hugging Face</span><i style="background:#143a9a"></i><span>Contrails.org</span><i style="background:#d62b36"></i><span>JaxMARL</span><i style="background:#143a9a"></i></div></div>
+<div class="band nums" aria-hidden="true"><div class="mtrack" data-speed="1"><span><b>30</b> fixes merged</span><i style="background:#143a9a"></i><span><b>17</b> in review</span><i style="background:#d62b36"></i><span><b>53/53</b> NASA test cases</span><i style="background:#143a9a"></i><span><b>28.7×</b> faster quantum decoding</span><i style="background:#d62b36"></i><span><b>62/71</b> gravitational waves found blind</span><i style="background:#143a9a"></i><span><b>1.00×</b> cuBLAS parity</span><i style="background:#d62b36"></i><span><b>23/24</b> Indian languages</span><i style="background:#143a9a"></i><span><b>3</b> US national laboratories</span><i style="background:#d62b36"></i><span><b>0.75%</b> from 32-bit floating point</span><i style="background:#143a9a"></i><span><b>140M</b> satellite pairs a day</span><i style="background:#d62b36"></i><span><b>30</b> fixes merged</span><i style="background:#143a9a"></i><span><b>17</b> in review</span><i style="background:#d62b36"></i><span><b>53/53</b> NASA test cases</span><i style="background:#143a9a"></i><span><b>28.7×</b> faster quantum decoding</span><i style="background:#d62b36"></i><span><b>62/71</b> gravitational waves found blind</span><i style="background:#143a9a"></i><span><b>1.00×</b> cuBLAS parity</span><i style="background:#d62b36"></i><span><b>23/24</b> Indian languages</span><i style="background:#143a9a"></i><span><b>3</b> US national laboratories</span><i style="background:#d62b36"></i><span><b>0.75%</b> from 32-bit floating point</span><i style="background:#143a9a"></i><span><b>140M</b> satellite pairs a day</span><i style="background:#d62b36"></i></div></div>
+
+<div class="wrap">
+  <div class="stats s5" role="list">
+    <div class="stat rv" role="listitem"><div class="num"><span data-count="30">30</span></div><div class="lbl">fixes merged by the people who lead the projects</div></div>
+    <div class="stat rv" role="listitem"><div class="num"><span data-count="14">14</span></div><div class="lbl">merged at public-sector science software</div></div>
+    <div class="stat rv" role="listitem"><div class="num"><span data-count="53">53</span><small>/53</small></div><div class="lbl">NASA test cases matched; CARA: &ldquo;fully consistent&rdquo;</div></div>
+    <div class="stat rv" role="listitem"><div class="num"><span data-count="3">3</span></div><div class="lbl">manuscripts, sole author</div></div>
+    <div class="stat rv" role="listitem"><div class="num"><span data-count="17">17</span></div><div class="lbl">open-source systems, each benchmarked</div></div>
   </div>
+
+<section id="recognition"><div class="sh rv"><p class="no">N° 01 — Recognition</p><div><h2>Recognised by the people <em>who lead the work.</em></h2><p class="sub">NASA&rsquo;s collision-risk analysts and a Harvard professor checked my results against their own. Every fix on this page was found by running the project&rsquo;s own tests on real hardware, fixed with a test that fails without it, and reviewed and merged by its maintainers. Each name links to the public pull request; the signed original emails are in the <a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">evidence</a>.</p></div></div>
+
+  <article class="spread rv"><div><p class="tag">Space safety · answered</p><h3>NASA Conjunction Assessment <em>Risk Analysis</em></h3></div>
+    <div class="body"><p><a href="kessler/">kessler</a> reproduces CARA&rsquo;s Monte Carlo collision probabilities on all 53 of its test conjunctions, 15&ndash;19&times; faster per core. I sent CARA two findings from that work; its Analysis Team answered each one, item by item.</p>
+      <p class="bigq">your sampling space results indeed appear to be fully consistent with what we see in CARA operations</p>
+      <p class="bigq">your time window results indeed appear to be fully consistent with what we see in CARA operations</p>
+      <p class="src">Signed email from nasa.gov · <a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">original emails</a></p>
+      <dl class="who3"><div><dt>Answered by</dt><dd><b>Eliot Toumey</b>CARA Analysis Team Lead, for the CARA Analysis Team</dd></div><div><dt>Referred by</dt><dd><b>Presley Power</b>CARA Operations Team Lead</dd></div><div><dt>Method</dt><dd><b>Same as CARA&rsquo;s</b>Sampling in equinoctial elements with mean motion, as CARA&rsquo;s own Monte Carlo software does</dd></div><div><dt>Scale</dt><dd><b>53 of 53</b>Every published CARA test conjunction matched, 15&ndash;19&times; faster per core</dd></div></dl>
+    </div></article>
+
+  <article class="spread rv" data-verify><div><p class="tag">Education · merged</p><h3>Harvard <em>University</em></h3></div>
+    <div class="body"><p><a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">The Same-Bits Contract, #2175</a>: a full lab for the Machine Learning Systems textbook on why temperature-0 language models are not deterministic. Its author reran every experiment, merged it, and <a href="https://harvard-edge.github.io/cs249r_book_dev/about/contributors.html" rel="noreferrer">listed me among the textbook&rsquo;s contributors</a>.</p>
+      <p class="bigq">Merged, thanks @Shakhtar-Sankur. I reran the experiments module and every result in your table reproduces.</p>
+      <p class="src">Prof. Vijay Janapa Reddi · <a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">pull request #2175</a></p>
+      <p>It follows the book&rsquo;s lab protocol, its mathematics is a new module of the book&rsquo;s simulator, and it passes the book&rsquo;s own test suites (2,658 simulator tests, 0 failures) and a full student run in the browser. On the proposal, a collaborator on the textbook: &ldquo;Yes, the feature looks great and the idea sounds cool to me&rdquo;, referring it to the book&rsquo;s author (<a href="https://github.com/harvard-edge/cs249r_book/discussions/2171" rel="noreferrer">discussion</a>).</p>
+      <dl class="who3"><div><dt>Merged by</dt><dd><b>Prof. Vijay Janapa Reddi</b>Author of the Machine Learning Systems textbook, Harvard University</dd></div><div><dt>Contributor</dt><dd><b><a href="https://harvard-edge.github.io/cs249r_book_dev/about/contributors.html" rel="noreferrer">Listed in the textbook</a></b>Added for code, documentation and tests in its labs and mlsysim</dd></div><div><dt>Second merge</dt><dd><b><a href="https://github.com/harvard-edge/cs249r_book/pull/2192" rel="noreferrer">mlsysim #2192</a></b>Its simulator modelled 32-bit floating-point (FP32) work on the NVIDIA T4 about 8&times; too fast; merged by Prof. Reddi</dd></div><div><dt>Reproduced</dt><dd><b>Every result</b>4 distinct sums, 108 to 113 changed outputs, 7 of 64 users, 0 under both contracts</dd></div></dl>
+    </div></article>
 </section>
 
-<section id="why"><div class="sh rv"><div><p class="idx">02 · In short</p><h2>Why you might know me</h2><p class="sub">The short version, with links to the public record.</p></div></div>
-<div class="whygrid"><figure class="holo rv"><img src="sankur-portrait.jpg" alt="Sankur Kundu" width="600" height="800" loading="lazy"><figcaption class="tag">Bhubaneswar, India</figcaption></figure>
-<ul class="cards">
-  <li class="glass spot rv"><b>30 of my fixes</b> have been merged at Google, the European Space Agency, ITER, the US National Institute of Standards and Technology (NIST), <b>three US Department of Energy national laboratories</b>, the Massachusetts Institute of Technology (MIT), gem5, the UK Met Office, NVIDIA, Apple, Meta and IBM Quantum.</li>
-  <li class="glass spot rv"><b>Approved by the leaders themselves:</b> Jason Lowe-Power (gem5), Dario Izzo (European Space Agency), Damien Lebrun-Grandi&eacute; (Kokkos, Los Alamos National Laboratory), Casey Icenhour (MOOSE, Idaho National Laboratory), Jonathan Guyer (NIST), Ardavan Oskooi (MIT MEEP) and Olivier Hoenen (ITER).</li>
-  <li class="glass spot rv">I built <a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer">chirp</a>, which finds 62 of 71 gravitational-wave events of LIGO (the Laser Interferometer Gravitational-Wave Observatory) blind, and <a href="syndrome/">syndrome</a>, a GPU decoder for IBM&rsquo;s quantum computers, bit-identical to IBM&rsquo;s own and 28.7&times; faster.</li>
-  <li class="glass spot rv">Released <a href="populace/">Populace</a> (1,600+ downloads on npm, the JavaScript package registry). Scouted by Entrepreneur First (UK) from my public work. Sole author of three manuscripts. Every claim on this page links to its public record, and the signed original emails are in the <a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">evidence</a>.</li>
-</ul></div></section>
-
-<section id="merged"><div class="sh rv"><div><p class="idx">03 · Merged</p><h2>Merged by the people who lead the projects</h2><p class="sub">Each bug was found by running the project&rsquo;s own tests and fixed with a test that fails without the fix. Every entry can be checked against GitHub from this page.</p></div>
-  <div class="vbar"><button class="vbtn" id="vall" type="button">Verify all 30 on GitHub</button><span class="vsum" id="vsum" aria-live="polite"></span></div></div>
-  <ol class="cards">
-    <li class="glass spot rv" data-verify><span class="org">Google XLA (Accelerated Linear Algebra)</span>The compiler behind JAX and Tensor Processing Units returned 0 instead of 10 for max(a, clamp(a, x, b)). <q>The change in the PR is correct.</q> <a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></li>
-    <li class="glass spot rv" data-verify><span class="org">Idaho National Laboratory, MOOSE</span>MOOSE (Multiphysics Object-Oriented Simulation Environment): an electromagnetic boundary condition&rsquo;s Jacobian had the wrong sign; I fixed it and made its admittance complex. Approved by Casey Icenhour, who wrote the module. <a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">#34496</a></li>
-    <li class="glass spot rv" data-verify><span class="org">gem5</span>The simulator of chip research read 1.8e-09 as 1.8 &minus; 9: &minus;61,489.8 instead of 0.285. Approved by its lead, Jason Lowe-Power. <a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">#3762</a></li>
-    <li class="glass spot rv" data-verify><span class="org">European Space Agency</span>A pagmo2 crash open since May 2024, merged by its co-author Dario Izzo the day I opened it. <a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">#660</a></li>
-    <li class="glass spot rv" data-verify><span class="org">US Department of Energy, Kokkos</span>GPU sort, merged by its lead at Los Alamos National Laboratory after approval from Oak Ridge National Laboratory. <a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">#9738</a></li>
-    <li class="glass spot rv" data-verify><span class="org">ITER</span>Two fixes to IMAS-Python, the data library of the international fusion-energy project, merged by Olivier Hoenen. <a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">#152</a> <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a></li>
-    <li class="glass spot rv" data-verify><span class="org">US National Institute of Standards and Technology (NIST)</span>FiPy truncated boundary distances on integer grids; merged by Jonathan Guyer, one of its authors. <a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">#1243</a></li>
-    <li class="glass spot rv" data-verify><span class="org">UK Met Office</span>Two fixes: Iris crashed on a constant date-time column; PSyclone, the code generator of its LFRic weather and climate model, dropped Fortran bindings. <a href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer">#7375</a> <a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">#3668</a></li>
+<section id="merged"><div class="sh rv"><p class="no">N° 02 — Merged</p><div><h2>Thirty fixes, <em>dossier by dossier.</em></h2><p class="sub">Each bug was found by running the project&rsquo;s own tests and fixed with a test that fails without the fix. Every pull request on this page can be checked against GitHub from here.</p>
+  <div class="vbar"><button class="vbtn" id="vall" type="button">Verify all 30 on GitHub</button><span class="vsum" id="vsum" aria-live="polite"></span></div></div></div>
+  <ol class="stack">
+    <li style="--j:0" data-verify><div><span class="idx">AI compilers · merged</span><span class="org">Google</span></div><div class="txt"><a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">XLA (Accelerated Linear Algebra) #52906</a>, the compiler behind JAX, TensorFlow and Tensor Processing Units (TPUs): its algebraic simplifier rewrote max(a, clamp(a, x, b)) to clamp(a, x, b) for any bounds, so when a &gt; b it returned the wrong value, <b>0 instead of 10</b> in released JAX. It now rewrites only when a &le; b is known; all 2,070 simplifier tests pass.<p class="q3">The change in the PR is correct.</p><p class="meta">Greg Olechwierowicz · pull request #52906 · landed by Google in <a href="https://github.com/openxla/xla/pull/53124" rel="noreferrer">#53124</a></p><dl class="who3"><div><dt>Approved by</dt><dd><b>Greg Olechwierowicz</b>XLA reviewer</dd></div><div><dt>Merged</dt><dd><b><a href="https://github.com/openxla/xla/pull/53124" rel="noreferrer">Into XLA&rsquo;s main branch</a></b>Through Google&rsquo;s import pull request #53124, under my name, on 16 November 2026</dd></div><div><dt>Verified</dt><dd><b>Before and after</b>Released JAX returns 0 where the answer is 10</dd></div></dl></div></li>
+    <li style="--j:1" data-verify><div><span class="idx">Nuclear energy &amp; simulation · merged</span><span class="org">Idaho National Laboratory</span></div><div class="txt"><a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">MOOSE #34496</a>, the Multiphysics Object-Oriented Simulation Environment, the US Department of Energy laboratory&rsquo;s open-source simulation framework: the Jacobian (the derivative Newton&rsquo;s method uses) of the electromagnetics module&rsquo;s transient absorbing boundary condition had the wrong sign and a mismatched coupling term. I fixed it and, at the module author&rsquo;s request, made the admittance complex, with a deprecation so downstream applications keep working; two new Jacobian tests, 100% of new lines covered.<p class="q3">thanks for the contribution</p><p class="meta">pull request #34496 · approved and merged</p><dl class="who3"><div><dt>Approved by</dt><dd><b>Casey Icenhour</b>Wrote the electromagnetics module, Idaho National Laboratory</dd></div><div><dt>Merged by</dt><dd><b>Guillaume Giudicelli</b>MOOSE developer, who also approved it</dd></div><div><dt>Verified</dt><dd><b>Two Jacobian tests</b>100% of new lines covered</dd></div></dl></div></li>
+    <li style="--j:2" data-verify><div><span class="idx">Computer architecture · merged</span><span class="org">gem5</span></div><div class="txt"><a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">gem5 #3762</a>, the simulator behind academic and industry chip research: its expression parser read 1.8e-09 as 1.8 &minus; 9, so a power model x &times; 1.8e-09 / simSeconds gave <b>&minus;61,489.8 instead of 0.285</b>, with no warning. Fixed with the parser&rsquo;s first unit tests; all 1,092 unit tests pass. Approved by Jason Lowe-Power, who leads gem5, and merged into develop by Bobby R. Bruce.<dl class="who3"><div><dt>Approved by</dt><dd><b>Jason Lowe-Power</b>Leads gem5</dd></div><div><dt>Merged by</dt><dd><b>Bobby R. Bruce</b>gem5 maintainer, who also approved it</dd></div><div><dt>Verified</dt><dd><b>1,092 unit tests</b>Its signed-exponent tests fail before the fix and pass after</dd></div></dl></div></li>
+    <li style="--j:3" data-verify><div><span class="idx">Weather &amp; climate · merged</span><span class="org">UK Met Office</span></div><div class="txt"><a href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer">Iris #7375</a>, the Met Office&rsquo;s Python library for weather and climate data: iris.pandas.as_cubes crashed when a date-time column held the same value in every row. It now becomes a time coordinate with the right points, units and calendar, tested on the standard and 360-day calendars. My second fix merged at the Met Office, after <a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">PSyclone #3668</a>.<p class="q3">Thanks @Shakhtar-Sankur!</p><p class="meta">Martin Yeo · pull request #7375 · approved and merged</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Martin Yeo</b>UK Met Office, Iris</dd></div><div><dt>Closes</dt><dd><b>Issue #6955</b>On Iris&rsquo;s issue tracker</dd></div><div><dt>Verified</dt><dd><b>Before and after</b>The new tests fail on main and pass with the fix</dd></div></dl></div></li>
+    <li style="--j:4" data-verify><div><span class="idx">Fusion energy · merged</span><span class="org">ITER Organization</span></div><div class="txt"><a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">IMAS-Python #152</a>, the data library of the international fusion project (IMAS: Integrated Modelling &amp; Analysis Suite): imas convert --ids now takes a list of Interface Data Structures (IDSs) and occurrences (IDS:N, IDS:*), stops before writing anything if one is missing, and deprecates --occurrence; all 1,808 tests pass. A second fix, <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a>, merged too.<p class="q3">Looks good to me now.</p><p class="meta">Olivier Hoenen · pull request #152 · approved and merged</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Olivier Hoenen</b>ITER Organization, who assigned me the issue</dd></div><div><dt>Reviewed by</dt><dd><b>Maarten Sebregts and Simon Pinches</b>IMAS-Python developers</dd></div><div><dt>Verified</dt><dd><b>1,808 tests</b>The full suite passes</dd></div></dl></div></li>
+    <li style="--j:5" data-verify><div><span class="idx">Space · merged</span><span class="org">European Space Agency</span></div><div class="txt"><a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">pagmo2 #660</a>, the Advanced Concepts Team&rsquo;s parallel optimisation library: monotonic basin hopping crashed whenever its inner optimiser left the bounds, a bug open since May 2024. Fixed with a regression test; the full suite passes, 84 of 84.<p class="q3">Merged #660 into master.</p><p class="meta">Dario Izzo · pull request #660 · the day it was opened</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Dario Izzo</b>Co-author of pagmo2 · European Space Agency</dd></div><div><dt>Issue</dt><dd><b><a href="https://github.com/esa/pygmo2/issues/163" rel="noreferrer">esa/pygmo2#163</a></b>Reported May 2024 with NLopt NEWUOA and SciPy CG (conjugate gradient)</dd></div><div><dt>Verified</dt><dd><b>Before and after</b>The released pygmo 2.20.0 crashes; with the fix the same case runs</dd></div></dl></div></li>
+    <li style="--j:0" data-verify><div><span class="idx">Standards · merged</span><span class="org">US National Institute of Standards and Technology</span></div><div class="txt"><a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">FiPy #1243</a>, NIST&rsquo;s finite-volume solver for partial differential equations: on a two-dimensional grid with integer spacing, the half-cell distances at the boundary were truncated, so dy = 3 gave 1 instead of 1.5. Fixed with a regression test and revised after review.<p class="q3">Merged #1243 into master.</p><p class="meta">Jonathan Guyer · pull request #1243 · after a review round</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Jonathan Guyer</b>One of FiPy&rsquo;s authors · US National Institute of Standards and Technology</dd></div><div><dt>Issue</dt><dd><b><a href="https://github.com/usnistgov/fipy/issues/672" rel="noreferrer">usnistgov/fipy#672</a></b>Boundary distances on integer grids</dd></div><div><dt>Verified</dt><dd><b>Before and after</b>Integer and float spacing now give the same distances</dd></div></dl></div></li>
+    <li style="--j:1" data-verify><div><span class="idx">Climate · merged</span><span class="org">Contrails.org</span></div><div class="txt"><a href="https://github.com/contrailcirrus/pycontrails/pull/453" rel="noreferrer">pycontrails #453</a>, the aviation climate-impact library of Contrails.org and the Breakthrough Energy Foundation: gridded contrail radiative forcing was divided by one time step instead of the averaging window, so it came out <b>12&times; too large</b> for a 1-hour window, and the grid-cell area was taken on the wrong grid, about 4&times; off. Both fixed.<p class="q3">Thanks @Shakhtar-Sankur !</p><p class="meta">Zeb Engberg · pull request #453 · merged into main</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Zeb Engberg</b>pycontrails maintainer · Contrails.org</dd></div><div><dt>Issue</dt><dd><b><a href="https://github.com/contrailcirrus/pycontrails/issues/325" rel="noreferrer">contrailcirrus/pycontrails#325</a></b>Radiative forcing in longitude_latitude_grid</dd></div><div><dt>Changelog</dt><dd><b>Both fixes listed</b>Under Fixes in the pycontrails changelog</dd></div></dl></div></li>
+    <li style="--j:2" data-verify><div><span class="idx">Energy &amp; national security · merged</span><span class="org">US Department of Energy national laboratories</span></div><div class="txt"><a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">Kokkos #9738</a>, the laboratories&rsquo; GPU performance-portability library (Exascale Computing Project): sort now compiles on NVIDIA CUDA (Compute Unified Device Architecture) and AMD HIP (Heterogeneous-compute Interface for Portability) for types without a default constructor; 20 of 20 GPU tests pass.<p class="q3">Enable sorting non-default-constructible elements (CUDA/HIP) #9738</p><p class="meta"><a href="https://github.com/kokkos/kokkos/issues/9714" rel="noreferrer">Kokkos 5.4 release notes</a> · Bug Fixes · written by the Kokkos lead</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Damien Lebrun-Grandi&eacute;</b>Leads the Kokkos project · Los Alamos National Laboratory · &ldquo;Generally the approach looks good.&rdquo;</dd></div><div><dt>Approved by</dt><dd><b>Daniel Arndt</b>Kokkos developer, computational scientist · Oak Ridge National Laboratory</dd></div><div><dt>Reviewed by</dt><dd><b>Andrey Prokopenko</b>Oak Ridge National Laboratory · proposed my next Kokkos fix</dd></div><div><dt>Release</dt><dd><b><a href="https://github.com/kokkos/kokkos/issues/9714" rel="noreferrer">Kokkos 5.4 release notes</a></b>Listed under Bug Fixes by the Kokkos lead</dd></div></dl></div></li>
+    <li style="--j:3" data-verify><div><span class="idx">Academic research · merged</span><span class="org">Massachusetts Institute of Technology</span></div><div class="txt"><a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">MEEP #3364</a>, its electromagnetics simulator: remaining-time estimates fell to a quarter of the real time, up to 4&times; too short, now 0.97&ndash;1.02&times;, on an issue where Prof. Steven G. Johnson asked for a pull request. A second fix, <a href="https://github.com/NanoComp/meep/pull/3363" rel="noreferrer">#3363</a>, on an issue Prof. Johnson filed, makes a silent setting override raise an error instead; merged too.<p class="q3">Option 1 of #3170 (raising a ValueError) is the correct approach because in Python, failing fast and explicitly is strongly preferred over silently mutating inputs.</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Ardavan Oskooi</b>MEEP&rsquo;s original lead developer, first author of its reference paper</dd></div><div><dt>Requested by</dt><dd><b>Prof. Steven G. Johnson</b>Massachusetts Institute of Technology</dd></div></dl></div></li>
+    <li style="--j:4" data-verify><div><span class="idx">National supercomputing · merged</span><span class="org">Barcelona Supercomputing Center</span></div><div class="txt"><a href="https://github.com/BSC-ES/autosubmit/pull/3405" rel="noreferrer">Autosubmit #3405</a> and <a href="https://github.com/BSC-ES/autosubmit/pull/3406" rel="noreferrer">#3406</a>, the climate-model workflow manager of Spain&rsquo;s national supercomputing centre: on PostgreSQL, job timestamps such as 20261027164231 were stored in 32-bit columns, so runs crashed with NumericValueOutOfRange; they are now 64-bit, checked on PostgreSQL 16. Fixed for its 4.2.0 release at its maintainer&rsquo;s invitation (&ldquo;as we need it for the 4.2.0 release&rdquo;) and credited in the 4.2.0 changelog; #3406, at his request, makes a test that failed on busy continuous-integration runners wait for its process to exit.<p class="q3">Looks great! &hellip; Thank you!!</p><p class="q3">Thanks (again) @Shakhtar-Sankur !!!</p><p class="q3">it was a pleasure working with you as well!</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Bruno P. Kinoshita</b>Autosubmit maintainer, Barcelona Supercomputing Center</dd></div></dl></div></li>
+    <li style="--j:5" data-verify><div><span class="idx">Weather &amp; climate · merged</span><span class="org">UK Met Office &amp; Science and Technology Facilities Council</span></div><div class="txt"><a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">PSyclone #3668</a>, the code generator the UK Met Office and the Science and Technology Facilities Council&rsquo;s Hartree Centre build for the Met Office&rsquo;s next-generation LFRic weather and climate model: Fortran C bindings (BIND(C)) were dropped and BIND(C) functions crashed it. Entry 82 of its changelog.<p class="q3">otherwise it looks good</p><p class="q3">ITs passed</p><dl class="who3"><div><dt>Merged by</dt><dd><b>PSyclone maintainer</b>Ran the integration tests, approved and merged it</dd></div></dl></div></li>
+    <li style="--j:0" data-verify><div><span class="idx">Digital government · merged</span><span class="org">Estonian Information System Authority</span></div><div class="txt"><a href="https://github.com/open-eid/libdigidocpp/pull/777" rel="noreferrer">libdigidocpp #777</a> and <a href="https://github.com/open-eid/libdigidocpp/pull/775" rel="noreferrer">#775</a>, Estonia&rsquo;s digital-signature library: signing tests crashed without a network connection and are now skipped offline, and the Online Certificate Status Protocol (OCSP) time-check notes now match the code.<p class="q3">Thanks, both rules now match the code.</p><dl class="who3"><div><dt>Approved by</dt><dd><b>Raul Metsma</b>libdigidocpp maintainer, who approved both</dd></div><div><dt>Merged by</dt><dd><b>Kristel Merilain</b>Estonian Information System Authority</dd></div></dl></div></li>
+    <li style="--j:1" data-verify><div><span class="idx">Quantum computing · merged</span><span class="org">IBM Quantum</span></div><div class="txt"><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">Relay-BP #49</a>, the quantum error-correction decoder from IBM Quantum: the same shot decoded differently depending on batch order; serial and parallel batches disagreed on 1,970 of 2,000 shots, now 0. Its first author chose this fix from the two I proposed.<p class="q3">Thank you! Happy with this, will merge it.</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Tristan M&uuml;ller</b>First author of Relay-BP, IBM Quantum</dd></div></dl></div></li>
+    <li style="--j:2" data-verify><div><span class="idx">AI for quantum error correction · merged</span><span class="org">NVIDIA</span></div><div class="txt"><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">Ising-Decoding #98</a> and <a href="https://github.com/NVIDIA/Ising-Decoding/pull/99" rel="noreferrer">#99</a>: the public-model tests, offline smoke test and documentation looked only for .pt checkpoints, so anyone using the SafeTensors models NVIDIA publishes on Hugging Face failed them; they now load the published files out of the box. #99, split out at the maintainer&rsquo;s request, makes the documented checkpoint setting work.<p class="q3">Merged, thank you for the contribution and for working through the review rounds.</p><p class="q3">Merged, thank you for the follow-up and for adding the precedence test.</p><dl class="who3"><div><dt>Merged by</dt><dd><b>Ivan Basov</b>Maintainer, NVIDIA Ising-Decoding</dd></div></dl></div></li>
+    <li style="--j:3" data-verify><div><span class="idx">Quantum circuits · merged</span><span class="org">University of Oxford</span></div><div class="txt"><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">PyZX #563</a>, the ZX-calculus library for quantum circuit optimisation: it put an X rotation on the wrong qubit after rewriting two CNOT (controlled-NOT) gates as a SWAP, so its optimisers returned a different unitary for 25 of 100 random Clifford circuits, now 0. Found by checking optimised circuits against the originals; fixed with a regression test.<p class="q3">Thanks for the fix! This was a regression from an earlier PR that changed how XPhase gates were handled in optimization.</p><dl class="who3"><div><dt>Merged by</dt><dd><b>John van de Wetering</b>Co-creator of PyZX</dd></div></dl></div></li>
+    <li style="--j:4" data-verify><div><span class="idx">On-device AI · merged</span><span class="org">Meta</span></div><div class="txt"><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">ExecuTorch #23677</a> and <a href="https://github.com/pytorch/executorch/pull/23912" rel="noreferrer">#23912</a>, the runtime behind on-device AI in Instagram and WhatsApp: the 2-bit and 4-bit embedding kernels used by on-device large language models (LLMs) read out of bounds on an invalid token id; and the same kernels checked zero points against the output type instead of the scales&rsquo; type, so valid models with 16-bit floating-point (fp16) scales and 32-bit output aborted, and the .out variants read past the end of their scales under AddressSanitizer. Six new tests fail without the second fix.<p class="q3">LGTM! Thanks for the fix!</p><dl class="who3"><div><dt>Approved and merged by</dt><dd><b>Scott Roy and Jacob Stevens</b>Meta maintainers</dd></div></dl></div></li>
+    <li style="--j:5" data-verify><div><span class="idx">On-device AI · merged</span><span class="org">Tencent</span></div><div class="txt"><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">ncnn #7239</a>, its on-device inference framework (24,000 stars): on Vulkan GPUs, Mish was computed as x&middot;tanh(log(1+e<sup>x</sup>)), and e<sup>x</sup> overflowed for large inputs, so drivers with a strict tanh returned NaN (not a number): 30 NaN outputs in the reproduction, none after. Its creator extended the tests in his own commit.<p class="q3">Thanks for your contribution !</p><dl class="who3"><div><dt>Merged by</dt><dd><b>nihui</b>Creator and lead maintainer of ncnn</dd></div></dl></div></li>
+    <li style="--j:0" data-verify><div><span class="idx">Machine learning on Apple silicon · merged</span><span class="org">Apple</span></div><div class="txt"><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">MLX #4737</a>, Apple&rsquo;s machine learning framework (29,000 stars): the socket threads of its distributed ring backend, the transport that links Macs for multi-machine training, read their task queues outside the lock while other threads appended to them. ThreadSanitizer found 2&ndash;4 races on every run before the fix and none after; the ring tests pass on 8 ranks.<p class="q3">2&ndash;4 races per run &rarr; 0</p><dl class="who3"><div><dt>Merged by</dt><dd><b>@zcbenz</b>MLX maintainer, who reviewed, approved and merged it</dd></div></dl></div></li>
+    <li style="--j:1" data-verify><div><span class="idx">Structured output for language-model serving · merged</span><span class="org">Carnegie Mellon University</span></div><div class="txt"><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">XGrammar #1012</a>, the default structured-output engine of vLLM, SGLang and NVIDIA TensorRT-LLM: jump-forward decoding crashed whenever a grammar forced only part of a UTF-8 character (for example, a choice between &ldquo;é&rdquo; and &ldquo;è&rdquo;), the bug behind its issue #132, closed earlier with the feature switched off. It now returns only whole, valid characters, which the grammar still forces, so results stay correct; four new tests fail without the fix. Its maintainer extended the fix to the web bindings in his own commit.<dl class="who3"><div><dt>Approved and merged by</dt><dd><b>Linzhang Li</b>XGrammar maintainer</dd></div></dl></div></li>
+    <li style="--j:2" data-verify><div><span class="idx">Reinforcement learning · merged</span><span class="org">University of Oxford, University College London &amp; Imperial College London</span></div><div class="txt"><a href="https://github.com/bold-lab-ai/JaxMARL/pull/206" rel="noreferrer">JaxMARL #206</a> (Conference on Neural Information Processing Systems, NeurIPS 2024): the rollout wrapper behind 8 of its Q-learning baselines (QMIX, VDN, IQL, PQN-VDN, SHAQ, TransfQMIX) replaced the first observation of every new episode with zeros after an auto-reset, so agents chose their first action blind and trained on it. Two of three new tests fail without the fix.<p class="q3">Good find!!</p><dl class="who3"><div><dt>Approved and merged by</dt><dd><b>Alex Rutherford</b>Lead author of JaxMARL</dd></div></dl></div></li>
+    <li style="--j:3" data-verify><div><span class="idx">Reinforcement-learning environments · merged</span><span class="org">Hugging Face</span></div><div class="txt"><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">OpenEnv #1441</a> and <a href="https://github.com/huggingface/OpenEnv/pull/1442" rel="noreferrer">#1442</a>, governed by Meta-PyTorch, Hugging Face, NVIDIA and Microsoft: in the reward rubrics reinforcement-learning environments use to grade agents, composite rubrics ran their pre-hooks after scoring their children (a timing hook read 0.01 ms for 400 ms of work), and a rubric handing off to an async judge recorded an unawaited coroutine as its score. 9 of 13 new tests fail without the fixes.<p class="q3">Reviewed hook ordering and async composition; 177 rubric tests pass.</p><dl class="who3"><div><dt>Approved and merged by</dt><dd><b>OpenEnv reviewer</b>Both pull requests</dd></div></dl></div></li>
   </ol>
-  <p class="also rv">Also merged at the Massachusetts Institute of Technology (twice), IBM Quantum, NVIDIA (twice), Apple, Meta (twice), Tencent, Harvard, the Barcelona Supercomputing Center (twice), Estonia&rsquo;s Information System Authority (twice), the University of Oxford, Carnegie Mellon University, Hugging Face (twice), Contrails.org and JaxMARL.</p>
-  <details class="all glass" id="allfixes"><summary>See all 30, with what was wrong and who merged it</summary>
+  <p class="also rv">Every merged fix, with its figure, what was wrong and who merged it:</p>
+  <details class="all" id="allfixes"><summary>All 30, with what was wrong and who merged it</summary>
 <div class="grp"><h3>Government &amp; public science · 12</h3><ol><li><span class="fig">crash → 84/84</span><div><p class="who"><b>European Space Agency</b> <span class="pj">· pagmo2 · the Advanced Concepts Team’s optimisation library</span></p><p class="wh">Monotonic basin hopping crashed whenever its inner optimiser left the bounds, a bug open since May 2024. It now perturbs around the nearest point inside them.</p><p class="by">Dario Izzo · Co-author of pagmo2 · merged it the day I opened it. <span class="pr"><a href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer">#660</a></span></p></div></li><li><span class="fig">1,808 tests pass</span><div><p class="who"><b>ITER Organization</b> <span class="x">×2</span> <span class="pj">· IMAS-Python · data library of the international fusion-energy project</span></p><p class="wh">imas convert now takes a list of IDSs (Interface Data Structures) and occurrences and stops before writing if one is missing; a second fix pins the data-dictionary version the tests need.</p><p class="by">Olivier Hoenen · ITER · assigned me the issue, approved and merged both. <q>Looks good to me now.</q> <span class="pr"><a href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer">#152</a> <a href="https://github.com/iterorganization/IMAS-Python/pull/151" rel="noreferrer">#151</a></span></p></div></li><li><span class="fig">dy=3: 1 → 1.5</span><div><p class="who"><b>US National Institute of Standards and Technology (NIST)</b> <span class="pj">· FiPy · finite-volume partial differential equation (PDE) solver</span></p><p class="wh">With integer grid spacing, Grid2D truncated the distances from boundary faces to their cells. They are now computed in float64, as the reviewer asked.</p><p class="by">Jonathan Guyer · NIST · one of FiPy’s authors · merged it. <span class="pr"><a href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer">#1243</a></span></p></div></li><li><span class="fig">no build → 20/20</span><div><p class="who"><b>US Department of Energy</b> <span class="pj">· Kokkos · GPU library of the national laboratories</span></p><p class="wh">Kokkos::sort did not compile on NVIDIA CUDA or AMD HIP for types without a default constructor; it now sorts an index permutation. In the Kokkos 5.4 release notes.</p><p class="by">Damien Lebrun-Grandié · Leads Kokkos, Los Alamos · merged it after approval by Daniel Arndt, Oak Ridge. <q>Generally the approach looks good.</q> <span class="pr"><a href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer">#9738</a></span></p></div></li><li><span class="fig">wrong sign → fixed</span><div><p class="who"><b>Idaho National Laboratory</b> <span class="pj">· MOOSE · Multiphysics Object-Oriented Simulation Environment, the US Department of Energy laboratory’s open-source simulation framework</span></p><p class="wh">The Jacobian (the derivative Newton’s method uses) of the electromagnetics module’s transient absorbing boundary condition had the wrong sign and a mismatched coupling term. I fixed it and, at the module author’s request, made the admittance complex, with a deprecation so downstream apps keep working; two new Jacobian tests, 100% of new lines covered.</p><p class="by">Casey Icenhour · Wrote the electromagnetics module, Idaho National Laboratory · approved it; Guillaume Giudicelli approved and merged it. <q>thanks for the contribution</q> <span class="pr"><a href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer">#34496</a></span></p></div></li><li><span class="fig">crash → time coord</span><div><p class="who"><b>UK Met Office</b> <span class="pj">· Iris · weather and climate data in Python</span></p><p class="wh">iris.pandas.as_cubes crashed when a date-time column held one value in every row. It now becomes a time coordinate with the right units and calendar.</p><p class="by">Martin Yeo · UK Met Office · approved and merged it. <q>Thanks @Shakhtar-Sankur!</q> <span class="pr"><a href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer">#7375</a></span></p></div></li><li><span class="fig">6,502 tests pass</span><div><p class="who"><b>UK Met Office &amp; Science and Technology Facilities Council (STFC)</b> <span class="pj">· PSyclone · code generator of the LFRic weather and climate model</span></p><p class="wh">Fortran BIND(C) bindings were dropped and BIND(C) functions crashed it. Both fixed; entry 82 of its changelog.</p><p class="by">PSyclone maintainer · Ran the integration tests, approved and merged it. <q>ITs passed</q> <span class="pr"><a href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer">#3668</a></span></p></div></li><li><span class="fig">32-bit → 64-bit</span><div><p class="who"><b>Barcelona Supercomputing Center</b> <span class="x">×2</span> <span class="pj">· Autosubmit · Spain’s climate-model workflow manager</span></p><p class="wh">Job timestamps overflowed 32-bit PostgreSQL columns and crashed autosubmit run. Invited for the 4.2.0 release and credited in its changelog, then a second fix the maintainer asked for.</p><p class="by">Bruno P. Kinoshita · Autosubmit maintainer · merged both. <q>Thanks (again) @Shakhtar-Sankur !!!</q> <span class="pr"><a href="https://github.com/BSC-ES/autosubmit/pull/3405" rel="noreferrer">#3405</a> <a href="https://github.com/BSC-ES/autosubmit/pull/3406" rel="noreferrer">#3406</a></span></p></div></li><li><span class="fig">offline crash → skipped</span><div><p class="who"><b>Estonian Information System Authority</b> <span class="x">×2</span> <span class="pj">· libdigidocpp · Estonia’s digital-signature library</span></p><p class="wh">Signing tests crashed without a network connection and are now skipped offline; the Online Certificate Status Protocol (OCSP) time-check notes now match the code.</p><p class="by">Raul Metsma · Maintainer · approved both. Merged by Kristel Merilain.. <q>Thanks, both rules now match the code.</q> <span class="pr"><a href="https://github.com/open-eid/libdigidocpp/pull/777" rel="noreferrer">#777</a> <a href="https://github.com/open-eid/libdigidocpp/pull/775" rel="noreferrer">#775</a></span></p></div></li></ol></div>
     <div class="grp"><h3>Universities &amp; research · 8</h3><ol><li><span class="fig">−61,489.8 → 0.285</span><div><p class="who"><b>gem5</b> <span class="pj">· Simulator of academic and industry chip research</span></p><p class="wh">Power-model formulas read 1.8e-09 as 1.8 − 9, with no warning. Fixed the parser and wrote its first unit tests; all 1,092 unit tests pass.</p><p class="by">Jason Lowe-Power · Leads gem5 · approved it. Merged by Bobby R. Bruce.. <span class="pr"><a href="https://github.com/gem5/gem5/pull/3762" rel="noreferrer">#3762</a></span></p></div></li><li><span class="fig">0.25× → 0.97–1.02×</span><div><p class="who"><b>MIT</b> <span class="x">×2</span> <span class="pj">· MEEP · electromagnetics simulator</span></p><p class="wh">Remaining-time estimates fell to a quarter of the real time, on an issue where Prof. Steven G. Johnson asked for a pull request; and an input is no longer silently mutated.</p><p class="by">Ardavan Oskooi · MEEP’s original lead developer · merged both. <q>failing fast and explicitly is strongly preferred</q> <span class="pr"><a href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer">#3364</a> <a href="https://github.com/NanoComp/meep/pull/3363" rel="noreferrer">#3363</a></span></p></div></li><li><span class="fig">8× too fast → measured</span><div><p class="who"><b>Harvard University</b> <span class="pj">· mlsysim · simulator of the Machine Learning Systems textbook</span></p><p class="wh">The simulator modelled FP32 work on the NVIDIA T4 about 8× too fast, measured on a real T4. The second merge, after my full lab.</p><p class="by">Prof. Vijay Janapa Reddi · Author of the textbook · merged it. <span class="pr"><a href="https://github.com/harvard-edge/cs249r_book/pull/2192" rel="noreferrer">#2192</a></span></p></div></li><li><span class="fig">12× → 1×</span><div><p class="who"><b>Contrails.org</b> <span class="pj">· pycontrails · aviation climate-impact library</span></p><p class="wh">Gridded contrail radiative forcing was divided by one time step instead of the averaging window, and the cell area came from the wrong grid.</p><p class="by">Zeb Engberg · Maintainer · merged it. <q>Thanks @Shakhtar-Sankur !</q> <span class="pr"><a href="https://github.com/contrailcirrus/pycontrails/pull/453" rel="noreferrer">#453</a></span></p></div></li><li><span class="fig">25/100 → 0</span><div><p class="who"><b>University of Oxford</b> <span class="pj">· PyZX · ZX-calculus quantum-circuit optimiser</span></p><p class="wh">Three optimisers changed what the circuit computes on random Clifford circuits, a regression from an earlier change.</p><p class="by">John van de Wetering · Co-creator of PyZX · merged it. <q>Thanks for the fix!</q> <span class="pr"><a href="https://github.com/zxcalc/pyzx/pull/563" rel="noreferrer">#563</a></span></p></div></li><li><span class="fig">8 baselines fixed</span><div><p class="who"><b>JaxMARL</b> <span class="pj">· NeurIPS 2024 · Oxford, UCL and Imperial College London</span></p><p class="wh">The rollout manager behind 8 Q-learning baselines zeroed the first observation of every new episode.</p><p class="by">Alex Rutherford · Lead author · approved and merged it. <q>Good find!!</q> <span class="pr"><a href="https://github.com/bold-lab-ai/JaxMARL/pull/206" rel="noreferrer">#206</a></span></p></div></li><li><span class="fig">crash → whole chars</span><div><p class="who"><b>Carnegie Mellon University</b> <span class="pj">· XGrammar · structured output for vLLM, SGLang and TensorRT-LLM</span></p><p class="wh">Jump-forward decoding crashed whenever a grammar forced part of a UTF-8 character; it now returns only whole characters. Its maintainer extended the fix to the web bindings.</p><p class="by">Linzhang Li · Maintainer · approved and merged it. <span class="pr"><a href="https://github.com/mlc-ai/xgrammar/pull/1012" rel="noreferrer">#1012</a></span></p></div></li></ol></div>
     <div class="grp"><h3>Industry · 10</h3><ol><li><span class="fig">0 → 10</span><div><p class="who"><b>Google</b> <span class="pj">· XLA (Accelerated Linear Algebra) · compiler behind JAX, TensorFlow and Tensor Processing Units (TPUs)</span></p><p class="wh">The algebraic simplifier rewrote max(a, clamp(a, x, b)) to clamp(a, x, b) for any bounds. It now rewrites only when a ≤ b is known; all 2,070 simplifier tests pass.</p><p class="by">Greg Olechwierowicz · XLA reviewer · landed by Google in XLA’s main branch. <q>The change in the PR is correct.</q> <span class="pr"><a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">#52906</a></span></p></div></li><li><span class="fig">1,970/2,000 → 0</span><div><p class="who"><b>IBM Quantum</b> <span class="pj">· Relay-BP · quantum error-correction decoder</span></p><p class="wh">The decoder gave different answers for the same shot depending on batch order. Its first author chose my fix from the two I proposed.</p><p class="by">Tristan Müller · First author of Relay-BP · merged it. <q>Happy with this, will merge it.</q> <span class="pr"><a href="https://github.com/trmue/relay/pull/49" rel="noreferrer">#49</a></span></p></div></li><li><span class="fig">ignored → bit for bit</span><div><p class="who"><b>NVIDIA</b> <span class="x">×2</span> <span class="pj">· Ising-Decoding · AI decoders for quantum error correction</span></p><p class="wh">Tests and docs ignored the SafeTensors models NVIDIA publishes on Hugging Face; they now load the newest file, bit for bit, and honour the checkpoint setting.</p><p class="by">Ivan Basov · Maintainer · approved and merged both. <q>thank you for the contribution and for working through the review rounds</q> <span class="pr"><a href="https://github.com/NVIDIA/Ising-Decoding/pull/98" rel="noreferrer">#98</a> <a href="https://github.com/NVIDIA/Ising-Decoding/pull/99" rel="noreferrer">#99</a></span></p></div></li><li><span class="fig">2–4 races → 0</span><div><p class="who"><b>Apple</b> <span class="pj">· MLX · Apple’s machine learning framework, 29k stars</span></p><p class="wh">A data race in the distributed ring backend, the transport that links Macs for multi-machine training.</p><p class="by">@zcbenz · MLX maintainer · approved and merged it. <span class="pr"><a href="https://github.com/ml-explore/mlx/pull/4737" rel="noreferrer">#4737</a></span></p></div></li><li><span class="fig">out of bounds → checked</span><div><p class="who"><b>Meta</b> <span class="x">×2</span> <span class="pj">· ExecuTorch · on-device AI in Instagram and WhatsApp</span></p><p class="wh">The 2- and 4-bit quantised embedding kernels of on-device LLMs read outside their tables and scales; both fixed.</p><p class="by">Scott Roy and Jacob Stevens · Meta maintainers · approved and merged. <q>LGTM! Thanks for the fix!</q> <span class="pr"><a href="https://github.com/pytorch/executorch/pull/23677" rel="noreferrer">#23677</a> <a href="https://github.com/pytorch/executorch/pull/23912" rel="noreferrer">#23912</a></span></p></div></li><li><span class="fig">30 NaN → 0</span><div><p class="who"><b>Tencent</b> <span class="pj">· ncnn · on-device artificial intelligence inference, 24k stars</span></p><p class="wh">Mish returned NaN on Vulkan GPUs for large inputs. Its creator extended the tests before merging.</p><p class="by">nihui · Creator of ncnn · approved and merged it. <q>Thanks for your contribution !</q> <span class="pr"><a href="https://github.com/Tencent/ncnn/pull/7239" rel="noreferrer">#7239</a></span></p></div></li><li><span class="fig">177 tests pass</span><div><p class="who"><b>Hugging Face</b> <span class="x">×2</span> <span class="pj">· OpenEnv · environments for RL training</span></p><p class="wh">Reward rubrics ran pre-hooks after scoring and left async judges unawaited; both fixed.</p><p class="by">OpenEnv reviewer · Approved and merged both. <q>177 rubric tests pass</q> <span class="pr"><a href="https://github.com/huggingface/OpenEnv/pull/1441" rel="noreferrer">#1441</a> <a href="https://github.com/huggingface/OpenEnv/pull/1442" rel="noreferrer">#1442</a></span></p></div></li></ol></div>
@@ -276,31 +414,186 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <p class="note"><a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Every claim, with its proof: the original emails &rarr;</a></p>
 </section>
 
-<section id="built"><div class="sh rv"><div><p class="idx">04 · Built</p><h2>Things I built</h2><p class="sub">Each one checked against an independent reference.</p></div></div>
-  <div class="work glass rv"><img src="at-desk.jpg" alt="Sankur Kundu working at a laptop in an office in Bhubaneswar" width="689" height="467" loading="lazy"><p>I work from Bhubaneswar, India, mostly on one NVIDIA T4 graphics card in public Kaggle notebooks, so anyone can rerun the numbers below.</p></div>
-  <ul class="built">
-    <li class="glass spot rv"><span class="n grad">53/53</span><a href="kessler/"><b>kessler</b></a><p>NASA Conjunction Assessment Risk Analysis (CARA) Monte Carlo collision probability on all 53 test cases, 15&ndash;19&times; faster per core; screens 531 million object pairs in 28 s on one T4.</p></li>
-    <li class="glass spot rv"><span class="n grad">62/71</span><a href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer"><b>chirp</b></a><p>An independent GPU search for gravitational waves that finds 62 of 71 LIGO O4a events blind.</p></li>
-    <li class="glass spot rv"><span class="n grad">28.7&times;</span><a href="syndrome/"><b>syndrome</b></a><p>A GPU decoder for IBM&rsquo;s quantum codes, bit-identical to IBM&rsquo;s Relay-BP and 28.7&times; faster per shot.</p></li>
-    <li class="glass spot rv"><span class="n grad">1.00&times; cuBLAS</span><a href="tessel/"><b>tessel</b></a><p>A tile language and compiler in Rust: matrix multiplication (GEMM) at parity with NVIDIA cuBLAS, attention 1.3&ndash;1.9&times; faster than PyTorch&rsquo;s.</p></li>
-    <li class="glass spot rv"><span class="n grad">0.75%</span><a href="https://github.com/Shakhtar-Sankur/samebit" rel="noreferrer"><b>samebit</b></a><p>Qwen2.5-0.5B run entirely in integers, within 0.75% of float32, the same bits on a GPU and a CPU.</p></li>
-    <li class="glass spot rv"><span class="n grad">23/24</span><a href="token-tax/"><b>lipi</b></a><p>A tokenizer that beats GPT-4o&rsquo;s and Gemini&rsquo;s in 23 of 24 Indian languages.</p></li>
-    <li class="glass spot rv"><span class="n grad">5.2 &rarr; 0.04</span><a href="ratchet/"><b>ratchet</b></a><p>Group Relative Policy Optimization (GRPO), a reinforcement-learning method for large language models, built from scratch; found 16-bit (fp16) weight sync silently erasing training updates.</p></li>
-    <li class="glass spot rv"><span class="n grad">8.8 / 9.0</span><a href="https://github.com/Shakhtar-Sankur/larzavan" rel="noreferrer"><b>larzavan</b></a><p>Open global earthquake early warning: Tohoku&rsquo;s magnitude from satellite-positioning (GNSS) data, held out of the fit.</p></li>
-    <li class="glass spot rv"><span class="n grad">60 kills</span><p><a href="relay/"><b>relay</b></a> &middot; <a href="switchyard/"><b>switchyard</b></a> &middot; <a href="kiln/"><b>kiln</b></a> &middot; <a href="quorumdb/"><b>quorumdb</b></a></p><p>Large language model (LLM) serving that survives 60 worker kills, mixture-of-experts 2.2&times; faster than Hugging Face, a machine learning compiler beating torch.compile, and a distributed SQL database.</p></li>
-  </ul></section>
+<section id="public-sector"><div class="sh rv"><p class="no">N° 03 — Public-sector science</p><div><h2>The software governments <em>run for science.</em></h2><p class="sub">Twenty-three pull requests at public-sector science software: <b>fourteen merged, nine in review</b>. Each was tested before and after with the project&rsquo;s own tests, in public runs. &ldquo;In review&rdquo; means the pull request is open on GitHub, as checked on 28 November 2026; it is not counted among the thirty.</p></div></div>
+  <div class="ledger rv">
+    <a class="lrow" href="https://github.com/esa/pagmo2/pull/660" rel="noreferrer"><span class="sec">Space</span><span><span class="inst">European Space Agency</span><span class="det">pagmo2 #660, the Advanced Concepts Team&rsquo;s parallel optimisation library: monotonic basin hopping crashed whenever its inner optimiser left the bounds. Merged by its co-author Dario Izzo the day I opened it.</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/iterorganization/IMAS-Python/pull/152" rel="noreferrer"><span class="sec">Fusion energy</span><span><span class="inst">ITER Organization</span><span class="det">IMAS-Python (Integrated Modelling &amp; Analysis Suite) #152 and #151: approved and merged by Olivier Hoenen after reviews by Maarten Sebregts and Simon Pinches; all 1,808 tests pass.</span></span><span class="pill ok">Merged · 2</span></a>
+    <a class="lrow" href="https://github.com/usnistgov/fipy/pull/1243" rel="noreferrer"><span class="sec">Standards</span><span><span class="inst">US National Institute of Standards and Technology</span><span class="det">FiPy #1243, its finite-volume solver for partial differential equations: integer grid spacing truncated the boundary distances, so dy = 3 gave 1 instead of 1.5. Merged by Jonathan Guyer, one of FiPy&rsquo;s authors.</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/open-eid/libdigidocpp/pull/777" rel="noreferrer"><span class="sec">Digital government</span><span><span class="inst">Estonian Information System Authority</span><span class="det">libdigidocpp #777 and #775, Estonia&rsquo;s digital-signature library: offline signing tests no longer crash, and the Online Certificate Status Protocol notes match the code. Both approved by Raul Metsma and merged by Kristel Merilain.</span></span><span class="pill ok">Merged · 2</span></a>
+    <a class="lrow" href="https://github.com/kokkos/kokkos/pull/9738" rel="noreferrer"><span class="sec">Energy &amp; national security</span><span><span class="inst">US Department of Energy national laboratories</span><span class="det">Kokkos #9738, the Exascale Computing Project&rsquo;s GPU performance-portability library: merged by its lead, Damien Lebrun-Grandi&eacute; of Los Alamos National Laboratory, after approval from Daniel Arndt of Oak Ridge National Laboratory; listed in the Kokkos 5.4 release notes.</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/idaholab/moose/pull/34496" rel="noreferrer"><span class="sec">Nuclear energy &amp; simulation</span><span><span class="inst">Idaho National Laboratory</span><span class="det">MOOSE (Multiphysics Object-Oriented Simulation Environment) #34496: the Jacobian of a transient absorbing boundary condition had the wrong sign. Approved by Casey Icenhour, who wrote the electromagnetics module, and merged by Guillaume Giudicelli.</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/NanoComp/meep/pull/3364" rel="noreferrer"><span class="sec">Academic research</span><span><span class="inst">Massachusetts Institute of Technology</span><span class="det">MEEP #3364 and #3363, its electromagnetics simulator: remaining-time estimates up to 4&times; too short, and a silent setting override. Both merged by Ardavan Oskooi, MEEP&rsquo;s original lead developer.</span></span><span class="pill ok">Merged · 2</span></a>
+    <a class="lrow" href="https://github.com/BSC-ES/autosubmit/pull/3405" rel="noreferrer"><span class="sec">National supercomputing</span><span><span class="inst">Barcelona Supercomputing Center, Spain</span><span class="det">Autosubmit #3405 and #3406, its climate-model workflow manager: invited and merged for the 4.2.0 release by Bruno P. Kinoshita and credited in its changelog.</span></span><span class="pill ok">Merged · 2</span></a>
+    <a class="lrow" href="https://github.com/stfc/PSyclone/pull/3668" rel="noreferrer"><span class="sec">Weather &amp; climate</span><span><span class="inst">UK Met Office &amp; Science and Technology Facilities Council</span><span class="det">PSyclone #3668, the code generator for the Met Office&rsquo;s next-generation LFRic model: approved and merged by its maintainer after the integration tests; entry 82 of its changelog.</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/SciTools/iris/pull/7375" rel="noreferrer"><span class="sec">Weather &amp; climate</span><span><span class="inst">UK Met Office</span><span class="det">Iris #7375, its weather and climate data library: approved and merged by Martin Yeo: &ldquo;Thanks @Shakhtar-Sankur!&rdquo;</span></span><span class="pill ok">Merged</span></a>
+    <a class="lrow" href="https://github.com/rucio/rucio/pull/8862" rel="noreferrer"><span class="sec">Particle physics</span><span><span class="inst">European Organization for Nuclear Research (CERN)</span><span class="det">Rucio #8862, the data management system built for the Large Hadron Collider experiments: eleven commands, upload and download among them, reported success when they had failed; now they return the real error code.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/ecmwf/eccodes/pull/684" rel="noreferrer"><span class="sec">Weather &amp; climate</span><span><span class="inst">European Centre for Medium-Range Weather Forecasts</span><span class="det">ecCodes #684, the global weather-data library of an intergovernmental organisation of 35 states: reduced Gaussian grids scanned in reverse put about 6,000 points at wrong coordinates, now none.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/reframe-hpc/reframe/pull/3750" rel="noreferrer"><span class="sec">National supercomputing</span><span><span class="inst">Swiss National Supercomputing Centre, ETH Zurich</span><span class="det">ReFrame #3750, its supercomputer testing framework: a regression test that generated tests report the file of the original test, on its 4.10 milestone.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/csiro-coasts/emsarray/pull/233" rel="noreferrer"><span class="sec">Oceans</span><span><span class="inst">Commonwealth Scientific and Industrial Research Organisation (CSIRO), Australia</span><span class="det">emsarray #233, the national science agency&rsquo;s library for ocean and coastal model data: forecast datasets got the wrong time coordinate; candidates are now ranked by their time indications.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/nasa/fpp/pull/1190" rel="noreferrer"><span class="sec">Space</span><span><span class="inst">NASA Jet Propulsion Laboratory</span><span class="det">FPP (F Prime Prime) #1190, the modelling language of the F&acute; (F Prime) flight software framework: annotations on individual topology connections, on an issue assigned to me.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/openmc-dev/openmc/pull/4227" rel="noreferrer"><span class="sec">Nuclear</span><span><span class="inst">OpenMC, US Department of Energy</span><span class="det">OpenMC #4227, the Monte Carlo neutron transport code: print_xs raised an error for every delayed multigroup cross-section type.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/spacetelescope/stpipe/pull/393" rel="noreferrer"><span class="sec">Astronomy</span><span><span class="inst">Space Telescope Science Institute</span><span class="det">stpipe #393, the step framework of the James Webb Space Telescope pipeline: hooks with a decimal parameter ran as shell commands; parameters are now parsed before a hook string is imported.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/nordic-institute/X-Road-Metrics/pull/226" rel="noreferrer"><span class="sec">Digital government</span><span><span class="inst">Nordic Institute for Interoperability Solutions</span><span class="det">X-Road Metrics #226, for the data exchange layer of Estonia and Finland: documents the Security Server port the collector needs.</span></span><span class="pill rv2">In review</span></a>
+    <a class="lrow" href="https://github.com/usnistgov/fipy/pull/1244" rel="noreferrer"><span class="sec">Standards</span><span><span class="inst">US National Institute of Standards and Technology</span><span class="det">FiPy #1244, a second fix: distance vectors defined for uniform grids, 1.2&ndash;1.6&times; faster.</span></span><span class="pill rv2">In review</span></a>
+  </div>
+  <div class="hl4">
+    <div class="card rv"><p class="k">Answered</p><h4>NASA Conjunction Assessment Risk Analysis</h4><p>My independent reproduction of its Monte Carlo collision probabilities on all 53 test conjunctions, 15&ndash;19&times; faster per core. Its Analysis Team answered both findings, item by item: &ldquo;fully consistent with what we see in CARA operations.&rdquo;</p><a href="kessler/">kessler &rarr;</a></div>
+    <div class="card rv"><p class="k">Merged</p><h4>Harvard&rsquo;s Machine Learning Systems textbook</h4><p>A full lab for Prof. Vijay Janapa Reddi&rsquo;s open textbook, on why temperature-0 language models are not deterministic. He reran it, &ldquo;every result in your table reproduces&rdquo;, merged it and listed me as a contributor.</p><a href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">Pull request #2175 &rarr;</a></div>
+    <div class="card rv"><p class="k">Merged</p><h4>Google XLA (Accelerated Linear Algebra)</h4><p>A wrong simplification in the compiler behind JAX and Tensor Processing Units. Its reviewer: &ldquo;The change in the PR is correct&rdquo;; Google landed it in XLA&rsquo;s main branch.</p><a href="https://github.com/openxla/xla/pull/52906" rel="noreferrer">Pull request #52906 &rarr;</a></div>
+    <div class="card rv"><p class="k">Scouted</p><h4>Entrepreneur First, United Kingdom</h4><p>Scouted by a Talent Investor from my public work alone, citing a tile compiler whose matrix multiply matches NVIDIA&rsquo;s cuBLAS (CUDA Basic Linear Algebra Subprograms) library and a negative result I chose to publish: &ldquo;which I rarely see&rdquo;.</p><a href="https://www.joinef.com/" rel="noreferrer">Entrepreneur First &rarr;</a></div>
+  </div>
+</section>
 
-<section id="papers"><div class="sh rv"><div><p class="idx">05 · Papers</p><h2>Papers</h2><p class="sub">Sole author; arXiv submissions in progress.</p></div></div>
-  <ol class="papers">
-    <li class="glass rv"><a href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf" rel="noreferrer">Reproducing NASA CARA&rsquo;s Monte Carlo Probability of Collision: An Open Two-Body Implementation, Checked on All 53 of CARA&rsquo;s Test Conjunctions</a></li>
-    <li class="glass rv"><a href="https://github.com/Shakhtar-Sankur/lipi/blob/main/paper/main.pdf" rel="noreferrer">Removing the Token Tax from an Existing Model: A Vocabulary Extension for 24 Indian Languages That Keeps Every Other Token</a></li>
-    <li class="glass rv"><a href="https://github.com/Shakhtar-Sankur/ratchet/blob/main/paper/main.pdf" rel="noreferrer">The Sampler Was Not the Policy: Finding and Removing a Silent Training&ndash;Inference Mismatch in a From-Scratch GRPO Stack</a></li>
-  </ol></section>
+<section id="proof"><div class="sh rv"><p class="no">N° 04 — Live proof</p><div><h2>Don&rsquo;t take my word for it. <em>Run it.</em></h2><p class="sub">The check at the heart of kessler, running on your own device: a Monte Carlo estimate of the probability that two objects collide, computed on your graphics processing unit (GPU), compared with the exact answer.</p></div></div>
+  <div class="lab">
+    <div class="lab-l card rv">
+      <h3>Collision probability, two ways</h3>
+      <p>Each sample draws a possible position of one object relative to the other from its uncertainty. The share of samples that land inside the combined hard-body radius is the probability of collision. The exact value comes from integrating the same distribution over that circle.</p>
+      <div class="presets" role="group" aria-label="Encounter"><button type="button" data-p="0" aria-pressed="true">Close pass</button><button type="button" data-p="1">Grazing pass</button><button type="button" data-p="2">Elongated cloud</button></div>
+      <div class="params" id="params"></div>
+      <button class="run" id="run" type="button">Run on your GPU</button>
+    </div>
+    <div class="lab-r card rv" aria-live="polite">
+      <div class="term" id="term"><span class="k">// press run</span></div>
+      <div class="foot"><div class="meter" aria-hidden="true"><i id="meter"></i></div><div class="verdict" id="verdict">&nbsp;</div><p class="fine">Illustrative encounters, not NASA data. kessler runs this comparison on all 53 of NASA CARA&rsquo;s published test cases.</p></div>
+    </div>
+  </div>
+</section>
 
-<div class="contact glass rv"><div><h2>Let&rsquo;s <span class="grad">talk</span></h2><p>Open to machine learning systems, GPU and research roles; relocation welcome.</p></div><div class="btns"><a class="btn solid" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a><a class="btn" href="Sankur-Kundu-CV.pdf">Download CV</a></div></div>
+<section id="research"><div class="sh rv"><p class="no">N° 05 — Research</p><div><h2>Three studies. <em>Every number public.</em></h2><p class="sub">Each one asks who an artificial intelligence system serves badly, measures it, and fixes it, with code and raw results anyone can rerun. Each study page has its findings, method, limitations, press facts and a citation.</p></div></div>
+  <a class="study rv" href="token-tax/"><div><span class="t">lipi · tokenization · Indian languages</span><h3>The token <em>tax.</em></h3><p>The same sentence needs far more tokens in an Indian language than in English, so Indian users pay more, wait longer and fit less in the model&rsquo;s memory. Measured for all 22 scheduled languages on 15 tokenizers, explained, and removed from an open model.</p><span class="why2">Released on Hugging Face · manuscript forthcoming on arXiv &rarr;</span></div>
+    <div><div class="giant">4.99&times; <em>&rarr;</em> 1.35&times;</div><p class="gl">Odia against English: GPT-4o&rsquo;s tokenizer, then lipi-Indic, which needs fewer tokens than GPT-4o&rsquo;s and Gemini&rsquo;s in 23 of 24 languages.</p></div></a>
+  <a class="study alt rv" href="babelguard/"><div><span class="t">Babelguard · security · multilingual natural language processing</span><h3>Protection doesn&rsquo;t <em>translate.</em></h3><p>An English keyword filter catches 86% of English scams and 10&ndash;36% of Korean, Japanese, Urdu, Arabic, Thai and Hindi ones. Babelguard recognises the same scam operation across languages and scripts, built to run on a national Computer Emergency Response Team&rsquo;s own machines.</p><span class="why2">Open for pilots · paper in preparation &rarr;</span></div>
+    <div><div class="giant">1.5% <em>&rarr;</em> 85%</div><p class="gl">Translated scams recognised: text matching against Babelguard&rsquo;s meaning link. 4,057 messages a second, crash-safe.</p></div></a>
+  <a class="study rv" href="ratchet/"><div><span class="t">ratchet · reinforcement-learning post-training · GPU systems</span><h3>The sampler was not <em>the policy.</em></h3><p>Reinforcement-learning post-training from scratch: my own C++ and CUDA engine generates, a PyTorch trainer learns. A silent 16-bit floating-point (fp16) rounding bug at weight synchronisation was found, taken apart source by source, and fixed.</p><span class="why2">Technical report forthcoming on arXiv &rarr;</span></div>
+    <div><div class="giant">48.1% <em>&rarr;</em> 52.5%</div><p class="gl">Grade School Math 8K (GSM8K) accuracy after 100 Group Relative Policy Optimization (GRPO) steps on two NVIDIA T4s. Rounding at synchronisation: 9&ndash;22&times; the effect of fp16 arithmetic.</p></div></a>
+</section>
+
+<section id="systems"><div class="sh rv"><p class="no">N° 06 — Systems</p><div><h2>The machinery of modern AI, <em>built from scratch.</em></h2><p class="sub">Serving, training, compiling and verifying, each benchmarked against what industry uses: vLLM, NVIDIA&rsquo;s cuBLAS, torch.compile, the NVIDIA Collective Communications Library (NCCL), and NASA&rsquo;s and IBM&rsquo;s own tools. Each has its own study page.</p></div></div>
+  <div class="bento sys">
+    <div class="tile t-big rv"><span class="n">53<em>/</em>53</span><canvas id="orbit" aria-hidden="true"></canvas><a href="kessler/"><b>kessler · live, daily</b></a><p>Independent space-traffic audit: every active satellite screened against every other each morning; a Monte Carlo collision probability matching NASA CARA&rsquo;s on all 53 of its test cases, 15&ndash;19&times; faster than NASA&rsquo;s library. CARA&rsquo;s Analysis Team: &ldquo;fully consistent with what we see in CARA operations.&rdquo;</p><span class="tg">C++ · CUDA · Python</span></div>
+    <a class="tile rv" href="syndrome/"><span class="nm">syndrome</span><span class="m">= IBM <em>·</em> 28.7&times;</span><p>IBM&rsquo;s Relay-BP (relay belief propagation) quantum error-correction decoder on a GPU, bit-identical to IBM&rsquo;s reference on every shot checked (64-bit and 32-bit floating point); a single shot decodes 28.7&times; faster than IBM&rsquo;s decoder, and a batch 4.0&times; faster than IBM&rsquo;s decoder on the whole CPU.</p><span class="tg">C++ · CUDA · quantum</span></a>
+    <a class="tile t-ink rv" href="relay/"><span class="nm">relay</span><span class="m">384 <em>/</em> 384</span><p>Disaggregated large language model (LLM) serving: prefill and decode split, the key&ndash;value (KV) cache streamed between them; requests identical to a fault-free run through 60 worker kills.</p><span class="tg">C++20 · CUDA · Swift</span></a>
+    <a class="tile rv" href="tessel/"><span class="nm">tessel</span><span class="m">= cuBLAS</span><p>A Triton-style tile language compiling one kernel to NVIDIA CUDA, Apple Metal and Google Pallas; matrix multiplication at parity with cuBLAS, and an LLM engine on it serves at 1.05&times; vLLM, token for token identical.</p><span class="tg">Rust · CUDA · Metal · Pallas</span></a>
+    <a class="tile rv" href="kiln/"><span class="nm">kiln</span><span class="m">117 <em>ms</em></span><p>A machine learning compiler from the Open Neural Network Exchange (ONNX) format to fused, auto-tuned single-instruction-multiple-data (SIMD) C and CUDA; fastest of five engines on the BERT (Bidirectional Encoder Representations from Transformers) model on a CPU, ahead of torch.compile, ONNX Runtime and XLA.</p><span class="tg">Rust · C · CUDA</span></a>
+    <a class="tile rv" href="switchyard/"><span class="nm">switchyard</span><span class="m">2.2&times; <em>HF</em></span><p>A 64-expert mixture-of-experts model across two GPUs on my own kernels and peer-to-peer dispatch, bit-identical to one GPU and 2.2&times; faster than Hugging Face Transformers.</p><span class="tg">CUDA · PyTorch</span></a>
+    <a class="tile rv" href="quorumdb/"><span class="nm">quorumdb</span><span class="m">0 <em>violations</em></span><p>A distributed SQL database that the PostgreSQL client psql connects to; 10,000 simulated clusters through 610,064 crashes, its transaction protocol checked in the TLA+ (Temporal Logic of Actions) specification language.</p><span class="tg">Rust · Raft consensus · TLA+</span></a>
+    <a class="tile rv" href="crucible/"><span class="nm">crucible</span><span class="m">0 of 9 <em>hacks</em></span><p>Linux sandboxes for reinforcement learning on code, with a grader a model cannot fool; Mostly Basic Python Problems (MBPP) 34.9% &rarr; 38.6% over three seeds (p = 0.013).</p><span class="tg">Linux namespaces · seccomp · GRPO</span></a>
+    <a class="tile rv" href="tandem/"><span class="nm">tandem</span><span class="m">bit-<em>exact</em></span><p>Distributed data parallel (DDP), the Zero Redundancy Optimizer (ZeRO) stages 1, 2 and 3, and pipeline parallelism on its own collectives, without NCCL; weights identical to PyTorch&rsquo;s DDP and Fully Sharded Data Parallel (FSDP).</p><span class="tg">PyTorch · C++ · CUDA inter-process communication</span></a>
+    <a class="tile rv" href="https://github.com/Shakhtar-Sankur/samebit" rel="noreferrer"><span class="nm">samebit</span><span class="m">CPU <em>=</em> GPU</span><p>A 494-million-parameter LLM (Qwen2.5-0.5B) run entirely in integers: within 0.75% of 32-bit floating point, and bit-identical on an NVIDIA T4 GPU and an x86 CPU under any summation order, where 16-bit floating point drifts. Six independent backends, including Apple MLX and CUDA. Its teaching lab is <b>merged into Harvard&rsquo;s Machine Learning Systems textbook</b>.</p><span class="tg">C · CUDA · PyTorch · MLX</span></a>
+    <a class="tile rv" href="https://github.com/Shakhtar-Sankur/ink-sensitivity" rel="noreferrer"><span class="nm">ink-sensitivity</span><span class="m">79% <em>·</em> 0.94</span><p>Can the Vesuvius Challenge&rsquo;s official ink model see letters on a scroll no one has read? Real ink from PHerc. 139 moved into PHerc. 800: 79% found at a 5% false-positive rate, area under the curve (AUC) 0.94, against matched bare-papyrus controls. Read in reversed depth order, the model is nearly blind.</p><span class="tg">Python · PyTorch · computed tomography volumes</span></a>
+    <a class="tile t-ink rv" href="https://github.com/Shakhtar-Sankur/larzavan" rel="noreferrer"><span class="nm">Larzavan</span><span class="m">9.0 <em>&rarr;</em> 8.8</span><p>An open global earthquake early-warning system that estimates magnitude second by second while the earthquake is still happening. On real Global Navigation Satellite System (GNSS) data from 29 great earthquakes, each held out of its own fit, it puts Tohoku&rsquo;s 9.0 at 8.8, within 0.3 units 126 seconds after the rupture began, and Maule&rsquo;s 8.8 at 8.8.</p><span class="tg">Python · NumPy · GNSS · public Kaggle runs</span></a>
+    <a class="tile rv" href="https://github.com/Shakhtar-Sankur/chirp" rel="noreferrer"><span class="nm">chirp</span><span class="m">71 <em>/</em> 71 · 95%</span><p>An independent search for gravitational waves in public LIGO (Laser Interferometer Gravitational-Wave Observatory) data, from general relativity up: its own 3.5 post-Newtonian waveform matches LIGO&rsquo;s LALSimulation library to 6 &times; 10<sup>&minus;10</sup> radians, and on one T4 it re-finds all 71 two-detector events of the fourth observing run&rsquo;s first catalogue at a median 95% of their published signal strength. Searched blind, the real event is the loudest signal in the data for 62 of 71.</p><span class="tg">Python · PyTorch · CUDA · LIGO open data</span></a>
+    <div class="tile t-photo t-wide rv"><img src="at-desk.jpg" alt="Sankur Kundu working at a laptop in an office in Bhubaneswar" width="689" height="467" loading="lazy"><div class="cap">I work from Bhubaneswar, India, mostly on one NVIDIA T4 graphics card in public Kaggle notebooks, so anyone can rerun every number on this page.</div></div>
+  </div>
+</section>
+
+<section id="record"><div class="sh rv"><p class="no">N° 07 — Full record</p><div><h2>Contributions others <em>can check.</em></h2><p class="sub">Manuscripts, contributions to the frameworks artificial intelligence runs on, and tools released for others to use, each with its current status stated plainly.</p></div></div>
+
+  <p class="sub3 rv">Scale</p><p class="lead rv">Measured in each project&rsquo;s repository.</p>
+  <div class="scale rv">
+    <div><a class="g" href="kessler/">140<em>M</em></a><h4>Every day, in public</h4><p>kessler screens every pair of the 16,768 active satellites, 140 million pairs and about 60,000 close approaches a day; the full 32,593-object catalogue, all 531 million pairs, takes 28 seconds on one NVIDIA T4 GPU.</p></div>
+    <div><a class="g" href="quorumdb/">610,064</a><h4>Verified under failure</h4><p>quorumdb ran 10,000 simulated clusters through 610,064 crashes and 144,354 network partitions with zero safety violations; faultline ran 1.26 million operations under 288 injected faults against four etcd releases.</p></div>
+    <div><a class="g" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">17<em> systems</em></a><h4>Breadth</h4><p>C++, CUDA, Rust, Python and Swift, with kernels for NVIDIA GPUs, Apple Metal and Google Tensor Processing Units; studies of 24 languages on 15 production tokenizers and 33,869 scams in 49 languages; Populace has 1,617 npm downloads.</p></div>
+  </div>
+
+  <p class="sub3 rv">Recognition</p><p class="lead rv">From outside my own work.</p>
+  <ol class="ms rv">
+    <li><span class="rn">i.</span><div><a class="tt" href="https://github.com/harvard-edge/cs249r_book/pull/2175" rel="noreferrer">Harvard&rsquo;s Machine Learning Systems textbook (Prof. Vijay Janapa Reddi)</a><p>Prof. Reddi reran it and merged it: &ldquo;Merged, thanks @Shakhtar-Sankur. I reran the experiments module and every result in your table reproduces&rdquo;; he then had me <a href="https://harvard-edge.github.io/cs249r_book_dev/about/contributors.html" rel="noreferrer">listed among the textbook&rsquo;s contributors</a> for code, documentation and tests. The lab, &ldquo;The Same-Bits Contract&rdquo;, explains why a model at temperature 0 does not give the same answer twice, follows the book&rsquo;s lab protocol, adds a new module to the book&rsquo;s simulator, and passes 2,658 simulator tests with 0 failures and a full student run in the browser.</p></div><span class="pill ok">Merged · contributor</span></li>
+    <li><span class="rn">ii.</span><div><a class="tt" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">NVIDIA, Apple, Meta, Tencent, IBM Quantum, Carnegie Mellon University, Hugging Face, University of Oxford PyZX and JaxMARL maintainers</a><p>Merged twelve of my fixes. IBM Quantum: Tristan M&uuml;ller, first author of the Relay-BP decoder, chose my fix and merged it: &ldquo;Thank you! Happy with this, will merge it.&rdquo; Tencent ncnn&rsquo;s creator, nihui, extended the tests, approved and merged: &ldquo;Thanks for your contribution !&rdquo; NVIDIA&rsquo;s Ivan Basov: &ldquo;Merged, thank you for the contribution and for working through the review rounds.&rdquo; Meta: &ldquo;LGTM! Thanks for the fix!&rdquo; (looks good to me). Hugging Face: &ldquo;177 rubric tests pass.&rdquo; PyZX&rsquo;s co-creator: &ldquo;Thanks for the fix!&rdquo; JaxMARL&rsquo;s lead author, Alex Rutherford: &ldquo;Good find!!&rdquo;</p></div><span class="pill ok">Merged</span></li>
+    <li><span class="rn">iii.</span><div><a class="tt" href="kessler/">NASA Conjunction Assessment Risk Analysis (CARA)</a><p>I sent CARA my independent reproduction of its Monte Carlo collision probabilities on all 53 of its test conjunctions, with two findings. Its Operations Team Lead referred it to CARA&rsquo;s analysts, and the Analysis Team Lead, Eliot Toumey, answered both item by item: &ldquo;your sampling space results indeed appear to be fully consistent with what we see in CARA operations&rdquo; and &ldquo;your time window results indeed appear to be fully consistent with what we see in CARA operations&rdquo;.</p></div><span class="pill ok">Answered</span></li>
+    <li><span class="rn">iv.</span><div><a class="tt" href="https://www.joinef.com/" rel="noreferrer">Entrepreneur First, United Kingdom</a><p>Scouted by a Talent Investor from my public work alone, citing tessel&rsquo;s general matrix multiply (GEMM) at parity with cuBLAS, switchyard&rsquo;s mixture-of-experts serving, and a negative result I chose to publish: a compression pipeline that aimed for 8&times; smaller and measured &minus;6.3%.</p></div><span class="pill">Scouted</span></li>
+  </ol>
+
+  <p class="sub3 rv">In review: all seventeen</p><p class="lead rv">Open on GitHub as checked on 28 November 2026, and not counted among the thirty merged fixes above. Each found by running the project&rsquo;s own tests on real hardware. Open any one for the full detail.</p>
+  <div class="rv">
+    <details class="tech"><summary><span class="nm2">Google JAX #41859 · gradients through reduce_window</span><span class="pill rv2">In review</span></summary><div class="bd2">jax.grad through lax.reduce_window with a custom reduction has failed since 2021 (issue #7815). Its derivative is now a fold over the window offsets, built only from transposable primitives in the order XLA evaluates the reduction; the 242 new test cases fail without it. Google assigned it for review to Matthew Johnson, one of JAX&rsquo;s original authors. <a href="https://github.com/jax-ml/jax/pull/41859" rel="noreferrer">Pull request #41859 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">vLLM #60955 · a test that could never fail</span><span class="pill rv2">In review</span></summary><div class="bd2">The FlashInfer prefill tests compared non-causal attention with a causal reference and passed only because of a loose tolerance; fixed so they run causally, like their reference, and catch the bug. <a href="https://github.com/vllm-project/vllm/pull/60955" rel="noreferrer">Pull request #60955 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">SGLang #47305 · empty tool-call arguments</span><span class="pill rv2">In review</span></summary><div class="bd2">DeepSeek-V3 tool calls streamed with empty arguments whenever multi-token prediction delivered the closing fence and end tokens in one chunk. Found with a differential check of every tool-call parser, streaming against one-shot; two new tests fail without the fix and all 263 parser tests pass with it. <a href="https://github.com/sgl-project/sglang/pull/47305" rel="noreferrer">Pull request #47305 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">ETH Zurich DaCe #2729 · rounding halfway values</span><span class="pill rv2">In review</span></summary><div class="bd2">DaCe, the data-centric compiler from ETH Zurich&rsquo;s Scalable Parallel Computing Lab, compiled numpy.rint to C&rsquo;s round, which rounds halfway values away from zero, so compiled programs returned 3 for 2.5 where NumPy returns 2; fixed for float and complex types, with a regression test that fails without the fix. Also reported that max and min reductions drop NaN (not a number) values (<a href="https://github.com/spcl/dace/issues/2730" rel="noreferrer">issue #2730</a>). Its maintainer: &ldquo;Seems all good, once we have the CI calmer, I will let these workflows run, once green can be merged.&rdquo; <a href="https://github.com/spcl/dace/pull/2729" rel="noreferrer">Pull request #2729 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">MIT Han Lab nunchaku #957 · LoRA strength ignored</span><span class="pill rv2">In review</span></summary><div class="bd2">Composing a single 4-bit Nunchaku low-rank adaptation (LoRA) ignored its strength: 0.5, or 0 to switch it off, came back at full strength with no error. Only strength 1 now skips scaling; three of four new tests fail without the fix. <a href="https://github.com/nunchux-ai/nunchaku/pull/957" rel="noreferrer">Pull request #957 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">PyTorch #199875 · deterministic mode under Inductor</span><span class="pill rv2">In review</span></summary><div class="bd2">Deterministic mode fills torch.empty with NaN in eager PyTorch but not under the Inductor compiler; fixed without filling Inductor&rsquo;s own buffers, which is why an earlier fix was reverted. <a href="https://github.com/pytorch/pytorch/pull/199875" rel="noreferrer">Pull request #199875 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">PyTorch #199441 and #199646 · 21 tests back on</span><span class="pill rv2">In review · 2</span></summary><div class="bd2">Re-enabled 21 torch.compile tests skipped for bugs long fixed (13 in #199441, 8 nondeterministic-alert tests in #199646), and documented why 11 more must stay skipped, each checked on a CPU and on NVIDIA T4 GPUs. <a href="https://github.com/pytorch/pytorch/pull/199441" rel="noreferrer">#199441 &rarr;</a> <a href="https://github.com/pytorch/pytorch/pull/199646" rel="noreferrer">#199646 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">CERN Rucio #8862 · failures reported as success</span><span class="pill rv2">In review</span></summary><div class="bd2">Rucio, the data management system the European Organization for Nuclear Research built for the Large Hadron Collider experiments: eleven commands, upload and download among them, reported success when they had failed; now they return the real error code, with tests that check the exit code of a failing upload and download. <a href="https://github.com/rucio/rucio/pull/8862" rel="noreferrer">Pull request #8862 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">European Centre for Medium-Range Weather Forecasts ecCodes #684 · 6,000 misplaced points</span><span class="pill rv2">In review</span></summary><div class="bd2">ecCodes, the weather-data library of an intergovernmental organisation of 35 states headquartered in Reading, United Kingdom: its geographic iterator for reduced Gaussian grids ignored the scanning-direction flags (iScansNegatively and jScansPositively), so reversed-scan grids put about 6,000 points at wrong coordinates; now none. <a href="https://github.com/ecmwf/eccodes/pull/684" rel="noreferrer">Pull request #684 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">Swiss National Supercomputing Centre ReFrame #3750 · a regression test</span><span class="pill rv2">In review</span></summary><div class="bd2">ReFrame, the supercomputer testing framework of the Swiss National Supercomputing Centre at ETH Zurich: a regression test that generated tests report the file of the original test, on its 4.10 milestone. <a href="https://github.com/reframe-hpc/reframe/pull/3750" rel="noreferrer">Pull request #3750 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">CSIRO emsarray #233 · the wrong time coordinate</span><span class="pill rv2">In review</span></summary><div class="bd2">emsarray, the ocean and coastal model data library of the Commonwealth Scientific and Industrial Research Organisation, Australia&rsquo;s national science agency: forecast datasets got the wrong time coordinate; candidate time coordinates are now ranked by their time indications. <a href="https://github.com/csiro-coasts/emsarray/pull/233" rel="noreferrer">Pull request #233 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">NASA Jet Propulsion Laboratory FPP #1190 · connection annotations</span><span class="pill rv2">In review</span></summary><div class="bd2">FPP (F Prime Prime), the modelling language of the F&acute; (F Prime) flight software framework: allows annotations on individual topology connections, on an issue its maintainers assigned to me. <a href="https://github.com/nasa/fpp/pull/1190" rel="noreferrer">Pull request #1190 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">OpenMC #4227 · delayed cross sections</span><span class="pill rv2">In review</span></summary><div class="bd2">OpenMC, the Monte Carlo neutron and photon transport code: print_xs raised an error for every delayed multigroup cross-section type; fixed. <a href="https://github.com/openmc-dev/openmc/pull/4227" rel="noreferrer">Pull request #4227 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">Space Telescope Science Institute stpipe #393 · hooks run as shell commands</span><span class="pill rv2">In review</span></summary><div class="bd2">stpipe, the step framework of the James Webb Space Telescope pipeline: a hook with a decimal parameter ran as a shell command; step parameters are now parsed before a hook string is imported. <a href="https://github.com/spacetelescope/stpipe/pull/393" rel="noreferrer">Pull request #393 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">Nordic Institute for Interoperability Solutions X-Road Metrics #226 · the missing port</span><span class="pill rv2">In review</span></summary><div class="bd2">X-Road Metrics, for the X-Road data exchange layer: documents the Security Server port the collector needs in its settings (issue 223). <a href="https://github.com/nordic-institute/X-Road-Metrics/pull/226" rel="noreferrer">Pull request #226 &rarr;</a></div></details>
+    <details class="tech"><summary><span class="nm2">US National Institute of Standards and Technology FiPy #1244 · faster uniform grids</span><span class="pill rv2">In review</span></summary><div class="bd2">A second FiPy fix, after the merged #1243: distance vectors defined directly for uniform grids, 1.2&ndash;1.6&times; faster. <a href="https://github.com/usnistgov/fipy/pull/1244" rel="noreferrer">Pull request #1244 &rarr;</a></div></details>
+  </div>
+
+  <p class="sub3 rv">Manuscripts and releases</p><p class="lead rv">Sole author of every manuscript.</p>
+  <ol class="ms rv">
+    <li><span class="rn">I.</span><div><a class="tt" href="https://github.com/Shakhtar-Sankur/kessler/blob/main/paper/main.pdf" rel="noreferrer">Reproducing NASA CARA&rsquo;s Monte Carlo Probability of Collision: An Open Two-Body Implementation, Checked on All 53 of CARA&rsquo;s Test Conjunctions</a><p>An open two-body Monte Carlo that agrees with NASA&rsquo;s on all 53 of its test conjunctions, 15&ndash;19&times; faster per core (space physics).</p></div><span class="pill">arXiv, forthcoming</span></li>
+    <li><span class="rn">II.</span><div><a class="tt" href="https://github.com/Shakhtar-Sankur/lipi/blob/main/paper/main.pdf" rel="noreferrer">Removing the Token Tax from an Existing Model: A Vocabulary Extension for 24 Indian Languages That Keeps Every Other Token</a><p>Computation and language. <a href="token-tax/#cite">Study page and citation</a>.</p></div><span class="pill">arXiv, forthcoming</span></li>
+    <li><span class="rn">III.</span><div><a class="tt" href="https://github.com/Shakhtar-Sankur/ratchet/blob/main/paper/main.pdf" rel="noreferrer">The Sampler Was Not the Policy: Finding and Removing a Silent Training&ndash;Inference Mismatch in a From-Scratch GRPO Stack</a><p>Machine learning. <a href="ratchet/#cite">Study page and citation</a>.</p></div><span class="pill">arXiv, forthcoming</span></li>
+    <li><span class="rn">IV.</span><div><a class="tt" href="babelguard/">Scam Defence Stops at English</a><p>The multilingual scam-protection gap, measured on 33,869 reported scams in 49 languages.</p></div><span class="pill">In preparation</span></li>
+    <li><span class="rn">V.</span><div><a class="tt" href="https://huggingface.co/Shakhtar-Sankur/lipi-indic-96k" rel="noreferrer">lipi-Indic 96K tokenizer</a><p>On Hugging Face, for 24 Indian languages; loads with one line of the transformers library.</p></div><span class="pill ok">Released</span></li>
+    <li><span class="rn">VI.</span><div><a class="tt" href="https://www.npmjs.com/package/@gigzen/populace" rel="noreferrer">Populace</a><p>Simulated users that drive an app through its real application programming interface (API); on npm with no runtime dependencies.</p></div><span class="pill ok">1,617 downloads</span></li>
+  </ol>
+  <p class="note rv"><a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">The signed original emails, in one PDF &rarr;</a></p>
+</section>
+
+<section id="founder"><div class="sh rv"><p class="no">N° 08 — Founder</p><div><h2>Co-founder and founding engineer, <em>Gigzen.</em></h2><p class="sub">Software for the people who move the world&rsquo;s goods: one person often rides for several platforms, and none of them sees their whole working life. I own the engineering, from the PostgreSQL schema to the signed Android build and the public record of what was tested. Company name approved by India&rsquo;s Ministry of Corporate Affairs; incorporation in progress.</p></div></div>
+  <div class="fdr">
+    <div class="card rv"><h3>Waggle</h3><p>Three Android apps on one backend, for riders, shops and customers: a shop&rsquo;s order becomes a rider&rsquo;s job, with dispatch decided first-accept-wins inside the database, Unified Payments Interface (UPI) settlement and Goods and Services Tax (GST) billing.</p><div class="nums2"><div><b>150<em>/</em>150</b><span>attack cases on the database rules, all blocked</span></div><div><b>3<em> apps</em></b><span>live on one Supabase backend</span></div></div><p class="lk"><a href="gigzen/waggle.html">Waggle &rarr;</a><a href="gigzen/">Gigzen &rarr;</a></p></div>
+    <div class="card rv"><h3>Populace</h3><p>Fills an app with simulated people who sign up, move through real cities and message each other through its real application programming interface (API), then reports what broke. A command line and a desktop app.</p><div class="nums2"><div><b>3.17<em>M</em></b><span>API calls in one day, zero API failures</span></div><div><b>1,617</b><span>npm downloads in 2026</span></div></div><p class="lk"><a href="populace/">Populace &rarr;</a><a href="https://www.npmjs.com/package/@gigzen/populace" rel="noreferrer">npm &rarr;</a></p></div>
+    <div class="card rv"><h3>The test report</h3><p>Every run against both products in public: what was verified, what it found, and just as plainly what was never tested. Nine real bugs found, four of them after a careful manual test had passed.</p><div class="nums2"><div><b>9</b><span>real bugs found across both products</span></div><div><b>1,106</b><span>calls against Gitea, software I didn&rsquo;t write, zero failures</span></div></div><p class="lk"><a href="gigzen/test-report.html">Read the report &rarr;</a></p></div>
+  </div>
+  <div class="phones rv" aria-label="Waggle and Populace screenshots">
+    <img src="shots/wg3-gig-home.jpg" alt="Waggle rider app: home screen" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-gig-nav.jpg" alt="Waggle rider app: navigation to a pickup" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-gig-earnings.jpg" alt="Waggle rider app: earnings" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-biz-live.jpg" alt="Waggle shop app: live orders" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-customer-track.jpg" alt="Waggle customer app: tracking a delivery" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-send.jpg" alt="Waggle customer app: sending a parcel" width="780" height="1646" loading="lazy">
+    <img src="shots/wg3-rate.jpg" alt="Waggle customer app: rating a delivery" width="780" height="1646" loading="lazy">
+    <img class="wide" src="shots/populace-live.jpg" alt="Populace desktop app: a live run" width="1440" height="744" loading="lazy">
+    <img class="wide" src="shots/populace-report.jpg" alt="Populace desktop app: the report of a run" width="1440" height="744" loading="lazy">
+  </div>
+</section>
+
+<section id="index"><div class="sh rv"><p class="no">N° 09 — Index</p><div><h2>Everything else, <em>in one list.</em></h2><p class="sub">Earlier systems and coursework-era projects, each stating where it falls short.</p></div></div>
+  <div class="idx3 rv">
+    <a href="syndrome/"><span class="nm">syndrome</span><span class="ds">An open GPU decoder for IBM&rsquo;s quantum low-density parity-check (LDPC) codes: IBM&rsquo;s Relay-BP in CUDA, bit-identical to IBM&rsquo;s reference on a T4 (64-bit and 32-bit floating point): one shot 28.7&times; faster than IBM&rsquo;s decoder, a batch 4.0&times; faster than IBM&rsquo;s decoder on the whole CPU. IBM&rsquo;s own decoder reproduces IBM&rsquo;s published rate here: 41 against 44 errors in 10,000 shots.</span><span class="tg">C++ · CUDA · quantum</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/parity" rel="noreferrer"><span class="nm">parity</span><span class="ds">An open benchmark for quantum error-correction decoders: reproduced PyMatching 2&rsquo;s scaling and threshold, and ran NVIDIA&rsquo;s Ising pre-decoders on identical Stim samples.</span><span class="tg">Python · CUDA · quantum</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/ferrolm" rel="noreferrer"><span class="nm">ferrolm</span><span class="ds">An OpenAI-compatible large language model server and retrieval stack in Rust with zero dependencies: paged key&ndash;value cache, continuous batching, speculative decoding.</span><span class="tg">Rust · language-model inference</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/faultline" rel="noreferrer"><span class="nm">faultline</span><span class="ds">Jepsen-style fault injection against real etcd clusters: network partitions, kill -9 and pauses across four release lines.</span><span class="tg">Rust · distributed systems</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/ML-Model-Serving-Platform" rel="noreferrer"><span class="nm">Machine learning model serving platform</span><span class="ds">NVIDIA Triton Inference Server and Redis: versioned rollout, A/B routing, circuit breaking and drift detection.</span><span class="tg">Machine learning operations</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/Predictive-Maintenance-for-IoT-GCP-Deployed-Real-Time-Optimized" rel="noreferrer"><span class="nm">Predictive maintenance for the Internet of Things</span><span class="ds">Long short-term memory (LSTM) failure forecasting 48 hours ahead on Google Cloud Platform, with three data-leakage defects found and fixed.</span><span class="tg">Machine learning · cloud</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/AI-Model-Compression-for-TSMC-3nm-Chips-Disaster-Classification" rel="noreferrer"><span class="nm">Model compression</span><span class="ds">Distillation, pruning and 8-bit integer quantization of a disaster classification model.</span><span class="tg">Machine learning</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/Generative-AI-for-Synthetic-Data-Generation" rel="noreferrer"><span class="nm">Synthetic data with diffusion</span><span class="ds">A denoising diffusion model generating medical images where real datasets are tiny and unshareable.</span><span class="tg">Machine learning</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/Multi-Modal-Code-Intelligence-System" rel="noreferrer"><span class="nm">Multi-modal code intelligence</span><span class="ds">Source code read as tokens and as its syntax tree at once.</span><span class="tg">Machine learning · natural language processing</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/Detek" rel="noreferrer"><span class="nm">Detek</span><span class="ds">Reproducible anomaly detection: design target, measurement and the gap between them, stated.</span><span class="tg">Machine learning</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/sdr-signal-processing" rel="noreferrer"><span class="nm">Software-defined radio</span><span class="ds">Demodulation, spectrum analysis, modulation classification and protocol decoding as a library.</span><span class="tg">Signal processing</span></a>
+    <a href="https://github.com/Shakhtar-Sankur/Reinforcement-Learning-for-CartPole-AI" rel="noreferrer"><span class="nm">Deep Q-network on CartPole</span><span class="ds">Deep Q-learning written out in full, as something to read.</span><span class="tg">Reinforcement learning</span></a>
+  </div>
+</section>
+
+<section id="about"><div class="sh rv"><p class="no">N° 10 — About</p><div><h2>Correctness first, <em>then speed.</em></h2></div></div>
+  <div class="about">
+    <div class="rv">
+      <p>I am a machine learning systems engineer from Bhubaneswar, Odisha. I work at the layer most people never see: the engines that serve language models, the loops that train them, the compilers and kernels under both, and the tests that prove they are right.</p>
+      <p>I hold my work to one standard: <b>every number is reproducible from a script in the repository, including the cases where my system loses</b>. That habit is what found a silent rounding bug in reinforcement-learning training, an out-of-bounds read in Meta&rsquo;s on-device kernels, and a test in vLLM that could never fail.</p>
+      <p>I also measure who artificial intelligence leaves out. Odia, my own state&rsquo;s language, costs 4.99&times; English on GPT-4o, and most scam filters are built in English. Those gaps are what lipi and Babelguard exist to close.</p>
+    </div>
+    <ol class="tl rv">
+      <li><span class="when">2026 —</span><b>Co-founder &amp; founding engineer, Gigzen</b><span class="d">Waggle, Populace and the public test report. Company name approved by India&rsquo;s Ministry of Corporate Affairs; incorporation in progress.</span></li>
+      <li><span class="when">2026 —</span><b>Independent research</b><span class="d">lipi, Babelguard and ratchet; thirty fixes merged into gem5 (approved by its lead, Jason Lowe-Power), the UK Met Office&rsquo;s Iris, Google&rsquo;s XLA, the European Space Agency&rsquo;s pagmo2, the ITER Organization&rsquo;s IMAS-Python (two), the US National Institute of Standards and Technology&rsquo;s FiPy, Contrails.org&rsquo;s pycontrails, the US Department of Energy national laboratories&rsquo; Kokkos, Idaho National Laboratory&rsquo;s MOOSE, the Estonian Information System Authority&rsquo;s libdigidocpp (two), the Massachusetts Institute of Technology&rsquo;s MEEP (two), the Barcelona Supercomputing Center&rsquo;s Autosubmit (two), the UK Met Office and Science and Technology Facilities Council&rsquo;s PSyclone, Harvard&rsquo;s mlsysim, NVIDIA Ising-Decoding (two), Apple MLX, Meta ExecuTorch (two), Tencent ncnn, IBM Quantum&rsquo;s Relay-BP, Carnegie Mellon University&rsquo;s XGrammar, Hugging Face OpenEnv (two), the University of Oxford&rsquo;s PyZX and JaxMARL; a full lab merged into Harvard&rsquo;s Machine Learning Systems textbook. In review: public-sector science software of the European Organization for Nuclear Research (CERN), the European Centre for Medium-Range Weather Forecasts, the Swiss National Supercomputing Centre, the Commonwealth Scientific and Industrial Research Organisation (CSIRO), the NASA Jet Propulsion Laboratory, OpenMC, the Space Telescope Science Institute, the Nordic Institute for Interoperability Solutions and the US National Institute of Standards and Technology; and Google JAX, vLLM, SGLang, PyTorch (three), MIT Han Lab and ETH Zurich.</span></li>
+      <li><span class="when">Jun – Jul 2026</span><b>Freelance data scientist</b><span class="d">Upwork, client in Spain: merged two hotel censuses on national statistics identifiers, with validation.</span></li>
+      <li><span class="when">2022 – 2026</span><b>Bachelor of Technology, Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning)</b><span class="d">Institute of Engineering &amp; Management, Kolkata.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact" id="contact"><p class="kicker">N° 11 — Contact</p><h2 class="rv">Let&rsquo;s talk<span class="red">.</span></h2><p class="rv">Open to machine learning systems, graphics processing unit and research roles; relocation welcome.</p><div class="rv"><a class="mail" href="mailto:sankur.kundu.tw@gmail.com">sankur.kundu.tw@gmail.com</a></div><div class="btns rv" style="margin-top:26px"><a class="btn solid mag" href="Sankur-Kundu-CV.pdf">Download CV</a><a class="btn mag" href="Sankur-Kundu-Resume.pdf">Résumé</a><a class="btn mag" href="https://github.com/Shakhtar-Sankur" rel="noreferrer">GitHub</a><a class="btn mag" href="https://www.linkedin.com/in/sankur-kundu" rel="noreferrer">LinkedIn</a><a class="btn mag" href="https://huggingface.co/Shakhtar-Sankur" rel="noreferrer">Hugging Face</a><a class="btn mag" href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Evidence (PDF)</a></div></section>
 </div>
+
 </main>
-<footer><div class="wrap"><span>&copy; 2026 Sankur Kundu</span><span><a href="plain/">Plain text</a> &middot; <a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Evidence</a> &middot; Press <span class="mono">⌘K</span> or <span class="mono">Ctrl K</span></span></div></footer>
+<footer><div class="tri" aria-hidden="true"><i></i><i></i><i></i></div><div class="wrap"><span>&copy; 2026 Sankur Kundu</span><span><a href="plain/">Plain text</a> &middot; <a href="https://drive.google.com/file/d/1dLeScUyhyjEL-Ipwn6sjNaJUHn1SIhZP/view" rel="noreferrer">Evidence</a> &middot; ⌘K / Ctrl K</span></div></footer>
 <div id="pal" role="dialog" aria-modal="true" aria-label="Command menu"><div class="pbox"><input id="pin" type="text" placeholder="Jump to a section, open the CV, verify fixes…" aria-label="Search commands" autocomplete="off"><ul id="plist" role="listbox"></ul></div></div>
 <script>
 (function () {
@@ -315,12 +608,47 @@ var fmt = function (n) { return n.toLocaleString('en-US'); };
 var root = document.documentElement;
 function setTheme(t) {
   root.setAttribute('data-theme', t);
-  try { localStorage.setItem('theme', t); } catch (e) {}
-  var m = document.querySelector('meta[name=theme-color]'); if (m) m.setAttribute('content', t === 'dark' ? '#05070d' : '#fbfaf7');
+  try { localStorage.setItem('theme2', t); } catch (e) {}
+  var m = document.querySelector('meta[name=theme-color]'); if (m) m.setAttribute('content', t === 'noir' ? '#0d0d0c' : '#f4efe6');
   if (scene) scene.colors();
 }
-function toggleTheme() { setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+function toggleTheme() { setTheme(root.getAttribute('data-theme') === 'noir' ? 'paper' : 'noir'); }
 $('#theme').addEventListener('click', toggleTheme);
+
+/* ---------- headline reveal ---------- */
+function loaded() { root.classList.add('loaded'); }
+if (reduce) loaded(); else if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { requestAnimationFrame(loaded); }); setTimeout(loaded, 1500); } else loaded();
+
+/* ---------- marquees with scroll-velocity boost ---------- */
+(function () {
+  var tracks = $$('.mtrack'); if (!tracks.length) return;
+  var st = tracks.map(function (t) { return { el: t, x: 0, dir: +t.getAttribute('data-speed') || -1, half: 0 }; });
+  function measure() { st.forEach(function (s) { s.half = s.el.scrollWidth / 2; }); }
+  measure(); window.addEventListener('resize', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  if (reduce) return;
+  var lastY = window.scrollY, vel = 0, lastT = performance.now();
+  (function tick(now) {
+    var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+    var y = window.scrollY, v = Math.abs(y - lastY) / Math.max(dt, 0.001); lastY = y;
+    vel += (Math.min(v, 3000) - vel) * 0.08;
+    var sp = 40 + vel * 0.12;
+    st.forEach(function (s) {
+      if (!s.half) return;
+      s.x += s.dir * sp * dt;
+      if (s.x <= -s.half) s.x += s.half;
+      if (s.x > 0) s.x -= s.half;
+      s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,0,0)';
+    });
+    requestAnimationFrame(tick);
+  })(lastT);
+})();
+
+/* ---------- magnetic buttons ---------- */
+if (!reduce && window.matchMedia('(pointer:fine)').matches) $$('.mag').forEach(function (b) {
+  b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(), dx = (e.clientX - r.left - r.width / 2) / r.width, dy = (e.clientY - r.top - r.height / 2) / r.height; b.style.transform = 'translate(' + (dx * 8).toFixed(1) + 'px,' + (dy * 6).toFixed(1) + 'px)'; });
+  b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+});
 
 /* ---------- nav ---------- */
 var nav = $('nav.top');
@@ -354,7 +682,7 @@ var scene = null;
 (function () {
   var cv = $('#orbit'); if (!cv || !cv.getContext) return;
   var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, cx = 0, cy = 0, S = 1;
-  var small = window.innerWidth < 760, N = small ? 2200 : 5200;
+  var small = window.innerWidth < 760, N = small ? 900 : 1600;
   var A = new Float32Array(N), I = new Float32Array(N), O = new Float32Array(N), U = new Float32Array(N), Wv = new Float32Array(N), B = new Uint8Array(N);
   var P = new Float32Array(N * 3);
   var rnd = (function (s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; })(20251128);
@@ -368,15 +696,15 @@ var scene = null;
     I[i] = inc; O[i] = rnd() * Math.PI * 2; U[i] = rnd() * Math.PI * 2; Wv[i] = 0.55 * Math.pow(a, -1.5) * (rnd() < 0.08 ? -1 : 1);
   }
   var col = {};
-  function colors() { col.a1 = css('--a1'); col.a2 = css('--a2'); col.a3 = css('--a3'); col.ink = css('--ink'); col.mute = css('--mute'); col.dark = root.getAttribute('data-theme') === 'dark'; }
+  function colors() { col.a1 = css('--bleu'); col.a2 = css('--ink'); col.a3 = css('--rouge'); col.ink = css('--ink'); col.mute = css('--mute'); col.card = css('--card'); col.dark = root.getAttribute('data-theme') === 'noir'; }
   colors();
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var wide = W >= 900; cx = wide ? W * 0.74 : W * 0.5; cy = wide ? H * 0.5 : H * 0.3; S = Math.min(W, H) * (wide ? 0.23 : 0.2);
+    cx = W * 0.5; cy = H * 0.5; S = Math.min(W * 0.36, H * 0.3);
   }
   window.addEventListener('resize', resize); resize();
   var spin = 0, tilt = 0.44, cosT = Math.cos(tilt), sinT = Math.sin(tilt);
-  var hn = $('#h-n'), hf = $('#h-fps'), hca = $('#h-ca'); hn.textContent = fmt(N);
+  var hn = $('#h-n'), hf = $('#h-fps'), hca = $('#h-ca'); if (hn) hn.textContent = fmt(N);
   var caTotal = 0, frames = 0, tf = performance.now(), last = performance.now(), running = false, visible = true;
   var cell = 0.014, grid = new Map(), flashes = [];
   function frame(now) {
@@ -384,22 +712,19 @@ var scene = null;
     ctx.clearRect(0, 0, W, H);
     var cs = Math.cos(spin), sn = Math.sin(spin);
     // earth glow
-    var g = ctx.createRadialGradient(cx, cy, S * 0.9, cx, cy, S * 1.6);
-    g.addColorStop(0, col.dark ? 'rgba(91,140,255,0.20)' : 'rgba(31,79,209,0.10)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, S * 1.6, 0, 6.2832); ctx.fill();
-    ctx.fillStyle = col.dark ? 'rgba(8,13,26,0.92)' : 'rgba(251,250,247,0.9)'; ctx.beginPath(); ctx.arc(cx, cy, S, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = col.card; ctx.beginPath(); ctx.arc(cx, cy, S, 0, 6.2832); ctx.fill();
     // wireframe: latitude and longitude
-    ctx.lineWidth = 0.8; ctx.strokeStyle = col.a1; ctx.globalAlpha = col.dark ? 0.32 : 0.28;
+    ctx.lineWidth = 0.7; ctx.strokeStyle = col.ink; ctx.globalAlpha = col.dark ? 0.3 : 0.22;
     for (var la = -60; la <= 60; la += 30) { var rr = Math.cos(la * Math.PI / 180), zz = Math.sin(la * Math.PI / 180); ctx.beginPath(); ctx.ellipse(cx, cy - zz * cosT * S, rr * S, rr * S * sinT, 0, 0, Math.PI * 2); ctx.stroke(); }
     for (var lo = 0; lo < 180; lo += 30) {
       var ph = lo * Math.PI / 180 + spin; ctx.beginPath();
       for (var k = 0; k <= 48; k++) { var t = k / 48 * Math.PI * 2, x = Math.cos(t) * Math.cos(ph), y = Math.cos(t) * Math.sin(ph), z = Math.sin(t); var py = y * sinT + z * cosT, pz = y * cosT - z * sinT; if (k === 0) ctx.moveTo(cx + x * S, cy - py * S); else ctx.lineTo(cx + x * S, cy - py * S); }
       ctx.stroke();
     }
-    ctx.globalAlpha = 1; ctx.strokeStyle = col.a2; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(cx, cy, S, 0, 6.2832); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.globalAlpha = 1; ctx.strokeStyle = col.ink; ctx.globalAlpha = 0.6; ctx.beginPath(); ctx.arc(cx, cy, S, 0, 6.2832); ctx.stroke(); ctx.globalAlpha = 1;
     // objects
     grid.clear();
-    var c1 = col.a2, c2 = col.a3, c3 = col.a1;
+    var c1 = col.a1, c2 = col.ink, c3 = col.a3;
     for (var i = 0; i < N; i++) {
       U[i] += Wv[i] * dt;
       var a = A[i], u = U[i], ci = Math.cos(I[i]), si = Math.sin(I[i]), co = Math.cos(O[i] + spin * 0.0), so = Math.sin(O[i]);
@@ -415,7 +740,7 @@ var scene = null;
       var front = pz < 0;
       ctx.globalAlpha = front ? 0.85 : 0.35;
       ctx.fillStyle = B[i] === 0 ? c1 : (B[i] === 1 ? c2 : c3);
-      var sz = B[i] === 0 ? 1.15 : 1.5; ctx.fillRect(sx - sz / 2, sy - sz / 2, sz, sz);
+      var sz = B[i] === 0 ? 1.4 : 1.8; ctx.fillRect(sx - sz / 2, sy - sz / 2, sz, sz);
       var key = (Math.floor(X / cell) * 73856093) ^ (Math.floor(Y / cell) * 19349663) ^ (Math.floor(Z / cell) * 83492791);
       var arr = grid.get(key); if (arr) arr.push(i); else grid.set(key, [i]);
     }
@@ -438,7 +763,7 @@ var scene = null;
       ctx.beginPath(); ctx.arc(cx + vx * S, cy - py * S, 4 + k * 14, 0, 6.2832); ctx.stroke();
     });
     ctx.globalAlpha = 1;
-    frames++; if (now - tf > 500) { hf.textContent = Math.round(frames * 1000 / (now - tf)); frames = 0; tf = now; hca.textContent = fmt(caTotal); }
+    frames++; if (now - tf > 500) { if (hf) hf.textContent = Math.round(frames * 1000 / (now - tf)); frames = 0; tf = now; if (hca) hca.textContent = fmt(caTotal); }
     if (running) requestAnimationFrame(frame);
   }
   function start() { if (running || reduce) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
@@ -483,8 +808,8 @@ var WGSL = 'struct P{mx:f32,my:f32,sx:f32,sy:f32,r2:f32,seed:u32,iters:u32,pad:u
   '@group(0) @binding(0) var<uniform> p:P;@group(0) @binding(1) var<storage,read_write> hits:array<atomic<u32>>;' +
   'fn pcg(v:u32)->u32{let s=v*747796405u+2891336453u;let w=((s>>((s>>28u)+4u))^s)*277803737u;return (w>>22u)^w;}' +
   '@compute @workgroup_size(256) fn main(@builtin(global_invocation_id) g:vec3<u32>){' +
-  'var st=pcg((g.x*2654435761u)^pcg(p.seed));var c:u32=0u;' +
-  'for(var i:u32=0u;i<p.iters;i=i+1u){st=pcg(st);let u1=(f32(st>>8u)+0.5)/16777216.0;st=pcg(st);let u2=f32(st>>8u)/16777216.0;' +
+  'let base=pcg(pcg(g.x)^p.seed);var c:u32=0u;' +
+  'for(var i:u32=0u;i<p.iters;i=i+1u){let h1=pcg(base^pcg(2u*i));let h2=pcg(h1^pcg(2u*i+1u));let u1=(f32(h1>>8u)+0.5)/16777216.0;let u2=f32(h2>>8u)/16777216.0;' +
   'let rr=sqrt(-2.0*log(u1));let th=6.28318530718*u2;' +
   'let x=p.mx+p.sx*rr*cos(th);let y=p.my+p.sy*rr*sin(th);if(x*x+y*y<p.r2){c=c+1u;}' +
   '}' +
@@ -549,7 +874,7 @@ async function runProof() {
     line('Monte Carlo Pc', ph.toExponential(4) + ' ± ' + (1.96 * se).toExponential(1) + ' (95%)') +
     line('exact Pc', ex.toExponential(4)) +
     line('difference', (Math.abs(z)).toFixed(2) + ' standard errors', Math.abs(z) < 3 ? 'g' : 'w');
-  verdict.innerHTML = Math.abs(z) < 3 ? '<span style="color:var(--ok)">✓</span> Agrees with the exact value, ' + ((ph - ex) / ex * 100).toFixed(2) + '% apart, within its statistical error.' : '<span style="color:var(--warn)">!</span> Outside 3 standard errors: rerun to check.';
+  verdict.innerHTML = Math.abs(z) < 3 ? '<span style="color:#6fdca5">✓</span> Agrees with the exact value, ' + ((ph - ex) / ex * 100).toFixed(2) + '% apart, within its statistical error.' : '<span style="color:var(--warn)">!</span> Outside 3 standard errors: rerun to check.';
   proofBusy = false; runBtn.disabled = false; runBtn.textContent = 'Run again';
 }
 runBtn.addEventListener('click', runProof);
@@ -610,12 +935,18 @@ $('#vall').addEventListener('click', verifyAll);
 var CMDS = [
   ['Live proof: run the collision check', 'section', function () { go('#proof'); }],
   ['Run the GPU proof now', 'action', function () { go('#proof'); runProof(); }],
-  ['Why you might know me', 'section', function () { go('#why'); }],
-  ['Merged fixes', 'section', function () { go('#merged'); }],
+  ['Recognition: NASA and Harvard', 'section', function () { go('#recognition'); }],
+  ['Merged fixes: all thirty dossiers', 'section', function () { go('#merged'); }],
   ['Verify all 30 fixes on GitHub', 'action', function () { go('#merged'); verifyAll(); }],
-  ['Things I built', 'section', function () { go('#built'); }],
-  ['Papers', 'section', function () { go('#papers'); }],
-  ['Switch dark / light theme', 'action', toggleTheme],
+  ['Public-sector science: 14 merged, 9 in review', 'section', function () { go('#public-sector'); }],
+  ['Research: three studies', 'section', function () { go('#research'); }],
+  ['Systems built from scratch', 'section', function () { go('#systems'); }],
+  ['Full record: every pull request in review, manuscripts', 'section', function () { go('#record'); }],
+  ['Founder: Gigzen', 'section', function () { go('#founder'); }],
+  ['Index of other projects', 'section', function () { go('#index'); }],
+  ['About', 'section', function () { go('#about'); }],
+  ['Contact', 'section', function () { go('#contact'); }],
+  ['Switch paper / noir theme', 'action', toggleTheme],
   ['Open CV (PDF)', 'link', function () { location.href = 'Sankur-Kundu-CV.pdf'; }],
   ['Open résumé (PDF)', 'link', function () { location.href = 'Sankur-Kundu-Resume.pdf'; }],
   ['Email sankur.kundu.tw@gmail.com', 'link', function () { location.href = 'mailto:sankur.kundu.tw@gmail.com'; }],
